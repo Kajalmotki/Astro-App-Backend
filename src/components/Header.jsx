@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import OmPlayer from './OmPlayer';
 import { useAuth } from './AuthModal';
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onLoginClick, onMembershipClick }) => {
     const { user, logout } = useAuth();
 
     return (
@@ -17,7 +17,16 @@ const Header = ({ onLoginClick }) => {
                 <a href="#chat-window">Instant Chat</a>
 
                 {user ? (
-                    <button className="cta-btn secondary" onClick={logout}>Sign Out</button>
+                    <>
+                        <button
+                            className="cta-btn golden-highlight"
+                            onClick={onMembershipClick}
+                            style={{ marginRight: '10px' }}
+                        >
+                            ✨ Premium
+                        </button>
+                        <button className="cta-btn secondary" onClick={logout}>Sign Out</button>
+                    </>
                 ) : (
                     <button className="cta-btn" onClick={onLoginClick}>Unlock Your Chart</button>
                 )}

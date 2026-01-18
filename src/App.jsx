@@ -8,6 +8,8 @@ import KnowledgeSources from './components/KnowledgeSources';
 import SampleChart from './components/SampleChart';
 import UserOnboarding from './components/UserOnboarding';
 import AuthModal from './components/AuthModal';
+import MembershipModal from './components/MembershipModal';
+import AdminMembershipPanel from './components/AdminMembershipPanel';
 import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
@@ -42,6 +44,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 function App() {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isMembershipOpen, setIsMembershipOpen] = useState(false);
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
@@ -54,7 +57,10 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <Header onLoginClick={() => setIsAuthOpen(true)} />
+        <Header
+          onLoginClick={() => setIsAuthOpen(true)}
+          onMembershipClick={() => setIsMembershipOpen(true)}
+        />
         <UserOnboarding />
         <Routes>
           <Route path="/" element={
@@ -71,7 +77,15 @@ function App() {
           isOpen={isAuthOpen}
           onClose={() => setIsAuthOpen(false)}
           onAuthSuccess={() => console.log('Auth success')}
+          onMembershipPrompt={() => setIsMembershipOpen(true)}
         />
+        <MembershipModal
+          isOpen={isMembershipOpen}
+          onClose={() => setIsMembershipOpen(false)}
+        />
+
+        {/* Admin Panel - Remove in production */}
+        <AdminMembershipPanel />
         <footer className="footer">
           <p>&copy; 2026 AstroRevo. Precision. Clarity. Speed.</p>
         </footer>

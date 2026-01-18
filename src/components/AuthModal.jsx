@@ -13,7 +13,7 @@ import { db } from '../firebase';
 
 // ... imports ...
 
-const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
+const AuthModal = ({ isOpen, onClose, onAuthSuccess, onMembershipPrompt }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,6 +30,10 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
                 await createUserWithEmailAndPassword(auth, email, password);
+                // Trigger membership modal for new signups
+                if (onMembershipPrompt) {
+                    setTimeout(() => onMembershipPrompt(), 1000);
+                }
             }
             onAuthSuccess();
             onClose();
@@ -41,15 +45,32 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
     };
 
     const handleGoogleAuth = async () => {
+        console.log("Google Auth button clicked");
         setError('');
         setLoading(true);
 
         try {
-            await signInWithPopup(auth, googleProvider);
+            console.log("Attempting Google sign-in with popup...");
+            const result = await signInWithPopup(auth, googleProvider);
+            console.log("Google sign-in successful:", result.user);
             onAuthSuccess();
             onClose();
         } catch (err) {
-            setError(err.message);
+            console.error("Google Auth Error:", err);
+            console.error("Error code:", err.code);
+            console.error("Error message:", err.message);
+
+            // User-friendly error messages
+            let errorMessage = err.message;
+            if (err.code === 'auth/popup-closed-by-user') {
+                errorMessage = 'Sign-in cancelled. Please try again.';
+            } else if (err.code === 'auth/popup-blocked') {
+                errorMessage = 'Popup was blocked by your browser. Please allow popups for this site.';
+            } else if (err.code === 'auth/unauthorized-domain') {
+                errorMessage = 'This domain is not authorized. Please contact support.';
+            }
+
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
