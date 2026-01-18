@@ -10,6 +10,20 @@ const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 export const getAIResponse = async (userMessage, userId, userBirthData = null, userName = 'Seeker') => {
     try {
         console.log('Fetching AI Response for:', userMessage);
+
+        // Debug API Key (do not log full key in production)
+        if (!GEMINI_API_KEY) console.error("CRITICAL: No Gemini API Key found!");
+        else console.log("API Key loaded:", GEMINI_API_KEY.substring(0, 5) + "..." + GEMINI_API_KEY.substring(GEMINI_API_KEY.length - 4));
+
+        // LIST AVAILABLE MODELS (Debug Step)
+        try {
+            const modelList = await genAI.getGenerativeModel({ model: "gemini-pro" }).apiKey; // Hacky check doesn't list models directly in client SDK mostly.
+            // Client SDK doesn't expose listModels easily in v0.x
+            // We will rely on the 404 message from the loop if it fails.
+        } catch (e) {
+            console.log("Model check skipped");
+        }
+
         let birthDataText = '';
         let userContext = `User Name: ${userName}`;
 
@@ -70,7 +84,8 @@ Required JSON Structure:
   "mantra": "A relevant Sanskrit mantra in English transliteration."
 }`;
 
-        const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-1.0-pro"];
+        // EXCLUSIVE: Using ONLY gemini-2.5-flash as requested
+        const modelsToTry = ["gemini-2.5-flash"];
         let responseText = null;
 
         for (const modelName of modelsToTry) {
@@ -86,13 +101,20 @@ Required JSON Structure:
                     break; // Success!
                 }
             } catch (modelError) {
-                console.warn(`Failed with ${modelName}:`, modelError.message);
+                // Log detailed error info
+                console.warn(`Failed with ${modelName}:`);
+                if (modelError.response) {
+                    console.warn(`Status: ${modelError.response.status}`);
+                    console.warn(`Body: ${JSON.stringify(modelError.response.data || await modelError.response.text())}`);
+                } else {
+                    console.warn(modelError.message || modelError);
+                }
                 // Continue to next model
             }
         }
 
         if (!responseText) {
-            throw new Error("All Gemini models failed to generate a response.");
+            throw new Error("All Gemini models failed to generate a response. Check console logs for details.");
         }
 
         console.log('Gemini Raw Response:', responseText);

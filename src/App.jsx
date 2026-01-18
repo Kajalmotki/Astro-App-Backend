@@ -9,7 +9,6 @@ import SampleChart from './components/SampleChart';
 import UserOnboarding from './components/UserOnboarding';
 import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
-import AdminMembershipPanel from './components/AdminMembershipPanel';
 import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
@@ -84,8 +83,6 @@ function App() {
           onClose={() => setIsMembershipOpen(false)}
         />
 
-        {/* Admin Panel - Remove in production */}
-        <AdminMembershipPanel />
         <footer className="footer">
           <p>&copy; 2026 AstroRevo. Precision. Clarity. Speed.</p>
         </footer>

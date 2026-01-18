@@ -163,6 +163,60 @@
   letter-spacing: 1px;
 }
 
+/* City Dropdown Autocomplete */
+.city-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 30, 0.98);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: -1px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.city-option {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.city-option:last-child {
+  border-bottom: none;
+}
+
+.city-option:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--primary);
+  padding-left: 20px;
+}
+
+.city-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.city-dropdown::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.city-dropdown::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.city-dropdown::-webkit-scrollbar-thumb:hover {
+  background: #ffd700;
+}
+
 /* Kundli Section */
 .kundli-section {
   padding: 100px 40px;
