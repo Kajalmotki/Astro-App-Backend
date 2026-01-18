@@ -745,8 +745,27 @@
     padding: 10px 20px;
   }
 
-  .nav {
+  /* Hide workflow overlay text in mobile to prevent overlap */
+  .workflow-overlay {
     display: none;
+  }
+
+  /* Show Om player and Unlock button in mobile nav */
+  .nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* Hide text links in mobile, keep only Om player and CTA button */
+  .nav a:not(.cta-btn) {
+    display: none;
+  }
+
+  /* Ensure Om player and CTA button are visible */
+  .nav .om-player-container,
+  .nav .cta-btn {
+    display: flex;
   }
 
   .astro-chart-wrapper {
@@ -1115,3 +1134,15 @@
     padding: 15px 35px;
   }
 }
+  /* Make CTA button in nav smaller for mobile */
+  .nav .cta-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* Adjust Om label for mobile */
+  .om-label {
+    font-size: 0.55rem;
+    bottom: -20px;
+  }
+
