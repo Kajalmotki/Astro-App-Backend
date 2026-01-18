@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import OmPlayer from './OmPlayer';
+import { useAuth } from './AuthModal';
 
-const Header = () => {
+const Header = ({ onLoginClick }) => {
+    const { user, logout } = useAuth();
+
     return (
         <header className="header glass">
             <Link to="/" className="logo gold-text">AstroRevo</Link>
@@ -12,7 +15,12 @@ const Header = () => {
                 <Link to="/sample">View Sample</Link>
                 <a href="#questions">The Chart</a>
                 <a href="#chat-window">Instant Chat</a>
-                <button className="cta-btn">Unlock Your Chart</button>
+
+                {user ? (
+                    <button className="cta-btn secondary" onClick={logout}>Sign Out</button>
+                ) : (
+                    <button className="cta-btn" onClick={onLoginClick}>Unlock Your Chart</button>
+                )}
             </nav>
         </header>
     );

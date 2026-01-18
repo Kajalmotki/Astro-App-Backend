@@ -1,31 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import BirthDetailsForm from './BirthDetailsForm';
 import AstroPremiumWorkflow from './AstroPremiumWorkflow';
+import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
+import { useAuth } from './AuthModal';
+import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
 
-const KNOWLEDGE_BASE = {
-    'love': {
-        prediction: "The alignment of Venus in your 11th house suggests a significant emotional shift within the next 45 days. A connection from your past or a social circle may re-emerge.",
-        remedy: "Wear a silver ring on your little finger or offer white flowers at a temple on Fridays to strengthen your Venus energy.",
-        mantra: "Om Shum Shukraya Namaha"
-    },
-    'marriage': {
-        prediction: "Jupiter's transit over your natal Moon indicates a highly auspicious window starting June 2026. This is the ideal time for finalizing alliances.",
-        remedy: "Donate yellow lentils or bananas on Thursdays and seek blessings from elders in your family.",
-        mantra: "Om Brim Brihaspataye Namaha"
-    },
-    'career': {
-        prediction: "Saturn is testing your persistence in the current role. A major breakthrough is visible after the next solar eclipse, specifically in technical or managerial fields.",
-        remedy: "Light a mustard oil lamp under a Peepal tree on Saturday evenings to appease Shani and remove obstacles.",
-        mantra: "Om Sham Shanaishcharaya Namaha"
-    },
-    'money': {
-        prediction: "Your financial stability is tied to Mercury's strength. While immediate gains are modest, a long-term investment made now will yield 3x returns by year-end.",
-        remedy: "Keep a green handkerchief in your pocket and feed green grass to a cow on Wednesdays.",
-        mantra: "Om Bum Budhaya Namaha"
-    }
-};
+// AstroAI: Mock Knowledge Base removed. Systems now use live Gemini engine exclusively.
 
-const ChatInterface = ({ initialQuestion }) => {
+const ChatInterface = ({ initialQuestion, onLoginClick }) => {
+    const { user } = useAuth();
     const [messages, setMessages] = useState([
         {
             id: 1,
@@ -37,6 +22,7 @@ const ChatInterface = ({ initialQuestion }) => {
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [showBirthForm, setShowBirthForm] = useState(false);
+    const [userBirthData, setUserBirthData] = useState(null);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -51,19 +37,15 @@ const ChatInterface = ({ initialQuestion }) => {
 
     useEffect(scrollToBottom, [messages, isTyping, showBirthForm]);
 
-    const getPrediction = (category, query) => {
-        const defaultResponse = {
-            prediction: `Analyzing your Chart... The planetary configuration for "${query}" shows a transitionary phase. You are currently under the influence of a minor Mahadasha.`,
-            remedy: "Meditate for 10 minutes daily and keep a copper coin in your workspace to ground your energy.",
-            mantra: "Om Namah Shivaya"
-        };
-
-        const key = Object.keys(KNOWLEDGE_BASE).find(k => category.includes(k) || query.toLowerCase().includes(k));
-        return KNOWLEDGE_BASE[key] || defaultResponse;
-    };
 
     const handleSend = async (text = inputValue, category = 'general') => {
         if (!text.trim()) return;
+
+        // Check authentication
+        if (!user) {
+            onLoginClick();
+            return;
+        }
 
         if (text === inputValue) {
             setMessages(prev => [...prev, { id: Date.now(), type: 'user', text }]);
@@ -74,8 +56,9 @@ const ChatInterface = ({ initialQuestion }) => {
 
         setIsTyping(true);
 
-        setTimeout(() => {
-            const response = getPrediction(category, text);
+        try {
+            // Call live Gemini AI service
+            const response = await getAIResponse(text, user.uid, userBirthData, user.displayName || userBirthData?.name || 'Seeker');
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
@@ -85,15 +68,51 @@ const ChatInterface = ({ initialQuestion }) => {
                 remedy: response.remedy,
                 mantra: response.mantra
             }]);
+        } catch (error) {
+            console.error('AI Service Failed:', error);
+            setMessages(prev => [...prev, {
+                id: Date.now() + 1,
+                type: 'bot',
+                text: "The AstroRevo engine is currently experiencing high load. Please try again in a moment, or check your birth details.",
+                isError: true
+            }]);
+        } finally {
             setIsTyping(false);
-        }, 1200);
+        }
     };
 
-    const handleBirthDetailsSubmit = (data) => {
+    const handleBirthDetailsSubmit = async (data) => {
+        console.log("handleBirthDetailsSubmit received data:", data);
+        console.log("data.name specifically:", data.name);
+
         setShowBirthForm(false);
+        setUserBirthData(data);
         setIsTyping(true);
 
-        // Simulate finding the chart
+        // Save to Firestore if user is logged in
+        if (user) {
+            try {
+                // Update Firebase Auth Profile so name is available in valid session
+                if (data.name) {
+                    console.log("Updating user profile with displayName:", data.name);
+                    await updateProfile(user, { displayName: data.name });
+                }
+
+                const birthDataToSave = {
+                    name: data.name,
+                    place: data.place,
+                    date: `${data.day}/${data.month}/${data.year}`,
+                    time: `${data.hour}:${data.min}:${data.sec}`
+                };
+                console.log("About to save to Firestore:", birthDataToSave);
+
+                // Formatting data for the logic expecting place, date, time
+                await saveBirthDataToFirestore(user.uid, birthDataToSave);
+            } catch (error) {
+                console.error('Error saving birth data:', error);
+            }
+        }
+
         setTimeout(() => {
             setMessages(prev => [...prev, {
                 id: Date.now(),
