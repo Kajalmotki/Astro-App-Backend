@@ -6,6 +6,15 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { useAuth } from './AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
+import { loadRazorpayButton } from '../services/razorpayService';
+
+// Helper component to trigger script load
+const PaymentButtonLoader = ({ containerId }) => {
+    useEffect(() => {
+        loadRazorpayButton(containerId);
+    }, [containerId]);
+    return null;
+};
 
 // AstroAI: Mock Knowledge Base removed. Systems now use live Gemini engine exclusively.
 
@@ -152,12 +161,12 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
 
     return (
         <div className="chat-container glass-card">
-            <div className="chat-header">
-                <div className="bot-status">
-                    <div className="status-dot"></div>
-                    <span>AstroAI Live Guidance</span>
+            <div className="chat-header" style={{ justifyContent: 'center', position: 'relative' }}>
+                <div className="bot-status" style={{ flexDirection: 'column', gap: '5px' }}>
+                    <div className="status-dot" style={{ width: '8px', height: '8px', margin: '0 auto' }}></div>
+                    <span style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>I am AstroRevo AI</span>
                 </div>
-                <div className="chart-info">AstroRevo Engine v2.1</div>
+                <div className="chart-info" style={{ position: 'absolute', right: '20px', fontSize: '0.8rem', opacity: 0.7 }}>v2.1</div>
             </div>
 
             <div className="chat-messages">
@@ -175,14 +184,28 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
                             {m.showPayment && (
                                 <div className="payment-offer">
                                     <div className="price-tag gold-text">₹99</div>
-                                    <p className="payment-instruction">Scan to pay with any UPI app</p>
-                                    <div className="qr-container">
-                                        <img src="/payment_qr.jpg" alt="UPI QR Code" className="payment-qr" />
-                                        <p className="upi-id">siddharth.vadhel-1@okaxis</p>
+                                    <p className="payment-instruction">Secure Payment via Razorpay</p>
+
+                                    {/* Razorpay Button Container */}
+                                    <div
+                                        id={`razorpay-container-${m.id}`}
+                                        className="razorpay-container"
+                                        style={{ margin: '20px auto', minHeight: '50px' }}
+                                    ></div>
+
+                                    {/* Script Loader Effect */}
+                                    <PaymentButtonLoader containerId={`razorpay-container-${m.id}`} />
+
+                                    <div style={{ marginTop: '15px', fontSize: '0.8rem', color: '#888' }}>
+                                        <p>After completing payment, the chart will generate automatically.</p>
+                                        <button
+                                            className="search-btn"
+                                            style={{ marginTop: '10px', background: 'transparent', border: '1px solid #444', color: '#aaa', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+                                            onClick={() => handlePaymentSuccess(m.kundliData, m.id)}
+                                        >
+                                            (Dev: Simulate Success)
+                                        </button>
                                     </div>
-                                    <button className="pay-btn" onClick={() => handlePaymentSuccess(m.kundliData, m.id)}>
-                                        I have paid ₹99 - Get My Chart
-                                    </button>
                                 </div>
                             )}
 

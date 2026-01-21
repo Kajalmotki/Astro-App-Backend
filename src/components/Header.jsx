@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom';
 import OmPlayer from './OmPlayer';
 import { useAuth } from './AuthModal';
 
-const Header = ({ onLoginClick, onMembershipClick }) => {
+const Header = ({ onLoginClick, onMembershipClick, onConsultationClick }) => {
     const { user, logout } = useAuth();
+
+    const handleConsultationClick = () => {
+        if (!user) {
+            onLoginClick();
+        } else {
+            onConsultationClick();
+        }
+    };
 
     return (
         <header className="header glass">
@@ -12,23 +20,28 @@ const Header = ({ onLoginClick, onMembershipClick }) => {
             <nav className="nav">
                 <OmPlayer />
                 <Link to="/knowledge">Knowledge Source</Link>
-                <Link to="/sample">View Sample</Link>
-                <a href="#questions">The Chart</a>
-                <a href="#chat-window">Instant Chat</a>
+                <button
+                    className="cta-btn golden-highlight pulse-glow"
+                    onClick={handleConsultationClick}
+                >
+                    📞 Call Our Astrologer
+                </button>
+
 
                 {user ? (
                     <>
                         <button
-                            className="cta-btn golden-highlight"
+                            className="cta-btn golden-highlight pulse-glow"
                             onClick={onMembershipClick}
                             style={{ marginRight: '10px' }}
                         >
                             ✨ Premium
                         </button>
                         <button className="cta-btn secondary" onClick={logout}>Sign Out</button>
+
                     </>
                 ) : (
-                    <button className="cta-btn" onClick={onLoginClick}>Unlock Your Chart</button>
+                    <button className="cta-btn golden-highlight pulse-glow" onClick={onLoginClick}>Unlock Your Chart</button>
                 )}
             </nav>
         </header>

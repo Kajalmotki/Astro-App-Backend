@@ -2,66 +2,94 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const sampleInsights = [
-    { category: 'Love', icon: '❤️', question: 'When will I meet my soulmate?', x: 50, y: 100 },
-    { category: 'Marriage', icon: '💍', question: 'Is my partnership auspicious?', x: 50, y: 200 },
-    { category: 'Career', icon: '💼', question: 'When is my next breakthrough?', x: 50, y: 300 },
-    { category: 'Money', icon: '💰', question: 'When will my wealth stabilize?', x: 50, y: 400 },
-    { category: 'Health', icon: '🏥', x: 50, y: 500, question: 'How can I optimize my energy?' },
-    { category: 'Education', icon: '🎓', x: 50, y: 600, question: 'Which study path is best?' },
-    { category: 'Lustre', icon: '💎', x: 50, y: 700, question: 'How to enhance my aura?' },
+    // Left Column
+    { category: 'Love', icon: '❤️', x: 60, y: 120 },
+    { category: 'Marriage', icon: '💍', x: 60, y: 220 },
+    { category: 'Career', icon: '💼', x: 60, y: 320 },
+    { category: 'Money', icon: '💰', x: 60, y: 420 },
+    { category: 'Health', icon: '🏥', x: 60, y: 520 },
+    { category: 'Education', icon: '🎓', x: 60, y: 620 },
+    { category: 'Lustre', icon: '✨', x: 60, y: 720 },
 
-    { category: 'Family', icon: '👨‍👩‍👧‍👦', question: 'How do I harmonize my home?', x: 850, y: 100 },
-    { category: 'Spirituality', icon: '🧘', question: 'What is my soul’s purpose?', x: 850, y: 200 },
-    { category: 'Travel', icon: '✈️', question: 'When is travel indicated?', x: 850, y: 300 },
-    { category: 'Property', icon: '🏠', question: 'When should I buy property?', x: 850, y: 400 },
-    { category: 'Business', icon: '🚀', x: 850, y: 500, question: 'Is my venture ready for scale?' },
-    { category: 'Legal', icon: '⚖️', x: 850, y: 600, question: 'What is the case outcome?' },
-    { category: 'Children', icon: '👶', x: 850, y: 700, question: 'When is a child indicated?' },
+    // Right Column
+    { category: 'Family', icon: '👨‍👩‍👧‍👦', x: 740, y: 120 },
+    { category: 'Spirituality', icon: '🧘', x: 740, y: 220 },
+    { category: 'Travel', icon: '✈️', x: 740, y: 320 },
+    { category: 'Property', icon: '🏠', x: 740, y: 420 },
+    { category: 'Business', icon: '🚀', x: 740, y: 520 },
+    { category: 'Legal', icon: '⚖️', x: 740, y: 620 },
+    { category: 'Children', icon: '👶', x: 740, y: 720 },
 
-    { category: 'Karma', icon: '🌀', x: 300, y: 50, question: 'What is my karmic debt?' },
-    { category: 'Moksha', icon: '✨', x: 600, y: 50, question: 'Am I on the path to liberation?' },
-    { category: 'Finance', icon: '📈', x: 300, y: 800, question: 'How to optimize my portfolio?' },
-    { category: 'Enemies', icon: '⚔️', x: 600, y: 800, question: 'How to overcome competition?' },
-    { category: 'Parents', icon: '👴', x: 450, y: 800, question: 'Support for my elders?' },
+    // Top Row
+    { category: 'Karma', icon: '🌀', x: 280, y: 80 },
+    { category: 'Moksha', icon: '📿', x: 520, y: 80 },
+
+    // Bottom Row
+    { category: 'Finance', icon: '📈', x: 280, y: 800 },
+    { category: 'Enemies', icon: '🛡️', x: 520, y: 800 },
+    { category: 'Parents', icon: '👴', x: 400, y: 850 },
 ];
 
 const SampleChart = () => {
     const renderPath = (x1, y1, x2, y2) => {
-        const cx = (x1 + x2) / 2;
+        // Use more direct lines but with soft curves to avoid mess
+        const midX = (x1 + x2) / 2;
         return (
             <path
-                d={`M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`}
+                d={`M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`}
                 fill="none"
-                stroke="var(--primary)"
+                stroke="rgba(255, 215, 0, 0.2)"
                 strokeWidth="1.5"
-                strokeDasharray="4,4"
-                className="sample-path"
+                className="sample-path-animated"
+                style={{ transition: 'stroke 0.3s ease' }}
             />
         );
     };
 
     return (
         <div className="sample-page bg-deep">
+            {/* Global Styles for SVG 3D Nodes */}
+            <style>{`
+                .sample-insight-node {
+                    transition: transform 0.2s ease, filter 0.2s ease;
+                    cursor: pointer;
+                }
+                .sample-insight-node:hover {
+                    transform: translateY(-5px) scale(1.02) !important;
+                    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+                }
+                .sample-insight-node:hover ellipse, 
+                .sample-insight-node:hover rect {
+                    stroke: var(--primary) !important;
+                    stroke-width: 2 !important;
+                }
+                @keyframes dash-flow {
+                    from { stroke-dashoffset: 20; }
+                    to { stroke-dashoffset: 0; }
+                }
+                .sample-path-animated {
+                    stroke-dasharray: 4,4;
+                    animation: dash-flow 0.5s linear infinite;
+                }
+            `}</style>
+
             <header className="header glass">
                 <Link to="/" className="logo gold-text">AstroRevo</Link>
                 <nav className="nav">
                     <Link to="/">Back to Home</Link>
-                    <button className="cta-btn">Initialize Engine</button>
+                    <button className="cta-btn shadow-3d">Initialize Engine</button>
                 </nav>
             </header>
 
             <main className="sample-content">
                 <div className="sample-intro">
-                    <h1 className="gold-text">AstroRevo Chart Sample</h1>
-                    <p>Explore the dimensions of destiny through our AI-integrated Vedic engine.</p>
+                    <h1 className="gold-text">AstroRevo AI Diagnostics</h1>
+                    <p>Live visualization of the 21 neural pathways connecting Vedic Siddhanta to AI Interpretation.</p>
                 </div>
 
-                <div className="sample-chart-canvas glass-card">
-                    <svg viewBox="0 0 1000 900" className="sample-svg">
+                <div className="sample-chart-canvas no-grid">
+                    <svg viewBox="0 0 1000 950" className="sample-svg">
                         <defs>
-                            <pattern id="sampleGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-                                <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)" />
-                            </pattern>
                             <filter id="neonGlowSample">
                                 <feGaussianBlur stdDeviation="3" result="blur" />
                                 <feMerge>
@@ -71,44 +99,41 @@ const SampleChart = () => {
                             </filter>
                         </defs>
 
-                        <rect width="1000" height="900" fill="url(#sampleGrid)" />
+                        {/* Central Node */}
+                        <g transform="translate(500, 450)" className="central-chart-node">
+                            <circle r="140" fill="rgba(255, 215, 0, 0.03)" stroke="var(--primary)" strokeWidth="1" strokeDasharray="10,5" />
+                            <circle r="110" fill="rgba(10, 10, 25, 0.95)" stroke="var(--primary)" strokeWidth="2" filter="url(#neonGlowSample)" />
 
-                        <g transform="translate(500, 425)" className="central-chart-node">
-                            <circle r="140" className="engine-outer-glow" />
-                            <circle r="120" fill="rgba(10, 10, 25, 0.9)" stroke="var(--primary)" strokeWidth="3" filter="url(#neonGlowSample)" />
-
-                            <path d="M0 -100 L86 50 L-86 50 Z" fill="none" stroke="var(--primary)" strokeWidth="0.5" opacity="0.3" />
-                            <path d="M0 100 L-86 -50 L86 -50 Z" fill="none" stroke="var(--primary)" strokeWidth="0.5" opacity="0.3" />
-
-                            <text textAnchor="middle" dy="-20" fill="var(--primary)" fontWeight="bold" fontSize="20">VEDIC CORE</text>
-                            <text textAnchor="middle" dy="10" fill="#fff" fontWeight="bold" fontSize="16">Destiny Blueprint</text>
-                            <text textAnchor="middle" dy="35" fill="var(--text-dim)" fontSize="10">Active Interpretation Engine</text>
-
-                            <circle r="8" fill="#fff" filter="url(#neonGlowSample)">
-                                <animate attributeName="r" values="6;10;6" dur="3s" repeatCount="indefinite" />
-                            </circle>
+                            <text textAnchor="middle" dy="-5" fill="var(--primary)" fontWeight="bold" fontSize="18" letterSpacing="2px">VEDIC ENGINE</text>
+                            <text textAnchor="middle" dy="15" fill="rgba(255,255,255,0.6)" fontSize="9">Neural Interpretation Matrix</text>
                         </g>
 
                         {sampleInsights.map((insight, i) => {
+                            const nodeWidth = 200;
+                            const nodeHeight = 50;
+
+                            // Calculate anchor point on the box closest to the center
                             const isLeft = insight.x < 400;
                             const isRight = insight.x > 600;
-                            const nodeWidth = 200;
 
-                            let anchorX = insight.x;
+                            let anchorX = insight.x + nodeWidth / 2;
                             if (isLeft) anchorX = insight.x + nodeWidth;
                             else if (isRight) anchorX = insight.x;
-                            else anchorX = insight.x + nodeWidth / 2;
 
-                            let anchorY = insight.y;
+                            const anchorY = insight.y + nodeHeight / 2;
 
                             return (
                                 <g key={i}>
-                                    {renderPath(anchorX, anchorY, 500, 425)}
-                                    <g transform={`translate(${insight.x}, ${insight.y - 35})`} className="sample-insight-node">
-                                        <rect width={nodeWidth} height="70" rx="15" className="node-rect-glass" />
-                                        <text x="15" y="25" fontSize="18">{insight.icon}</text>
-                                        <text x="45" y="25" fill="var(--primary)" fontSize="10" fontWeight="bold" letterSpacing="1px">{insight.category}</text>
-                                        <text x="15" y="50" fill="#fff" fontSize="10" fontWeight="500">{insight.question}</text>
+                                    {renderPath(anchorX, anchorY, 500, 450)}
+                                    <g transform={`translate(${insight.x}, ${insight.y})`} className="sample-insight-node">
+                                        <rect
+                                            width={nodeWidth} height={nodeHeight} rx="12"
+                                            fill="rgba(20, 20, 40, 0.8)"
+                                            stroke="rgba(255, 215, 0, 0.2)"
+                                            strokeWidth="1"
+                                        />
+                                        <text x="15" y="32" fontSize="20">{insight.icon}</text>
+                                        <text x="45" y="30" fill="var(--primary)" fontSize="11" fontWeight="bold" letterSpacing="1px">{insight.category.toUpperCase()}</text>
                                     </g>
                                 </g>
                             );

@@ -1,0 +1,300 @@
+{
+    "name": "Full-Stack Vedic Astrology Engine",
+    "nodes": [
+        {
+            "parameters": {
+                "path": "vedic-engine/trigger",
+                "responseMode": "lastNode",
+                "options": {}
+            },
+            "name": "START TRIGGER",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                100,
+                300
+            ],
+            "id": "n1"
+        },
+        {
+            "parameters": {
+                "functionCode": "// SIDDHANTA: Surya Siddhanta Logic\nconst positions = calculatePlanetaryPositions(items[0].json.timestamp);\nreturn [{json: positions}];"
+            },
+            "name": "SIDDHANTA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                400,
+                300
+            ],
+            "id": "n2"
+        },
+        {
+            "parameters": {
+                "functionCode": "// PANCHANGA: Graha Laghava Logic\nconst timeQuality = calculatePanchanga(items[0].json);\nreturn [{json: timeQuality}];"
+            },
+            "name": "PANCHANGA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                700,
+                300
+            ],
+            "id": "n3"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "boolean": [
+                        {
+                            "value1": "={{$json[\"birth_data_present\"]}}",
+                            "value2": true
+                        }
+                    ]
+                }
+            },
+            "name": "DATA ROUTER",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                1000,
+                300
+            ],
+            "id": "n4"
+        },
+        {
+            "parameters": {
+                "functionCode": "// JATAKA: B.P.H.S.\nreturn items;"
+            },
+            "name": "JATAKA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1300,
+                150
+            ],
+            "id": "n5"
+        },
+        {
+            "parameters": {
+                "functionCode": "// JAIMINI: Sutras\nreturn items;"
+            },
+            "name": "JAIMINI",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1600,
+                150
+            ],
+            "id": "n6"
+        },
+        {
+            "parameters": {
+                "functionCode": "// TAJIKA: Nilakanthi\nreturn items;"
+            },
+            "name": "TAJIKA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1900,
+                150
+            ],
+            "id": "n7"
+        },
+        {
+            "parameters": {
+                "functionCode": "// PRASHNA: Marga\nreturn items;"
+            },
+            "name": "PRASHNA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1300,
+                500
+            ],
+            "id": "n8"
+        },
+        {
+            "parameters": {
+                "mode": "wait"
+            },
+            "name": "SAMHITA",
+            "type": "n8n-nodes-base.merge",
+            "typeVersion": 1,
+            "position": [
+                2200,
+                300
+            ],
+            "id": "n9"
+        },
+        {
+            "parameters": {
+                "functionCode": "// NIMITTA: Adbhuta Sagara\nreturn items;"
+            },
+            "name": "NIMITTA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                2500,
+                300
+            ],
+            "id": "n10"
+        },
+        {
+            "parameters": {
+                "functionCode": "// PARIHARA: Atharva Veda\nreturn items;"
+            },
+            "name": "PARIHARA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                2800,
+                300
+            ],
+            "id": "n11"
+        },
+        {
+            "parameters": {
+                "functionCode": "// MUHURTHA: Delivery Gate\nif (isAuspicious(now())) return items;\nreturn [];"
+            },
+            "name": "MUHURTHA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                3100,
+                300
+            ],
+            "id": "n12"
+        }
+    ],
+    "connections": {
+        "START TRIGGER": {
+            "main": [
+                [
+                    {
+                        "node": "SIDDHANTA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "SIDDHANTA": {
+            "main": [
+                [
+                    {
+                        "node": "PANCHANGA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "PANCHANGA": {
+            "main": [
+                [
+                    {
+                        "node": "DATA ROUTER",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "DATA ROUTER": {
+            "main": [
+                [
+                    {
+                        "node": "JATAKA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "PRASHNA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "JATAKA": {
+            "main": [
+                [
+                    {
+                        "node": "JAIMINI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "JAIMINI": {
+            "main": [
+                [
+                    {
+                        "node": "TAJIKA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "TAJIKA": {
+            "main": [
+                [
+                    {
+                        "node": "SAMHITA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "PRASHNA": {
+            "main": [
+                [
+                    {
+                        "node": "SAMHITA",
+                        "type": "main",
+                        "index": 1
+                    }
+                ]
+            ]
+        },
+        "SAMHITA": {
+            "main": [
+                [
+                    {
+                        "node": "NIMITTA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "NIMITTA": {
+            "main": [
+                [
+                    {
+                        "node": "PARIHARA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "PARIHARA": {
+            "main": [
+                [
+                    {
+                        "node": "MUHURTHA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

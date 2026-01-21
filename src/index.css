@@ -2,7 +2,7 @@
 
 :root {
   --primary: #FFD700;
-  --primary-glow: rgba(255, 215, 0, 0.3);
+  --primary-glow: rgba(255, 215, 0, 0.4);
   --secondary: #1a1a2e;
   --accent: #e94560;
   --bg-deep: #0f0c29;
@@ -101,6 +101,28 @@ h3 {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px var(--primary-glow);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 20px var(--primary), 0 0 10px gold;
+    transform: scale(1.05);
+  }
+
+  100% {
+    box-shadow: 0 0 5px var(--primary-glow);
+    transform: scale(1);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+  border: 1px solid var(--primary) !important;
 }
 
 /* Scrollbar */

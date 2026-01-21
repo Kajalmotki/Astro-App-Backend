@@ -36,7 +36,6 @@ const TopQuestions = ({ onSelect }) => {
                     <span className="q-icon">{q.icon}</span>
                     <div className="q-content">
                         <span className="q-category">{q.category}</span>
-                        <p className="q-text">{q.text}</p>
                     </div>
                 </button>
             ))}

@@ -9,15 +9,13 @@ import SampleChart from './components/SampleChart';
 import UserOnboarding from './components/UserOnboarding';
 import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
+import ConsultationModal from './components/ConsultationModal';
+import OmRain from './components/OmRain';
 import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
   <main className="content">
     <section className="hero-section">
-      <div className="hero-text animate-float">
-        <h1 className="gold-text">AstroRevo</h1>
-        <p className="subtitle">Ancient Wisdom, Instant Clarity.</p>
-      </div>
       <div className="hero-layout">
         <div className="workflow-section">
           <AstroWorkflowChart />
@@ -44,6 +42,7 @@ function App() {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
+  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
@@ -56,9 +55,11 @@ function App() {
   return (
     <Router>
       <div className="app-container">
+        <OmRain />
         <Header
           onLoginClick={() => setIsAuthOpen(true)}
           onMembershipClick={() => setIsMembershipOpen(true)}
+          onConsultationClick={() => setIsConsultationOpen(true)}
         />
         <UserOnboarding />
         <Routes>
@@ -81,6 +82,10 @@ function App() {
         <MembershipModal
           isOpen={isMembershipOpen}
           onClose={() => setIsMembershipOpen(false)}
+        />
+        <ConsultationModal
+          isOpen={isConsultationOpen}
+          onClose={() => setIsConsultationOpen(false)}
         />
 
         <footer className="footer">

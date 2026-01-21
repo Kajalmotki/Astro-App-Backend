@@ -1,0 +1,287 @@
+{
+    "name": "AstroRevo Kundli AI Engine",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "vedic/trigger",
+                "responseMode": "lastNode"
+            },
+            "name": "START TRIGGER",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                50,
+                250
+            ],
+            "id": "n1",
+            "notes": "Ingests DOB, TOB, LAT, LONG"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Surya Siddhanta\n// Calc planetary longitudes & speeds"
+            },
+            "name": "SIDDHANTA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                300,
+                250
+            ],
+            "id": "n2"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Classical Siddhanta\n// Apply Lahiri Ayanamsa, Calc Lagna"
+            },
+            "name": "AYANAMSA & LAGNA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                550,
+                250
+            ],
+            "id": "n3"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Graha Laghava\n// Derive Tithi, Vara, Nakshatra, Yoga, Karana"
+            },
+            "name": "PANCHANGA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                800,
+                250
+            ],
+            "id": "n4"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Brihat Parashara Hora Shastra\n// Assign planets to Rashi & Bhava"
+            },
+            "name": "RASHI & BHAVA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1050,
+                250
+            ],
+            "id": "n5"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Jaimini Sutras\n// Compute Chara Karakas (AK, AmK, BK, MK, PK, GK, DK)"
+            },
+            "name": "JAIMINI KARAKA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1300,
+                250
+            ],
+            "id": "n6"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Jaimini Sutras\n// Apply Rashi Drishti (Sign Aspects)"
+            },
+            "name": "RASHI DRISHTI",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1550,
+                250
+            ],
+            "id": "n7"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Jaimini Sutras\n// Compute Arudha Lagna (AL) & Padas (A7, A10)"
+            },
+            "name": "ARUDHA PADA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                1800,
+                250
+            ],
+            "id": "n8"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Jaimini Sutras\n// Calculate Chara Dasha sequences"
+            },
+            "name": "JAIMINI DASHA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                2050,
+                250
+            ],
+            "id": "n9"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Adbhuta Sagara\n// Apply Nimitta / Environmental Modifiers"
+            },
+            "name": "NIMITTA",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                2300,
+                250
+            ],
+            "id": "n10"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Generator\n// Render D1 Chart, Tables, Summary"
+            },
+            "name": "KUNDLI GEN",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                2550,
+                250
+            ],
+            "id": "n11"
+        },
+        {
+            "parameters": {
+                "functionCode": "// Source: Muhurtha Chintamani\n// Gate for Auspicious Time check"
+            },
+            "name": "MUHURTHA",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                2800,
+                250
+            ],
+            "id": "n12"
+        }
+    ],
+    "connections": {
+        "START TRIGGER": {
+            "main": [
+                [
+                    {
+                        "node": "SIDDHANTA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "SIDDHANTA": {
+            "main": [
+                [
+                    {
+                        "node": "AYANAMSA & LAGNA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AYANAMSA & LAGNA": {
+            "main": [
+                [
+                    {
+                        "node": "PANCHANGA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "PANCHANGA": {
+            "main": [
+                [
+                    {
+                        "node": "RASHI & BHAVA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "RASHI & BHAVA": {
+            "main": [
+                [
+                    {
+                        "node": "JAIMINI KARAKA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "JAIMINI KARAKA": {
+            "main": [
+                [
+                    {
+                        "node": "RASHI DRISHTI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "RASHI DRISHTI": {
+            "main": [
+                [
+                    {
+                        "node": "ARUDHA PADA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "ARUDHA PADA": {
+            "main": [
+                [
+                    {
+                        "node": "JAIMINI DASHA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "JAIMINI DASHA": {
+            "main": [
+                [
+                    {
+                        "node": "NIMITTA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "NIMITTA": {
+            "main": [
+                [
+                    {
+                        "node": "KUNDLI GEN",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "KUNDLI GEN": {
+            "main": [
+                [
+                    {
+                        "node": "MUHURTHA",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
