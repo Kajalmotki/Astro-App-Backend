@@ -33,7 +33,7 @@ const AstroWorkflowChart = () => {
     const calculateNodes = () => {
         const cx = 500;
         const cy = 400;
-        const r = 280; // Radius for main nodes
+        const r = 350; // Increased radius to prevent overlap
 
         return NODE_DATA.map((node, i) => {
             const startAngle = -Math.PI / 2;
@@ -210,7 +210,7 @@ const AstroWorkflowChart = () => {
                             <circle r="10" fill={COLORS.primaryGlow} filter="url(#glow)" opacity="0.5" />
 
                             {/* Node Content */}
-                            <foreignObject x="-65" y="-28" width="130" height="56" style={{ overflow: 'visible' }}>
+                            <foreignObject x="-80" y="-35" width="160" height="70" style={{ overflow: 'visible' }}>
                                 <div style={{
                                     width: '100%',
                                     height: '100%',
@@ -227,13 +227,11 @@ const AstroWorkflowChart = () => {
                                     animation: 'float 4s ease-in-out infinite',
                                     animationDelay: `${i * 0.3}s`
                                 }}>
-                                    <div style={{ fontSize: '7px', color: COLORS.textHighlight, marginBottom: '2px', textTransform: 'uppercase', opacity: 0.8 }}>{node.sub}</div>
-                                    <div style={{ fontSize: '9px', fontWeight: '700', color: '#ffffff', textAlign: 'center', letterSpacing: '0.5px' }}>{node.label}</div>
+                                    <div style={{ fontSize: '10px', color: COLORS.textHighlight, marginBottom: '2px', textTransform: 'uppercase', opacity: 0.8 }}>{node.sub}</div>
+                                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#ffffff', textAlign: 'center', letterSpacing: '0.5px' }}>{node.label}</div>
                                 </div>
                             </foreignObject>
 
-                            {/* Connecting Anchor Point */}
-                            <circle r="3" fill={COLORS.primary} filter="url(#glow)" />
                         </g>
                     ))}
                 </svg>

@@ -20,6 +20,7 @@ const Header = ({ onLoginClick, onMembershipClick, onConsultationClick }) => {
             <nav className="nav">
                 <OmPlayer />
                 <Link to="/knowledge">Knowledge Source</Link>
+                <Link to="/chat" className="nav-chat-link">AI Chat</Link>
                 <button
                     className="cta-btn golden-highlight pulse-glow"
                     onClick={handleConsultationClick}

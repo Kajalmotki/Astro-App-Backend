@@ -39,6 +39,23 @@
   color: var(--primary);
 }
 
+.nav-chat-link {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--primary) !important;
+  font-weight: 700 !important;
+  transition: all 0.3s ease !important;
+}
+
+.nav-chat-link:hover {
+  background: var(--primary);
+  color: #000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
 .cta-btn {
   background: var(--primary);
   color: #000;

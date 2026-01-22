@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
 import ChatInterface from './components/ChatInterface';
 import TopQuestions from './components/TopQuestions';
+import ChatPage from './pages/ChatPage';
 import KnowledgeSources from './components/KnowledgeSources';
 import SampleChart from './components/SampleChart';
 import UserOnboarding from './components/UserOnboarding';
@@ -11,6 +12,7 @@ import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
 import ConsultationModal from './components/ConsultationModal';
 import OmRain from './components/OmRain';
+import Footer from './components/Footer';
 import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
@@ -38,7 +40,8 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
   </main>
 );
 
-function App() {
+function AppContent() {
+  const navigate = useNavigate();
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
@@ -46,52 +49,54 @@ function App() {
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
-    const chatElement = document.getElementById('chat-window');
-    if (chatElement) {
-      chatElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigate('/chat', { state: { initialQuestion: question } });
   };
 
   return (
-    <Router>
-      <div className="app-container">
-        <OmRain />
-        <Header
-          onLoginClick={() => setIsAuthOpen(true)}
-          onMembershipClick={() => setIsMembershipOpen(true)}
-          onConsultationClick={() => setIsConsultationOpen(true)}
-        />
-        <UserOnboarding />
-        <Routes>
-          <Route path="/" element={
-            <LandingPage
-              handleQuestionSelect={handleQuestionSelect}
-              activeQuestion={activeQuestion}
-              onLoginClick={() => setIsAuthOpen(true)}
-            />
-          } />
-          <Route path="/knowledge" element={<KnowledgeSources />} />
-          <Route path="/sample" element={<SampleChart />} />
-        </Routes>
-        <AuthModal
-          isOpen={isAuthOpen}
-          onClose={() => setIsAuthOpen(false)}
-          onAuthSuccess={() => console.log('Auth success')}
-          onMembershipPrompt={() => setIsMembershipOpen(true)}
-        />
-        <MembershipModal
-          isOpen={isMembershipOpen}
-          onClose={() => setIsMembershipOpen(false)}
-        />
-        <ConsultationModal
-          isOpen={isConsultationOpen}
-          onClose={() => setIsConsultationOpen(false)}
-        />
+    <div className="app-container">
+      <OmRain />
+      <Header
+        onLoginClick={() => setIsAuthOpen(true)}
+        onMembershipClick={() => setIsMembershipOpen(true)}
+        onConsultationClick={() => setIsConsultationOpen(true)}
+      />
+      <UserOnboarding />
+      <Routes>
+        <Route path="/" element={
+          <LandingPage
+            handleQuestionSelect={handleQuestionSelect}
+            activeQuestion={activeQuestion}
+            onLoginClick={() => setIsAuthOpen(true)}
+          />
+        } />
+        <Route path="/knowledge" element={<KnowledgeSources />} />
+        <Route path="/sample" element={<SampleChart />} />
+        <Route path="/chat" element={<ChatPage />} />
+      </Routes>
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onAuthSuccess={() => console.log('Auth success')}
+        onMembershipPrompt={() => setIsMembershipOpen(true)}
+      />
+      <MembershipModal
+        isOpen={isMembershipOpen}
+        onClose={() => setIsMembershipOpen(false)}
+      />
+      <ConsultationModal
+        isOpen={isConsultationOpen}
+        onClose={() => setIsConsultationOpen(false)}
+      />
 
-        <footer className="footer">
-          <p>&copy; 2026 AstroRevo. Precision. Clarity. Speed.</p>
-        </footer>
-      </div>
+      <Footer />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
