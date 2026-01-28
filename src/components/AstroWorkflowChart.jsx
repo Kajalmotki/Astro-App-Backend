@@ -118,6 +118,26 @@ const AstroWorkflowChart = ({ onLoginClick, onMembershipClick }) => {
                     pointer-events: none;
                     filter: drop-shadow(0 0 3px gold);
                 }
+                @keyframes rotation {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+                @keyframes rotation-reverse {
+                    from { transform: rotate(360deg); }
+                    to { transform: rotate(0deg); }
+                }
+                .mandala-ring-1 {
+                    animation: rotation 60s linear infinite;
+                    transform-origin: center;
+                }
+                .mandala-ring-2 {
+                    animation: rotation-reverse 40s linear infinite;
+                    transform-origin: center;
+                }
+                .orbiting-text {
+                    animation: rotation 30s linear infinite;
+                    transform-origin: center;
+                }
             `}</style>
 
             <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -163,16 +183,44 @@ const AstroWorkflowChart = ({ onLoginClick, onMembershipClick }) => {
                         </g>
 
                         <g transform="translate(0, 0)">
-                            <circle r="75" fill="rgba(212, 175, 55, 0.05)" stroke="rgba(212, 175, 55, 0.2)" strokeWidth="1" />
+                            {/* Premium Mandala Elements */}
+                            <circle className="mandala-ring-1" r="95" fill="none" stroke="rgba(212, 175, 55, 0.1)" strokeWidth="0.5" strokeDasharray="5,10" />
+                            <circle className="mandala-ring-2" r="85" fill="none" stroke="rgba(212, 175, 55, 0.2)" strokeWidth="1" strokeDasharray="2,2" />
+
+                            {/* Hexagonal Shield */}
+                            <path
+                                d="M 0,-75 L 65,-37.5 L 65,37.5 L 0,75 L -65,37.5 L -65,-37.5 Z"
+                                fill="rgba(5, 10, 20, 0.8)"
+                                stroke="gold"
+                                strokeWidth="0.5"
+                                opacity="0.6"
+                            />
+
+                            {/* Orbiting Insight Text */}
+                            <defs>
+                                <path id="insightPath" d="M -110, 0 A 110,110 0 1,1 110,0 A 110,110 0 1,1 -110,0" />
+                            </defs>
+                            <g className="orbiting-text">
+                                <text style={{ fontSize: '9px', fill: 'gold', textTransform: 'uppercase', letterSpacing: '4px', opacity: 0.5 }}>
+                                    <textPath href="#insightPath" startOffset="0%">
+                                        • Vedic Intelligence Engine • Decoding Destiny • Real-time Karma Mapping • Ancient Surya Siddhanta Logic •
+                                    </textPath>
+                                </text>
+                            </g>
+
+                            {/* Central Insight Labels */}
+                            <text y="-45" textAnchor="middle" style={{ fontSize: '8px', fill: 'gold', opacity: 0.4, fontWeight: '700', letterSpacing: '2px' }}>CORE ENGINE</text>
+                            <text y="55" textAnchor="middle" style={{ fontSize: '8px', fill: 'rgba(255,255,255,0.5)', letterSpacing: '1px' }}>PROCESSING 21 VECTORS</text>
+
                             <text
                                 textAnchor="middle"
                                 dominantBaseline="central"
                                 style={{
-                                    fontSize: '80px',
+                                    fontSize: '70px',
                                     fill: 'gold',
                                     fontFamily: 'serif',
                                     filter: 'url(#glow)',
-                                    opacity: 0.8
+                                    opacity: 0.9
                                 }}
                             >
                                 ॐ
