@@ -85,7 +85,7 @@ Required JSON Structure:
 }`;
 
         // EXCLUSIVE: Using ONLY gemini-2.5-flash as requested
-        const modelsToTry = ["gemini-2.5-flash"];
+        const modelsToTry = ["gemini-3-flash-preview"];
         let responseText = null;
 
         for (const modelName of modelsToTry) {

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const OmPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isPulsing, setIsPulsing] = useState(true);
     const audioRef = useRef(null);
 
     useEffect(() => {
@@ -26,7 +25,6 @@ const OmPlayer = () => {
         } else {
             audioRef.current.play().catch(err => console.log('Audio play failed:', err));
             setIsPlaying(true);
-            setIsPulsing(false);
         }
     };
 
@@ -67,14 +65,6 @@ const OmPlayer = () => {
                             ॐ
                         </text>
                     </svg>
-
-                    {isPlaying && (
-                        <div className="sound-waves">
-                            <div className="wave wave-1"></div>
-                            <div className="wave wave-2"></div>
-                            <div className="wave wave-3"></div>
-                        </div>
-                    )}
                 </div>
 
                 <span className="om-label">{isPlaying ? '432 Hz Playing' : 'Play Sacred Om'}</span>

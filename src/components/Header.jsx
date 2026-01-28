@@ -12,8 +12,12 @@ const Header = ({ onLoginClick, onMembershipClick }) => {
             <Link to="/" className="logo-container">
                 <span className="logo-text">AstroRevo</span>
             </Link>
-            <nav className="nav">
+
+            <div className="header-center">
                 <OmPlayer />
+            </div>
+
+            <nav className="nav">
                 <Link to="/knowledge">Knowledge Source</Link>
                 <Link to="/chat" className="nav-chat-link">AI Chat</Link>
 

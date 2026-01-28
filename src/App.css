@@ -16,6 +16,16 @@
   z-index: 1000;
 }
 
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
 .logo-container {
   display: flex;
   align-items: center;
@@ -1210,7 +1220,7 @@
 .om-player-btn.playing {
   background: rgba(255, 215, 0, 0.2);
   border-color: #FFD700;
-  animation: omRotate 20s linear infinite;
+  /* Rotation removed for static look */
 }
 
 @keyframes omRotate {
