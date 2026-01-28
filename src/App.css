@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: 19px 40px;
   z-index: 1000;
 }
 
@@ -2249,7 +2249,7 @@
 
 /* Honeycomb Marketing Matrix Styles */
 .marketing-matrix-section {
-  padding: 180px 40px 60px;
+  padding: 180px 40px 0;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -2488,6 +2488,57 @@
   width: 320px;
   height: 320px;
   padding: 40px;
+  position: relative;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* Very subtle base border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.circle-node.large-node::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  border: 2px dotted var(--primary);
+  animation: rotateDotted 20s linear infinite;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes rotateDotted {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle-node.large-node:hover::before {
+  opacity: 1;
+  border-color: #fff;
+}
+
+.circle-node.large-node:hover {
+  background: rgba(255, 215, 0, 0.07);
+  border-color: var(--primary);
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+}
+
+.node-content {
+  position: relative;
+  z-index: 2;
 }
 
 .circle-node.large-node h4 {
@@ -2504,4 +2555,228 @@
   gap: 30px;
   /* Adjust gap for larger circles */
   max-width: 1100px;
+}
+
+/* Marketing Explanation Style */
+.marketing-explanation {
+  max-width: 800px;
+  margin: 60px auto 0;
+  padding: 30px 40px;
+  text-align: center;
+  border: 1px dashed rgba(255, 215, 0, 0.3);
+}
+
+.marketing-explanation p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Hooked CTA Styles */
+.hooked-cta-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  position: relative;
+  height: 250px;
+}
+
+.hook {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  width: 200px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.left-hook {
+  right: 50%;
+  margin-right: 120px;
+}
+
+.right-hook {
+  left: 50%;
+  margin-left: 120px;
+}
+
+.hook::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  top: -3px;
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.left-hook::before {
+  right: -4px;
+}
+
+.right-hook::before {
+  left: -4px;
+}
+
+
+
+.btn-text {
+  z-index: 3;
+}
+
+/* Glooming Square Hooked CTA Styles */
+.cta-square-btn {
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  transition: all 0.5s ease;
+  border: 2px solid var(--primary);
+  background: rgba(255, 215, 0, 0.05);
+  color: #fff;
+  z-index: 5;
+  position: relative;
+  animation: glooming-pulse 3s infinite ease-in-out;
+}
+
+.cta-square-btn:hover {
+  transform: translateY(-8px) scale(1.05);
+  background: var(--primary);
+  color: #000;
+  border-color: #fff;
+  animation: none;
+  box-shadow: 0 0 70px var(--primary);
+}
+
+@keyframes glooming-pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(255, 215, 0, 0.1);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5), inset 0 0 40px rgba(255, 215, 0, 0.3);
+    transform: scale(1.02);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(255, 215, 0, 0.1);
+    transform: scale(1);
+  }
+}
+
+/* Roadmap Styles */
+.roadmap-container {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+}
+
+.roadmap-main-message {
+  margin-bottom: 50px;
+}
+
+.roadmap-main-message h3 {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.roadmap-main-message p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-dim);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.roadmap-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .roadmap-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.roadmap-card {
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.roadmap-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  background: rgba(255, 215, 0, 0.05);
+}
+
+.step-num {
+  width: 30px;
+  height: 30px;
+  background: var(--primary);
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+  margin: 0 auto 15px;
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.roadmap-card h5 {
+  color: var(--primary);
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.roadmap-card p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.vertical-connector {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--primary), transparent);
+  margin: 0 auto;
+}
+
+/* Redefine Padding/Margin to Close Gaps */
+.marketing-matrix-section {
+  padding-bottom: 0 !important;
+}
+
+.hero-section {
+  padding-top: 0 !important;
+}
+
+.hooked-cta-container {
+  margin-top: -20px !important;
+  /* Pull button up to meet the connector */
 }

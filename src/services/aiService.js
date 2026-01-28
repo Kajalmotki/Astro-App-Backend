@@ -141,23 +141,25 @@ Required JSON Structure:
 
 export const getAssistantResponse = async (userMessage, userId, userName = 'Seeker') => {
     try {
-        const prompt = `You are the AstroRevo Business AI Assistant. 
+        console.log('Fetching Query Assistant Response for:', userMessage);
+
+        const prompt = `You are the AstroRevo Query Assistant. 
         
         Your goals:
-        1. Answer customer queries about AstroRevo services (Vedic AI, Chart Interpretation, Premium Workflows).
+        1. Answer general queries about life, guidance, and AstroRevo services.
         2. Help users take notes or save important reminders.
-        3. Resolve technical or service-related issues.
-        4. Do NOT perform astrological readings or request birth data. This is a strictly professional service assistant.
+        3. Provide helpful, efficient, and professional support.
+        4. Greet the user by name (${userName}) if they say hi/hello.
+        5. Important: Do NOT perform specific astrological birth-chart readings (Kundli). Focus on general guidance and support.
 
         User Name: ${userName}
         User's Query: "${userMessage}"
 
-        If the user wants to take a note, respond with a JSON recognizing the note content.
-        If the user asks a question, answer professionally and helpfully.
-
-        Tone: High-standard, efficient, business-grade, helpful.
+        If the user wants to take a note (e.g., "Take a note about..."), set "isNote" to true.
         
-        Output MUST be a valid JSON object.
+        Tone: High-standard, efficient, helpful, and professional.
+        
+        Output MUST be a valid JSON object. Do not include markdown code blocks.
         {
           "response": "Your helpful response string.",
           "isNote": true/false,
@@ -165,10 +167,23 @@ export const getAssistantResponse = async (userMessage, userId, userName = 'Seek
           "suggestedActions": ["Action 1", "Action 2"]
         }`;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Using stable flash model
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const responseText = response.text();
+        // Attempting multiple models for better reliability, same as chat
+        const modelsToTry = ["gemini-1.5-flash", "gemini-pro"];
+        let responseText = null;
+
+        for (const modelName of modelsToTry) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName });
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                responseText = response.text();
+                if (responseText) break;
+            } catch (err) {
+                console.warn(`Query Assistant failed with ${modelName}`, err);
+            }
+        }
+
+        if (!responseText) throw new Error("Assistant engines exhausted");
 
         const jsonMatch = responseText.match(/\{[\s\S]*\}/);
         const jsonStr = jsonMatch ? jsonMatch[0] : responseText;
@@ -176,10 +191,10 @@ export const getAssistantResponse = async (userMessage, userId, userName = 'Seek
     } catch (error) {
         console.error('Assistant Error:', error);
         return {
-            response: "I'm here to help with your AstroRevo service queries. How can I assist you today?",
+            response: "I am here to assist you with your queries and notes. How can I help you today?",
             isNote: false,
             noteContent: null,
-            suggestedActions: ["Services Overview", "Contact Support"]
+            suggestedActions: ["What can you do?", "Save a note"]
         };
     }
 };

@@ -26,8 +26,12 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
       <div className="hero-layout">
         <div className="workflow-section">
           <AstroWorkflowChart onLoginClick={onLoginClick} />
-          <div className="hero-cta-group" style={{ marginTop: '30px' }}>
-            <Link to="/sample" className="cta-btn golden-highlight large-cta">✨ The AstroRevo Chart (Sample) ✨</Link>
+          <div className="hooked-cta-container">
+            <div className="hook left-hook"></div>
+            <Link to="/sample" className="cta-square-btn golden-highlight">
+              <span className="btn-text">The AstroRevo Chart (Sample)</span>
+            </Link>
+            <div className="hook right-hook"></div>
           </div>
         </div>
       </div>
@@ -37,7 +41,6 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
     <section id="chat-window" className="chat-section">
       <h2 className="section-title">AstroRevo AI Assistant</h2>
-      <p className="section-subtitle">A high-standard business interface for your service queries, notes, and professional support.</p>
       <AstroAssistant onLoginClick={onLoginClick} />
     </section>
   </main>

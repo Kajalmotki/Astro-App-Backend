@@ -8,7 +8,7 @@ const AstroAssistant = ({ onLoginClick }) => {
         {
             id: 1,
             type: 'bot',
-            text: "Welcome to AstroRevo Business Support. I am your AI Assistant. I can help you with service queries, take notes, or guide you through our premium features. How can I assist you today?"
+            text: "Welcome to AstroRevo. I am your AI Assistant. I can help you with your queries, take notes, or guide you through our features. How can I assist you today?"
         }
     ]);
     const [inputValue, setInputValue] = useState('');
@@ -67,7 +67,7 @@ const AstroAssistant = ({ onLoginClick }) => {
                     </div>
                     <div>
                         <h3 className="gold-text">AstroRevo AI Assistant</h3>
-                        <span className="text-dim">Business & Support Matrix</span>
+                        <span className="text-dim">Query Assistant</span>
                     </div>
                 </div>
             </div>
