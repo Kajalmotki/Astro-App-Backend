@@ -184,8 +184,7 @@ const AstroWorkflowChart = ({ onLoginClick, onMembershipClick }) => {
 
                         <g transform="translate(0, 0)">
                             {/* Premium Mandala Elements */}
-                            <circle className="mandala-ring-1" r="95" fill="none" stroke="rgba(212, 175, 55, 0.1)" strokeWidth="0.5" strokeDasharray="5,10" />
-                            <circle className="mandala-ring-2" r="85" fill="none" stroke="rgba(212, 175, 55, 0.2)" strokeWidth="1" strokeDasharray="2,2" />
+
 
                             {/* Hexagonal Shield */}
                             <path
@@ -229,25 +228,7 @@ const AstroWorkflowChart = ({ onLoginClick, onMembershipClick }) => {
                     </g>
 
                     {/* Passive Loop Path */}
-                    <path
-                        d={loopPath}
-                        fill="none"
-                        stroke={COLORS.line}
-                        strokeWidth="1.5"
-                    />
 
-                    {/* Active Scanning Beam */}
-                    <path
-                        d={loopPath}
-                        fill="none"
-                        stroke="#FFD700"
-                        strokeWidth="2.5"
-                        strokeDasharray="40 160"
-                        style={{
-                            animation: 'dash 4s linear infinite',
-                            filter: 'url(#glow)'
-                        }}
-                    />
 
                     {/* Nodes */}
                     {nodes.map((node, i) => (
