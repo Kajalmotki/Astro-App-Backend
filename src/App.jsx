@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
 import ChatInterface from './components/ChatInterface';
-import TopQuestions from './components/TopQuestions';
+import AstroAssistant from './components/AstroAssistant';
+import MarketingMatrix from './components/MarketingMatrix';
 import ChatPage from './pages/ChatPage';
 import KnowledgeSources from './components/KnowledgeSources';
 import SampleChart from './components/SampleChart';
@@ -17,25 +18,27 @@ import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
   <main className="content">
+    <section className="marketing-section">
+      <MarketingMatrix />
+    </section>
+
     <section className="hero-section">
       <div className="hero-layout">
         <div className="workflow-section">
           <AstroWorkflowChart onLoginClick={onLoginClick} />
+          <div className="hero-cta-group" style={{ marginTop: '30px' }}>
+            <Link to="/sample" className="cta-btn golden-highlight large-cta">✨ The AstroRevo Chart (Sample) ✨</Link>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="questions" className="questions-section">
-      <h2 className="section-title">The AstroRevo Chart</h2>
-      <p className="section-subtitle">52 pathways to clarity. See what your destiny holds.</p>
-      <div className="section-actions">
-        <Link to="/sample" className="cta-btn golden-highlight">✨ View Sample Chart ✨</Link>
-      </div>
-      <TopQuestions onSelect={handleQuestionSelect} />
-    </section>
+
 
     <section id="chat-window" className="chat-section">
-      <ChatInterface initialQuestion={activeQuestion} onLoginClick={onLoginClick} />
+      <h2 className="section-title">AstroRevo AI Assistant</h2>
+      <p className="section-subtitle">A high-standard business interface for your service queries, notes, and professional support.</p>
+      <AstroAssistant onLoginClick={onLoginClick} />
     </section>
   </main>
 );

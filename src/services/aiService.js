@@ -139,6 +139,51 @@ Required JSON Structure:
     }
 };
 
+export const getAssistantResponse = async (userMessage, userId, userName = 'Seeker') => {
+    try {
+        const prompt = `You are the AstroRevo Business AI Assistant. 
+        
+        Your goals:
+        1. Answer customer queries about AstroRevo services (Vedic AI, Chart Interpretation, Premium Workflows).
+        2. Help users take notes or save important reminders.
+        3. Resolve technical or service-related issues.
+        4. Do NOT perform astrological readings or request birth data. This is a strictly professional service assistant.
+
+        User Name: ${userName}
+        User's Query: "${userMessage}"
+
+        If the user wants to take a note, respond with a JSON recognizing the note content.
+        If the user asks a question, answer professionally and helpfully.
+
+        Tone: High-standard, efficient, business-grade, helpful.
+        
+        Output MUST be a valid JSON object.
+        {
+          "response": "Your helpful response string.",
+          "isNote": true/false,
+          "noteContent": "Extracted note if applicable, else null",
+          "suggestedActions": ["Action 1", "Action 2"]
+        }`;
+
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Using stable flash model
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const responseText = response.text();
+
+        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+        const jsonStr = jsonMatch ? jsonMatch[0] : responseText;
+        return JSON.parse(jsonStr);
+    } catch (error) {
+        console.error('Assistant Error:', error);
+        return {
+            response: "I'm here to help with your AstroRevo service queries. How can I assist you today?",
+            isNote: false,
+            noteContent: null,
+            suggestedActions: ["Services Overview", "Contact Support"]
+        };
+    }
+};
+
 export const saveBirthDataToFirestore = async (userId, birthData) => {
     try {
         console.log("saveBirthDataToFirestore called for:", userId, "with data:", birthData);
