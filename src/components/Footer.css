@@ -1,8 +1,8 @@
 .footer-container {
     background: transparent;
-    color: #ffffff;
+    color: var(--text-light);
     padding: 100px 60px 60px;
-    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    border-top: 1px solid var(--primary-glow);
     font-family: var(--font-main, 'Inter', sans-serif);
     position: relative;
     z-index: 10;
@@ -43,7 +43,7 @@
 .footer-column h3 {
     font-size: 1.3rem;
     margin-bottom: 25px;
-    color: #ffffff;
+    color: var(--text-light);
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -79,7 +79,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
+    color: var(--text-light);
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1px solid rgba(255, 255, 255, 0.08);

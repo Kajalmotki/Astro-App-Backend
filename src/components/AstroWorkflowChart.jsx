@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from './AuthModal';
+import OmPlayer from './OmPlayer';
 
-const AstroWorkflowChart = () => {
+const AstroWorkflowChart = ({ onLoginClick, onMembershipClick }) => {
+    const { user } = useAuth();
     // --- Configuration ---
     // Deep Blue & Gold Theme (RESTORED)
     const COLORS = {
-        primary: '#FFD700',   // Gold
-        primaryGlow: 'rgba(255, 215, 0, 0.4)',
+        primary: '#2E8B57',   // Emerald Green
+        primaryGlow: 'rgba(46, 139, 87, 0.3)',
         bg: 'transparent',
-        nodeBg: 'rgba(20, 20, 40, 0.8)', // Glassy dark
-        nodeBorder: 'rgba(255, 215, 0, 0.3)',
-        text: '#E0E0E0',
-        textHighlight: '#FFD700',
-        line: 'rgba(255, 215, 0, 0.15)'
+        nodeBg: 'rgba(5, 10, 20, 0.8)', // Deep Navy Glass
+        nodeBorder: 'rgba(46, 139, 87, 0.4)',
+        text: '#FAFAFA', // Moonlight White
+        textHighlight: '#2E8B57',
+        line: 'rgba(255, 255, 255, 0.08)'
     };
 
     const NODE_DATA = [
-        { id: 'n1', label: 'START TRIGGER', sub: 'Webhook', type: 'trigger' },
         { id: 'n2', label: 'SIDDHANTA', sub: 'Surya Siddhanta', type: 'calc' },
         { id: 'n3', label: 'AYANAMSA', sub: 'Lahiri / D1', type: 'calc' },
         { id: 'n4', label: 'PANCHANGA', sub: 'Graha Laghava', type: 'calc' },
@@ -37,7 +39,7 @@ const AstroWorkflowChart = () => {
 
         return NODE_DATA.map((node, i) => {
             const startAngle = -Math.PI / 2;
-            const theta = startAngle + (i * (Math.PI * 2 / 12));
+            const theta = startAngle + (i * (Math.PI * 2 / NODE_DATA.length));
 
             return {
                 ...node,
@@ -128,11 +130,14 @@ const AstroWorkflowChart = () => {
                                 <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
+                        <clipPath id="circleClip">
+                            <circle cx="0" cy="0" r="60" />
+                        </clipPath>
                     </defs>
 
                     {/* --- CENTRAL AREA (CLEANED) --- */}
                     <g transform="translate(500, 400)">
-                        {/* Breathing OM Particles (Emanating from Center) */}
+                        {/* Breathing Particles */}
                         <g>
                             {[...Array(24)].map((_, i) => {
                                 const angle = (i / 24) * Math.PI * 2;
@@ -157,27 +162,20 @@ const AstroWorkflowChart = () => {
                             })}
                         </g>
 
-                        {/* Brand Group */}
                         <g transform="translate(0, 0)">
-                            {/* AstroRevo Text (Centered) */}
+                            <circle r="75" fill="rgba(212, 175, 55, 0.05)" stroke="rgba(212, 175, 55, 0.2)" strokeWidth="1" />
                             <text
                                 textAnchor="middle"
-                                y="0"
-                                fill={COLORS.primary}
-                                style={{ fontSize: '38px', fontWeight: '800', fontFamily: "'Playfair Display', serif", filter: 'url(#glow)' }}
+                                dominantBaseline="central"
+                                style={{
+                                    fontSize: '80px',
+                                    fill: 'gold',
+                                    fontFamily: 'serif',
+                                    filter: 'url(#glow)',
+                                    opacity: 0.8
+                                }}
                             >
-                                AstroRevo
-                            </text>
-
-                            {/* Slogan */}
-                            <text
-                                textAnchor="middle"
-                                y="25"
-                                fill="#ffffff"
-                                opacity="0.8"
-                                style={{ fontSize: '10px', fontWeight: '500', letterSpacing: '3px', textTransform: 'uppercase' }}
-                            >
-                                Ancient Wisdom, Instant Clarity.
+                                ॐ
                             </text>
                         </g>
                     </g>
@@ -194,7 +192,7 @@ const AstroWorkflowChart = () => {
                     <path
                         d={loopPath}
                         fill="none"
-                        stroke={COLORS.primary}
+                        stroke="#FFD700"
                         strokeWidth="2.5"
                         strokeDasharray="40 160"
                         style={{
@@ -227,8 +225,8 @@ const AstroWorkflowChart = () => {
                                     animation: 'float 4s ease-in-out infinite',
                                     animationDelay: `${i * 0.3}s`
                                 }}>
-                                    <div style={{ fontSize: '10px', color: COLORS.textHighlight, marginBottom: '2px', textTransform: 'uppercase', opacity: 0.8 }}>{node.sub}</div>
-                                    <div style={{ fontSize: '13px', fontWeight: '700', color: '#ffffff', textAlign: 'center', letterSpacing: '0.5px' }}>{node.label}</div>
+                                    <div style={{ fontSize: '10px', color: COLORS.textHighlight, marginBottom: '2px', textTransform: 'uppercase', opacity: 0.9, fontWeight: '700' }}>{node.sub}</div>
+                                    <div style={{ fontSize: '13px', fontWeight: '700', color: COLORS.text, textAlign: 'center', letterSpacing: '0.5px' }}>{node.label}</div>
                                 </div>
                             </foreignObject>
 

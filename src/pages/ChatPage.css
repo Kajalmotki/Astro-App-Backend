@@ -5,29 +5,82 @@
     background: #000;
     color: #fff;
     overflow: hidden;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
 }
 
+/* Universe Background Effect */
+.chat-page-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(70, 0, 150, 0.2) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 50, 150, 0.2) 0%, transparent 40%),
+        radial-gradient(1px 1px at 10% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 20% 50%, #fff, transparent),
+        radial-gradient(2px 2px at 30% 20%, #fff, transparent),
+        radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 50% 40%, #fff, transparent),
+        radial-gradient(1px 1px at 60% 10%, #fff, transparent),
+        radial-gradient(2px 2px at 70% 60%, #fff, transparent),
+        radial-gradient(1px 1px at 80% 30%, #fff, transparent),
+        radial-gradient(1px 1px at 90% 90%, #fff, transparent);
+    background-size: 100% 100%, 100% 100%, 200px 200px, 350px 350px, 400px 400px, 250px 250px, 500px 500px, 300px 300px, 450px 450px, 320px 320px, 380px 380px;
+    z-index: -1;
+    animation: backgroundShift 100s linear infinite;
+}
+
+@keyframes backgroundShift {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100% 100%;
+    }
+}
+
 /* Sidebar */
 .chat-sidebar {
-    width: 280px;
-    background: rgba(10, 10, 15, 0.95);
-    border-right: 1px solid rgba(255, 215, 0, 0.1);
+    width: 300px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
     z-index: 10;
 }
 
-.sidebar-header .logo-small {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary, #ffd700);
-    margin-bottom: 40px;
+.sidebar-header .sidebar-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 30px auto;
+    display: block;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3));
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    animation: floatingLogo 4s ease-in-out infinite;
+}
+
+@keyframes floatingLogo {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .sidebar-header .logo-small span {
@@ -60,6 +113,36 @@
     background: rgba(255, 215, 0, 0.1);
 }
 
+.sidebar-add-chart-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 0 30px 0;
+    background: #2E8B57;
+    border: none;
+    color: #fff;
+    width: 100%;
+    font-weight: 700;
+    font-family: inherit;
+    box-shadow: 0 4px 15px rgba(46, 139, 87, 0.2);
+}
+
+.sidebar-add-chart-btn:hover {
+    background: #FFD700;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+}
+
+.sidebar-add-chart-btn .icon {
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
 .back-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -81,25 +164,27 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
+    background: transparent;
     position: relative;
 }
 
 .chat-page-header {
-    height: 70px;
+    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 30px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    position: relative;
 }
 
 .header-bot-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
 }
 
 .bot-avatar-container {
@@ -107,37 +192,154 @@
 }
 
 .bot-avatar {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    width: 48px;
+    height: 48px;
+    background: transparent;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    overflow: hidden;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    animation: floatingLogo 4s ease-in-out infinite;
+}
+
+.logo-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .online-indicator {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 10px;
-    height: 10px;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
     background: #4caf50;
     border: 2px solid #000;
     border-radius: 50%;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.header-text {
+    text-align: center;
 }
 
 .header-text h3 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: #fff;
+    letter-spacing: 0.5px;
 }
 
 .header-text span {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-actions {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.header-tool-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.header-tool-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Question Carousel */
+.question-carousel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 1;
+    padding: 5px 0;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-question {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    padding: 10px 20px;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.carousel-question:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+    transform: translateY(-2px);
+}
+
+.carousel-nav {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #888;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.carousel-nav:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+}
+
+.carousel-nav:active {
+    transform: scale(0.95);
 }
 
 /* Messages Viewport */
@@ -147,14 +349,15 @@
     padding: 40px 20px;
     display: flex;
     justify-content: center;
+    background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
 }
 
 .messages-inner {
     width: 100%;
-    max-width: 800px;
+    max-width: 750px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
 }
 
 .chat-message-row {
@@ -169,60 +372,66 @@
 }
 
 .bot-min-avatar {
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 215, 0, 0.1);
+    width: 35px;
+    height: 35px;
+    background: transparent;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    overflow: hidden;
     border: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
 }
 
 .chat-bubble {
-    padding: 16px 20px;
+    padding: 18px 24px;
     border-radius: 20px;
     line-height: 1.6;
-    font-size: 1rem;
+    font-size: 0.98rem;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }
 
 .chat-bubble.bot {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-top-left-radius: 4px;
-    color: #e0e0e0;
+    color: #e8e8e8;
 }
 
 .chat-bubble.user {
-    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    background: linear-gradient(135deg, #ffd700, #ffa500);
     color: #000;
     font-weight: 500;
     border-top-right-radius: 4px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
 }
 
 .chat-bubble.prediction {
-    background: rgba(255, 215, 0, 0.03);
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.25);
 }
 
 .chat-cta-btn {
     display: block;
     margin-top: 15px;
-    background: var(--primary, #ffd700);
-    color: #000;
+    background: #2E8B57;
+    color: #FFFFFF;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 12px 24px;
+    border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.3);
 }
 
 .chat-cta-btn:hover {
-    transform: scale(1.02);
+    transform: translateY(-2px);
+    background: #FFD700;
+    box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
 }
 
 /* Typing Indicator */

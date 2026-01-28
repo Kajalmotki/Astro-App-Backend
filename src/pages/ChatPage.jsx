@@ -4,8 +4,10 @@ import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroPremiumWorkflow from '../components/AstroPremiumWorkflow';
 import { useAuth } from '../components/AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
+import { fetchUserBirthData } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
 import { updateProfile } from 'firebase/auth';
+import logo from '../assets/logo.png';
 import './ChatPage.css';
 
 const PaymentButtonLoader = ({ containerId }) => {
@@ -32,6 +34,34 @@ const ChatPage = () => {
     const [showBirthForm, setShowBirthForm] = useState(false);
     const [userBirthData, setUserBirthData] = useState(null);
     const messagesEndRef = useRef(null);
+
+    // Fetch saved birth data when user logs in
+    useEffect(() => {
+        const loadBirthData = async () => {
+            if (user?.uid) {
+                try {
+                    const savedData = await fetchUserBirthData(user.uid);
+                    if (savedData) {
+                        setUserBirthData(savedData);
+                        console.log("Loaded saved birth data for chat:", savedData);
+
+                        // Update initial message to skip birth details request
+                        setMessages([
+                            {
+                                id: Date.now(),
+                                type: 'bot',
+                                text: `Namaste ${savedData.name || 'Seeker'}! I have successfully loaded your chart data. The stars align for revelation today. What question is weighing on your heart?`,
+                                showFormLink: false
+                            }
+                        ]);
+                    }
+                } catch (error) {
+                    console.error("Failed to load birth data:", error);
+                }
+            }
+        };
+        loadBirthData();
+    }, [user]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -124,13 +154,20 @@ const ChatPage = () => {
         <div className="chat-page-container">
             <aside className="chat-sidebar">
                 <div className="sidebar-header">
-                    <div className="logo-small">Astro<span>Revo</span></div>
+                    <span className="logo-text" style={{ fontSize: '1.5rem' }}>AstroRevo</span>
                 </div>
                 <nav className="history-list">
                     <div className="history-item active">
                         <span className="icon">✨</span>
                         <div className="item-text">New Cosmic Reading</div>
                     </div>
+                    <button
+                        className="sidebar-add-chart-btn"
+                        onClick={() => setShowBirthForm(true)}
+                    >
+                        <span className="icon">+</span>
+                        <span className="item-text">Add Charts</span>
+                    </button>
                 </nav>
                 <div className="sidebar-footer">
                     <button className="back-btn" onClick={() => navigate('/')}>← Exit to Home</button>
@@ -141,24 +178,53 @@ const ChatPage = () => {
                 <header className="chat-page-header">
                     <div className="header-bot-info">
                         <div className="bot-avatar-container">
-                            <div className="bot-avatar">🕉️</div>
+                            <div className="bot-avatar logo-avatar" style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
                             <div className="online-indicator"></div>
                         </div>
                         <div className="header-text">
-                            <h3>AstroRevo AI</h3>
-                            <span>Ancient Wisdom, Instant Clarity</span>
+                            <h3>{user?.displayName || userBirthData?.name || 'Guest'}</h3>
+                            <span>Chart Reading</span>
                         </div>
                     </div>
                     <div className="header-actions">
-                        <button className="header-tool-btn">⚙️</button>
+                        <button className="header-tool-btn" onClick={() => navigate('/')}>✕</button>
                     </div>
                 </header>
+
+                {/* Question Carousel */}
+                <div className="question-carousel">
+                    <button className="carousel-nav prev" onClick={() => {
+                        const carousel = document.querySelector('.carousel-track');
+                        carousel.scrollBy({ left: -300, behavior: 'smooth' });
+                    }}>‹</button>
+                    <div className="carousel-track">
+                        <button className="carousel-question" onClick={() => handleSend('Which planetary period will be most favorable for me?')}>
+                            Which planetary period will be most favorable for me?
+                        </button>
+                        <button className="carousel-question" onClick={() => handleSend('When will I get married?')}>
+                            When will I get married?
+                        </button>
+                        <button className="carousel-question" onClick={() => handleSend('Should I change my job or stay?')}>
+                            Should I change my job or stay?
+                        </button>
+                        <button className="carousel-question" onClick={() => handleSend('Is my chart good for business?')}>
+                            Is my chart good for business?
+                        </button>
+                        <button className="carousel-question" onClick={() => handleSend('Will I go abroad?')}>
+                            Will I go abroad?
+                        </button>
+                    </div>
+                    <button className="carousel-nav next" onClick={() => {
+                        const carousel = document.querySelector('.carousel-track');
+                        carousel.scrollBy({ left: 300, behavior: 'smooth' });
+                    }}>›</button>
+                </div>
 
                 <div className="messages-viewport">
                     <div className="messages-inner">
                         {messages.map((m) => (
                             <div key={m.id} className={`chat-message-row ${m.type}`}>
-                                {m.type === 'bot' && <div className="bot-min-avatar">🕉️</div>}
+                                {m.type === 'bot' && <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>}
                                 <div className={`chat-bubble ${m.type} ${m.isPrediction ? 'prediction' : ''}`}>
                                     {m.text}
 
@@ -194,7 +260,7 @@ const ChatPage = () => {
                                     )}
                                     {m.mantra && (
                                         <div className="mantra-section">
-                                            <h4>🕉️ Sacred Mantra</h4>
+                                            <h4>✨ Sacred Mantra</h4>
                                             <p><em>{m.mantra}</em></p>
                                         </div>
                                     )}
@@ -203,7 +269,7 @@ const ChatPage = () => {
                         ))}
                         {showBirthForm && (
                             <div className="chat-message-row bot">
-                                <div className="bot-min-avatar">🕉️</div>
+                                <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
                                 <div className="chat-bubble bot form-bubble">
                                     <BirthDetailsForm onSubmit={handleBirthDetailsSubmit} compact={true} />
                                     <button className="cancel-bubble-btn" onClick={() => setShowBirthForm(false)}>Cancel</button>
@@ -212,7 +278,7 @@ const ChatPage = () => {
                         )}
                         {isTyping && (
                             <div className="chat-message-row bot">
-                                <div className="bot-min-avatar">🕉️</div>
+                                <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
                                 <div className="chat-bubble bot typing">
                                     <div className="dot"></div><div className="dot"></div><div className="dot"></div>
                                 </div>

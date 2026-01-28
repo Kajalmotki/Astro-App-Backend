@@ -10,9 +10,9 @@ import SampleChart from './components/SampleChart';
 import UserOnboarding from './components/UserOnboarding';
 import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
-import ConsultationModal from './components/ConsultationModal';
 import OmRain from './components/OmRain';
 import Footer from './components/Footer';
+import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import './App.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
@@ -20,14 +20,14 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
     <section className="hero-section">
       <div className="hero-layout">
         <div className="workflow-section">
-          <AstroWorkflowChart />
+          <AstroWorkflowChart onLoginClick={onLoginClick} />
         </div>
       </div>
     </section>
 
     <section id="questions" className="questions-section">
       <h2 className="section-title">The AstroRevo Chart</h2>
-      <p className="section-subtitle">21 pathways to clarity. See what your destiny holds.</p>
+      <p className="section-subtitle">52 pathways to clarity. See what your destiny holds.</p>
       <div className="section-actions">
         <Link to="/sample" className="cta-btn golden-highlight">✨ View Sample Chart ✨</Link>
       </div>
@@ -45,7 +45,6 @@ function AppContent() {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
-  const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
@@ -58,7 +57,6 @@ function AppContent() {
       <Header
         onLoginClick={() => setIsAuthOpen(true)}
         onMembershipClick={() => setIsMembershipOpen(true)}
-        onConsultationClick={() => setIsConsultationOpen(true)}
       />
       <UserOnboarding />
       <Routes>
@@ -72,6 +70,7 @@ function AppContent() {
         <Route path="/knowledge" element={<KnowledgeSources />} />
         <Route path="/sample" element={<SampleChart />} />
         <Route path="/chat" element={<ChatPage />} />
+        <Route path="/workflow" element={<WorkflowCanvas />} />
       </Routes>
       <AuthModal
         isOpen={isAuthOpen}
@@ -83,11 +82,6 @@ function AppContent() {
         isOpen={isMembershipOpen}
         onClose={() => setIsMembershipOpen(false)}
       />
-      <ConsultationModal
-        isOpen={isConsultationOpen}
-        onClose={() => setIsConsultationOpen(false)}
-      />
-
       <Footer />
     </div>
   );

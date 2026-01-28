@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
+import logo from '../assets/logo.png';
 
 const Footer = () => {
     return (
@@ -8,7 +9,9 @@ const Footer = () => {
             <div className="footer-content">
                 {/* Brand Section */}
                 <div className="footer-brand">
-                    <Link to="/" className="footer-logo gold-text">AstroRevo</Link>
+                    <Link to="/" className="footer-logo">
+                        <span className="logo-text">AstroRevo</span>
+                    </Link>
 
                     <div className="mobile-apps">
                         <h3>AstroRevo Mobile Apps</h3>

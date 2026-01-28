@@ -2,39 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import OmPlayer from './OmPlayer';
 import { useAuth } from './AuthModal';
+import logo from '../assets/logo.png';
 
-const Header = ({ onLoginClick, onMembershipClick, onConsultationClick }) => {
+const Header = ({ onLoginClick, onMembershipClick }) => {
     const { user, logout } = useAuth();
-
-    const handleConsultationClick = () => {
-        if (!user) {
-            onLoginClick();
-        } else {
-            onConsultationClick();
-        }
-    };
 
     return (
         <header className="header glass">
-            <Link to="/" className="logo gold-text">AstroRevo</Link>
+            <Link to="/" className="logo-container">
+                <span className="logo-text">AstroRevo</span>
+            </Link>
             <nav className="nav">
                 <OmPlayer />
                 <Link to="/knowledge">Knowledge Source</Link>
                 <Link to="/chat" className="nav-chat-link">AI Chat</Link>
-                <button
-                    className="cta-btn golden-highlight pulse-glow"
-                    onClick={handleConsultationClick}
-                >
-                    📞 Call Our Astrologer
-                </button>
 
 
                 {user ? (
                     <>
                         <button
-                            className="cta-btn golden-highlight pulse-glow"
+                            className="cta-btn white-highlight pulse-glow"
                             onClick={onMembershipClick}
-                            style={{ marginRight: '10px' }}
+                            style={{ marginRight: '2px' }}
                         >
                             ✨ Premium
                         </button>
@@ -42,7 +31,7 @@ const Header = ({ onLoginClick, onMembershipClick, onConsultationClick }) => {
 
                     </>
                 ) : (
-                    <button className="cta-btn golden-highlight pulse-glow" onClick={onLoginClick}>Unlock Your Chart</button>
+                    <button className="cta-btn white-highlight pulse-glow" onClick={onLoginClick}>Unlock Your Chart</button>
                 )}
             </nav>
         </header>

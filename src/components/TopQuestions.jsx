@@ -1,27 +1,63 @@
 import React from 'react';
 
 const questions = [
-    { id: 1, category: 'Love', icon: '❤️', text: 'When will I meet my soulmate?' },
-    { id: 2, category: 'Marriage', icon: '💍', text: 'Is it the right time for marriage?' },
-    { id: 3, category: 'Career', icon: '💼', text: 'When will I get my promotion?' },
-    { id: 4, category: 'Money', icon: '💰', text: 'Financial stability predictions' },
-    { id: 5, category: 'Health', icon: '🏥', text: 'Vitality and wellbeing insights' },
-    { id: 6, category: 'Education', icon: '🎓', text: 'Higher studies and success' },
-    { id: 7, category: 'Family', icon: '👨‍👩‍👧‍👦', text: 'Family harmony guidance' },
-    { id: 8, category: 'Spirit', icon: '🧘', text: 'My soul’s true purpose' },
-    { id: 9, category: 'Travel', icon: '✈️', text: 'Foreign settlement chances' },
-    { id: 10, category: 'Property', icon: '🏠', text: 'Right time to buy property' },
-    { id: 11, category: 'Business', icon: '🚀', text: 'New venture success chances' },
-    { id: 12, category: 'Love', icon: '💞', text: 'Will my ex return?' },
-    { id: 13, category: 'Career', icon: '🔄', text: 'Is a career change advisable?' },
-    { id: 14, category: 'Legal', icon: '⚖️', text: 'Outcome of pending legal matters' },
-    { id: 15, category: 'Karma', icon: '🌀', text: 'Past life influences on present' },
-    { id: 16, category: 'Finance', icon: '💎', text: 'Investment and stock market' },
-    { id: 17, category: 'Enemies', icon: '🛡️', text: 'Overcoming hidden enemies' },
-    { id: 18, category: 'Parents', icon: '👴', text: 'Parents health and relationship' },
-    { id: 19, category: 'Children', icon: '👶', text: 'Childbirth and progeny' },
-    { id: 20, category: 'Lustre', icon: '✨', text: 'Improving personal charisma' },
-    { id: 21, category: 'Moksha', icon: '📿', text: 'Spiritual liberation path' }
+    // Traditional Questions (20)
+    { id: 1, category: 'Marriage', icon: '💍', text: 'When will I get married?' },
+    { id: 2, category: 'Marriage', icon: '💑', text: 'Will my marriage be happy or troubled?' },
+    { id: 3, category: 'Career', icon: '💼', text: 'When will I get a job?' },
+    { id: 4, category: 'Career', icon: '📈', text: 'Will I get a promotion or growth?' },
+    { id: 5, category: 'Career', icon: '🎯', text: 'Which career suits me best?' },
+    { id: 6, category: 'Business', icon: '🚀', text: 'Will I be successful in business?' },
+    { id: 7, category: 'Money', icon: '💰', text: 'When will my financial condition improve?' },
+    { id: 8, category: 'Travel', icon: '✈️', text: 'Will I go abroad or settle overseas?' },
+    { id: 9, category: 'Life', icon: '🔄', text: 'Why am I facing repeated failures?' },
+    { id: 10, category: 'Dosha', icon: '⚠️', text: 'Is there any Dosha in my chart?' },
+    { id: 11, category: 'Planets', icon: '🪐', text: 'Am I going through a bad planetary period?' },
+    { id: 12, category: 'Life', icon: '🌅', text: 'When will my problems end?' },
+    { id: 13, category: 'Children', icon: '👶', text: 'Will I have children?' },
+    { id: 14, category: 'Marriage', icon: '⏰', text: 'Why is marriage getting delayed?' },
+    { id: 15, category: 'Love', icon: '❤️', text: 'Is my partner loyal?' },
+    { id: 16, category: 'Property', icon: '🏠', text: 'Will there be property or house gain?' },
+    { id: 17, category: 'Health', icon: '🏥', text: 'Is my health safe in future?' },
+    { id: 18, category: 'Luck', icon: '🍀', text: 'Why is my luck not supporting me?' },
+    { id: 19, category: 'Legal', icon: '⚖️', text: 'Will legal or court issues resolve?' },
+    { id: 20, category: 'Energy', icon: '🛡️', text: 'Is someone doing negative energy on me?' },
+    { id: 21, category: 'Remedy', icon: '✨', text: 'What remedies should I do?' },
+
+    // Modern Era Questions (21)
+    { id: 22, category: 'Career', icon: '🔀', text: 'Should I change my job or stay?' },
+    { id: 23, category: 'Business', icon: '💡', text: 'Should I start a startup or side business?' },
+    { id: 24, category: 'Work', icon: '💻', text: 'Is freelancing or remote work good for me?' },
+    { id: 25, category: 'Career', icon: '👔', text: 'Is this company or boss good for my future?' },
+    { id: 26, category: 'Travel', icon: '🌍', text: 'Should I move to another country now?' },
+    { id: 27, category: 'Digital', icon: '📱', text: 'Will I succeed in social media or online work?' },
+    { id: 28, category: 'Finance', icon: '📊', text: 'Is crypto / stock market safe for me?' },
+    { id: 29, category: 'Career', icon: '⏸️', text: 'Should I take a career break?' },
+    { id: 30, category: 'Love', icon: '💕', text: 'Is love marriage better for me than arranged?' },
+    { id: 31, category: 'Relationship', icon: '🔗', text: 'Is my relationship karmic or temporary?' },
+    { id: 32, category: 'Marriage', icon: '💔', text: 'Will I remarry or have a second relationship?' },
+    { id: 33, category: 'Marriage', icon: '⚡', text: 'Is divorce indicated in my chart?' },
+    { id: 34, category: 'Relationship', icon: '🏡', text: 'Is live-in relationship suitable for me?' },
+    { id: 35, category: 'Property', icon: '🏘️', text: 'When is the right time to buy a house?' },
+    { id: 36, category: 'Finance', icon: '💎', text: 'Should I invest or wait?' },
+    { id: 37, category: 'Life', icon: '🚧', text: 'Why do I feel stuck despite qualifications?' },
+    { id: 38, category: 'Mental', icon: '🧠', text: 'Is my mental stress shown in my chart?' },
+    { id: 39, category: 'Location', icon: '📍', text: 'Should I shift my city or location?' },
+    { id: 40, category: 'Career', icon: '👑', text: 'Is my chart good for leadership or authority?' },
+    { id: 41, category: 'Money', icon: '💸', text: 'Will I regain lost money?' },
+    { id: 42, category: 'Life', icon: '🎲', text: 'Is this year safe for major decisions?' },
+
+    // Astrology-Specific Questions (10)
+    { id: 43, category: 'Dosha', icon: '👻', text: 'Do I have Pitru Dosha?' },
+    { id: 44, category: 'Dosha', icon: '🐍', text: 'Is Kaal Sarp Dosha affecting my life?' },
+    { id: 45, category: 'Transit', icon: '🪐', text: 'Is Sade Sati good or bad for me?' },
+    { id: 46, category: 'Remedy', icon: '💍', text: 'Which gemstone should I wear?' },
+    { id: 47, category: 'Remedy', icon: '🎨', text: 'Which color is lucky for me?' },
+    { id: 48, category: 'Remedy', icon: '🔢', text: 'Which number is lucky for me?' },
+    { id: 49, category: 'Dasha', icon: '⏳', text: 'Is my Dasha favorable right now?' },
+    { id: 50, category: 'Yoga', icon: '👑', text: 'Is my Raj Yoga active or blocked?' },
+    { id: 51, category: 'Remedy', icon: '✅', text: 'Are remedies actually working for me?' },
+    { id: 52, category: 'Planets', icon: '🌟', text: 'Which planet is causing maximum trouble?' }
 ];
 
 const TopQuestions = ({ onSelect }) => {
@@ -36,6 +72,7 @@ const TopQuestions = ({ onSelect }) => {
                     <span className="q-icon">{q.icon}</span>
                     <div className="q-content">
                         <span className="q-category">{q.category}</span>
+                        <span className="q-text">{q.text}</span>
                     </div>
                 </button>
             ))}

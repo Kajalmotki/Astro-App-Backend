@@ -1,0 +1,121 @@
+.workflow-node {
+    position: absolute;
+    min-width: 120px;
+    min-height: 120px;
+    aspect-ratio: 1 / 1;
+    cursor: grab;
+    z-index: 10;
+    transition: transform 0.2s ease;
+    /* NO max-width or max-height to prevent clipping */
+    /* NO overflow: hidden on parent */
+}
+
+.workflow-node:hover {
+    transform: scale(1.05);
+    z-index: 20;
+}
+
+.workflow-node.dragging {
+    cursor: grabbing;
+    z-index: 100;
+    transform: scale(1.08);
+}
+
+.node-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(10, 14, 26, 0.85);
+    border: 2px solid var(--node-border-color, rgba(255, 255, 255, 0.3));
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 8px;
+    position: relative;
+    overflow: visible;
+    /* Critical: allow content to expand */
+    box-shadow:
+        0 0 20px var(--node-glow-color, rgba(255, 255, 255, 0.2)),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.workflow-node:hover .node-content {
+    border-color: var(--node-border-color, rgba(255, 255, 255, 0.6));
+    box-shadow:
+        0 0 30px var(--node-glow-color, rgba(255, 255, 255, 0.4)),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.node-icon {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px var(--node-glow-color, rgba(255, 255, 255, 0.5)));
+}
+
+.node-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #FAFAFA;
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--node-glow-color, rgba(255, 255, 255, 0.3));
+}
+
+.node-subtitle {
+    font-size: 0.7rem;
+    color: rgba(250, 250, 250, 0.6);
+    text-align: center;
+    font-weight: 400;
+}
+
+.node-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--node-glow-color, rgba(255, 255, 255, 0.1)) 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.workflow-node:hover .node-glow {
+    opacity: 1;
+}
+
+/* Prevent text selection during drag */
+.workflow-node.dragging * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+    .workflow-node {
+        min-width: 100px;
+        min-height: 100px;
+    }
+
+    .node-icon {
+        font-size: 1.5rem;
+    }
+
+    .node-label {
+        font-size: 0.75rem;
+    }
+
+    .node-subtitle {
+        font-size: 0.6rem;
+    }
+}

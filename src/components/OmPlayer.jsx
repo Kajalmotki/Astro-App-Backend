@@ -33,7 +33,7 @@ const OmPlayer = () => {
     return (
         <div className="om-player-container">
             <button
-                className={`om-player-btn ${isPlaying ? 'playing' : ''} ${isPulsing ? 'pulse-invite' : ''}`}
+                className={`om-player-btn ${isPlaying ? 'playing' : ''}`}
                 onClick={togglePlay}
                 aria-label={isPlaying ? 'Pause Om Sound' : 'Play Om Sound'}
             >

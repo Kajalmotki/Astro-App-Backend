@@ -6,7 +6,9 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { useAuth } from './AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
+import { fetchUserBirthData } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
+import logo from '../assets/logo.png';
 
 // Helper component to trigger script load
 const PaymentButtonLoader = ({ containerId }) => {
@@ -33,6 +35,34 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
     const [showBirthForm, setShowBirthForm] = useState(false);
     const [userBirthData, setUserBirthData] = useState(null);
     const messagesEndRef = useRef(null);
+
+    // Fetch saved birth data when user logs in
+    useEffect(() => {
+        const loadBirthData = async () => {
+            if (user?.uid) {
+                try {
+                    const savedData = await fetchUserBirthData(user.uid);
+                    if (savedData) {
+                        setUserBirthData(savedData);
+                        console.log("Loaded saved birth data for ChatInterface:", savedData);
+
+                        // Update initial message to welcome back instead of asking for details
+                        setMessages([
+                            {
+                                id: Date.now(),
+                                type: 'bot',
+                                text: `Welcome back, ${savedData.name || 'Seeker'}. I have your chart ready. How can I guide you today?`,
+                                showFormLink: false
+                            }
+                        ]);
+                    }
+                } catch (error) {
+                    console.error("Failed to load birth data:", error);
+                }
+            }
+        };
+        loadBirthData();
+    }, [user]);
 
     useEffect(() => {
         if (initialQuestion) {
@@ -161,12 +191,10 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
 
     return (
         <div className="chat-container glass-card">
-            <div className="chat-header" style={{ justifyContent: 'center', position: 'relative' }}>
-                <div className="bot-status" style={{ flexDirection: 'column', gap: '5px' }}>
-                    <div className="status-dot" style={{ width: '8px', height: '8px', margin: '0 auto' }}></div>
-                    <span style={{ fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>I am AstroRevo AI</span>
+            <div className="chat-header" style={{ justifyContent: 'center', position: 'relative', padding: '15px' }}>
+                <div className="bot-status" style={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <span className="logo-text" style={{ fontSize: '1.2rem' }}>AstroRevo</span>
                 </div>
-                <div className="chart-info" style={{ position: 'absolute', right: '20px', fontSize: '0.8rem', opacity: 0.7 }}>v2.1</div>
             </div>
 
             <div className="chat-messages">
@@ -226,7 +254,7 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
                             )}
                             {m.mantra && (
                                 <div className="mantra-box">
-                                    <strong>🕉️ Mantra:</strong>
+                                    <strong>✨ Mantra:</strong>
                                     <p><em>{m.mantra}</em></p>
                                 </div>
                             )}
