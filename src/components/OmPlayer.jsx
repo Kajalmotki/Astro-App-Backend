@@ -43,23 +43,27 @@ const OmPlayer = () => {
                                 <stop offset="100%" stopColor="#FFA500" />
                             </linearGradient>
                             <filter id="omGlow">
-                                <feGaussianBlur stdDeviation="2" result="blur" />
+                                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                                <feFlood floodColor="goldenrod" result="color" />
+                                <feComposite in="color" in2="blur" operator="in" result="glow" />
                                 <feMerge>
-                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="glow" />
+                                    <feMergeNode in="glow" />
                                     <feMergeNode in="SourceGraphic" />
                                 </feMerge>
                             </filter>
                         </defs>
 
-                        {/* Om Symbol (ॐ) stylized */}
+                        {/* Om Symbol (ॐ) perfectly centered */}
                         <text
-                            x="50"
-                            y="65"
-                            fontSize="60"
+                            x="48"
+                            y="54"
+                            fontSize="65"
                             textAnchor="middle"
+                            dominantBaseline="middle"
                             fill="url(#omGradient)"
                             filter="url(#omGlow)"
-                            fontFamily="serif"
+                            fontFamily="'A Marker Script', 'Permanent Marker', cursive, serif"
                             fontWeight="bold"
                         >
                             ॐ

@@ -1176,11 +1176,15 @@
 }
 
 .om-player-btn {
-  background: rgba(255, 215, 0, 0.1);
-  border: 2px solid #FFD700;
+  background: rgba(255, 215, 0, 0.05);
+  /* Lighter background */
+  border: 1px solid #FFD700;
+  /* Thinner border */
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 58px;
+  /* Slightly smaller */
+  height: 58px;
+  /* Slightly smaller */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1189,7 +1193,10 @@
   position: relative;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: visible;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  /* Stronger multi-layer glow */
+  box-shadow:
+    0 0 15px rgba(255, 215, 0, 0.6),
+    0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .om-player-btn:hover {
@@ -1235,11 +1242,14 @@
 
 .om-symbol-container {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  /* Adjusted for smaller button */
+  height: 42px;
+  /* Adjusted for smaller button */
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
 }
 
 .om-symbol {
