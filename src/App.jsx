@@ -15,6 +15,8 @@ import OmRain from './components/OmRain';
 import Footer from './components/Footer';
 import Testimonials from './components/Testimonials';
 import DonationSection from './components/DonationSection';
+import PremiumDashboard from './components/PremiumDashboard';
+import { useAuth } from './components/AuthModal';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import './App.css';
 
@@ -72,6 +74,8 @@ function AppContent() {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const { user } = useAuth();
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
@@ -83,7 +87,7 @@ function AppContent() {
       <OmRain />
       <Header
         onLoginClick={() => setIsAuthOpen(true)}
-        onMembershipClick={() => setIsMembershipOpen(true)}
+        onMembershipClick={() => setIsDashboardOpen(true)}
       />
       <UserOnboarding />
       <Routes>
@@ -104,11 +108,16 @@ function AppContent() {
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
         onAuthSuccess={() => console.log('Auth success')}
-        onMembershipPrompt={() => setIsMembershipOpen(true)}
+        onMembershipPrompt={() => setIsDashboardOpen(true)}
       />
       <MembershipModal
         isOpen={isMembershipOpen}
         onClose={() => setIsMembershipOpen(false)}
+      />
+      <PremiumDashboard
+        isOpen={isDashboardOpen}
+        onClose={() => setIsDashboardOpen(false)}
+        user={user}
       />
       <Footer />
     </div>
