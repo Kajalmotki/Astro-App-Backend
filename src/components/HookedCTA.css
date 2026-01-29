@@ -1,0 +1,162 @@
+/* Hooked CTA Styles - Cosmic Ultimate Edition */
+
+.hooked-cta-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+/* The Connecting Laser Beams (Hooks) */
+.hook {
+    flex: 1;
+    max-width: 150px;
+    height: 1px;
+    background: rgba(0, 255, 136, 0.3);
+    position: relative;
+    transition: all 0.5s ease;
+}
+
+.left-hook {
+    background: linear-gradient(90deg, transparent 0%, #00ff88 100%);
+    margin-right: 20px;
+}
+
+.right-hook {
+    background: linear-gradient(90deg, #00ff88 0%, transparent 100%);
+    margin-left: 20px;
+}
+
+/* Glowing Nodes at the connection points */
+.left-hook::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -2px;
+    width: 5px;
+    height: 5px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+}
+
+.right-hook::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: -2px;
+    width: 5px;
+    height: 5px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+}
+
+/* The Main Cosmic Button */
+.cta-square-btn {
+    position: relative;
+    padding: 24px 48px;
+    background: rgba(10, 20, 30, 0.8);
+    border: 1px solid rgba(0, 255, 136, 0.5);
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Cosmic Glow Base */
+    box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 255, 136, 0.1);
+
+    backdrop-filter: blur(10px);
+}
+
+/* Animated Nebula Background */
+.cta-square-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 255, 136, 0.2),
+            transparent);
+    transition: 0.5s;
+    transform: skewX(-15deg);
+}
+
+/* The Text */
+.btn-text {
+    position: relative;
+    z-index: 5;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+/* Hover Effects */
+.cta-square-btn:hover {
+    transform: scale(1.02);
+    border-color: #00ff88;
+    box-shadow:
+        0 0 30px rgba(0, 255, 136, 0.4),
+        inset 0 0 30px rgba(0, 255, 136, 0.2);
+    background: rgba(0, 20, 10, 0.9);
+}
+
+.cta-square-btn:hover::before {
+    left: 100%;
+    transition: 0.7s ease-in-out;
+}
+
+.cta-square-btn:hover .btn-text {
+    text-shadow:
+        0 0 10px #00ff88,
+        0 0 20px #00ff88;
+}
+
+/* Connect the hooks visually on hover */
+.hooked-cta-container:hover .left-hook {
+    width: 60%;
+    background: linear-gradient(90deg, transparent, #00ff88);
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.hooked-cta-container:hover .right-hook {
+    width: 60%;
+    background: linear-gradient(90deg, #00ff88, transparent);
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .cta-square-btn {
+        padding: 18px 30px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-text {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .hook {
+        display: none;
+        /* Hide hooks on mobile for cleaner look */
+    }
+}

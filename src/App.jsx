@@ -19,6 +19,7 @@ import PremiumDashboard from './components/PremiumDashboard';
 import { useAuth } from './components/AuthModal';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import './App.css';
+import './components/HookedCTA.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => (
   <main className="content">
@@ -29,7 +30,6 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
     <section className="hero-section">
       <div className="hero-layout">
         <div className="workflow-section">
-          <AstroWorkflowChart onLoginClick={onLoginClick} />
           <div className="hooked-cta-container">
             <div className="hook left-hook"></div>
             <Link to="/sample" className="cta-square-btn golden-highlight">

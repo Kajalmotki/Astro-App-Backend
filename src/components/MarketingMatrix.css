@@ -1,0 +1,132 @@
+.marketing-matrix-section {
+    padding: 80px 40px 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.circle-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.circle-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.circle-node {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    background: rgba(46, 139, 87, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.circle-node:hover {
+    transform: translateY(-10px) scale(1.05);
+    border-color: #FFD700;
+    background: rgba(46, 139, 87, 0.2);
+    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+}
+
+.node-content h4 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.node-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+.roadmap-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    position: relative;
+}
+
+.roadmap-main-message {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.roadmap-main-message h3 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.roadmap-main-message p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.roadmap-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.roadmap-card {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.roadmap-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #FFD700;
+    transform: translateY(-5px);
+}
+
+.roadmap-card h5 {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.roadmap-card p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .marketing-matrix-section {
+        padding: 60px 20px;
+    }
+
+    .circle-node {
+        width: 200px;
+        height: 200px;
+    }
+
+    .roadmap-steps-grid {
+        grid-template-columns: 1fr;
+    }
+}

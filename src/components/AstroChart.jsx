@@ -77,52 +77,8 @@ const AstroChart = () => {
                 </g>
 
                 {/* Future Mirror Globe */}
-                <g className="mirror-globe">
-                    <defs>
-                        <radialGradient id="globeBase" cx="40%" cy="40%" r="50%">
-                            <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 0.9 }} />
-                            <stop offset="30%" style={{ stopColor: '#FFD700', stopOpacity: 0.6 }} />
-                            <stop offset="100%" style={{ stopColor: '#1a1a2e', stopOpacity: 1 }} />
-                        </radialGradient>
-
-                        <linearGradient id="globeReflection" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style={{ stopColor: '#ffffff', stopOpacity: 0.4 }} />
-                            <stop offset="50%" style={{ stopColor: '#ffffff', stopOpacity: 0 }} />
-                        </linearGradient>
-
-                        <filter id="globeGlow">
-                            <feGaussianBlur stdDeviation="5" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-
-                    {/* Outer Atmosphere/Glow */}
-                    <circle cx="100" cy="100" r="35" fill="none" stroke="var(--primary)" strokeWidth="0.5" opacity="0.2" filter="url(#goldGlow)" />
-
-                    {/* Tech Rings around Globe */}
-                    <g style={{ animation: 'rotate 10s linear infinite', transformOrigin: 'center' }}>
-                        <path d="M70 100 A30 30 0 0 1 130 100" fill="none" stroke="var(--primary)" strokeWidth="0.5" opacity="0.6" strokeDasharray="2,2" />
-                    </g>
-                    <g style={{ animation: 'rotate 15s reverse linear infinite', transformOrigin: 'center' }}>
-                        <path d="M100 70 A30 30 0 0 1 100 130" fill="none" stroke="var(--primary)" strokeWidth="0.5" opacity="0.6" strokeDasharray="1,2" />
-                    </g>
-
-                    {/* Main Globe Body */}
-                    <circle cx="100" cy="100" r="28" fill="url(#globeBase)" filter="url(#globeGlow)" />
-
-                    {/* Mirror Highlight / Reflection */}
-                    <ellipse cx="92" cy="88" rx="12" ry="8" fill="url(#globeReflection)" transform="rotate(-30 92 88)" />
-
-                    {/* Tech Grid on Globe */}
-                    <path d="M75 100 Q100 115 125 100 M75 90 Q100 105 125 90 M75 110 Q100 125 125 110" fill="none" stroke="var(--primary)" strokeWidth="0.2" opacity="0.3" />
-                    <path d="M100 75 Q115 100 100 125 M90 75 Q105 100 90 125 M110 75 Q125 100 110 125" fill="none" stroke="var(--primary)" strokeWidth="0.2" opacity="0.3" />
-
-                    {/* Core Pulse */}
-                    <circle cx="100" cy="100" r="2" fill="#fff" filter="url(#goldGlow)">
-                        <animate attributeName="r" values="1;3;1" dur="2s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-                    </circle>
-                </g>
+                {/* Future Mirror Globe - REMOVED */}
+                {/* <g className="mirror-globe"> ... </g> */}
 
                 {/* Interactive Dots for 21 Questions */}
                 <g>
