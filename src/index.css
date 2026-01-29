@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&display=swap');
 
 :root {
   /* User Requested Palette - Dark Mode Reversion */
@@ -20,14 +20,23 @@
   --text-dim: #C0C0C0;
   --glass: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --font-main: 'Outfit', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+
+  /* Soothing Font System */
+  --font-header: 'Cooper Black', 'Cooper', serif;
+  /* Big, soft headlines */
+  --font-main: 'Montserrat', sans-serif;
+  /* Clean, low-noise body/nav */
+  --font-accent: 'Permanent Marker', cursive;
+  /* Handwritten accent notes */
+
+  --font-serif: var(--font-header);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 body {
@@ -100,7 +109,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-header);
   font-weight: 700;
 }
 

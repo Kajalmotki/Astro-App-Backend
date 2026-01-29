@@ -60,3 +60,33 @@ export const activateMembership = async (userId, paymentDetails = {}) => {
         return false;
     }
 };
+
+export const processDonation = (amount) => {
+    return new Promise((resolve, reject) => {
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: amount * 100, // Razorpay works in paise
+            currency: "INR",
+            name: "AstroRevo",
+            description: "Donation for Website Development",
+            image: "https://firebasestorage.googleapis.com/v0/b/astrorevo-ff.appspot.com/o/logo.png?alt=media", // Using a fallback or user might have one
+            handler: function (response) {
+                resolve(response);
+            },
+            prefill: {
+                name: "",
+                email: "",
+                contact: ""
+            },
+            theme: {
+                color: "#2E8B57"
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+            reject(response.error);
+        });
+        rzp.open();
+    });
+};

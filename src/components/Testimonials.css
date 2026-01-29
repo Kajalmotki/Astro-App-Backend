@@ -1,0 +1,279 @@
+.testimonials-section {
+    padding: 100px 0;
+    /* Removed side padding to allow full-width scroll */
+    background: transparent;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.testimonials-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 3rem;
+    color: var(--text-light);
+    margin-bottom: 60px;
+    padding: 0 20px;
+    text-align: center;
+    font-family: var(--font-serif);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.testimonials-grid {
+    display: flex;
+    /* Changed from grid to flex */
+    overflow-x: auto;
+    /* Enable horizontal scroll */
+    scroll-snap-type: x mandatory;
+    padding: 20px 50px 40px;
+    gap: 30px;
+    width: 100%;
+    margin-bottom: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Scrollbar for the horizontal rail */
+.testimonials-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.testimonials-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 50px;
+    border-radius: 10px;
+}
+
+.testimonials-grid::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.testimonial-card {
+    flex: 0 0 350px;
+    /* Fixed width for cards in rail */
+    scroll-snap-align: center;
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    padding: 40px;
+    border-radius: 24px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 6rem;
+    color: rgba(255, 215, 0, 0.05);
+    font-family: var(--font-serif);
+    line-height: 1;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--primary-hover);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    z-index: 5;
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.testimonial-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-hover);
+    object-fit: cover;
+    padding: 3px;
+}
+
+.testimonial-info h3 {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin: 0;
+    font-family: var(--font-main);
+}
+
+.testimonial-role {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin: 4px 0 0 0;
+}
+
+.testimonial-text {
+    font-size: 1.2rem;
+    /* Slighly larger for script fonts */
+    line-height: 1.4;
+    color: rgba(250, 250, 250, 0.9);
+    flex-grow: 1;
+    font-family: var(--font-accent);
+    /* Handwritten mood */
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-stars {
+    margin-top: 15px;
+    color: var(--primary-hover);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.testimonial-actions {
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.add-testimonial-btn {
+    background: linear-gradient(135deg, var(--primary), #3da369);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(46, 139, 87, 0.3);
+    font-family: var(--font-main);
+}
+
+.add-testimonial-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(46, 139, 87, 0.5);
+    filter: brightness(1.1);
+}
+
+.testimonial-form-container {
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    padding: 40px;
+    border-radius: 32px;
+    border: 1px solid var(--glass-border);
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+.testimonial-form-container h3 {
+    color: var(--text-light);
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: center;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+}
+
+.testimonial-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.testimonial-form input,
+.testimonial-form textarea {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 15px 20px;
+    color: white;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.testimonial-form input:focus,
+.testimonial-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-hover);
+}
+
+.testimonial-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.submit-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-main);
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: var(--primary-hover);
+    color: var(--bg-deep);
+}
+
+.cancel-btn {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--glass-border);
+    padding: 12px 35px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: var(--font-main);
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    .testimonial-card {
+        flex: 0 0 300px;
+        padding: 30px;
+    }
+}

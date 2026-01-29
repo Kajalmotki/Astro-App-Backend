@@ -13,6 +13,8 @@ import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
 import OmRain from './components/OmRain';
 import Footer from './components/Footer';
+import Testimonials from './components/Testimonials';
+import DonationSection from './components/DonationSection';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import './App.css';
 
@@ -37,7 +39,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
       </div>
     </section>
 
-
+    <Testimonials />
 
     <section id="chat-window" className="chat-section">
       <h2 className="section-title">AstroRevo AI Assistant</h2>
@@ -78,6 +80,7 @@ function AppContent() {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/workflow" element={<WorkflowCanvas />} />
       </Routes>
+      <DonationSection />
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
