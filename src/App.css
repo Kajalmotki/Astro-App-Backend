@@ -1866,7 +1866,8 @@
   margin: 40px auto;
   display: flex;
   flex-direction: column;
-  height: 700px;
+  min-height: 600px;
+  height: 100%;
   background: rgba(10, 15, 30, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -2783,7 +2784,8 @@
 
 /* Assistant Showcase Section */
 .assistant-showcase-section {
-  padding: 100px 20px;
+  padding: 180px 20px 120px;
+  /* Increased top padding to clear fixed header */
   background: transparent;
   width: 100%;
   display: flex;
@@ -2793,11 +2795,14 @@
 }
 
 .assistant-layout-container {
-  max-width: 1200px;
+  max-width: 1300px;
+  /* Wider container */
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 450px;
-  gap: 80px;
+  grid-template-columns: 1fr 480px;
+  /* Adjusted columns */
+  gap: 120px;
+  /* More breathing room */
   align-items: center;
 }
 
@@ -2806,39 +2811,42 @@
 }
 
 .side-title {
-  font-size: 3.5rem;
-  margin-bottom: 30px;
+  font-size: 4rem;
+  /* Larger title */
+  margin-bottom: 40px;
   font-family: var(--font-header);
   line-height: 1.1;
+  color: var(--text-light);
 }
 
 .side-text-content {
-  font-size: 1.15rem;
-  line-height: 1.8;
+  font-size: 1.2rem;
+  line-height: 1.9;
   color: var(--text-dim);
   font-family: var(--font-main);
 }
 
 .side-text-content p {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .highlight-text {
   font-family: var(--font-header);
   color: var(--primary-hover);
-  font-size: 1.4rem;
-  margin-bottom: 15px !important;
+  font-size: 1.6rem;
+  margin-bottom: 20px !important;
+  display: block;
 }
 
 .value-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .value-list li {
-  margin-bottom: 15px;
-  padding-left: 30px;
+  margin-bottom: 20px;
+  padding-left: 40px;
   position: relative;
 }
 
@@ -2846,31 +2854,43 @@
   content: '✨';
   position: absolute;
   left: 0;
+  top: 5px;
   color: var(--primary-hover);
+  font-size: 1.2rem;
 }
 
 .value-list li strong {
   color: var(--text-light);
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  font-size: 1.1rem;
 }
 
 /* Mobile Assistant Frame */
 .mobile-assistant-wrapper {
   display: flex;
   justify-content: center;
+  perspective: 1000px;
+  /* Added perspective for depth */
 }
 
 .mobile-frame {
-  width: 360px;
-  height: 720px;
-  background: #111;
-  border-radius: 40px;
-  padding: 12px;
-  border: 4px solid #222;
-  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.1);
+  width: 400px;
+  /* Increased width */
+  height: 850px;
+  /* Increased height as requested */
+  background: #000;
+  border-radius: 50px;
+  padding: 15px;
+  border: 8px solid #1a1a1a;
+  box-shadow:
+    0 50px 100px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(255, 215, 0, 0.1),
+    inset 0 0 2px 2px rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  transform: rotateY(-5deg);
+  /* Slight 3D angle */
 }
 
 .mobile-notch {
@@ -2903,17 +2923,51 @@
   box-shadow: none;
   border: none;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-screen .assistant-header {
+  padding: 15px 20px;
+  /* Smaller header for mobile */
+}
+
+.mobile-screen .assistant-messages {
+  padding: 20px;
+  /* Reduced padding for mobile */
+}
+
+.mobile-screen .assistant-sidebar-notes {
+  display: none;
+  /* Hide notes sidebar in mobile view to prevent overlapping */
+}
+
+.mobile-screen .assistant-input-gate {
+  padding: 15px 20px;
+  /* Smaller input area for mobile */
+}
+
+.mobile-screen .input-wrap {
+  padding: 5px 5px 5px 15px;
+  /* Tighter input wrap */
 }
 
 /* Responsive adjustments */
 @media (max-width: 1100px) {
+  .assistant-showcase-section {
+    padding-top: 220px;
+    /* Even more space on tablet/mobile */
+  }
+
   .assistant-layout-container {
     grid-template-columns: 1fr;
-    gap: 50px;
+    gap: 60px;
   }
 
   .assistant-message-side {
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .value-list li {
