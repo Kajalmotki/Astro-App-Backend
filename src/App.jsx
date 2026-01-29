@@ -56,7 +56,6 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
               <li><strong>Secure Spiritual Cloud:</strong> Save your birth details and notes securely, building a lifetime map of your growth.</li>
               <li><strong>Personalized Remedies:</strong> Receive actionable Vedic solutions tailored specifically to your unique planetary strengths.</li>
             </ul>
-            <p>Our mission is to empower you with the clarity needed to navigate life's complexities with grace and confidence. Your journey is our priority, and we are constantly evolving to bring even deeper cosmic wisdom directly to your fingertips.</p>
           </div>
         </div>
 
