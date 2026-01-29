@@ -2789,9 +2789,28 @@
   background: transparent;
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* Stack header and layout container */
+  align-items: center;
   position: relative;
   z-index: 1;
+}
+
+.assistant-showcase-header {
+  width: 100%;
+  max-width: 1300px;
+  text-align: center;
+  margin-bottom: 80px;
+  /* Space between title and content */
+}
+
+.showcase-title {
+  font-size: 4.5rem;
+  /* Large centered title */
+  margin-bottom: 0;
+  font-family: var(--font-header);
+  line-height: 1.1;
+  color: var(--text-light);
 }
 
 .assistant-layout-container {
@@ -2803,7 +2822,8 @@
   /* Adjusted columns */
   gap: 120px;
   /* More breathing room */
-  align-items: center;
+  align-items: flex-start;
+  /* Align top of items */
 }
 
 .assistant-message-side {
@@ -2866,102 +2886,73 @@
   font-size: 1.1rem;
 }
 
-/* Mobile Assistant Frame */
-.mobile-assistant-wrapper {
+/* Vertical Rectangle Assistant Interface */
+.assistant-rectangle-wrapper {
   display: flex;
   justify-content: center;
-  perspective: 1000px;
-  /* Added perspective for depth */
-}
-
-.mobile-frame {
-  width: 400px;
-  /* Increased width */
-  height: 850px;
-  /* Increased height as requested */
-  background: #000;
-  border-radius: 50px;
-  padding: 15px;
-  border: 8px solid #1a1a1a;
-  box-shadow:
-    0 50px 100px rgba(0, 0, 0, 0.9),
-    0 0 40px rgba(255, 215, 0, 0.1),
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-  transform: rotateY(-5deg);
-  /* Slight 3D angle */
-}
-
-.mobile-notch {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px;
-  height: 30px;
-  background: #111;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  z-index: 10;
-}
-
-.mobile-screen {
   width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  overflow: hidden;
-  background: var(--bg-deep);
-  position: relative;
 }
 
-.mobile-screen .assistant-container {
-  height: 100%;
-  width: 100%;
-  max-width: none !important;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-  background: transparent;
+.assistant-rectangle-wrapper .assistant-container {
+  width: 480px;
+  /* Fixed width for vertical rectangle */
+  height: 800px;
+  /* Height strictly fixed as a tall rectangle */
+  max-width: 100%;
+  background: var(--glass);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  /* Soft edges as requested */
   display: flex;
   flex-direction: column;
+  box-shadow:
+    0 50px 120px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(255, 215, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
 }
 
-.mobile-screen .assistant-header {
-  padding: 15px 20px;
-  /* Smaller header for mobile */
+.assistant-rectangle-wrapper .assistant-container:hover {
+  border-color: var(--primary-hover);
+  box-shadow:
+    0 60px 140px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(255, 215, 0, 0.1);
 }
 
-.mobile-screen .assistant-messages {
-  padding: 20px;
-  /* Reduced padding for mobile */
+.assistant-rectangle-wrapper .assistant-header {
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--glass-border);
 }
 
-.mobile-screen .assistant-sidebar-notes {
+.assistant-rectangle-wrapper .assistant-messages {
+  padding: 25px;
+  flex: 1;
+}
+
+.assistant-rectangle-wrapper .assistant-sidebar-notes {
   display: none;
-  /* Hide notes sidebar in mobile view to prevent overlapping */
+  /* Keep simplified for the vertical rectangle look */
 }
 
-.mobile-screen .assistant-input-gate {
-  padding: 15px 20px;
-  /* Smaller input area for mobile */
-}
-
-.mobile-screen .input-wrap {
-  padding: 5px 5px 5px 15px;
-  /* Tighter input wrap */
+.assistant-rectangle-wrapper .assistant-input-gate {
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--glass-border);
 }
 
 /* Responsive adjustments */
 @media (max-width: 1100px) {
   .assistant-showcase-section {
-    padding-top: 220px;
-    /* Even more space on tablet/mobile */
+    padding-top: 180px;
   }
 
   .assistant-layout-container {
     grid-template-columns: 1fr;
-    gap: 60px;
+    gap: 80px;
   }
 
   .assistant-message-side {
@@ -2978,11 +2969,12 @@
 
 @media (max-width: 768px) {
   .side-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
   }
 
-  .mobile-frame {
-    width: 300px;
-    height: 600px;
+  .assistant-rectangle-wrapper .assistant-container {
+    width: 100%;
+    height: 700px;
+    border-radius: 24px;
   }
 }

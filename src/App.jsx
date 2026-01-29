@@ -42,9 +42,11 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
     <Testimonials />
 
     <section id="chat-window" className="assistant-showcase-section">
+      <div className="assistant-showcase-header">
+        <h2 className="showcase-title gold-text">Always By Your Side, 24/7</h2>
+      </div>
       <div className="assistant-layout-container">
         <div className="assistant-message-side">
-          <h2 className="side-title gold-text">Always By Your Side, 24/7</h2>
           <div className="side-text-content">
             <p>At AstroRevo, we believe that cosmic guidance should never be limited by timezone or availability. Our AI Assistant is crafted to be your eternal companion, standing ready at every sunrise, every midnight, and every moment of doubt in between.</p>
             <p>We are dedicated to supporting our seekers with unwavering commitment. Whether you need a quick planetary check, a moment of spiritual grounding, or a deep dive into your karmic patterns, we are here to provide instant, precise, and empathetic insights.</p>
@@ -58,13 +60,8 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
           </div>
         </div>
 
-        <div className="mobile-assistant-wrapper">
-          <div className="mobile-frame">
-            <div className="mobile-notch"></div>
-            <div className="mobile-screen">
-              <AstroAssistant onLoginClick={onLoginClick} />
-            </div>
-          </div>
+        <div className="assistant-rectangle-wrapper">
+          <AstroAssistant onLoginClick={onLoginClick} />
         </div>
       </div>
     </section>
