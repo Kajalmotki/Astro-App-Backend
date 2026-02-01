@@ -14,6 +14,7 @@ import MembershipModal from './components/MembershipModal';
 
 import OmRain from './components/OmRain';
 import OmPlayer from './components/OmPlayer';
+import ChakraEnergy from './components/ChakraEnergy';
 import Footer from './components/Footer';
 import Testimonials from './components/Testimonials';
 import DonationSection from './components/DonationSection';
@@ -136,6 +137,7 @@ function AppContent() {
     <div className="app-container">
       <OmRain />
       <OmPlayer />
+      <ChakraEnergy />
       <Header
         onLoginClick={() => setIsAuthOpen(true)}
         onMembershipClick={() => setIsDashboardOpen(true)}
