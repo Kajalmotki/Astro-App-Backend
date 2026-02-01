@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import OmPlayer from './OmPlayer';
 import { useAuth } from './AuthModal';
 
 const Header = ({ onLoginClick, onMembershipClick }) => {
@@ -28,9 +27,6 @@ const Header = ({ onLoginClick, onMembershipClick }) => {
     return (
         <header className={`header glass ${isHidden ? 'hidden' : ''}`}>
             <nav className="nav nav-left">
-                <div className="nav-audio">
-                    <OmPlayer />
-                </div>
                 <Link to="/knowledge" className="nav-chat-link desktop-only">Knowledge Source</Link>
                 <Link to="/chat" className="nav-chat-link desktop-only">AI Chat</Link>
             </nav>

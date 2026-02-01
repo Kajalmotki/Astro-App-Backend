@@ -57,9 +57,14 @@ const OmRain = () => {
             }
 
             draw() {
-                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                // Shining effect
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = '#32CD32'; // Lime Green glow
+                // Dark Bottle Green
+                ctx.fillStyle = `rgba(0, 106, 78, ${this.opacity + 0.2})`;
                 ctx.font = `${this.size}px serif`;
                 ctx.fillText('ॐ', this.x, this.y);
+                ctx.shadowBlur = 0;
             }
         }
 

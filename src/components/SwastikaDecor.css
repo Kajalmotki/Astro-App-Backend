@@ -1,0 +1,77 @@
+/* Swastika Decorative Elements */
+.swastika-left,
+.swastika-right {
+    position: fixed;
+    top: 20px;
+    width: 80px;
+    height: 80px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rotateClockwise 20s linear infinite;
+}
+
+.swastika-left {
+    left: 20px;
+}
+
+.swastika-right {
+    right: 20px;
+}
+
+.swastika-symbol {
+    font-size: 60px;
+    font-family: 'GT Ultra', 'Playfair Display', serif;
+    font-weight: 700;
+    color: rgba(139, 0, 0, 0.7);
+    text-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
+    position: absolute;
+    line-height: 1;
+}
+
+.swastika-dots {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #FF0000;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+/* Position dots in the spaces between swastika arms */
+.dot-1 {
+    top: 28%;
+    left: 28%;
+}
+
+.dot-2 {
+    top: 28%;
+    right: 28%;
+}
+
+.dot-3 {
+    bottom: 28%;
+    right: 28%;
+}
+
+.dot-4 {
+    bottom: 28%;
+    left: 28%;
+}
+
+@keyframes rotateClockwise {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
