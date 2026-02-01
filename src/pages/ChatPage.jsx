@@ -176,17 +176,16 @@ const ChatPage = () => {
 
             <main className="chat-main-area">
                 <header className="chat-page-header">
-                    <div className="header-bot-info">
+                    <div className="header-center">
                         <div className="bot-avatar-container">
                             <div className="bot-avatar logo-avatar" style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
                             <div className="online-indicator"></div>
                         </div>
-                        <div className="header-text">
-                            <h3>{user?.displayName || userBirthData?.name || 'Guest'}</h3>
-                            <span>Chart Reading</span>
-                        </div>
                     </div>
-                    <div className="header-actions">
+                    <div className="header-right">
+                        <div className="header-user">
+                            {user?.displayName || userBirthData?.name || 'Guest'}
+                        </div>
                         <button className="header-tool-btn" onClick={() => navigate('/')}>✕</button>
                     </div>
                 </header>

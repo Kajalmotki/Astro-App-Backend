@@ -15,6 +15,91 @@ const PremiumDashboard = ({ isOpen, onClose, user }) => {
         { id: 'settings', label: 'Account Settings', icon: '⚙️' },
     ];
 
+    const exploreSections = [
+        {
+            title: 'Predictions',
+            items: [
+                {
+                    title: 'Period Analysis',
+                    desc: 'Review a chosen time window with focused forecasts and trends.',
+                    premium: true
+                },
+                {
+                    title: 'Samhita Analysis',
+                    desc: 'Compare your chart with notable charts to surface patterns.'
+                }
+            ]
+        },
+        {
+            title: 'Tools',
+            items: [
+                {
+                    title: 'Chart Rectification',
+                    desc: 'Fine‑tune your birth time using life events and astrological markers.'
+                },
+                {
+                    title: 'Events Calibration',
+                    desc: 'Validate accuracy by mapping past events to dasha timelines.'
+                },
+                {
+                    title: 'Zodiac Calibration',
+                    desc: 'Align planetary positions with zodiac precision.'
+                },
+                {
+                    title: 'Biodata Calibration',
+                    desc: 'Refine chart accuracy using personal biodata indicators.'
+                }
+            ]
+        },
+        {
+            title: 'Calculations',
+            items: [
+                {
+                    title: 'Shodashvarga Charts',
+                    desc: 'Explore divisional charts for deeper life‑area insights.'
+                },
+                {
+                    title: 'Ashtakvarga Strength',
+                    desc: 'Assess planetary strength using bindu scoring.'
+                },
+                {
+                    title: 'Shadbala Energy',
+                    desc: 'Measure six‑fold planetary power across the chart.'
+                },
+                {
+                    title: 'Vimshottari Dasha',
+                    desc: 'Navigate Mahadasha, Antardasha, and Pratyantardasha cycles.'
+                },
+                {
+                    title: 'Shadow Planets',
+                    desc: 'Understand the impact of Rahu, Ketu, and other shadow factors.'
+                }
+            ]
+        },
+        {
+            title: 'Global Tools',
+            items: [
+                {
+                    title: 'Current Transits',
+                    desc: 'Track live planetary movements and their effects.'
+                },
+                {
+                    title: 'Panchang',
+                    desc: 'Daily tithi, nakshatra, yoga, karana, and vaar details.'
+                },
+                {
+                    title: 'Muhuratas',
+                    desc: 'Find auspicious timings for key activities.'
+                },
+                {
+                    title: 'Chart Compatibility',
+                    desc: 'Analyze relationship compatibility using Vedic techniques.',
+                    premium: true
+                }
+            ]
+        }
+    ];
+
     return (
         <div className="dashboard-overlay">
             <div className="dashboard-window glass-card">
@@ -129,15 +214,175 @@ const PremiumDashboard = ({ isOpen, onClose, user }) => {
                             </div>
                         </div>
 
-                        {/* Calculations Section */}
-                        <section className="calculations-preview glass-card">
-                            <h3 className="gold-text">Premium Calculations</h3>
-                            <div className="calc-chips">
-                                <span>Shodashvarga</span>
-                                <span>Ashtakvarga Strength</span>
-                                <span>Shadbala Energy</span>
-                                <span>Vimshottari Dasha</span>
-                                <span>Shadow Planets</span>
+                        {/* Yogas Section */}
+                        <section className="insight-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Yogas in Your Chart</h3>
+                                <p>Highlighted planetary combinations shaping key life themes.</p>
+                            </div>
+                            <div className="yoga-grid">
+                                <div className="yoga-group">
+                                    <h4>Raja Yogas</h4>
+                                    <ul>
+                                        <li>Sukha‑Putra Raja Yoga</li>
+                                        <li>Putra‑Kalatra Raja Yoga</li>
+                                    </ul>
+                                </div>
+                                <div className="yoga-group">
+                                    <h4>Dhana Yogas</h4>
+                                    <ul>
+                                        <li>Dhana‑Labha Yoga</li>
+                                        <li>Putra‑Labha Yoga</li>
+                                    </ul>
+                                </div>
+                                <div className="yoga-group">
+                                    <h4>Conjunction Yogas</h4>
+                                    <ul>
+                                        <li>Budha Aditya Yoga</li>
+                                        <li>Guru Mangal Yoga</li>
+                                        <li>Sun Jupiter Yoga</li>
+                                    </ul>
+                                </div>
+                                <div className="yoga-group">
+                                    <h4>Nabhasa Yogas</h4>
+                                    <ul>
+                                        <li>Kedaara Yoga</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Birth Panchang */}
+                        <section className="panchang-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Birth Panchang</h3>
+                                <p>Key lunar details at your birth moment.</p>
+                            </div>
+                            <div className="panchang-grid">
+                                <div className="panchang-item">
+                                    <span className="panchang-label">🌙 Tithi</span>
+                                    <span className="panchang-value">Trayodashi (Shukla)</span>
+                                </div>
+                                <div className="panchang-item">
+                                    <span className="panchang-label">⭐ Nakshatra</span>
+                                    <span className="panchang-value">Mula</span>
+                                </div>
+                                <div className="panchang-item">
+                                    <span className="panchang-label">🕉️ Yoga</span>
+                                    <span className="panchang-value">Indra</span>
+                                </div>
+                                <div className="panchang-item">
+                                    <span className="panchang-label">⚡ Karana</span>
+                                    <span className="panchang-value">Kaulava</span>
+                                </div>
+                                <div className="panchang-item">
+                                    <span className="panchang-label">📅 Vaar</span>
+                                    <span className="panchang-value">Monday</span>
+                                </div>
+                            </div>
+                            <div className="panchang-detail">
+                                <div>
+                                    <h4>Sun</h4>
+                                    <p>Sign: Cancer · Rise: 05:47 AM · Set: 07:08 PM</p>
+                                </div>
+                                <div>
+                                    <h4>Moon</h4>
+                                    <p>Sign: Sagittarius · Nakshatra: Mula · Paksha: Shukla</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Vimshottari Timeline */}
+                        <section className="dasha-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Vimshottari Timeline</h3>
+                                <p>Your current dasha stack and progress markers.</p>
+                            </div>
+                            <div className="dasha-grid">
+                                <div className="dasha-card">
+                                    <span className="dasha-label">Mahadasha</span>
+                                    <h4>Venus</h4>
+                                    <p>Feb 2007 – Feb 2027</p>
+                                    <div className="dasha-progress"><span style={{ width: '95%' }} /></div>
+                                </div>
+                                <div className="dasha-card">
+                                    <span className="dasha-label">Antardasha</span>
+                                    <h4>Ketu</h4>
+                                    <p>Dec 2025 – Feb 2027</p>
+                                    <div className="dasha-progress"><span style={{ width: '11%' }} /></div>
+                                </div>
+                                <div className="dasha-card">
+                                    <span className="dasha-label">Pratyantardasha</span>
+                                    <h4>Venus</h4>
+                                    <p>Jan 2026 – Mar 2026</p>
+                                    <div className="dasha-progress"><span style={{ width: '30%' }} /></div>
+                                </div>
+                            </div>
+                            <div className="dasha-note">
+                                You are in Venus Mahadasha, Ketu Antardasha, Venus Pratyantardasha.
+                            </div>
+                        </section>
+
+                        {/* Current Muhurata */}
+                        <section className="muhurata-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Current Muhurata</h3>
+                                <p>Live auspicious timing with activity suggestions.</p>
+                            </div>
+                            <div className="muhurata-card">
+                                <div className="muhurata-time">00:00 – 01:20</div>
+                                <div className="muhurata-meta">Duration: 1h 20m · Score: 65/100</div>
+                                <div className="muhurata-good">
+                                    <span>🌟 Lifestyle & Leisure</span>
+                                    <span>❤️ Relationships & Family</span>
+                                    <span>🏥 Health & Wellness</span>
+                                </div>
+                                <div className="muhurata-next">Next Muhurata in 41m 54s</div>
+                            </div>
+                        </section>
+
+                        {/* Current Tithi */}
+                        <section className="tithi-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Current Tithi</h3>
+                                <p>Ongoing lunar phase and completion status.</p>
+                            </div>
+                            <div className="tithi-card">
+                                <div>
+                                    <h4>Chaturdashi</h4>
+                                    <p>Shukla Paksha · 11% complete</p>
+                                </div>
+                                <div className="tithi-progress"><span style={{ width: '11%' }} /></div>
+                                <div className="tithi-meta">
+                                    <span>Started: 12:00 AM</span>
+                                    <span>Ends: 05:52 AM</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Explore Your Chart */}
+                        <section className="explore-section glass-card">
+                            <div className="section-header">
+                                <h3 className="gold-text">Explore Your Chart</h3>
+                                <p>All premium tools and insights in one place.</p>
+                            </div>
+                            <div className="explore-grid">
+                                {exploreSections.map((section) => (
+                                    <div key={section.title} className="explore-column">
+                                        <h4>{section.title}</h4>
+                                        <div className="explore-list">
+                                            {section.items.map((item) => (
+                                                <div key={item.title} className="explore-item">
+                                                    <div className="explore-item-title">
+                                                        {item.title}
+                                                        {item.premium && <span className="premium-badge">PRO</span>}
+                                                    </div>
+                                                    <p>{item.desc}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </section>
                     </div>

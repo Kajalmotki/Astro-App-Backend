@@ -5,15 +5,17 @@
     align-items: center;
     justify-content: center;
     margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
     z-index: 10;
     width: 100%;
+    max-width: 800px;
 }
 
 /* The Connecting Laser Beams (Hooks) */
 .hook {
     flex: 1;
-    max-width: 150px;
     height: 1px;
     background: rgba(0, 255, 136, 0.3);
     position: relative;
@@ -68,6 +70,7 @@
     justify-content: center;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 
     /* Cosmic Glow Base */
     box-shadow:

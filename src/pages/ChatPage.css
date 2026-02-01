@@ -1,6 +1,6 @@
 .chat-page-container {
     display: flex;
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     background: #000;
     color: #fff;
@@ -49,13 +49,13 @@
 
 /* Sidebar */
 .chat-sidebar {
-    width: 300px;
+    width: 240px;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(15px);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: 18px 16px;
     z-index: 10;
 }
 
@@ -94,14 +94,15 @@
 .history-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 12px;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     background: rgba(255, 215, 0, 0.05);
     border: 1px solid rgba(255, 215, 0, 0.1);
+    font-size: 0.9rem;
 }
 
 .history-item.active {
@@ -116,19 +117,20 @@
 .sidebar-add-chart-btn {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: 12px;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin: 15px 0 30px 0;
+    margin: 12px 0 24px 0;
     background: #2E8B57;
     border: none;
     color: #fff;
     width: 100%;
     font-weight: 700;
     font-family: inherit;
-    box-shadow: 0 4px 15px rgba(46, 139, 87, 0.2);
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.2);
 }
 
 .sidebar-add-chart-btn:hover {
@@ -147,11 +149,12 @@
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #888;
-    padding: 10px;
+    padding: 8px 10px;
     border-radius: 8px;
     cursor: pointer;
     width: 100%;
     transition: all 0.3s ease;
+    font-size: 0.85rem;
 }
 
 .back-btn:hover {
@@ -162,6 +165,7 @@
 /* Main Area */
 .chat-main-area {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     background: transparent;
@@ -169,22 +173,44 @@
 }
 
 .chat-page-header {
-    height: 80px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 30px;
+    padding: 0 24px;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 215, 0, 0.1);
     position: relative;
 }
 
-.header-bot-info {
-    display: flex;
-    flex-direction: column;
+.chat-page-header .header-center {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+}
+
+.header-title span {
+    font-size: 0.9rem;
+    color: #cfcfcf;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-right {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-user {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
 }
 
 .bot-avatar-container {
@@ -223,30 +249,9 @@
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
 
-.header-text {
-    text-align: center;
-}
-
-.header-text h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.5px;
-}
-
-.header-text span {
-    font-size: 0.75rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 .header-actions {
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
+    transform: none;
 }
 
 .header-tool-btn {
@@ -274,8 +279,8 @@
 .question-carousel {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 20px 30px;
+    gap: 12px;
+    padding: 14px 20px;
     background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
@@ -578,6 +583,17 @@
     }
 
     .chat-page-header {
-        padding: 0 15px;
+        padding: 0 12px;
+        justify-content: flex-start !important;
+    }
+
+    .chat-page-header .header-center {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding-left: 12px;
+        margin: 0;
+        justify-content: flex-start;
     }
 }

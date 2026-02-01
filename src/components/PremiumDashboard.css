@@ -302,6 +302,267 @@
     gap: 30px;
 }
 
+/* Premium Content Sections */
+.insight-section,
+.panchang-section,
+.dasha-section,
+.muhurata-section,
+.tithi-section,
+.explore-section {
+    padding: 30px;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.section-header p {
+    color: var(--text-dim);
+    margin: 0;
+}
+
+.yoga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.yoga-group {
+    background: rgba(10, 10, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.yoga-group h4 {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    color: var(--primary-hover);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.yoga-group ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.panchang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.panchang-item {
+    background: rgba(10, 10, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.panchang-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+}
+
+.panchang-value {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.panchang-detail {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.panchang-detail h4 {
+    margin: 0 0 6px;
+    color: var(--primary-hover);
+}
+
+.panchang-detail p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.dasha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.dasha-card {
+    background: rgba(10, 10, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dasha-card h4 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.dasha-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+}
+
+.dasha-progress {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.dasha-progress span {
+    display: block;
+    height: 100%;
+    background: var(--primary);
+}
+
+.dasha-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(46, 139, 87, 0.12);
+    border-radius: 12px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.muhurata-card,
+.tithi-card {
+    background: rgba(10, 10, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.muhurata-time {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.muhurata-meta,
+.muhurata-next {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.muhurata-good {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.muhurata-good span {
+    background: rgba(46, 139, 87, 0.12);
+    border: 1px solid rgba(46, 139, 87, 0.3);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+.tithi-progress {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.tithi-progress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(46, 139, 87, 0.6), var(--primary));
+}
+
+.tithi-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.explore-column {
+    background: rgba(10, 10, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.explore-column h4 {
+    margin: 0 0 12px;
+    color: var(--primary-hover);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+.explore-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.explore-item {
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.explore-item-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.explore-item p {
+    margin: 6px 0 0;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+}
+
+.premium-badge {
+    background: var(--primary-hover);
+    color: var(--bg-deep);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
 .widget-card {
     padding: 30px;
     display: flex;
@@ -455,33 +716,7 @@
     color: var(--text-dim);
 }
 
-/* Calculations Chip Area */
-.calculations-preview {
-    padding: 30px;
-}
-
-.calc-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.calc-chips span {
-    background: rgba(46, 139, 87, 0.1);
-    border: 1px solid rgba(46, 139, 87, 0.3);
-    color: var(--text-light);
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.calc-chips span:hover {
-    background: var(--primary);
-    border-color: var(--primary-hover);
-}
+/* Calculations Chip Area (legacy) */
 
 @media (max-width: 1024px) {
     .dashboard-sidebar {

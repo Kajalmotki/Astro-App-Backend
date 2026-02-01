@@ -20,7 +20,12 @@ const AstroAssistant = ({ onLoginClick }) => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    useEffect(scrollToBottom, [messages, isTyping]);
+    useEffect(() => {
+        // Only scroll when messages change, not on initial mount
+        if (messages.length > 1) {
+            scrollToBottom();
+        }
+    }, [messages, isTyping]);
 
     const handleSend = async (text = inputValue) => {
         if (!text.trim()) return;
