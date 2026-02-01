@@ -1,31 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&display=swap');
 
 :root {
-  /* User Requested Palette - Dark Mode Reversion */
-  --primary: #2E8B57;
-  /* Emerald Green */
-  --primary-hover: #FFD700;
-  /* Golden Radiance */
-  --text-light: #FAFAFA;
-  /* Moonlight White (Text/Headings) */
-  --bg-deep: #0B132B;
-  /* Deep Space Navy */
+  /* Classic Green & Cream Palette */
+  --primary: #2D5016;
+  /* Forest Green */
+  --primary-hover: #4A7C2C;
+  /* Lighter Forest Green */
+  --text-light: #2C2C2C;
+  /* Dark Charcoal (Text) */
+  --bg-deep: #F5F1E8;
+  /* Warm Cream */
 
   /* Supporting palette */
-  --primary-glow: rgba(46, 139, 87, 0.3);
-  --secondary: #1c2541;
-  --accent: #1E90FF;
-  --bg-mid: #161b33;
-  --bg-dark: #050a14;
-  --text-dim: #C0C0C0;
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --primary-glow: rgba(45, 80, 22, 0.2);
+  --secondary: #E8DCC4;
+  --accent: #B8956F;
+  --bg-mid: #FAF7F0;
+  --bg-dark: #F0EBE3;
+  --text-dim: #6B6B6B;
+  --glass: rgba(45, 80, 22, 0.08);
+  --glass-border: rgba(45, 80, 22, 0.15);
 
   /* Soothing Font System */
-  --font-header: 'Cooper Black', 'Cooper', serif;
-  /* Big, soft headlines */
+  --font-header: 'Montserrat', sans-serif;
+  /* Clean, elegant headlines */
   --font-main: 'Montserrat', sans-serif;
-  /* Clean, low-noise body/nav */
+  /* Clean body/nav */
   --font-accent: 'Permanent Marker', cursive;
   /* Handwritten accent notes */
 
@@ -65,11 +65,11 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  background: linear-gradient(135deg, rgba(45, 80, 22, 0.06), rgba(184, 149, 111, 0.04));
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(45, 80, 22, 0.15);
   border-radius: 32px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
 }
 
 /* Animations */
@@ -89,15 +89,15 @@ body {
 
 @keyframes pulse-gold {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(184, 149, 111, 0.4);
   }
 
   70% {
-    box-shadow: 0 0 0 20px rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 20px rgba(184, 149, 111, 0);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    box-shadow: 0 0 0 0 rgba(184, 149, 111, 0);
   }
 }
 
@@ -110,15 +110,16 @@ h1,
 h2,
 h3 {
   font-family: var(--font-header);
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .gold-text {
-  background: linear-gradient(to bottom, #FFD700 0%, #B8860B 100%);
+  background: linear-gradient(to bottom, #B8956F 0%, #8B7355 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 @keyframes pulse-glow {
@@ -128,7 +129,7 @@ h3 {
   }
 
   50% {
-    box-shadow: 0 0 20px var(--primary), 0 0 10px gold;
+    box-shadow: 0 0 20px var(--primary), 0 0 10px rgba(184, 149, 111, 0.6);
     transform: scale(1.05);
   }
 
@@ -153,7 +154,7 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(45, 80, 22, 0.3);
   border-radius: 10px;
 }
 

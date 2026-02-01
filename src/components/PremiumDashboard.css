@@ -20,8 +20,8 @@
     display: flex;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(45, 80, 22, 0.2);
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.3);
     background: var(--bg-deep);
 }
 
@@ -594,7 +594,7 @@
 }
 
 .grid-line {
-    background: rgba(255, 215, 0, 0.1);
+    background: rgba(45, 80, 22, 0.1);
     position: absolute;
 }
 
