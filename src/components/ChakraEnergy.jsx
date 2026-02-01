@@ -3,13 +3,13 @@ import './ChakraEnergy.css';
 
 const ChakraEnergy = () => {
     const chakras = [
-        { name: 'Sahasrara', color: '#9B59B6', symbol: '☸' },
-        { name: 'Ajna', color: '#6C5CE7', symbol: '◉' },
-        { name: 'Vishuddha', color: '#3498DB', symbol: '✦' },
-        { name: 'Anahata', color: '#2ECC71', symbol: '✿' },
-        { name: 'Manipura', color: '#F1C40F', symbol: '▽' },
-        { name: 'Svadhisthana', color: '#E67E22', symbol: '◬' },
-        { name: 'Muladhara', color: '#E74C3C', symbol: '◼' }
+        { name: 'Sahasrara', color: '#9B59B6', symbol: '☸', description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' },
+        { name: 'Ajna', color: '#6C5CE7', symbol: '◉', description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' },
+        { name: 'Vishuddha', color: '#3498DB', symbol: '✦', description: 'Throat Chakra - Communication, self-expression, and truth' },
+        { name: 'Anahata', color: '#2ECC71', symbol: '✿', description: 'Heart Chakra - Love, compassion, and emotional balance' },
+        { name: 'Manipura', color: '#F1C40F', symbol: '▽', description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' },
+        { name: 'Svadhisthana', color: '#E67E22', symbol: '◬', description: 'Sacral Chakra - Creativity, passion, and emotional flow' },
+        { name: 'Muladhara', color: '#E74C3C', symbol: '◼', description: 'Root Chakra - Grounding, stability, and survival instincts' }
     ];
 
     return (
@@ -38,6 +38,10 @@ const ChakraEnergy = () => {
                             <div className="chakra-inner">
                                 <span className="chakra-symbol">{chakra.symbol}</span>
                             </div>
+                        </div>
+                        <div className="chakra-tooltip">
+                            <h4>{chakra.name}</h4>
+                            <p>{chakra.description}</p>
                         </div>
                     </div>
                 ))}

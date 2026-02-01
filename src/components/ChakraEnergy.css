@@ -104,6 +104,64 @@
     width: 70px;
     height: 70px;
     animation: fadeInChakra 1s ease-out var(--delay) both;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.chakra-item:hover .chakra-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Chakra Tooltip */
+.chakra-tooltip {
+    position: absolute;
+    left: 90px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-10px);
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--chakra-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    min-width: 250px;
+    max-width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px var(--chakra-color);
+    pointer-events: none;
+}
+
+.chakra-tooltip::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 10px solid var(--chakra-color);
+}
+
+.chakra-tooltip h4 {
+    color: var(--chakra-color);
+    font-family: 'GT Ultra', 'Playfair Display', serif;
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    text-shadow: 0 0 10px var(--chakra-color);
+}
+
+.chakra-tooltip p {
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.4;
 }
 
 @keyframes fadeInChakra {

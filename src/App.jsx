@@ -73,7 +73,6 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
           </button>
           <div className="main-hero-text">
             <h1 className="main-hero-title">Ancient wisdom, Instant clarity</h1>
-            <p className="main-hero-subtitle">Unlock the power of cosmic guidance with AstroRevo</p>
           </div>
         </div>
       </section>
