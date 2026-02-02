@@ -80,6 +80,11 @@ const roadmapSteps = [
 const MarketingMatrix = () => {
     return (
         <section className="marketing-matrix-section">
+            <div className="roadmap-main-message">
+                <h3 className="gold-text">Efficiency Through Cosmic Precision</h3>
+                <p>The AstroRevo Chart isn't just a reading; it's a strategic bypass for the trial-and-error of life. Designed by master Vedic practitioners, this matrix automates the identification of root causes, suggesting the precise questions you need to ask while providing instant, actionable remedies.</p>
+            </div>
+
             <div className="circle-grid">
                 {domainData.map((domain) => (
                     <div key={domain.id} className="circle-wrapper">
@@ -94,10 +99,7 @@ const MarketingMatrix = () => {
             </div>
 
             <div className="roadmap-container">
-                <div className="roadmap-main-message">
-                    <h3 className="gold-text">Efficiency Through Cosmic Precision</h3>
-                    <p>The AstroRevo Chart isn't just a reading; it's a strategic bypass for the trial-and-error of life. Designed by master Vedic practitioners, this matrix automates the identification of root causes, suggesting the precise questions you need to ask while providing instant, actionable remedies.</p>
-                </div>
+
 
                 <div className="roadmap-steps-grid">
                     {roadmapSteps.map((step, i) => (

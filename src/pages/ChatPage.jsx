@@ -8,6 +8,7 @@ import { fetchUserBirthData } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
 import { updateProfile } from 'firebase/auth';
 import logo from '../assets/logo.png';
+import OmPlayer from '../components/OmPlayer';
 import './ChatPage.css';
 
 const PaymentButtonLoader = ({ containerId }) => {
@@ -178,7 +179,7 @@ const ChatPage = () => {
                 <header className="chat-page-header">
                     <div className="header-center">
                         <div className="bot-avatar-container">
-                            <div className="bot-avatar logo-avatar" style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
+                            <OmPlayer />
                             <div className="online-indicator"></div>
                         </div>
                     </div>

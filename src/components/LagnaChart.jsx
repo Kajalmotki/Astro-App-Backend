@@ -28,11 +28,11 @@ const LagnaChart = ({ data }) => {
             <div className="chart-wrapper">
                 <svg viewBox="0 0 400 400" className="varna-chart">
                     {/* Outer Square */}
-                    <rect x="10" y="10" width="380" height="380" fill="none" stroke="var(--primary)" strokeWidth="2" />
+                    <rect x="10" y="10" width="380" height="380" fill="none" stroke="#2E8B57" strokeWidth="2.5" />
 
                     {/* Diamonds */}
-                    <path d="M10 10 L390 390 M390 10 L10 390" stroke="var(--primary)" strokeWidth="1.5" />
-                    <path d="M200 10 L10 200 L200 390 L390 200 Z" fill="none" stroke="var(--primary)" strokeWidth="1.5" />
+                    <path d="M10 10 L390 390 M390 10 L10 390" stroke="#2E8B57" strokeWidth="2" opacity="0.6" />
+                    <path d="M200 10 L10 200 L200 390 L390 200 Z" fill="none" stroke="#2E8B57" strokeWidth="2" />
 
                     {/* House Numbers & Planets */}
                     {/* House 1 (Top Center Diamond) */}

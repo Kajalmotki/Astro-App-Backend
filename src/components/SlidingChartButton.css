@@ -1,0 +1,183 @@
+/* Sliding Chart Button - Slides from behind header on the left side */
+.sliding-chart-button {
+    position: fixed;
+    top: 50%;
+    /* Vertically centered */
+    transform: translateY(-50%);
+    left: 0;
+    width: 180px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #2E8B57, #3BA76D);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-left: none;
+    border-radius: 0 25px 25px 0;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow:
+        0 4px 20px rgba(46, 139, 87, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    z-index: 998;
+    /* Behind header (1000) initially */
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* 3D Setup */
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+
+    /* Initial hidden state - behind header, tucked away */
+    transform: translateY(-50%) translateX(-100%) rotateY(-15deg) scale(0.9);
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sliding-chart-button.visible {
+    /* Slow magical slide from behind header */
+    transform: translateY(-50%) translateX(0) rotateY(0deg) scale(1);
+    opacity: 1;
+    z-index: 999;
+    /* Comes forward after sliding out */
+    animation: slowMagicSlide 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slowMagicSlide {
+    0% {
+        transform: translateY(-50%) translateX(-100%) rotateY(-15deg) scale(0.9);
+        opacity: 0;
+        box-shadow:
+            -30px 0 50px rgba(46, 139, 87, 0.6),
+            0 0 40px rgba(255, 215, 0, 0.3);
+    }
+
+    30% {
+        opacity: 0.5;
+    }
+
+    60% {
+        transform: translateY(-50%) translateX(0) rotateY(3deg) scale(1.02);
+        opacity: 1;
+        box-shadow:
+            0 6px 25px rgba(46, 139, 87, 0.5),
+            0 0 45px rgba(255, 215, 0, 0.4),
+            -15px 0 35px rgba(255, 215, 0, 0.25);
+    }
+
+    85% {
+        transform: translateY(-50%) translateX(0) rotateY(-2deg) scale(0.99);
+    }
+
+    100% {
+        transform: translateY(-50%) translateX(0) rotateY(0deg) scale(1);
+        opacity: 1;
+        box-shadow:
+            0 4px 20px rgba(46, 139, 87, 0.4),
+            0 0 30px rgba(255, 215, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+}
+
+.sliding-chart-button:hover {
+    transform: translateY(-50%) translateX(8px) rotateY(3deg) scale(1.05);
+    background: linear-gradient(135deg, #3BA76D, #2E8B57);
+    border-color: #FFD700;
+    box-shadow:
+        0 6px 30px rgba(46, 139, 87, 0.6),
+        0 0 40px rgba(255, 215, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        -8px 0 25px rgba(255, 215, 0, 0.3);
+}
+
+.sliding-chart-button:active {
+    transform: translateY(-50%) translateX(0) rotateY(0deg) scale(0.98);
+}
+
+.button-text {
+    font-family: 'GT Ultra', 'Playfair Display', serif;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateZ(20px);
+}
+
+.button-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    transform: translateZ(20px);
+}
+
+.sliding-chart-button:hover .button-arrow {
+    transform: translateX(5px) translateZ(20px);
+}
+
+/* Magical shimmer effect when visible */
+.sliding-chart-button.visible::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 215, 0, 0.25),
+            transparent);
+    border-radius: 0 25px 25px 0;
+    opacity: 0;
+    animation: shimmer 4s ease-in-out infinite 1.5s;
+}
+
+@keyframes shimmer {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(100%);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .sliding-chart-button {
+        top: auto;
+        bottom: 80px;
+        transform: translateY(0);
+        width: 160px;
+        height: 45px;
+        font-size: 0.85rem;
+    }
+
+    .sliding-chart-button.visible {
+        transform: translateX(0) rotateY(0deg) scale(1);
+    }
+
+    .sliding-chart-button:hover {
+        transform: translateX(8px) scale(1.05);
+    }
+
+    @keyframes slowMagicSlide {
+        0% {
+            transform: translateX(-100%) rotateY(-15deg) scale(0.9);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateX(0) rotateY(3deg) scale(1.02);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(0) rotateY(0deg) scale(1);
+            opacity: 1;
+        }
+    }
+}

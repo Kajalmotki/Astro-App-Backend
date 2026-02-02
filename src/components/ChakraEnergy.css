@@ -1,9 +1,10 @@
 /* Chakra Energy Visualization */
 .chakra-energy-container {
     position: fixed;
-    left: 10px;
-    top: 0;
-    height: 100vh;
+    left: calc(15% - 60px);
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80vh;
     width: 120px;
     z-index: 500;
     display: flex;
@@ -285,6 +286,8 @@
     .chakra-energy-container {
         left: 10px;
         width: 80px;
+        height: 70vh;
+        transform: translateY(-50%);
     }
 
     .chakra-item {
@@ -294,5 +297,9 @@
 
     .chakra-symbol {
         font-size: 20px;
+    }
+
+    .chakra-tooltip {
+        min-width: 200px;
     }
 }
