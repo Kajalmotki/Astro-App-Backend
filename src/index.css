@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&display=swap');
 
 :root {
-  /* Classic Green & Cream Palette */
-  --primary: #2D5016;
-  /* Forest Green */
-  --primary-hover: #4A7C2C;
-  /* Lighter Forest Green */
-  --text-light: #2C2C2C;
-  /* Dark Charcoal (Text) */
+  /* Forest Green -> Bright Yellow Theme */
+  --primary: #FFD700;
+  /* Gold/Yellow */
+  --primary-hover: #FFE55C;
+  /* Lighter Yellow */
+  --text-light: #FFFFFF;
+  /* White Text */
   --bg-deep: #F5F1E8;
   /* Warm Cream */
 
@@ -17,7 +17,7 @@
   --accent: #B8956F;
   --bg-mid: #FAF7F0;
   --bg-dark: #F0EBE3;
-  --text-dim: #6B6B6B;
+  --text-dim: #E0E0E0;
   --glass: rgba(45, 80, 22, 0.08);
   --glass-border: rgba(45, 80, 22, 0.15);
 
@@ -41,12 +41,26 @@
 
 body {
   font-family: var(--font-main);
-  background: var(--bg-deep);
-  background-attachment: fixed;
-  color: var(--text-light);
+  background: #000000;
+  /* Fallback color */
+  color: #FFFFFF;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+}
+
+.universe-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: url('/milky_way_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
 }
 
 #root {
@@ -111,7 +125,7 @@ h2,
 h3 {
   font-family: var(--font-header);
   font-weight: 600;
-  color: var(--primary);
+  color: #FFFFFF;
 }
 
 .gold-text {

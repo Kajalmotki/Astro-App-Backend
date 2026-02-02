@@ -133,6 +133,7 @@ function AppContent() {
 
   return (
     <div className="app-container">
+      <div className="universe-background" />
       <OmRain />
       <ChakraEnergy />
       <Header

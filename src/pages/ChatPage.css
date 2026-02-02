@@ -123,21 +123,21 @@
     cursor: pointer;
     transition: all 0.3s ease;
     margin: 12px 0 24px 0;
-    background: #2E8B57;
+    background: #FFD700;
     border: none;
-    color: #fff;
+    color: #000;
     width: 100%;
     font-weight: 700;
     font-family: inherit;
     font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
 .sidebar-add-chart-btn:hover {
-    background: #FFD700;
+    background: #FFE55C;
     color: #000;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 .sidebar-add-chart-btn .icon {
@@ -148,7 +148,7 @@
 .back-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #888;
+    color: #FFFFFF;
     padding: 8px 10px;
     border-radius: 8px;
     cursor: pointer;
@@ -243,10 +243,10 @@
     right: 0;
     width: 12px;
     height: 12px;
-    background: #4caf50;
+    background: #FFD700;
     border: 2px solid #000;
     border-radius: 50%;
-    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
 /* Override OmPlayer styles for ChatPage header */
@@ -290,7 +290,7 @@
 .header-tool-btn {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #888;
+    color: #FFFFFF;
     width: 36px;
     height: 36px;
     border-radius: 8px;
@@ -357,7 +357,7 @@
 .carousel-nav {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #888;
+    color: #FFFFFF;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -455,21 +455,21 @@
 .chat-cta-btn {
     display: block;
     margin-top: 15px;
-    background: #2E8B57;
-    color: #FFFFFF;
+    background: #FFD700;
+    color: #000;
     border: none;
     padding: 12px 24px;
     border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
 .chat-cta-btn:hover {
     transform: translateY(-2px);
-    background: #FFD700;
-    box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+    background: #FFE55C;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
 /* Typing Indicator */
@@ -603,7 +603,7 @@
     margin-top: 15px;
     background: transparent;
     border: 1px solid #444;
-    color: #888;
+    color: #FFFFFF;
     padding: 5px 10px;
     font-size: 0.8rem;
     border-radius: 5px;

@@ -57,13 +57,21 @@ const OmRain = () => {
             }
 
             draw() {
-                // Shining effect
-                ctx.shadowBlur = 4;
-                ctx.shadowColor = '#32CD32'; // Lime Green glow
-                // Dark Bottle Green
-                ctx.fillStyle = `rgba(0, 106, 78, ${this.opacity + 0.2})`;
+                // Star-like shining effect with pulsing
+                const pulse = Math.sin(Date.now() * 0.003 + this.x) * 0.3 + 0.7;
+                const glowIntensity = 15 + Math.sin(Date.now() * 0.005 + this.y) * 10;
+
+                ctx.shadowBlur = glowIntensity;
+                ctx.shadowColor = `rgba(255, 255, 255, ${pulse})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * pulse})`;
                 ctx.font = `${this.size}px serif`;
                 ctx.fillText('ॐ', this.x, this.y);
+
+                // Add extra sparkle
+                ctx.shadowBlur = glowIntensity * 1.5;
+                ctx.shadowColor = `rgba(200, 220, 255, ${pulse * 0.5})`;
+                ctx.fillText('ॐ', this.x, this.y);
+
                 ctx.shadowBlur = 0;
             }
         }
