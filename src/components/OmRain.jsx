@@ -17,8 +17,8 @@ const OmRain = () => {
         resize();
 
         const particles = [];
-        const particleCount = 800; // Dense enough for vertical lines
-        const lineCount = 12; // Number of vertical "paths" or lines
+        const particleCount = 60; // Increased for better visibility
+        const columnCount = 10; // Number of vertical columns
 
         class Particle {
             constructor() {
@@ -26,53 +26,52 @@ const OmRain = () => {
             }
 
             init() {
-                // Determine which vertical line this particle belongs to
-                this.lineIndex = Math.floor(Math.random() * lineCount);
-                const lineSpacing = canvas.width / (lineCount + 1);
+                // Determine which column this particle belongs to
+                this.columnIndex = Math.floor(Math.random() * columnCount);
+                const columnSpacing = canvas.width / (columnCount + 1);
 
-                // Start from the bottom (footer area) with slight horizontal jitter within the line
-                this.x = (this.lineIndex + 1) * lineSpacing + (Math.random() - 0.5) * 30;
-                this.y = canvas.height + Math.random() * 200;
+                // Start from the bottom
+                this.x = (this.columnIndex + 1) * columnSpacing + (Math.random() - 0.5) * 40;
+                this.y = canvas.height + (Math.random() * 100);
 
-                // Speed is upward (-vy)
-                this.vx = (Math.random() - 0.5) * 0.2; // Very stable vertical movement
-                this.vy = -(0.5 + Math.random() * 1.5); // Upward speed
+                // Slower, smoother upward speed
+                this.vx = (Math.random() - 0.5) * 0.05; // Very minimal horizontal drift
+                this.vy = -(0.3 + Math.random() * 0.4); // Gentle upward speed (NEGATIVE = UP)
 
-                this.size = 6 + Math.random() * 8;
-                this.opacity = Math.random() * 0.4 + 0.1;
-                this.life = 1;
-                this.decay = 0.0005 + Math.random() * 0.001; // Slower decay for long travel
+                this.size = 10 + Math.random() * 8; // Small size (10px to 18px)
+                this.opacity = Math.random() * 0.4 + 0.4; // Brighter opacity
+                // No rotation
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
 
-                // Simple sine wave for a gentle "drift" while going up
-                this.x += Math.sin(this.y * 0.01) * 0.3;
+                // Gentle horizontal sway
+                this.x += Math.sin(this.y * 0.008) * 0.2;
 
+                // Reset when particle goes above screen
                 if (this.y < -50) {
                     this.init();
                 }
             }
 
             draw() {
-                // Star-like shining effect with pulsing
-                const pulse = Math.sin(Date.now() * 0.003 + this.x) * 0.3 + 0.7;
-                const glowIntensity = 15 + Math.sin(Date.now() * 0.005 + this.y) * 10;
+                ctx.save();
 
-                ctx.shadowBlur = glowIntensity;
-                ctx.shadowColor = `rgba(255, 255, 255, ${pulse})`;
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * pulse})`;
-                ctx.font = `${this.size}px serif`;
-                ctx.fillText('ॐ', this.x, this.y);
+                // Move to particle position (no rotation)
+                ctx.translate(this.x, this.y);
 
-                // Add extra sparkle
-                ctx.shadowBlur = glowIntensity * 1.5;
-                ctx.shadowColor = `rgba(200, 220, 255, ${pulse * 0.5})`;
-                ctx.fillText('ॐ', this.x, this.y);
+                // Enhanced glow for better visibility
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = `rgba(200, 220, 255, ${this.opacity * 0.8})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.font = `bold ${this.size}px serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('ॐ', 0, 0);
 
-                ctx.shadowBlur = 0;
+                ctx.restore();
             }
         }
 
@@ -81,12 +80,15 @@ const OmRain = () => {
         }
 
         const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Slightly transparent clear for subtle trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach(p => {
                 p.update();
                 p.draw();
             });
+
             animationFrameId = requestAnimationFrame(animate);
         };
 
@@ -109,7 +111,7 @@ const OmRain = () => {
                 height: '100%',
                 pointerEvents: 'none',
                 zIndex: 0,
-                opacity: 0.6
+                opacity: 0.7
             }}
         />
     );

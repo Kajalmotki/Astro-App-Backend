@@ -21,6 +21,7 @@ import PremiumDashboard from './components/PremiumDashboard';
 import { useAuth } from './components/AuthModal';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import VedicInfoSection from './components/VedicInfoSection';
+import StarfieldBackground from './components/StarfieldBackground';
 import './App.css';
 import './components/HookedCTA.css';
 
@@ -136,7 +137,7 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <div className="universe-background" />
+      <StarfieldBackground />
       <OmRain />
       <ChakraEnergy />
       <Header

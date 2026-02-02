@@ -22,11 +22,11 @@
   --glass-border: rgba(45, 80, 22, 0.15);
 
   /* Soothing Font System */
-  --font-header: 'Montserrat', sans-serif;
+  --font-header: 'GT Ultra', 'Playfair Display', serif;
   /* Clean, elegant headlines */
-  --font-main: 'Montserrat', sans-serif;
+  --font-main: 'GT Ultra', 'Playfair Display', serif;
   /* Clean body/nav */
-  --font-accent: 'Permanent Marker', cursive;
+  --font-accent: 'GT Ultra', 'Playfair Display', serif;
   /* Handwritten accent notes */
 
   --font-serif: var(--font-header);
@@ -49,18 +49,9 @@ body {
   position: relative;
 }
 
+/* StarfieldBackground component now handles the animated background */
 .universe-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  background-image: url('/milky_way_bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  pointer-events: none;
+  display: none;
 }
 
 #root {
@@ -174,4 +165,192 @@ h3 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
+}
+
+/* Liquid Water Animation Button */
+.liquid-btn {
+  position: relative;
+  background: #0a0a1a !important;
+  /* Force override cta-btn default */
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #FFFFFF !important;
+  overflow: hidden;
+  z-index: 1;
+  /* Use flex to center text if needed, though cta-btn might handle it */
+}
+
+/* Liquid Wave Layer 1 - Bottom wave */
+.liquid-btn::before {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(0deg,
+      #FF0000 0%,
+      /* Red */
+      #FF7F00 16%,
+      /* Orange */
+      #FFFF00 32%,
+      /* Yellow */
+      #00FF00 48%,
+      /* Green */
+      #0000FF 64%,
+      /* Blue */
+      #4B0082 80%,
+      /* Indigo */
+      #9400D3 100%
+      /* Violet */
+    );
+  background-size: 100% 200%;
+  border-radius: 40%;
+  animation:
+    liquidWaveSmall 6s ease-in-out infinite,
+    waterFillSmall 10s linear infinite;
+  opacity: 0.9;
+  transform-origin: center center;
+  z-index: -2;
+}
+
+/* Liquid Wave Layer 2 - Top shimmer wave */
+.liquid-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(0deg,
+      rgba(255, 0, 0, 0.7) 0%,
+      rgba(255, 127, 0, 0.7) 16%,
+      rgba(255, 255, 0, 0.7) 32%,
+      rgba(0, 255, 0, 0.7) 48%,
+      rgba(0, 0, 255, 0.7) 64%,
+      rgba(75, 0, 130, 0.7) 80%,
+      rgba(148, 0, 211, 0.7) 100%);
+  background-size: 100% 200%;
+  border-radius: 45%;
+  animation:
+    liquidWaveSmall2 5s ease-in-out infinite,
+    waterFillSmall 10s linear infinite reverse;
+  opacity: 0.6;
+  transform-origin: center center;
+  z-index: -1;
+}
+
+@keyframes liquidWaveSmall {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(180deg) translateY(0);
+  }
+
+  100% {
+    transform: rotate(360deg) translateY(0);
+  }
+}
+
+@keyframes liquidWaveSmall2 {
+  0% {
+    transform: rotate(0deg) translateY(2px);
+  }
+
+  50% {
+    transform: rotate(-180deg) translateY(-2px);
+  }
+
+  100% {
+    transform: rotate(-360deg) translateY(2px);
+  }
+}
+
+@keyframes waterFillSmall {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 0% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.liquid-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+/* Green Shine Button with 3D Effect */
+.green-shine-btn {
+  position: relative;
+  padding: 20px 50px;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  color: #FFFFFF;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  /* 3D Effect */
+  box-shadow:
+    0 8px 15px rgba(46, 204, 113, 0.4),
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+
+  transform: translateY(0);
+}
+
+/* White Shine Animation */
+.green-shine-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg,
+      transparent 0%,
+      transparent 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      transparent 60%,
+      transparent 100%);
+  animation: whiteShine 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes whiteShine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(30deg);
+  }
+
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(30deg);
+  }
+}
+
+.green-shine-btn:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 25px rgba(46, 204, 113, 0.5),
+    0 6px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.green-shine-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 4px 10px rgba(46, 204, 113, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }

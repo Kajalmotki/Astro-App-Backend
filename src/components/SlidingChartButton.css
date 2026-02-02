@@ -11,8 +11,8 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background: linear-gradient(135deg, #FFD700, #F4D03F);
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: #0a0a1a;
+    border: 2px solid rgba(255, 255, 255, 0.4);
     border-right: none;
     border-radius: 25px 0 0 25px;
     color: #FFFFFF;
@@ -20,19 +20,18 @@
     font-size: 0.95rem;
     text-decoration: none;
     box-shadow:
-        0 4px 20px rgba(255, 215, 0, 0.4),
-        0 0 30px rgba(255, 215, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(0, 0, 0, 0.2),
+        0 0 40px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(255, 255, 255, 0.2);
     z-index: 998;
     cursor: pointer;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 0 25px;
-    /* Added padding to fix boundary issue */
     width: auto;
-    /* Allow auto width for content */
     min-width: 220px;
-    /* Increased min-width */
+    overflow: hidden;
 
     perspective: 1000px;
     transform-style: preserve-3d;
@@ -42,6 +41,147 @@
     transform: translateY(-50%) translateX(-50px);
     opacity: 0;
     transition: all 0.5s ease;
+
+    /* White glowing aura animation */
+    animation: whiteAuraGlow 3s ease-in-out infinite;
+}
+
+@keyframes whiteAuraGlow {
+
+    0%,
+    100% {
+        box-shadow:
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(255, 255, 255, 0.3),
+            0 0 50px rgba(255, 255, 255, 0.2),
+            0 0 70px rgba(255, 255, 255, 0.15);
+    }
+
+    50% {
+        box-shadow:
+            0 4px 20px rgba(0, 0, 0, 0.4),
+            0 0 40px rgba(255, 255, 255, 0.5),
+            0 0 70px rgba(255, 255, 255, 0.4),
+            0 0 100px rgba(255, 255, 255, 0.3),
+            0 0 130px rgba(255, 255, 255, 0.2);
+    }
+}
+
+
+/* Water Wave Background - Deep Ocean Layer */
+.sliding-chart-button::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 400%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse 80px 60px at 25% 80%,
+            rgba(30, 85, 148, 0.9) 0%,
+            rgba(30, 85, 148, 0.5) 40%,
+            transparent 50%),
+        radial-gradient(ellipse 80px 60px at 75% 70%,
+            rgba(21, 62, 114, 0.8) 0%,
+            rgba(21, 62, 114, 0.4) 40%,
+            transparent 50%),
+        linear-gradient(to top,
+            rgba(21, 62, 114, 0.9) 0%,
+            rgba(30, 85, 148, 0.6) 50%,
+            transparent 100%);
+    background-size: 25% 100%;
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    animation: oceanWaveFlow 8s linear infinite;
+    z-index: -3;
+}
+
+/* Water Splash/Foam Layer */
+.sliding-chart-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -100%;
+    width: 400%;
+    height: 120%;
+    background:
+        radial-gradient(circle at 20% 90%,
+            rgba(255, 255, 255, 0.6) 0%,
+            rgba(255, 255, 255, 0.3) 30%,
+            transparent 40%),
+        radial-gradient(circle at 60% 85%,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 35%),
+        radial-gradient(circle at 40% 95%,
+            rgba(200, 230, 255, 0.4) 0%,
+            transparent 30%);
+    background-size: 25% 100%;
+    background-repeat: repeat-x;
+    animation: foamSplash 6s linear infinite;
+    z-index: -2;
+}
+
+@keyframes oceanWaveFlow {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-25%) translateY(-3px);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes foamSplash {
+    0% {
+        transform: translateX(0) scale(1, 1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateX(-25%) scale(1.1, 1.15);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1, 1);
+        opacity: 0.8;
+    }
+}
+
+/* Water Droplets Container */
+.sliding-chart-button .water-droplet {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, rgba(200, 230, 255, 0.9) 0%, rgba(100, 180, 255, 0.6) 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    animation: dropletFall var(--fall-duration, 1.5s) ease-in forwards;
+    opacity: 0;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes dropletFall {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.5);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.3);
+    }
 }
 
 .sliding-chart-button.visible {
@@ -49,7 +189,7 @@
     transform: translateY(-50%) translateX(0);
     opacity: 1;
     z-index: 999;
-    animation: slideInsideOut 1.5s ease-out forwards, chakraFlow3D 14s infinite linear;
+    animation: slideInsideOut 1.5s ease-out forwards;
 }
 
 .sliding-chart-button .button-text {
@@ -81,122 +221,46 @@
     }
 }
 
-@keyframes chakraFlow3D {
-    0% {
-        background: linear-gradient(135deg, #E74C3C, #C0392B);
-        /* Muladhara - Red */
-        box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4), 0 0 30px rgba(231, 76, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(231, 76, 60, 0.5);
-    }
-
-    14% {
-        background: linear-gradient(135deg, #E67E22, #D35400);
-        /* Svadhisthana - Orange */
-        box-shadow: 0 4px 20px rgba(230, 126, 34, 0.4), 0 0 30px rgba(230, 126, 34, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(230, 126, 34, 0.5);
-    }
-
-    28% {
-        background: linear-gradient(135deg, #FFD700, #F4D03F);
-        /* Manipura - Yellow */
-        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5), 0 0 35px rgba(255, 215, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(255, 215, 0, 0.6);
-    }
-
-    42% {
-        background: linear-gradient(135deg, #2ECC71, #27AE60);
-        /* Anahata - Green */
-        box-shadow: 0 4px 20px rgba(46, 204, 113, 0.4), 0 0 30px rgba(46, 204, 113, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(46, 204, 113, 0.5);
-    }
-
-    56% {
-        background: linear-gradient(135deg, #3498DB, #2980B9);
-        /* Vishuddha - Blue */
-        box-shadow: 0 4px 20px rgba(52, 152, 219, 0.4), 0 0 30px rgba(52, 152, 219, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(52, 152, 219, 0.5);
-    }
-
-    70% {
-        background: linear-gradient(135deg, #9B59B6, #8E44AD);
-        /* Ajna - Indigo */
-        box-shadow: 0 4px 20px rgba(155, 89, 182, 0.4), 0 0 30px rgba(155, 89, 182, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(155, 89, 182, 0.5);
-    }
-
-    84% {
-        background: linear-gradient(135deg, #E91E63, #C2185B);
-        /* Sahasrara - Violet/Pink */
-        box-shadow: 0 4px 20px rgba(233, 30, 99, 0.4), 0 0 30px rgba(233, 30, 99, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(233, 30, 99, 0.5);
-    }
-
-    100% {
-        background: linear-gradient(135deg, #E74C3C, #C0392B);
-        /* Back to Muladhara - Red */
-        box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4), 0 0 30px rgba(231, 76, 60, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        border-color: rgba(231, 76, 60, 0.5);
-    }
+.sliding-chart-button:hover {
+    transform: translateY(-50%) translateX(-8px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow:
+        0 6px 30px rgba(52, 152, 219, 0.5),
+        0 0 40px rgba(30, 85, 148, 0.3),
+        8px 0 25px rgba(21, 62, 114, 0.3);
 }
 
-.sliding-chart-button:hover {
-    transform: translateY(-50%) translateX(-8px) rotateY(-3deg) scale(1.05);
-    background: linear-gradient(135deg, #FFE55C, #FFD700);
-    border-color: #FFFFFF;
-    box-shadow:
-        0 6px 30px rgba(255, 215, 0, 0.6),
-        0 0 40px rgba(255, 215, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        8px 0 25px rgba(255, 215, 0, 0.3);
+.sliding-chart-button:hover::before {
+    animation: surfingWave 2s linear infinite;
+}
+
+.sliding-chart-button:hover::after {
+    animation: surfingWave 1.5s linear infinite reverse;
 }
 
 .sliding-chart-button:active {
-    transform: translateY(-50%) translateX(0) rotateY(0deg) scale(0.98);
+    transform: translateY(-50%) translateX(0) scale(0.98);
 }
 
 .button-text {
     font-family: 'GT Ultra', 'Playfair Display', serif;
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
     transform: translateZ(20px);
+    position: relative;
+    z-index: 5;
 }
 
 .button-arrow {
     font-size: 1.2rem;
     transition: transform 0.3s ease;
     transform: translateZ(20px);
+    position: relative;
+    z-index: 5;
 }
 
 .sliding-chart-button:hover .button-arrow {
     transform: translateX(5px) translateZ(20px);
-}
-
-/* Magical shimmer effect when visible */
-.sliding-chart-button.visible::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(90deg,
-            transparent,
-            rgba(255, 215, 0, 0.25),
-            transparent);
-    border-radius: 25px 0 0 25px;
-    opacity: 0;
-    animation: shimmer 4s ease-in-out infinite 1.5s;
-}
-
-@keyframes shimmer {
-
-    0%,
-    100% {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-
-    50% {
-        opacity: 1;
-        transform: translateX(100%);
-    }
 }
 
 /* Mobile Responsive */

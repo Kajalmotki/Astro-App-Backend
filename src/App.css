@@ -108,7 +108,7 @@
 
 .logo-text {
   font-family: 'GT Ultra', 'Playfair Display', serif;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #FFFFFF;
   letter-spacing: 3px;
@@ -119,33 +119,9 @@
   margin: 0 30px;
   position: relative;
   z-index: 1;
-  overflow: hidden;
   display: inline-block;
 }
 
-.logo-text::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  animation: shine 3s infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-
-@keyframes shine {
-  0% {
-    left: -100%;
-  }
-
-  50%,
-  100% {
-    left: 100%;
-  }
-}
 
 .header-logo {
   height: 65px;
@@ -224,10 +200,12 @@
   display: flex;
   gap: 20px;
   align-items: center;
+  flex-wrap: nowrap;
 }
 
 .nav-left {
   justify-self: start;
+  white-space: nowrap;
 }
 
 .nav-right {

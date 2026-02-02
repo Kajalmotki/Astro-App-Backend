@@ -124,7 +124,7 @@ const VedicInfoSection = () => {
             <div className="vedic-container">
                 {/* Main Header */}
                 <div className="vedic-main-header">
-                    <h1 className="vedic-title">📜 Primary Vedic Source of Astrology</h1>
+                    <h1 className="vedic-title">The Codex from Astronomy</h1>
                 </div>
 
                 {/* Carousel */}

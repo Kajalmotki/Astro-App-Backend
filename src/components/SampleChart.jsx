@@ -48,8 +48,7 @@ const SampleChart = () => {
                         </div>
                         <div className="sample-cta-footer" style={{ marginTop: '60px', textAlign: 'center' }}>
                             <button
-                                className="cta-btn large glow-on-hover"
-                                style={{ padding: '20px 50px', fontSize: '1.2rem' }}
+                                className="green-shine-btn"
                                 onClick={() => setView('details')}
                             >
                                 ✨ Create Your AstroRevo Chart ✨

@@ -61,9 +61,9 @@
 .cta-square-btn {
     position: relative;
     padding: 24px 48px;
-    background: rgba(45, 80, 22, 0.1);
-    border: 1px solid rgba(45, 80, 22, 0.5);
-    border-radius: 4px;
+    background: #0a0a1a;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -71,63 +71,228 @@
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
-
-    /* Glow Base */
-    box-shadow:
-        0 0 20px rgba(0, 0, 0, 0.2),
-        inset 0 0 20px rgba(45, 80, 22, 0.1);
-
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
 }
 
-/* Animated Background */
+/* Liquid Wave Layer 1 - Bottom wave */
+/* Liquid Wave Layer 1 - Bottom wave */
 .cta-square-btn::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-            transparent,
-            rgba(45, 80, 22, 0.2),
-            transparent);
-    transition: 0.5s;
-    transform: skewX(-15deg);
+    bottom: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(0deg,
+            #FF0000 0%,
+            /* Red */
+            #FF7F00 16%,
+            /* Orange */
+            #FFFF00 32%,
+            /* Yellow */
+            #00FF00 48%,
+            /* Green */
+            #0000FF 64%,
+            /* Blue */
+            #4B0082 80%,
+            /* Indigo */
+            #9400D3 100%
+            /* Violet */
+        );
+    background-size: 100% 200%;
+    border-radius: 40%;
+    animation:
+        liquidWave 6s ease-in-out infinite,
+        waterFill 10s linear infinite;
+    opacity: 0.9;
+    transform-origin: center center;
+}
+
+/* Liquid Wave Layer 2 - Top shimmer wave */
+.cta-square-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(0deg,
+            rgba(255, 0, 0, 0.7) 0%,
+            rgba(255, 127, 0, 0.7) 16%,
+            rgba(255, 255, 0, 0.7) 32%,
+            rgba(0, 255, 0, 0.7) 48%,
+            rgba(0, 0, 255, 0.7) 64%,
+            rgba(75, 0, 130, 0.7) 80%,
+            rgba(148, 0, 211, 0.7) 100%);
+    background-size: 100% 200%;
+    border-radius: 45%;
+    animation:
+        liquidWave2 5s ease-in-out infinite,
+        waterFill 10s linear infinite reverse;
+    opacity: 0.6;
+    transform-origin: center center;
+}
+
+@keyframes waterFill {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 0% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+/* Ultra smooth primary wave animation */
+@keyframes liquidWaveUltraSmooth {
+    0% {
+        transform: rotate(0deg) translateY(0) scale(1);
+        border-radius: 42%;
+    }
+
+    12.5% {
+        transform: rotate(45deg) translateY(-2px) scale(1.02);
+        border-radius: 40%;
+    }
+
+    25% {
+        transform: rotate(90deg) translateY(-4px) scale(1.01);
+        border-radius: 44%;
+    }
+
+    37.5% {
+        transform: rotate(135deg) translateY(-2px) scale(1.03);
+        border-radius: 41%;
+    }
+
+    50% {
+        transform: rotate(180deg) translateY(0) scale(1);
+        border-radius: 43%;
+    }
+
+    62.5% {
+        transform: rotate(225deg) translateY(2px) scale(1.02);
+        border-radius: 40%;
+    }
+
+    75% {
+        transform: rotate(270deg) translateY(4px) scale(1.01);
+        border-radius: 45%;
+    }
+
+    87.5% {
+        transform: rotate(315deg) translateY(2px) scale(1.03);
+        border-radius: 41%;
+    }
+
+    100% {
+        transform: rotate(360deg) translateY(0) scale(1);
+        border-radius: 42%;
+    }
+}
+
+/* Ultra smooth secondary wave */
+@keyframes liquidWaveUltraSmooth2 {
+    0% {
+        transform: rotate(0deg) translateY(3px) scale(1.01);
+        border-radius: 48%;
+    }
+
+    12.5% {
+        transform: rotate(-45deg) translateY(2px) scale(1.03);
+        border-radius: 46%;
+    }
+
+    25% {
+        transform: rotate(-90deg) translateY(0) scale(1);
+        border-radius: 49%;
+    }
+
+    37.5% {
+        transform: rotate(-135deg) translateY(-2px) scale(1.02);
+        border-radius: 47%;
+    }
+
+    50% {
+        transform: rotate(-180deg) translateY(-3px) scale(1.01);
+        border-radius: 50%;
+    }
+
+    62.5% {
+        transform: rotate(-225deg) translateY(-2px) scale(1.03);
+        border-radius: 46%;
+    }
+
+    75% {
+        transform: rotate(-270deg) translateY(0) scale(1);
+        border-radius: 48%;
+    }
+
+    87.5% {
+        transform: rotate(-315deg) translateY(2px) scale(1.02);
+        border-radius: 47%;
+    }
+
+    100% {
+        transform: rotate(-360deg) translateY(3px) scale(1.01);
+        border-radius: 48%;
+    }
+}
+
+/* Ultra smooth color flow */
+@keyframes colorFlowUltraSmooth {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 0% 100%;
+    }
 }
 
 /* The Text */
 .btn-text {
     position: relative;
     z-index: 5;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
+    font-family: 'GT Ultra', 'Playfair Display', serif;
+    font-weight: 700;
     font-size: 1.1rem;
-    color: #2D5016;
+    color: #FFFFFF;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 0 10px rgba(45, 80, 22, 0.3);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 /* Hover Effects */
 .cta-square-btn:hover {
-    transform: scale(1.02);
-    border-color: #2D5016;
+    transform: scale(1.05) translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.6);
     box-shadow:
-        0 0 30px rgba(45, 80, 22, 0.4),
-        inset 0 0 30px rgba(45, 80, 22, 0.2);
-    background: rgba(45, 80, 22, 0.2);
+        0 8px 40px rgba(148, 0, 211, 0.5),
+        0 0 60px rgba(0, 255, 0, 0.3);
 }
 
 .cta-square-btn:hover::before {
-    left: 100%;
-    transition: 0.7s ease-in-out;
+    animation:
+        liquidWaveUltraSmooth 6s ease-in-out infinite,
+        colorFlowUltraSmooth 18s linear infinite;
+}
+
+.cta-square-btn:hover::after {
+    animation:
+        liquidWaveUltraSmooth2 5.5s ease-in-out infinite,
+        colorFlowUltraSmooth 18s linear infinite reverse;
 }
 
 .cta-square-btn:hover .btn-text {
     text-shadow:
-        0 0 10px #2D5016,
-        0 0 20px #2D5016;
+        0 0 20px rgba(255, 255, 255, 0.9),
+        0 0 40px rgba(255, 255, 255, 0.5);
 }
 
 /* Connect the hooks visually on hover */
