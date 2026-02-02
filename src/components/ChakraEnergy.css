@@ -3,9 +3,11 @@
     position: fixed;
     left: 20px;
     right: auto;
-    top: 45%;
+    top: 40%;
+    /* Moved up from 45% */
     transform: translateY(-50%);
-    height: 80vh;
+    height: 85vh;
+    /* Increased height for better spacing */
     width: 120px;
     z-index: 500;
     display: flex;
@@ -18,32 +20,37 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 3px;
-    height: 90%;
-    top: 5%;
+    width: 4px;
+    /* Slightly thicker */
+    height: 100%;
+    /* Full height */
+    top: 0;
     background: linear-gradient(to top,
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 0.7),
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 0.2));
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            rgba(255, 255, 255, 0.1),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.1));
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    /* Contain smoke */
 }
 
 /* Smoke particles */
 .smoke-particle {
     position: absolute;
-    bottom: 0;
+    bottom: -20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
-    height: 20px;
-    background: radial-gradient(ellipse at center,
-            rgba(255, 255, 255, 0.6) 0%,
-            rgba(255, 255, 255, 0.3) 50%,
-            transparent 100%);
-    filter: blur(2px);
-    animation: smokeRise 4s ease-in infinite;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(to top,
+            transparent,
+            rgba(255, 255, 255, 0.8),
+            transparent);
+    filter: blur(8px);
+    animation: flowUp 2.5s linear infinite;
+    opacity: 0;
 }
 
 .smoke-1 {
@@ -51,40 +58,41 @@
 }
 
 .smoke-2 {
-    animation-delay: 0.8s;
+    animation-delay: 0.5s;
 }
 
 .smoke-3 {
-    animation-delay: 1.6s;
+    animation-delay: 1.0s;
 }
 
 .smoke-4 {
-    animation-delay: 2.4s;
+    animation-delay: 1.5s;
 }
 
 .smoke-5 {
-    animation-delay: 3.2s;
+    animation-delay: 2.0s;
 }
 
-@keyframes smokeRise {
+@keyframes flowUp {
     0% {
-        bottom: 0;
+        bottom: -10%;
         opacity: 0;
-        transform: translateX(-50%) scale(0.5);
+        transform: translateX(-50%) scaleX(0.5);
     }
 
-    10% {
-        opacity: 1;
+    20% {
+        opacity: 0.8;
+        transform: translateX(-50%) scaleX(1);
     }
 
-    90% {
-        opacity: 0.3;
+    80% {
+        opacity: 0.5;
     }
 
     100% {
-        bottom: 100%;
+        bottom: 110%;
         opacity: 0;
-        transform: translateX(-50%) translateX(calc(var(--random, 0) * 10px)) scale(1.5);
+        transform: translateX(-50%) scaleX(0.8);
     }
 }
 

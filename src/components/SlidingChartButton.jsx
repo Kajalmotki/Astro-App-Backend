@@ -9,7 +9,7 @@ const SlidingChartButton = ({ isVisible }) => {
             className={`sliding-chart-button ${isVisible ? 'visible' : ''}`}
             aria-label="View AstroRevo Chart Sample"
         >
-            <span className="button-text">AstroRevo Chart</span>
+            <span className="button-text">The AstroRevo Chart</span>
             <span className="button-arrow">→</span>
         </Link>
     );

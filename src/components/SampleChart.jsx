@@ -3,15 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import QuestionChart from './QuestionChart';
 import BirthDetailsForm from './BirthDetailsForm';
 import FullCustomerChart from './FullCustomerChart';
-import { loadRazorpayButton } from '../services/razorpayService';
-
-const PaymentButtonLoader = ({ containerId, onSuccess, data }) => {
-    useEffect(() => {
-        loadRazorpayButton(containerId);
-        // We simulate success for now as we don't have a real merchant link for automated detection here
-    }, [containerId]);
-    return null;
-};
 
 const SampleChart = () => {
     const navigate = useNavigate();
@@ -80,14 +71,37 @@ const SampleChart = () => {
                             <p className="text-dim" style={{ margin: '20px 0' }}>Unlock the full 52-pathway dashboard for <strong>{userInfo?.name}</strong>.</p>
                             <div className="price-tag" style={{ fontSize: '3rem', fontWeight: '800', color: '#FFD700', marginBottom: '30px' }}>₹99</div>
 
-                            <div id="razorpay-sample-container" className="razorpay-container" style={{ minHeight: '60px' }}></div>
-                            <PaymentButtonLoader containerId="razorpay-sample-container" />
-
-                            <div style={{ marginTop: '20px' }}>
-                                <button className="sim-btn" onClick={handlePaymentSuccess}>
-                                    (Dev: Simulate Payment)
-                                </button>
-                            </div>
+                            <button
+                                className="cta-btn large pulse-glow"
+                                style={{ width: '100%', padding: '16px', fontSize: '1.2rem', justifyContent: 'center', background: '#FFD700', color: '#000' }}
+                                onClick={() => {
+                                    const options = {
+                                        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_YourTestKeyHere",
+                                        amount: 9900, // Amount in paise
+                                        currency: "INR",
+                                        name: "AstroRevo",
+                                        description: "AstroRevo Chart Unlock",
+                                        image: "/vite.svg",
+                                        handler: function (response) {
+                                            // Handle success
+                                            handlePaymentSuccess();
+                                        },
+                                        prefill: {
+                                            name: userInfo?.name || "",
+                                            email: "user@example.com",
+                                            contact: "9999999999"
+                                        },
+                                        theme: {
+                                            color: "#FFD700"
+                                        }
+                                    };
+                                    const rzp1 = new window.Razorpay(options);
+                                    rzp1.open();
+                                }}
+                            >
+                                Pay ₹99 to Unlock
+                            </button>
+                            <p style={{ marginTop: '15px', color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem' }}>Secure payment via Razorpay</p>
                         </div>
                     </div>
                 )}

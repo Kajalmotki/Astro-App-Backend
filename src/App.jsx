@@ -20,6 +20,7 @@ import DonationSection from './components/DonationSection';
 import PremiumDashboard from './components/PremiumDashboard';
 import { useAuth } from './components/AuthModal';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
+import VedicInfoSection from './components/VedicInfoSection';
 import './App.css';
 import './components/HookedCTA.css';
 
@@ -75,6 +76,8 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
           </div>
         </div>
       </section>
+
+      <VedicInfoSection />
 
       <section className="marketing-section">
         <MarketingMatrix />
