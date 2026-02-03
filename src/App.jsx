@@ -12,7 +12,9 @@ import UserOnboarding from './components/UserOnboarding';
 import AuthModal from './components/AuthModal';
 import MembershipModal from './components/MembershipModal';
 
-import OmRain from './components/OmRain';
+import ScrollingTicker from './components/ScrollingTicker';
+
+
 import ChakraEnergy from './components/ChakraEnergy';
 import Footer from './components/Footer';
 import Testimonials from './components/Testimonials';
@@ -78,6 +80,11 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
         </div>
       </section>
 
+
+      <section style={{ margin: '6rem 0' }}>
+        <ScrollingTicker />
+      </section>
+
       <VedicInfoSection />
 
       <section className="marketing-section">
@@ -138,7 +145,7 @@ function AppContent() {
   return (
     <div className="app-container">
       <StarfieldBackground />
-      <OmRain />
+
       <ChakraEnergy />
       <Header
         onLoginClick={() => setIsAuthOpen(true)}

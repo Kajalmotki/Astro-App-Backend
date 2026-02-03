@@ -1,0 +1,256 @@
+.ticker-container {
+    width: 100%;
+    max-width: 1400px;
+    /* Max width for large screens */
+    height: 438px;
+    /* 400px + 38px (1cm) for extra space above circles */
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: linear-gradient(135deg,
+            rgba(11, 19, 43, 0.95) 0%,
+            rgba(20, 30, 60, 0.95) 50%,
+            rgba(11, 19, 43, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    border-top: 2px solid rgba(255, 215, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 90;
+    perspective: 1500px;
+    /* Enable 3D space */
+    box-shadow:
+        0 -10px 40px rgba(255, 215, 0, 0.1),
+        0 10px 40px rgba(255, 215, 0, 0.1),
+        inset 0 0 60px rgba(255, 215, 0, 0.05);
+    margin: 0 auto;
+    /* Center the panel */
+    scroll-behavior: smooth;
+    cursor: grab;
+}
+
+.ticker-container:active {
+    cursor: grabbing;
+}
+
+/* Custom scrollbar styling */
+.ticker-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.ticker-container::-webkit-scrollbar-track {
+    background: rgba(11, 19, 43, 0.5);
+    border-radius: 10px;
+}
+
+.ticker-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.6), rgba(255, 215, 0, 0.3));
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.ticker-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.9), rgba(255, 215, 0, 0.6));
+}
+
+/* Holographic background effect */
+.ticker-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 215, 0, 0.1) 25%,
+            rgba(138, 43, 226, 0.1) 50%,
+            rgba(0, 191, 255, 0.1) 75%,
+            transparent 100%);
+    animation: holographic-sweep 8s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes holographic-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.ticker-track {
+    display: flex;
+    gap: 3rem;
+    white-space: nowrap;
+    transform-style: preserve-3d;
+    z-index: 2;
+    position: relative;
+    padding: 0 2rem;
+    /* No auto-scroll animation - manual scroll only */
+}
+
+.ticker-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    min-width: 350px;
+    width: 350px;
+    height: 350px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: visible;
+    flex-shrink: 0;
+    /* Prevent cards from shrinking */
+    will-change: transform;
+    backface-visibility: hidden;
+
+    /* No box shadow */
+    box-shadow: none;
+}
+
+
+.ticker-card:hover {
+    transform: translateY(-8px) scale(1.05);
+}
+
+
+.ticker-icon-wrapper {
+    width: 280px;
+    /* Original 280px (no change from before +2cm) */
+    height: 280px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+            rgba(255, 215, 0, 0.3) 0%,
+            rgba(255, 215, 0, 0.1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow:
+        0 5px 15px rgba(255, 215, 0, 0.3),
+        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.ticker-card:hover .ticker-icon-wrapper {
+    transform: rotateY(360deg) scale(1.15);
+    background: linear-gradient(135deg,
+            rgba(255, 215, 0, 0.5) 0%,
+            rgba(255, 215, 0, 0.2) 100%);
+    box-shadow:
+        0 8px 25px rgba(255, 215, 0, 0.5),
+        inset 0 2px 5px rgba(255, 255, 255, 0.2);
+}
+
+.ticker-icon-image {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+}
+
+.ticker-card:hover .ticker-icon-image {
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) brightness(1.2);
+}
+
+.ticker-label {
+    font-family: var(--font-header);
+    font-size: 1rem;
+    font-weight: 600;
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+.ticker-card:hover .ticker-label {
+    color: #FFF;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+}
+
+/* Scroll indicators */
+.scroll-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 215, 0, 0.2);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+}
+
+.scroll-indicator:hover {
+    background: rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.scroll-indicator.left {
+    left: 10px;
+}
+
+.scroll-indicator.right {
+    right: 10px;
+}
+
+.scroll-indicator svg {
+    width: 20px;
+    height: 20px;
+    fill: #FFD700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ticker-container {
+        height: 140px;
+        width: 90vw;
+    }
+
+    .ticker-card {
+        min-width: 150px;
+        height: 120px;
+    }
+
+    .ticker-icon-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ticker-icon-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .ticker-label {
+        font-size: 0.75rem;
+    }
+}
