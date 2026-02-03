@@ -555,3 +555,49 @@
         font-size: 1.5rem;
     }
 }
+
+/* Day Mode Overrides for Vedic Info Section */
+[data-theme='light'] .vedic-info-section .carousel-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(26, 60, 52, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .vedic-info-section .card-content p,
+[data-theme='light'] .vedic-info-section .card-list li,
+[data-theme='light'] .vedic-info-section .concepts-table tbody td,
+[data-theme='light'] .vedic-info-section .card-intro {
+    color: var(--text-main) !important;
+}
+
+[data-theme='light'] .vedic-info-section .card-subtitle {
+    color: var(--text-secondary);
+}
+
+[data-theme='light'] .vedic-info-section .card-content h3 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .vedic-info-section .vedic-title {
+    /* Enhance contrast for title on beige */
+    background: linear-gradient(135deg, #1A3C34, #2C5F52);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme='light'] .vedic-info-section .framework-item,
+[data-theme='light'] .vedic-info-section .clarification-inline,
+[data-theme='light'] .vedic-info-section .conclusion-inline {
+    background: rgba(26, 60, 52, 0.05);
+    border-color: rgba(26, 60, 52, 0.1);
+}
+
+[data-theme='light'] .vedic-info-section .carousel-nav {
+    color: var(--text-main);
+    background: rgba(26, 60, 52, 0.1);
+    border-color: rgba(26, 60, 52, 0.2);
+}
+
+[data-theme='light'] .vedic-info-section .conclusion-list li {
+    color: var(--text-main);
+}

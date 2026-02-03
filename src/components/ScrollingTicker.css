@@ -282,3 +282,55 @@
         font-size: 0.75rem;
     }
 }
+
+/* Day Mode Overrides for Scrolling Ticker */
+[data-theme='light'] .ticker-container {
+    background: linear-gradient(135deg, rgba(249, 246, 240, 0.9), rgba(255, 255, 255, 0.8));
+    border-color: rgba(26, 60, 52, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .ticker-container::before {
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(26, 60, 52, 0.05) 50%,
+            transparent 100%);
+}
+
+[data-theme='light'] .ticker-label {
+    color: var(--text-main);
+    /* Dark Green */
+    text-shadow: none;
+}
+
+[data-theme='light'] .ticker-card:hover .ticker-label {
+    color: var(--primary);
+    /* Gold/Dark Gold */
+    text-shadow: none;
+}
+
+[data-theme='light'] .ticker-icon-wrapper {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(249, 246, 240, 1) 100%);
+    border-color: rgba(26, 60, 52, 0.15);
+    box-shadow: 0 4px 15px rgba(26, 60, 52, 0.1);
+}
+
+[data-theme='light'] .ticker-card:hover .ticker-icon-wrapper {
+    background: #FFFFFF;
+    border-color: var(--primary);
+    box-shadow: 0 8px 25px rgba(26, 60, 52, 0.15);
+}
+
+[data-theme='light'] .scroll-indicator {
+    background: rgba(26, 60, 52, 0.1);
+    border-color: rgba(26, 60, 52, 0.2);
+}
+
+[data-theme='light'] .scroll-indicator svg {
+    fill: var(--text-main);
+}
+
+[data-theme='light'] .scroll-indicator:hover {
+    background: rgba(26, 60, 52, 0.2);
+    box-shadow: 0 0 15px rgba(26, 60, 52, 0.15);
+}

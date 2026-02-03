@@ -277,3 +277,69 @@
         padding: 30px;
     }
 }
+
+/* Day Mode Overrides for Testimonials */
+[data-theme='light'] .section-title {
+    color: var(--text-main);
+    text-shadow: none;
+    /* Cleaner look for day mode */
+}
+
+[data-theme='light'] .testimonial-card {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(26, 60, 52, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .testimonial-info h3 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .testimonial-role {
+    color: var(--text-secondary);
+}
+
+[data-theme='light'] .testimonial-text {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .testimonial-card::before {
+    color: rgba(26, 60, 52, 0.05);
+    /* Dark green quote mark */
+}
+
+[data-theme='light'] .testimonial-stars {
+    color: var(--primary);
+    /* Gold */
+}
+
+/* Form Styles */
+[data-theme='light'] .testimonial-form-container {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(26, 60, 52, 0.1);
+}
+
+[data-theme='light'] .testimonial-form-container h3 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .testimonial-form input,
+[data-theme='light'] .testimonial-form textarea {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(26, 60, 52, 0.2);
+    color: var(--text-main);
+}
+
+[data-theme='light'] .testimonial-form input::placeholder,
+[data-theme='light'] .testimonial-form textarea::placeholder {
+    color: rgba(26, 60, 52, 0.5);
+}
+
+[data-theme='light'] .cancel-btn {
+    color: var(--text-main);
+    border-color: rgba(26, 60, 52, 0.3);
+}
+
+[data-theme='light'] .cancel-btn:hover {
+    background: rgba(26, 60, 52, 0.05);
+}

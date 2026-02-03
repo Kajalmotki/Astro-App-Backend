@@ -1,35 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&display=swap');
 
 :root {
-  /* Forest Green -> Bright Yellow Theme */
+  /* Default Theme (Dark / Night Mode) */
+  --bg-main: #000000;
+  --text-main: #FFFFFF;
+  --text-secondary: #E0E0E0;
   --primary: #FFD700;
-  /* Gold/Yellow */
   --primary-hover: #FFE55C;
-  /* Lighter Yellow */
-  --text-light: #FFFFFF;
-  /* White Text */
-  --bg-deep: #F5F1E8;
-  /* Warm Cream */
-
-  /* Supporting palette */
-  --primary-glow: rgba(45, 80, 22, 0.2);
-  --secondary: #E8DCC4;
   --accent: #B8956F;
-  --bg-mid: #FAF7F0;
-  --bg-dark: #F0EBE3;
-  --text-dim: #E0E0E0;
-  --glass: rgba(45, 80, 22, 0.08);
+  --glass-bg: rgba(45, 80, 22, 0.08);
+  /* Dark glass */
   --glass-border: rgba(45, 80, 22, 0.15);
+  --glass-card-bg: linear-gradient(135deg, rgba(45, 80, 22, 0.06), rgba(184, 149, 111, 0.04));
 
-  /* Soothing Font System */
+  --primary-glow: rgba(45, 80, 22, 0.2);
+  --bg-deep: #0a0a0a;
+  /* Deep dark for contrast elements */
+  --bg-gradient: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1a2d 100%);
+  /* Starfield gradient */
+
+  /* Font System */
   --font-header: 'GT Ultra', 'Playfair Display', serif;
-  /* Clean, elegant headlines */
   --font-main: 'GT Ultra', 'Playfair Display', serif;
-  /* Clean body/nav */
   --font-accent: 'GT Ultra', 'Playfair Display', serif;
-  /* Handwritten accent notes */
+}
 
-  --font-serif: var(--font-header);
+[data-theme='light'] {
+  /* Vantara Inspired Theme (Day Mode) */
+  --bg-main: #F9F6F0;
+  /* Soft Beige/Off-white */
+  --text-main: #1A3C34;
+  /* Deep Forest Green */
+  --text-secondary: #2C5F52;
+  /* Lighter green for secondary text */
+  --primary: #D4AF37;
+  /* Classic Gold */
+  --primary-hover: #E5C158;
+  --accent: #A0522D;
+  /* Terracotta/Sienna */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  /* Frosted white glass */
+  --glass-border: rgba(26, 60, 52, 0.15);
+  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(249, 246, 240, 0.9));
+
+  --primary-glow: rgba(212, 175, 55, 0.2);
+  --bg-deep: #E8EDE7;
+  /* Pale Sage for contrast elements */
+  --bg-gradient: #F9F6F0;
+  /* Solid beige for day mode (no starfield) */
 }
 
 * {
@@ -41,12 +59,13 @@
 
 body {
   font-family: var(--font-main);
-  background: #000000;
-  /* Fallback color */
-  color: #FFFFFF;
+  background: var(--bg-main);
+  color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  transition: background 0.5s ease, color 0.5s ease;
+  /* Smooth theme transition */
 }
 
 /* StarfieldBackground component now handles the animated background */
@@ -62,7 +81,7 @@ body {
 
 /* Glassmorphism Utilities */
 .glass {
-  background: var(--glass);
+  background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
@@ -70,7 +89,7 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(45, 80, 22, 0.06), rgba(184, 149, 111, 0.04));
+  background: var(--glass-card-bg);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(45, 80, 22, 0.15);
   border-radius: 32px;
@@ -116,7 +135,7 @@ h2,
 h3 {
   font-family: var(--font-header);
   font-weight: 600;
-  color: #FFFFFF;
+  color: var(--text-main);
 }
 
 .gold-text {
@@ -174,6 +193,7 @@ h3 {
   /* Force override cta-btn default */
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
   color: #FFFFFF !important;
+  /* Keep white for readability on dark liquid bg */
   overflow: hidden;
   z-index: 1;
   /* Use flex to center text if needed, though cta-btn might handle it */
@@ -293,12 +313,14 @@ h3 {
   font-size: 1.2rem;
   border-radius: 50px;
   border: none;
-  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
-  color: #FFFFFF;
-  font-weight: 700;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
+
+  /* Default Dark Mode: Green bg, White text */
+  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  color: #FFFFFF;
+  font-weight: 700;
 
   /* 3D Effect */
   box-shadow:
@@ -308,6 +330,14 @@ h3 {
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 
   transform: translateY(0);
+}
+
+/* Day Mode Override: White bg, Green text */
+[data-theme='light'] .green-shine-btn {
+  background: #FFFFFF;
+  color: #2ECC71;
+  border: 1px solid #2ECC71;
+  box-shadow: 0 8px 15px rgba(46, 204, 113, 0.2);
 }
 
 /* White Shine Animation */

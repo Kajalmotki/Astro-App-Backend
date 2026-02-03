@@ -9,7 +9,7 @@ const StarfieldBackground = () => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1a2d 100%)',
+                background: 'var(--bg-gradient)',
                 pointerEvents: 'none',
                 zIndex: -2
             }}

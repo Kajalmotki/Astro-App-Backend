@@ -1,0 +1,35 @@
+.theme-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    color: white;
+    /* Default icon color is white for visibility on video */
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Light mode overrides for the button itself if needed, 
+   but since it's on a video which might be dark, keeping it white/glass is usually safe.
+   However, if the video is replaced or hidden in light mode, we might need to adjust. */
+[data-theme='light'] .theme-toggle-btn {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #1A3C34;
+    /* Dark green for light mode */
+}

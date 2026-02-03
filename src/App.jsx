@@ -24,6 +24,7 @@ import { useAuth } from './components/AuthModal';
 import WorkflowCanvas from './components/workflow/WorkflowCanvas';
 import VedicInfoSection from './components/VedicInfoSection';
 import StarfieldBackground from './components/StarfieldBackground';
+import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 import './components/HookedCTA.css';
 
@@ -54,6 +55,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
     <main className="content">
       <section className="hero-section">
         <div className="main-hero-video">
+          <ThemeToggle />
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
             <source src="/hero-section.mp4" type="video/mp4" />
             Your browser does not support the video tag.

@@ -255,3 +255,39 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Day Mode Overrides for MarketingMatrix */
+[data-theme='light'] .roadmap-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(26, 60, 52, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .roadmap-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: var(--primary);
+}
+
+[data-theme='light'] .roadmap-card h5 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .roadmap-card p {
+    color: var(--text-secondary);
+}
+
+[data-theme='light'] .roadmap-main-message h3 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .roadmap-main-message p {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .node-content h4 {
+    color: var(--text-main);
+}
+
+[data-theme='light'] .node-desc {
+    color: var(--text-main);
+}
