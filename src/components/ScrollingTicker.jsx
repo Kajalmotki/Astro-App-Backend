@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './ScrollingTicker.css';
+import VirtualPooja from './VirtualPooja';
 
 const ScrollingTicker = () => {
     const scrollContainerRef = useRef(null);
     const [isUserInteracting, setIsUserInteracting] = useState(false);
+    const [isPoojaOpen, setIsPoojaOpen] = useState(false);
     const autoScrollIntervalRef = useRef(null);
 
     const services = [
@@ -21,7 +23,8 @@ const ScrollingTicker = () => {
         },
         {
             name: "Virtual Pooja",
-            image: "/images/virtual_pooja_icon_1770112405454.png"
+            image: "/images/virtual_pooja_icon_1770112405454.png",
+            action: () => setIsPoojaOpen(true)
         },
         {
             name: "Vedas",
@@ -109,52 +112,68 @@ const ScrollingTicker = () => {
         }
     };
 
+    const handleCardClick = (service) => {
+        if (service.action) {
+            service.action();
+        }
+    };
+
     return (
-        <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <div
-                className="ticker-container"
-                ref={scrollContainerRef}
-                onTouchStart={handleUserInteraction}
-                onWheel={handleUserInteraction}
-            >
-                <div className="ticker-track">
-                    {displayServices.map((service, index) => (
-                        <div key={`${service.name}-${index}`} className="ticker-card">
-                            <div className="ticker-icon-wrapper">
-                                <img
-                                    src={service.image}
-                                    alt={service.name}
-                                    className="ticker-icon-image"
-                                    draggable="false"
-                                />
+        <>
+            <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <div
+                    className="ticker-container"
+                    ref={scrollContainerRef}
+                    onTouchStart={handleUserInteraction}
+                    onWheel={handleUserInteraction}
+                >
+                    <div className="ticker-track">
+                        {displayServices.map((service, index) => (
+                            <div
+                                key={`${service.name}-${index}`}
+                                className={`ticker-card ${service.action ? 'clickable' : ''}`}
+                                onClick={() => handleCardClick(service)}
+                            >
+                                <div className="ticker-icon-wrapper">
+                                    <img
+                                        src={service.image}
+                                        alt={service.name}
+                                        className="ticker-icon-image"
+                                        draggable="false"
+                                    />
+                                </div>
+                                <div className="ticker-label">{service.name}</div>
                             </div>
-                            <div className="ticker-label">{service.name}</div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
+
+                {/* Scroll indicators */}
+                <button
+                    className="scroll-indicator left"
+                    onClick={() => scroll('left')}
+                    aria-label="Scroll left"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" />
+                    </svg>
+                </button>
+                <button
+                    className="scroll-indicator right"
+                    onClick={() => scroll('right')}
+                    aria-label="Scroll right"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" fill="none" />
+                    </svg>
+                </button>
             </div>
 
-            {/* Scroll indicators */}
-            <button
-                className="scroll-indicator left"
-                onClick={() => scroll('left')}
-                aria-label="Scroll left"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" />
-                </svg>
-            </button>
-            <button
-                className="scroll-indicator right"
-                onClick={() => scroll('right')}
-                aria-label="Scroll right"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" fill="none" />
-                </svg>
-            </button>
-        </div>
+            {/* Virtual Pooja Modal */}
+            <VirtualPooja isOpen={isPoojaOpen} onClose={() => setIsPoojaOpen(false)} />
+        </>
     );
 };
 
 export default ScrollingTicker;
+
