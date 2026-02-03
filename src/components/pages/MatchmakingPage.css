@@ -1,0 +1,504 @@
+/* Matchmaking Page Styles */
+.matchmaking-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.mm-intro {
+    text-align: center;
+    max-width: 700px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    margin-bottom: 40px;
+}
+
+/* Input Phase */
+.input-phase {
+    width: 100%;
+}
+
+.profiles-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.profile-form-wrapper {
+    flex: 1;
+    min-width: 320px;
+    max-width: 450px;
+    position: relative;
+}
+
+.matchmaking-container .birth-form-container {
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    min-height: auto;
+}
+
+.status-badge {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+/* Connector */
+.connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    padding: 20px;
+}
+
+.hearts-animation {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.heart {
+    position: absolute;
+    font-size: 2rem;
+    animation: heartPulse 1.5s ease-in-out infinite;
+}
+
+.heart.h1 {
+    top: 0;
+    left: 0;
+    animation-delay: 0s;
+}
+
+.heart.h2 {
+    top: 10px;
+    left: 15px;
+    animation-delay: 0.5s;
+}
+
+@keyframes heartPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+}
+
+.calculate-btn {
+    font-size: 1.2rem !important;
+    padding: 18px 50px !important;
+}
+
+.pulse-animation {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* Analyzing Phase */
+.analyzing-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+}
+
+.cosmic-loader {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 30px;
+}
+
+.orbit {
+    position: absolute;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50%;
+    animation: orbitRotate linear infinite;
+}
+
+.orbit-1 {
+    width: 100%;
+    height: 100%;
+    animation-duration: 3s;
+}
+
+.orbit-2 {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    animation-duration: 2s;
+    animation-direction: reverse;
+}
+
+.orbit-3 {
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    animation-duration: 1.5s;
+}
+
+.planet {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #FFD700;
+    border-radius: 50%;
+    top: -5px;
+    left: 50%;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.center-sun {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #FFD700, #f97316);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    animation: sunPulse 1s ease-in-out infinite;
+}
+
+@keyframes orbitRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sunPulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+.analyzing-phase h3 {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.analyzing-phase p {
+    color: #999;
+}
+
+/* Results Phase */
+.results-phase {
+    width: 100%;
+    max-width: 900px;
+}
+
+.couple-names {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.couple-names .name {
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.couple-names .bride {
+    color: #ec4899;
+}
+
+.couple-names .groom {
+    color: #3b82f6;
+}
+
+.heart-divider {
+    font-size: 1.5rem;
+    animation: heartBeat 1s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Score Section */
+.score-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.score-circle {
+    width: 180px;
+    height: 180px;
+    position: relative;
+    margin: 0 auto 20px;
+}
+
+.progress-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.progress-fill {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 1s ease;
+    filter: drop-shadow(0 0 10px var(--score-color));
+}
+
+.score-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--score-color);
+    display: block;
+    line-height: 1;
+}
+
+.score-max {
+    font-size: 1rem;
+    color: #888;
+}
+
+.compatibility-level {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.compatibility-message {
+    color: #aaa;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+/* Section Title */
+.section-title {
+    text-align: center;
+    color: #FFD700;
+    font-size: 1.3rem;
+    margin: 40px 0 30px;
+    letter-spacing: 1px;
+}
+
+/* Kootas Grid */
+.kootas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.koota-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    animation: slideIn 0.5s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.koota-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.koota-name {
+    display: flex;
+    flex-direction: column;
+}
+
+.koota-name .sanskrit {
+    font-size: 0.85rem;
+    color: #FFD700;
+}
+
+.koota-name .english {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.koota-score {
+    text-align: right;
+}
+
+.koota-score .obtained {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #22c55e;
+}
+
+.koota-score .max {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.koota-description {
+    font-size: 0.85rem;
+    color: #888;
+    margin: 0 0 12px;
+}
+
+.koota-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.koota-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #84cc16);
+    border-radius: 3px;
+    transition: width 1s ease;
+}
+
+.koota-detail {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Conclusion */
+.conclusion-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.conclusion-card h4 {
+    color: #FFD700;
+    font-size: 1.3rem;
+    margin: 0 0 15px;
+}
+
+.conclusion-card p {
+    color: #ccc;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.conclusion-card strong {
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .profiles-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .connector {
+        transform: rotate(90deg);
+        margin: -10px 0;
+    }
+
+    .kootas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .couple-names .name {
+        font-size: 1.4rem;
+    }
+}

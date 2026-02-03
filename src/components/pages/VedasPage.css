@@ -1,0 +1,311 @@
+/* Vedas Page Styles */
+.vedas-container {
+    width: 100%;
+    max-width: 1000px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.vedas-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+/* Vedas Grid */
+.vedas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.veda-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.veda-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--veda-color);
+}
+
+.veda-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--veda-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 40px color-mix(in srgb, var(--veda-color) 30%, transparent);
+}
+
+.veda-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: drop-shadow(0 0 15px var(--veda-color));
+    animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.veda-name {
+    font-size: 1.6rem;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    margin: 0 0 5px;
+}
+
+.veda-sanskrit {
+    font-size: 1.2rem;
+    color: var(--veda-color);
+    display: block;
+    margin-bottom: 15px;
+}
+
+.veda-desc {
+    font-size: 0.95rem;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.veda-cta {
+    color: var(--veda-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.veda-card:hover .veda-cta {
+    letter-spacing: 2px;
+}
+
+/* Back Button */
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 30px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+/* Veda Detail */
+.veda-detail {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.veda-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 30px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--veda-color) 15%, transparent), transparent);
+    border: 1px solid color-mix(in srgb, var(--veda-color) 30%, transparent);
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.detail-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 20px var(--veda-color));
+}
+
+.veda-header h2 {
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    margin: 0;
+}
+
+.veda-header h2 span {
+    color: var(--veda-color);
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+.veda-header p {
+    color: #888;
+    margin: 5px 0 0;
+}
+
+/* Content Sections */
+.veda-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.content-section {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.content-section h4 {
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin: 0 0 15px;
+}
+
+.content-section p {
+    color: #ccc;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.significance {
+    margin-top: 15px !important;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-style: italic;
+    color: #aaa !important;
+}
+
+.contents-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.contents-list li {
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    color: #ccc;
+    position: relative;
+    padding-left: 30px;
+}
+
+.contents-list li::before {
+    content: '📿';
+    position: absolute;
+    left: 8px;
+}
+
+/* Shloka Section */
+.shloka-section {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.shloka-section h4 {
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+.shloka-card {
+    text-align: center;
+}
+
+.sanskrit-text {
+    font-size: 1.4rem;
+    color: #FFD700;
+    line-height: 2;
+    margin: 0 0 20px;
+    font-family: 'Playfair Display', serif;
+    white-space: pre-line;
+}
+
+.transliteration {
+    font-size: 1rem;
+    color: #888;
+    font-style: italic;
+    margin: 0 0 20px;
+    white-space: pre-line;
+}
+
+.translation {
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.7;
+    margin: 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vedas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contents-list {
+        grid-template-columns: 1fr;
+    }
+
+    .veda-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sanskrit-text {
+        font-size: 1.1rem;
+    }
+}

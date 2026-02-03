@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ChakraYogaPage from './pages/ChakraYogaPage';
 import './ChakraEnergy.css';
 
 const ChakraEnergy = () => {
+    const [selectedChakra, setSelectedChakra] = useState(null);
+
     const chakras = [
         { name: 'Sahasrara', color: '#9B59B6', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' },
         { name: 'Ajna', color: '#6C5CE7', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' },
@@ -39,43 +42,54 @@ const ChakraEnergy = () => {
     };
 
     return (
-        <div className="chakra-energy-container">
-            {/* Vertical energy line with smoke */}
-            <div className="energy-line">
-                <div className="smoke-particle smoke-1"></div>
-                <div className="smoke-particle smoke-2"></div>
-                <div className="smoke-particle smoke-3"></div>
-                <div className="smoke-particle smoke-4"></div>
-                <div className="smoke-particle smoke-5"></div>
-            </div>
+        <>
+            <div className="chakra-energy-container">
+                {/* Vertical energy line with smoke */}
+                <div className="energy-line">
+                    <div className="smoke-particle smoke-1"></div>
+                    <div className="smoke-particle smoke-2"></div>
+                    <div className="smoke-particle smoke-3"></div>
+                    <div className="smoke-particle smoke-4"></div>
+                    <div className="smoke-particle smoke-5"></div>
+                </div>
 
-            {/* Chakras */}
-            <div className="chakras-container">
-                {chakras.map((chakra, index) => (
-                    <div
-                        key={chakra.name}
-                        className="chakra-item"
-                        style={{
-                            '--chakra-color': chakra.color,
-                            '--delay': `${index * 0.2}s`
-                        }}
-                    >
-                        <div className="chakra-petals-container">
-                            {renderPetals(chakra.petals, chakra.color)}
-                        </div>
-                        <div className="chakra-circle">
-                            <div className="chakra-inner">
-                                <span className="chakra-symbol">{chakra.symbol}</span>
+                {/* Chakras */}
+                <div className="chakras-container">
+                    {chakras.map((chakra, index) => (
+                        <div
+                            key={chakra.name}
+                            className="chakra-item interactive"
+                            style={{
+                                '--chakra-color': chakra.color,
+                                '--delay': `${index * 0.2}s`
+                            }}
+                            onClick={() => setSelectedChakra(chakra)}
+                        >
+                            <div className="chakra-petals-container">
+                                {renderPetals(chakra.petals, chakra.color)}
+                            </div>
+                            <div className="chakra-circle">
+                                <div className="chakra-inner">
+                                    <span className="chakra-symbol">{chakra.symbol}</span>
+                                </div>
+                            </div>
+                            <div className="chakra-tooltip">
+                                <h4>{chakra.name}</h4>
+                                <p>{chakra.description}</p>
+                                <span className="click-hint">Click for Yoga & Music 🎵</span>
                             </div>
                         </div>
-                        <div className="chakra-tooltip">
-                            <h4>{chakra.name}</h4>
-                            <p>{chakra.description}</p>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+
+            {/* Yoga Modal */}
+            <ChakraYogaPage
+                isOpen={!!selectedChakra}
+                onClose={() => setSelectedChakra(null)}
+                chakra={selectedChakra}
+            />
+        </>
     );
 };
 

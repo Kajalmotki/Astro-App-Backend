@@ -1,54 +1,72 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './ScrollingTicker.css';
 import VirtualPooja from './VirtualPooja';
+import AstroChartPage from './pages/AstroChartPage';
+import MatchmakingPage from './pages/MatchmakingPage';
+import PanchangPage from './pages/PanchangPage';
+import VedasPage from './pages/VedasPage';
+import UpnishadsPage from './pages/UpnishadsPage';
+import HoroscopePage from './pages/HoroscopePage';
+import GemstonesPage from './pages/GemstonesPage';
+import KarmicReadingPage from './pages/KarmicReadingPage';
+import NumerologyPage from './pages/NumerologyPage';
 
 const ScrollingTicker = () => {
     const scrollContainerRef = useRef(null);
     const [isUserInteracting, setIsUserInteracting] = useState(false);
-    const [isPoojaOpen, setIsPoojaOpen] = useState(false);
+    const [activeService, setActiveService] = useState(null); // 'pooja', 'chart', 'matchmaking', etc.
     const autoScrollIntervalRef = useRef(null);
 
     const services = [
         {
             name: "Chart",
-            image: "/images/chart_service_icon_1770112346404.png"
+            image: "/images/chart_symbol.png",
+            action: () => setActiveService('chart')
         },
         {
             name: "Matchmaking",
-            image: "/images/matchmaking_service_icon_1770112368976.png"
+            image: "/images/matchmaking_symbol.png",
+            action: () => setActiveService('matchmaking')
         },
         {
             name: "Panchang",
-            image: "/images/panchang_service_icon_1770112387075.png"
+            image: "/images/panchang_symbol.png",
+            action: () => setActiveService('panchang')
         },
         {
             name: "Virtual Pooja",
-            image: "/images/virtual_pooja_icon_1770112405454.png",
-            action: () => setIsPoojaOpen(true)
+            image: "/images/virtual_pooja_symbol.png",
+            action: () => setActiveService('pooja')
         },
         {
             name: "Vedas",
-            image: "/images/vedas_service_icon_1770112425093.png"
+            image: "/images/vedas_symbol.png",
+            action: () => setActiveService('vedas')
         },
         {
             name: "Upnishads",
-            image: "/images/upnishads_service_icon_1770112444878.png"
+            image: "/images/upnishads_symbol.png",
+            action: () => setActiveService('upnishads')
         },
         {
             name: "Horoscope",
-            image: "/images/horoscope_service_icon_1770112466948.png"
+            image: "/images/horoscope_symbol.png",
+            action: () => setActiveService('horoscope')
         },
         {
             name: "Gemstones",
-            image: "/images/gemstones_service_icon_1770112487772.png"
+            image: "/images/gemstones_symbol.png",
+            action: () => setActiveService('gemstones')
         },
         {
             name: "Karmic Reading",
-            image: "/images/karmic_reading_icon_1770112558312.png"
+            image: "/images/karma_symbol.png",
+            action: () => setActiveService('karmic')
         },
         {
             name: "Numerology",
-            image: "/images/numerology_service_icon_1770112507398.png"
+            image: "/images/numerology_symbol.png",
+            action: () => setActiveService('numerology')
         }
     ];
 
@@ -118,6 +136,8 @@ const ScrollingTicker = () => {
         }
     };
 
+    const closeOverlay = () => setActiveService(null);
+
     return (
         <>
             <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -131,7 +151,7 @@ const ScrollingTicker = () => {
                         {displayServices.map((service, index) => (
                             <div
                                 key={`${service.name}-${index}`}
-                                className={`ticker-card ${service.action ? 'clickable' : ''}`}
+                                className={`ticker-card clickable`}
                                 onClick={() => handleCardClick(service)}
                             >
                                 <div className="ticker-icon-wrapper">
@@ -169,8 +189,17 @@ const ScrollingTicker = () => {
                 </button>
             </div>
 
-            {/* Virtual Pooja Modal */}
-            <VirtualPooja isOpen={isPoojaOpen} onClose={() => setIsPoojaOpen(false)} />
+            {/* Feature Pages / Modals */}
+            <VirtualPooja isOpen={activeService === 'pooja'} onClose={closeOverlay} />
+            <AstroChartPage isOpen={activeService === 'chart'} onClose={closeOverlay} />
+            <MatchmakingPage isOpen={activeService === 'matchmaking'} onClose={closeOverlay} />
+            <PanchangPage isOpen={activeService === 'panchang'} onClose={closeOverlay} />
+            <VedasPage isOpen={activeService === 'vedas'} onClose={closeOverlay} />
+            <UpnishadsPage isOpen={activeService === 'upnishads'} onClose={closeOverlay} />
+            <HoroscopePage isOpen={activeService === 'horoscope'} onClose={closeOverlay} />
+            <GemstonesPage isOpen={activeService === 'gemstones'} onClose={closeOverlay} />
+            <KarmicReadingPage isOpen={activeService === 'karmic'} onClose={closeOverlay} />
+            <NumerologyPage isOpen={activeService === 'numerology'} onClose={closeOverlay} />
         </>
     );
 };

@@ -1,0 +1,263 @@
+/* Numerology Page Styles */
+.numerology-container {
+    width: 100%;
+    max-width: 900px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.num-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+/* Form Styles */
+.num-form {
+    max-width: 450px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.num-form .form-group {
+    margin-bottom: 25px;
+}
+
+.num-form label {
+    display: block;
+    color: #FFD700;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.num-form input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.num-form input:focus {
+    outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.num-form input::placeholder {
+    color: #666;
+}
+
+/* Calculating View */
+.calculating-view {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.number-spinner {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 40px;
+}
+
+.spin-number {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFD700;
+    animation: spinAround 3s linear infinite;
+    animation-delay: calc(var(--i) * 0.33s);
+    opacity: 0;
+}
+
+@keyframes spinAround {
+    0% {
+        transform: rotate(0deg) translateX(60px) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(360deg) translateX(60px) rotate(-360deg);
+        opacity: 0;
+    }
+}
+
+.calculating-view h3 {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.calculating-view p {
+    color: #888;
+}
+
+/* Results View */
+.results-view {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.results-for {
+    text-align: center;
+    color: #fff;
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 40px;
+}
+
+/* Numbers Grid */
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.number-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.number-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--num-color);
+}
+
+.number-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--num-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+        0 0 30px color-mix(in srgb, var(--num-color) 20%, transparent);
+}
+
+.number-card.main-card {
+    grid-column: span 2;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--num-color) 10%, transparent), transparent);
+}
+
+.number-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--num-color), color-mix(in srgb, var(--num-color) 70%, black));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--num-color) 40%, transparent);
+    animation: pulseNumber 2s ease-in-out infinite;
+}
+
+@keyframes pulseNumber {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.number-info {
+    margin-bottom: 15px;
+}
+
+.number-type {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.number-trait {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--num-color);
+    font-family: 'Playfair Display', serif;
+}
+
+.number-desc {
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 15px;
+}
+
+.number-note {
+    font-size: 0.8rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Gold Button Override */
+.numerology-container .gold-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .numbers-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .number-card.main-card {
+        grid-column: span 1;
+    }
+
+    .num-form {
+        padding: 25px;
+    }
+}

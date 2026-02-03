@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const BirthDetailsForm = ({ onSubmit }) => {
+const BirthDetailsForm = ({ onSubmit, title = "Enter Your Birth Details", submitLabel = "GENERATE KUNDLI" }) => {
     const [formData, setFormData] = useState({
         name: '',
         sex: 'Male',
@@ -9,7 +9,7 @@ const BirthDetailsForm = ({ onSubmit }) => {
         year: '2026',
         hour: '10',
         min: '21',
-        sec: '58',
+        sec: '00',
         place: ''
     });
 
@@ -21,34 +21,30 @@ const BirthDetailsForm = ({ onSubmit }) => {
     // Comprehensive list of major Indian cities
     const indianCities = [
         'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Ahmedabad', 'Chennai', 'Kolkata', 'Surat', 'Pune', 'Jaipur',
-        'Lucknow', 'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam', 'Pimpri-Chinchwad', 'Patna', 'Vadodara',
-        'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik', 'Faridabad', 'Meerut', 'Rajkot', 'Kalyan-Dombivali', 'Vasai-Virar', 'Varanasi',
+        'Lucknow', 'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam', 'Patna', 'Vadodara',
+        'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik', 'Faridabad', 'Meerut', 'Rajkot', 'Varanasi',
         'Srinagar', 'Aurangabad', 'Dhanbad', 'Amritsar', 'Navi Mumbai', 'Allahabad', 'Ranchi', 'Howrah', 'Coimbatore', 'Jabalpur',
-        'Gwalior', 'Vijayawada', 'Jodhpur', 'Madurai', 'Raipur', 'Kota', 'Chandigarh', 'Guwahati', 'Solapur', 'Hubli-Dharwad',
-        'Mysore', 'Tiruchirappalli', 'Bareilly', 'Aligarh', 'Tiruppur', 'Moradabad', 'Jalandhar', 'Bhubaneswar', 'Salem', 'Warangal',
-        'Mira-Bhayandar', 'Thiruvananthapuram', 'Bhiwandi', 'Saharanpur', 'Guntur', 'Amravati', 'Bikaner', 'Noida', 'Jamshedpur', 'Bhilai',
-        'Cuttack', 'Firozabad', 'Kochi', 'Nellore', 'Bhavnagar', 'Dehradun', 'Durgapur', 'Asansol', 'Rourkela', 'Nanded',
-        'Kolhapur', 'Ajmer', 'Akola', 'Gulbarga', 'Jamnagar', 'Ujjain', 'Loni', 'Siliguri', 'Jhansi', 'Ulhasnagar',
-        'Jammu', 'Sangli-Miraj & Kupwad', 'Mangalore', 'Erode', 'Belgaum', 'Ambattur', 'Tirunelveli', 'Malegaon', 'Gaya', 'Jalgaon',
-        'Udaipur', 'Maheshtala', 'Davanagere', 'Kozhikode', 'Kurnool', 'Rajpur Sonarpur', 'Rajahmundry', 'Bokaro', 'South Dumdum', 'Bellary',
-        'Patiala', 'Gopalpur', 'Agartala', 'Bhagalpur', 'Muzaffarnagar', 'Bhatpara', 'Panihati', 'Latur', 'Dhule', 'Tirupati',
-        'Rohtak', 'Korba', 'Bhilwara', 'Berhampur', 'Muzaffarpur', 'Ahmednagar', 'Mathura', 'Kollam', 'Avadi', 'Kadapa',
-        'Kamarhati', 'Sambalpur', 'Bilaspur', 'Shahjahanpur', 'Satara', 'Bijapur', 'Rampur', 'Shivamogga', 'Chandrapur', 'Junagadh',
-        'Thrissur', 'Alwar', 'Bardhaman', 'Kulti', 'Kakinada', 'Nizamabad', 'Parbhani', 'Tumkur', 'Khammam', 'Ozhukarai',
-        'Bihar Sharif', 'Panipat', 'Darbhanga', 'Bally', 'Aizawl', 'Dewas', 'Ichalkaranji', 'Karnal', 'Bathinda', 'Jalna',
-        'Eluru', 'Kirari Suleman Nagar', 'Barasat', 'Purnia', 'Satna', 'Mau', 'Sonipat', 'Farrukhabad', 'Sagar', 'Rourkela',
-        'Durg', 'Imphal', 'Ratlam', 'Hapur', 'Arrah', 'Karimnagar', 'Anantapur', 'Etawah', 'Ambernath', 'North Dumdum',
-        'Bharatpur', 'Begusarai', 'New Delhi', 'Gandhidham', 'Baranagar', 'Tiruvottiyur', 'Puducherry', 'Sikar', 'Thoothukudi', 'Raurkela Industrial Township',
-        'Nagercoil', 'Thanjavur', 'Murwara', 'Naihati', 'Sambhal', 'Nadiad', 'Yamunanagar', 'English Bazar', 'Carlsbad', 'Dindigul',
-        'Raichur', 'Raiganj', 'Tiruppur', 'Khora', 'Ghazipur', 'Raniganj', 'Shimla', 'Titagarh', 'Dibrugarh', 'Latur',
-        'Kharagpur', 'Dindigul', 'Munger', 'Panchkula', 'Port Blair', 'Daman', 'Silvassa', 'Kavaratti'
+        'Gwalior', 'Vijayawada', 'Jodhpur', 'Madurai', 'Raipur', 'Kota', 'Chandigarh', 'Guwahati', 'Solapur',
+        'Mysore', 'Bareilly', 'Aligarh', 'Jalandhar', 'Bhubaneswar', 'Salem', 'Warangal',
+        'Thiruvananthapuram', 'Guntur', 'Bikaner', 'Noida', 'Jamshedpur',
+        'Cuttack', 'Kochi', 'Dehradun', 'Durgapur', 'Asansol', 'Rourkela',
+        'Kolhapur', 'Ajmer', 'Gulbarga', 'Jamnagar', 'Ujjain', 'Siliguri', 'Jhansi',
+        'Jammu', 'Mangalore', 'Erode', 'Belgaum', 'Tirunelveli', 'Malegaon', 'Gaya', 'Jalgaon',
+        'Udaipur', 'Kozhikode', 'Kurnool', 'Bokaro', 'Bellary',
+        'Patiala', 'Agartala', 'Bhagalpur', 'Muzaffarnagar', 'Latur', 'Dhule', 'Tirupati',
+        'Rohtak', 'Korba', 'Bhilwara', 'Muzaffarpur', 'Ahmednagar', 'Mathura', 'Kollam',
+        'Sambalpur', 'Bilaspur', 'Shahjahanpur', 'Satara', 'Rampur', 'Shimla', 'Chandrapur', 'Junagadh',
+        'Thrissur', 'Alwar', 'Bardhaman', 'Kakinada', 'Nizamabad', 'Tumkur',
+        'Bihar Sharif', 'Panipat', 'Darbhanga', 'Dewas', 'Ichalkaranji', 'Karnal', 'Bathinda',
+        'New Delhi', 'Gandhidham', 'Puducherry', 'Sikar', 'Thanjavur', 'Nadiad', 'Dindigul',
+        'Shimla', 'Dibrugarh', 'Kharagpur', 'Munger', 'Panchkula', 'Port Blair'
     ];
 
     useEffect(() => {
         if (citySearch.length >= 2) {
             const filtered = indianCities.filter(city =>
                 city.toLowerCase().includes(citySearch.toLowerCase())
-            ).slice(0, 10); // Limit to 10 results
+            ).slice(0, 10);
             setFilteredCities(filtered);
             setShowDropdown(true);
         } else {
@@ -57,14 +53,12 @@ const BirthDetailsForm = ({ onSubmit }) => {
         }
     }, [citySearch]);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (cityInputRef.current && !cityInputRef.current.contains(event.target)) {
                 setShowDropdown(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
@@ -92,14 +86,14 @@ const BirthDetailsForm = ({ onSubmit }) => {
 
     return (
         <div className="birth-form-container glass-card">
-            <h2 className="form-title gold-text">Enter Your Birth Details</h2>
+            <h2 className="form-title gold-text">{title}</h2>
             <form onSubmit={handleSubmit} className="birth-form">
                 <div className="form-group">
                     <label>Name</label>
                     <input
                         type="text"
                         name="name"
-                        placeholder="Enter your name"
+                        placeholder="Enter name"
                         value={formData.name}
                         onChange={handleChange}
                         required
@@ -107,7 +101,7 @@ const BirthDetailsForm = ({ onSubmit }) => {
                 </div>
 
                 <div className="form-group">
-                    <label>Sex</label>
+                    <label>Gender</label>
                     <select name="sex" value={formData.sex} onChange={handleChange}>
                         <option>Male</option>
                         <option>Female</option>
@@ -119,20 +113,20 @@ const BirthDetailsForm = ({ onSubmit }) => {
                     <div className="form-group flex-1">
                         <label>Date (DD/MM/YYYY)</label>
                         <div className="date-inputs">
-                            <input type="number" name="day" value={formData.day} onChange={handleChange} min="1" max="31" />
-                            <input type="number" name="month" value={formData.month} onChange={handleChange} min="1" max="12" />
-                            <input type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2100" />
+                            <input type="number" name="day" value={formData.day} onChange={handleChange} min="1" max="31" placeholder="DD" />
+                            <input type="number" name="month" value={formData.month} onChange={handleChange} min="1" max="12" placeholder="MM" />
+                            <input type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2100" placeholder="YYYY" />
                         </div>
                     </div>
                 </div>
 
                 <div className="form-row">
                     <div className="form-group flex-1">
-                        <label>Time (24 hours format)</label>
+                        <label>Time (24hr format)</label>
                         <div className="time-inputs">
-                            <input type="number" name="hour" value={formData.hour} onChange={handleChange} min="0" max="23" />
-                            <input type="number" name="min" value={formData.min} onChange={handleChange} min="0" max="59" />
-                            <input type="number" name="sec" value={formData.sec} onChange={handleChange} min="0" max="59" />
+                            <input type="number" name="hour" value={formData.hour} onChange={handleChange} min="0" max="23" placeholder="HH" />
+                            <input type="number" name="min" value={formData.min} onChange={handleChange} min="0" max="59" placeholder="MM" />
+                            <input type="number" name="sec" value={formData.sec} onChange={handleChange} min="0" max="59" placeholder="SS" />
                         </div>
                     </div>
                 </div>
@@ -142,7 +136,7 @@ const BirthDetailsForm = ({ onSubmit }) => {
                     <input
                         type="text"
                         name="place"
-                        placeholder="Search Indian cities..."
+                        placeholder="Search cities..."
                         value={citySearch}
                         onChange={handleCitySearch}
                         onFocus={() => citySearch.length >= 2 && setShowDropdown(true)}
@@ -167,13 +161,13 @@ const BirthDetailsForm = ({ onSubmit }) => {
                     {showDropdown && citySearch.length >= 2 && filteredCities.length === 0 && (
                         <div className="city-dropdown">
                             <div className="city-option" style={{ color: '#888', cursor: 'default' }}>
-                                No cities found. Try a different search.
+                                No cities found.
                             </div>
                         </div>
                     )}
                 </div>
 
-                <button type="submit" className="submit-btn">GENERATE KUNDLI</button>
+                <button type="submit" className="submit-btn">{submitLabel}</button>
             </form>
         </div>
     );

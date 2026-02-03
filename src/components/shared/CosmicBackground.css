@@ -1,0 +1,206 @@
+/* Cosmic Background Styles */
+.cosmic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Nebula Gradient Layers */
+.nebula-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.nebula-1 {
+    background: radial-gradient(ellipse at 20% 30%, rgba(88, 28, 135, 0.4) 0%, transparent 50%);
+    animation: nebulaDrift1 20s ease-in-out infinite;
+}
+
+.nebula-2 {
+    background: radial-gradient(ellipse at 80% 70%, rgba(30, 58, 138, 0.3) 0%, transparent 50%);
+    animation: nebulaDrift2 25s ease-in-out infinite;
+}
+
+.nebula-3 {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 40%);
+    animation: nebulaPulse 8s ease-in-out infinite;
+}
+
+@keyframes nebulaDrift1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(5%, 3%) scale(1.1);
+    }
+}
+
+@keyframes nebulaDrift2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(-5%, -3%) scale(1.05);
+    }
+}
+
+@keyframes nebulaPulse {
+
+    0%,
+    100% {
+        opacity: 0.08;
+    }
+
+    50% {
+        opacity: 0.15;
+    }
+}
+
+/* Stars Container */
+.stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.star {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
+}
+
+.star.depth-1 {
+    opacity: 0.9;
+    box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.8);
+}
+
+.star.depth-2 {
+    opacity: 0.6;
+    box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.5);
+}
+
+.star.depth-3 {
+    opacity: 0.3;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: inherit;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+}
+
+/* Floating Particles */
+.particles-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.floating-particle {
+    position: absolute;
+    bottom: -20px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* Center Glow */
+.center-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    animation: breathingGlow 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes breathingGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Variant: Warm (for spiritual pages) */
+.cosmic-bg--warm .nebula-1 {
+    background: radial-gradient(ellipse at 20% 30%, rgba(180, 83, 9, 0.3) 0%, transparent 50%);
+}
+
+.cosmic-bg--warm .nebula-2 {
+    background: radial-gradient(ellipse at 80% 70%, rgba(120, 53, 15, 0.25) 0%, transparent 50%);
+}
+
+/* Variant: Cool (for analytical pages) */
+.cosmic-bg--cool .nebula-1 {
+    background: radial-gradient(ellipse at 20% 30%, rgba(30, 64, 175, 0.35) 0%, transparent 50%);
+}
+
+.cosmic-bg--cool .nebula-2 {
+    background: radial-gradient(ellipse at 80% 70%, rgba(88, 28, 135, 0.3) 0%, transparent 50%);
+}
+
+/* Variant: Love (for matchmaking) */
+.cosmic-bg--love .nebula-1 {
+    background: radial-gradient(ellipse at 30% 40%, rgba(190, 24, 93, 0.3) 0%, transparent 50%);
+}
+
+.cosmic-bg--love .nebula-2 {
+    background: radial-gradient(ellipse at 70% 60%, rgba(225, 29, 72, 0.2) 0%, transparent 50%);
+}
+
+.cosmic-bg--love .floating-particle {
+    background: radial-gradient(circle, rgba(255, 105, 180, 0.6) 0%, transparent 70%);
+}

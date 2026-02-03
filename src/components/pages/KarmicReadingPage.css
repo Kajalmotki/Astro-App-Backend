@@ -1,0 +1,407 @@
+/* Karmic Reading Page Styles */
+.karmic-container {
+    width: 100%;
+    max-width: 1000px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.karmic-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+/* Karma Types Section */
+.karma-types-section h3,
+.explore-section h3,
+.lessons-section h3,
+.remedies-section h3 {
+    text-align: center;
+    color: #FFD700;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+}
+
+.karma-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 60px;
+}
+
+.karma-type-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.4s;
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.karma-type-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 215, 0, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.karma-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.karma-type-card h4 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0 0 5px;
+    font-family: 'Playfair Display', serif;
+}
+
+.karma-sanskrit {
+    color: #FFD700;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.karma-desc {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 15px;
+}
+
+.karma-analogy {
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 0;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Explore Section */
+.explore-section {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), transparent);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+}
+
+.explore-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.explore-form .form-group {
+    margin-bottom: 25px;
+}
+
+.explore-form label {
+    display: block;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.explore-form input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.explore-form input:focus {
+    outline: none;
+    border-color: #FFD700;
+}
+
+/* Back Button */
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 30px;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+/* Insights View */
+.insights-view {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Karma Wheel */
+.karma-wheel-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.karma-wheel {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 0 auto 20px;
+    animation: wheelRotate 20s linear infinite;
+}
+
+@keyframes wheelRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.wheel-ring {
+    position: absolute;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 50%;
+}
+
+.wheel-ring.outer {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.wheel-ring.middle {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+}
+
+.wheel-ring.inner {
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+}
+
+.wheel-center {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #FFD700, #f97316);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    animation: wheelRotate 20s linear infinite reverse;
+}
+
+.wheel-spoke {
+    position: absolute;
+    width: 2px;
+    height: 50%;
+    background: rgba(255, 215, 0, 0.3);
+    top: 0;
+    left: 50%;
+    transform-origin: bottom center;
+}
+
+.wheel-spoke.s1 {
+    transform: translateX(-50%) rotate(0deg);
+}
+
+.wheel-spoke.s2 {
+    transform: translateX(-50%) rotate(60deg);
+}
+
+.wheel-spoke.s3 {
+    transform: translateX(-50%) rotate(120deg);
+}
+
+.wheel-note {
+    color: #888;
+    font-style: italic;
+}
+
+/* Lessons Section */
+.lessons-section {
+    margin-bottom: 50px;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.lesson-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.3s;
+}
+
+.lesson-card:hover {
+    border-color: rgba(255, 215, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.lesson-card h4 {
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin: 0 0 10px;
+}
+
+.lesson-card p {
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Remedies Section */
+.remedies-section {
+    margin-bottom: 50px;
+}
+
+.remedies-intro {
+    text-align: center;
+    color: #aaa;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-size: 0.95rem;
+}
+
+.remedies-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.remedy-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.remedy-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(34, 197, 94, 0.4);
+}
+
+.remedy-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.remedy-card h4 {
+    color: #22c55e;
+    font-size: 1rem;
+    margin: 0 0 10px;
+}
+
+.remedy-card p {
+    color: #aaa;
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Wisdom Card */
+.wisdom-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+}
+
+.wisdom-quote {
+    font-size: 1.6rem;
+    color: #FFD700;
+    margin: 0 0 15px;
+    font-family: 'Playfair Display', serif;
+}
+
+.wisdom-translation {
+    font-size: 1.1rem;
+    color: #ccc;
+    font-style: italic;
+    margin: 0 0 15px;
+}
+
+.wisdom-source {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .karma-types-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .remedies-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .remedies-grid {
+        grid-template-columns: 1fr;
+    }
+}

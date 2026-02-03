@@ -1,0 +1,340 @@
+/* Panchang Page Styles */
+.panchang-container {
+    width: 100%;
+    max-width: 1000px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+/* Date Header */
+.panchang-date-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.panchang-date-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+    animation: rotateGlow 15s linear infinite;
+}
+
+@keyframes rotateGlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hindu-date {
+    font-size: 1.2rem;
+    color: #FFD700;
+    opacity: 0.8;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.panchang-date-header h3 {
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Celestial Times */
+.celestial-times {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.time-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.time-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.time-icon {
+    font-size: 2rem;
+}
+
+.time-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-label {
+    font-size: 0.85rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.time-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #FFD700;
+}
+
+/* Section Title */
+.section-title {
+    text-align: center;
+    color: #FFD700;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    margin: 40px 0 30px;
+    letter-spacing: 2px;
+}
+
+/* Panchang Grid */
+.panchang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+/* Panchang Card */
+.panchang-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.panchang-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 215, 0, 0.1);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), transparent);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Moon Phase Visual */
+.moon-phase-visual {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.moon-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+/* Nakshatra Symbol */
+.nakshatra-symbol,
+.yoga-symbol,
+.karana-symbol,
+.vara-symbol {
+    font-size: 2.5rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.yoga-symbol {
+    color: #8b5cf6;
+}
+
+.karana-symbol {
+    color: #06b6d4;
+}
+
+.vara-symbol {
+    color: var(--vara-color, #dc2626);
+}
+
+.card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card-label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #FFD700;
+    font-family: 'Playfair Display', serif;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0 0 15px;
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #999;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Nature Badge */
+.nature-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.nature-badge.auspicious,
+.nature-badge.favorable {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.nature-badge.inauspicious {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Timings Grid */
+.timings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.timing-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.timing-card.good {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.timing-card.caution {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(234, 179, 8, 0.05));
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.timing-card:hover {
+    transform: translateX(5px);
+}
+
+.timing-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.timing-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.timing-label {
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.timing-value {
+    font-size: 1.2rem;
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.timing-note {
+    font-size: 0.8rem;
+    color: #999;
+    font-style: italic;
+}
+
+/* Footer */
+.panchang-footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panchang-footer p {
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .celestial-times {
+        flex-direction: column;
+    }
+
+    .panchang-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timings-grid {
+        grid-template-columns: 1fr;
+    }
+}
