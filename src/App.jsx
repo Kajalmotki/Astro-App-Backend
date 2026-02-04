@@ -57,7 +57,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
         <div className="main-hero-video">
           <ThemeToggle />
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
-            <source src="/hero-section.mp4" type="video/mp4" />
+            <source src="/videos/night_sky_timelapse.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="main-hero-video-overlay"></div>

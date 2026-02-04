@@ -43,6 +43,10 @@ const SlidingChartButton = ({ isVisible }) => {
             className={`sliding-chart-button ${isVisible ? 'visible' : ''}`}
             aria-label="View AstroRevo Chart Sample"
         >
+            <video className="ocean-video-bg" autoPlay loop muted playsInline>
+                <source src="/videos/ocean_waves.mp4" type="video/mp4" />
+            </video>
+            <div className="fog-aura"></div>
             <span className="button-text">The AstroRevo Chart</span>
         </Link>
     );

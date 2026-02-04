@@ -11,7 +11,8 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    background: #0a0a1a;
+    background: #000;
+    /* Fallback */
     border: 2px solid rgba(255, 255, 255, 0.4);
     border-right: none;
     border-radius: 25px 0 0 25px;
@@ -68,58 +69,52 @@
 }
 
 
-/* Water Wave Background - Deep Ocean Layer */
+/* Video Background */
+.ocean-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+/* Overlay to darken video slightly for text contrast */
 .sliding-chart-button::before {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    width: 400%;
+    width: 100%;
     height: 100%;
-    background:
-        radial-gradient(ellipse 80px 60px at 25% 80%,
-            rgba(30, 85, 148, 0.9) 0%,
-            rgba(30, 85, 148, 0.5) 40%,
-            transparent 50%),
-        radial-gradient(ellipse 80px 60px at 75% 70%,
-            rgba(21, 62, 114, 0.8) 0%,
-            rgba(21, 62, 114, 0.4) 40%,
-            transparent 50%),
-        linear-gradient(to top,
-            rgba(21, 62, 114, 0.9) 0%,
-            rgba(30, 85, 148, 0.6) 50%,
-            transparent 100%);
-    background-size: 25% 100%;
-    background-position: 0 0;
-    background-repeat: repeat-x;
-    animation: oceanWaveFlow 8s linear infinite;
-    z-index: -3;
+    background: linear-gradient(to right, rgba(10, 26, 50, 0.8), rgba(30, 85, 148, 0.4));
+    z-index: 1;
 }
 
-/* Water Splash/Foam Layer */
+/* Subtle Glint/Foam Overlay */
 .sliding-chart-button::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: -100%;
-    width: 400%;
-    height: 120%;
-    background:
-        radial-gradient(circle at 20% 90%,
-            rgba(255, 255, 255, 0.6) 0%,
-            rgba(255, 255, 255, 0.3) 30%,
-            transparent 40%),
-        radial-gradient(circle at 60% 85%,
-            rgba(255, 255, 255, 0.5) 0%,
-            rgba(255, 255, 255, 0.2) 25%,
-            transparent 35%),
-        radial-gradient(circle at 40% 95%,
-            rgba(200, 230, 255, 0.4) 0%,
-            transparent 30%);
-    background-size: 25% 100%;
-    background-repeat: repeat-x;
-    animation: foamSplash 6s linear infinite;
-    z-index: -2;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 40%, transparent 50%);
+    z-index: 2;
+    animation: sheenFlow 4s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes sheenFlow {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
 }
 
 @keyframes oceanWaveFlow {
@@ -297,5 +292,51 @@
             transform: translateX(0) rotateY(0deg) scale(1);
             opacity: 1;
         }
+    }
+}
+
+/* White Fog Aura Effect */
+.fog-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 180%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(25px);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+    z-index: 1;
+    /* Above background but below text */
+    mix-blend-mode: screen;
+    border-radius: 50%;
+}
+
+.sliding-chart-button:hover .fog-aura {
+    opacity: 1;
+    animation: fogDrift 8s infinite alternate ease-in-out;
+}
+
+@keyframes fogDrift {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+
+    33% {
+        transform: translate(-45%, -55%) scale(1.1);
+        border-radius: 60% 40% 30% 70% / 50% 60% 30% 60%;
+    }
+
+    66% {
+        transform: translate(-55%, -45%) scale(0.95);
+        border-radius: 30% 70% 60% 40% / 60% 30% 50% 40%;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.05);
+        border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
     }
 }
