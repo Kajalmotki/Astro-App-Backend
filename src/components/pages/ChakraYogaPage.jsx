@@ -42,9 +42,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '528 Hz',
             frequencyName: 'Transformation and Miracles (DNA Repair)',
             yogaPoses: [
-                { name: 'Navasana', english: 'Boat Pose', desc: 'Strengthens the core and ignites inner fire (Agni).' },
-                { name: 'Dhanurasana', english: 'Bow Pose', desc: 'Stimulates the solar plexus and digestive organs.', image: 'manipura-2.png' },
-                { name: 'Surya Namaskar', english: 'Sun Salutations', desc: 'Builds heat and honors the source of all power.' }
+                { name: 'Navasana', english: 'Boat Pose', desc: 'Strengthens the core and ignites inner fire (Agni).', image: 'manipura_navasana.png' },
+                { name: 'Dhanurasana', english: 'Bow Pose', desc: 'Stimulates the solar plexus and digestive organs.', image: 'manipura_dhanurasana.png' },
+                { name: 'Surya Namaskar', english: 'Sun Salutations', desc: 'Builds heat and honors the source of all power.', image: 'manipura_suryanamaskar.png' }
             ],
             color: '#F1C40F',
             mantra: 'RAM'
@@ -55,9 +55,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '639 Hz',
             frequencyName: 'Connecting/Relationships',
             yogaPoses: [
-                { name: 'Ustrasana', english: 'Camel Pose', desc: 'Deep backbend that opens the heart center.', image: 'anahata-1.png' },
-                { name: 'Bhujangasana', english: 'Cobra Pose', desc: 'Gentle heart opener allowing love to flow.', image: 'anahata-1.png' },
-                { name: 'Chakrasana', english: 'Wheel Pose', desc: 'Full expression of an open heart and vulnerability.', image: 'anahata-1.png' }
+                { name: 'Ustrasana', english: 'Camel Pose', desc: 'Deep backbend that opens the heart center.', image: 'anahata_ustrasana.png' },
+                { name: 'Bhujangasana', english: 'Cobra Pose', desc: 'Gentle heart opener allowing love to flow.', image: 'anahata_bhujangasana.png' },
+                { name: 'Chakrasana', english: 'Wheel Pose', desc: 'Full expression of an open heart and vulnerability.', image: 'anahata_chakrasana.png' }
             ],
             color: '#2ECC71',
             mantra: 'YAM'
@@ -68,8 +68,8 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '741 Hz',
             frequencyName: 'Expression/Solutions',
             yogaPoses: [
-                { name: 'Sarvangasana', english: 'Shoulder Stand', desc: 'Stimulates the thyroid and throat area.', image: 'vishuddha-1.png' },
-                { name: 'Matsyasana', english: 'Fish Pose', desc: 'Opens the throat for clear communication.', image: 'vishuddha-1.png' },
+                { name: 'Sarvangasana', english: 'Shoulder Stand', desc: 'Stimulates the thyroid and throat area.', image: 'vishuddha_sarvangasana.png' },
+                { name: 'Matsyasana', english: 'Fish Pose', desc: 'Opens the throat for clear communication.', image: 'vishuddha_matsyasana.png' },
                 { name: 'Halasana', english: 'Plow Pose', desc: 'Releases tension in the neck and shoulders.', image: 'vishuddha-1.png' }
             ],
             color: '#3498DB',
