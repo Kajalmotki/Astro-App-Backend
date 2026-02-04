@@ -1,16 +1,34 @@
 import React, { useState } from 'react';
 import AstroChart from '../AstroChart';
 import FullScreenOverlay from '../shared/FullScreenOverlay';
+import { getLocalVedicChart } from '../../services/vedicAstroApi';
 import BirthDetailsForm from '../BirthDetailsForm';
-import './AstroChartPage.css';
 
 const AstroChartPage = ({ isOpen, onClose }) => {
     const [isChartGenerated, setIsChartGenerated] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [chartData, setChartData] = useState(null); // Can be SVG string or JSON object
+    const [chartType, setChartType] = useState(null); // 'svg' or 'json'
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleFormSubmit = (data) => {
+    const handleFormSubmit = async (data) => {
         setUserData(data);
+        setIsLoading(true);
+        setError(null);
         setIsChartGenerated(true);
+
+        try {
+            // Updated to use the local API first
+            const result = await getLocalVedicChart(data);
+            setChartData(result.data);
+            setChartType(result.type);
+        } catch (err) {
+            console.error("Failed to generate chart:", err);
+            setError("Could not generate chart. Please check your internet connection.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -29,7 +47,7 @@ const AstroChartPage = ({ isOpen, onClose }) => {
                         </div>
 
                         <div className="chart-wrapper-large">
-                            <AstroChart />
+                            <AstroChart chartData={chartData} chartType={chartType} isLoading={isLoading} error={error} />
                         </div>
 
                         <div className="chart-details">
@@ -48,7 +66,7 @@ const AstroChartPage = ({ isOpen, onClose }) => {
                         </div>
 
                         <div className="chart-action-area">
-                            <button className="gold-btn" onClick={() => setIsChartGenerated(false)}>Back to Input</button>
+                            <button className="gold-btn" onClick={() => { setIsChartGenerated(false); setChartData(null); setChartType(null); setError(null); }}>Back to Input</button>
                             <p className="note">Unlock your karmic blueprint</p>
                         </div>
                     </div>
