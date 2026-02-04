@@ -6,13 +6,13 @@ const ChakraEnergy = () => {
     const [selectedChakra, setSelectedChakra] = useState(null);
 
     const chakras = [
-        { name: 'Sahasrara', color: '#9B59B6', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' },
-        { name: 'Ajna', color: '#6C5CE7', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' },
-        { name: 'Vishuddha', color: '#3498DB', symbol: 'हं', petals: 16, description: 'Throat Chakra - Communication, self-expression, and truth' },
-        { name: 'Anahata', color: '#2ECC71', symbol: 'यं', petals: 12, description: 'Heart Chakra - Love, compassion, and emotional balance' },
-        { name: 'Manipura', color: '#F1C40F', symbol: 'रं', petals: 10, description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' },
-        { name: 'Svadhisthana', color: '#E67E22', symbol: 'वं', petals: 6, description: 'Sacral Chakra - Creativity, passion, and emotional flow' },
-        { name: 'Muladhara', color: '#E74C3C', symbol: 'लं', petals: 4, description: 'Root Chakra - Grounding, stability, and survival instincts' }
+        { name: 'Sahasrara', color: '#BE2EDD', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' }, // Vivid Purple
+        { name: 'Ajna', color: '#5F27CD', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' }, // Vivid Indigo
+        { name: 'Vishuddha', color: '#2F80ED', symbol: 'हं', petals: 16, description: 'Throat Chakra - Communication, self-expression, and truth' }, // Vivid Azure
+        { name: 'Anahata', color: '#2ED573', symbol: 'यं', petals: 12, description: 'Heart Chakra - Love, compassion, and emotional balance' }, // Vivid Emerald
+        { name: 'Manipura', color: '#FFD32A', symbol: 'रं', petals: 10, description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' }, // Vivid Gold
+        { name: 'Svadhisthana', color: '#FF9F43', symbol: 'वं', petals: 6, description: 'Sacral Chakra - Creativity, passion, and emotional flow' }, // Vivid Orange
+        { name: 'Muladhara', color: '#FF4757', symbol: 'लं', petals: 4, description: 'Root Chakra - Grounding, stability, and survival instincts' } // Vivid Crimson
     ];
 
     const renderPetals = (petalCount, color) => {

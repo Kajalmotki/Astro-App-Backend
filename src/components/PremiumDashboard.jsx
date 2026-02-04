@@ -147,7 +147,7 @@ const PremiumDashboard = ({ isOpen, onClose, user }) => {
                         </div>
                         <div className="location-time">
                             <span>🕒 {new Date().toLocaleTimeString()}</span>
-                            <span>📍 Surat, India</span>
+                            <span>📍 New Delhi, India</span>
                         </div>
                     </header>
 

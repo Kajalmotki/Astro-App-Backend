@@ -51,7 +51,10 @@ const SampleChart = () => {
                                 className="green-shine-btn"
                                 onClick={() => setView('details')}
                             >
-                                ✨ Create Your AstroRevo Chart ✨
+                                <video className="btn-video-bg" autoPlay loop muted playsInline>
+                                    <source src="/videos/ocean_waves.mp4" type="video/mp4" />
+                                </video>
+                                <span style={{ position: 'relative', zIndex: 5 }}>✨ Create Your AstroRevo Chart ✨</span>
                             </button>
                         </div>
                     </>

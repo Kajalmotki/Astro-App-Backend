@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Permanent+Marker&family=Pinyon+Script&family=Orbitron:wght@400;500;700&family=Michroma&display=swap');
 
 :root {
   /* Default Theme (Dark / Night Mode) */
@@ -318,9 +318,11 @@ h3 {
   transition: all 0.3s ease;
 
   /* Default Dark Mode: Green bg, White text */
-  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  background: #000;
   color: #FFFFFF;
   font-weight: 700;
+  position: relative;
+  overflow: hidden;
 
   /* 3D Effect */
   box-shadow:
@@ -330,6 +332,19 @@ h3 {
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 
   transform: translateY(0);
+}
+
+.green-shine-btn .btn-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.8;
+  filter: sepia(100%) hue-rotate(90deg) saturate(300%) brightness(0.7);
+  pointer-events: none;
 }
 
 /* Day Mode Override: White bg, Green text */

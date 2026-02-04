@@ -71,7 +71,7 @@ const AstroAssistant = ({ onLoginClick }) => {
                         <div className="status-dot-green"></div>
                     </div>
                     <div>
-                        <h3 className="gold-text">AstroRevo AI Assistant</h3>
+                        <h3 style={{ color: '#FFFFFF' }}>AstroRevo AI Assistant</h3>
                         <span className="text-dim">Query Assistant</span>
                     </div>
                 </div>

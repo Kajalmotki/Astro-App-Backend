@@ -78,48 +78,53 @@ const QuestionChart = ({ onSelect }) => {
     };
 
     return (
-        <div className="question-chart-container glass-card">
-            <div className="chart-header">
-                <h3 className="gold-text text-center">AstroRevo Insight Chart</h3>
-                <p className="text-dim text-center">Representative examples of what our AI Engine analyzes in your chart.</p>
+        <div className="question-chart-container glass-panel">
+            <div className="chart-header-control">
+                <div className="header-title-group">
+                    <span className="scifi-icon">◈</span>
+                    <div>
+                        <h3 className="gold-text">AstroRevo Insight Matrix</h3>
+                        <p className="text-dim">AI-Powered Pattern Recognition Engine</p>
+                    </div>
+                </div>
+                <div className="simulation-status">
+                    <span className="status-dot blink"></span>
+                    <span>SYSTEM READY</span>
+                </div>
             </div>
 
             <div className="chart-grid">
                 {/* Basic Section */}
-                <div className="chart-section basic">
-                    <div className="section-header basic-header">
-                        <span className="section-badge">Standard</span>
-                        <h4>Basic Questions</h4>
+                <div className="chart-section basic-panel">
+                    <div className="section-header">
+                        <span className="section-icon">⟡</span>
+                        <h4>Fundamental Analysis</h4>
+                        <span className="line-dec"></span>
                     </div>
-                    <div className="chart-table">
-                        <div className="table-row table-head">
-                            <div className="cell-q">The Inquiry</div>
-                            <div className="cell-a">Sample AI Insight</div>
-                        </div>
+                    <div className="chart-list">
                         {basicQuestions.map((item, i) => (
-                            <div key={i} className="table-row clickable" onClick={() => handleRowClick(item.q, 'Basic')}>
-                                <div className="cell-q">{item.q}</div>
-                                <div className="cell-a italic">{item.a}</div>
+                            <div key={i} className="insight-card clickable" onClick={() => handleRowClick(item.q, 'Basic')}>
+                                <div className="card-q">{item.q}</div>
+                                <div className="card-a">{item.a}</div>
+                                <div className="card-glow"></div>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Advanced Section */}
-                <div className="chart-section advance">
-                    <div className="section-header advance-header">
-                        <span className="section-badge gold">Advanced</span>
-                        <h4>Advanced Analytics</h4>
+                <div className="chart-section advance-panel">
+                    <div className="section-header">
+                        <span className="section-icon">✦</span>
+                        <h4>Deep Karmic Patterns</h4>
+                        <span className="line-dec"></span>
                     </div>
-                    <div className="chart-table">
-                        <div className="table-row table-head">
-                            <div className="cell-q">Complex Query</div>
-                            <div className="cell-a">Sample Logic Trace</div>
-                        </div>
+                    <div className="chart-list">
                         {advancedQuestions.map((item, i) => (
-                            <div key={i} className="table-row clickable" onClick={() => handleRowClick(item.q, 'Advanced')}>
-                                <div className="cell-q">{item.q}</div>
-                                <div className="cell-a italic">{item.a}</div>
+                            <div key={i} className="insight-card clickable advanced-card" onClick={() => handleRowClick(item.q, 'Advanced')}>
+                                <div className="card-q">{item.q}</div>
+                                <div className="card-a">{item.a}</div>
+                                <div className="card-glow"></div>
                             </div>
                         ))}
                     </div>
@@ -127,7 +132,8 @@ const QuestionChart = ({ onSelect }) => {
             </div>
 
             <div className="chart-footer">
-                <p className="pulse-text text-center">Explore all 52+ pathways by starting your personal cosmic reading below.</p>
+                <div className="data-stream-line"></div>
+                <p className="tech-text">INITIALIZING COSMIC DATA STREAM... SELECT A QUERY TO BEGIN</p>
             </div>
         </div>
     );

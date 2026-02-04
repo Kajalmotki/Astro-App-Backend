@@ -1,4 +1,4 @@
-/* Hooked CTA Styles - Classic Green & Cream Edition */
+/* Hooked CTA Styles - Forest Green Video Edition */
 
 .hooked-cta-container {
     display: flex;
@@ -61,8 +61,8 @@
 .cta-square-btn {
     position: relative;
     padding: 24px 48px;
-    background: #0a0a1a;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: #000;
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 12px;
     text-decoration: none;
     display: flex;
@@ -71,188 +71,55 @@
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
 }
 
-/* Liquid Wave Layer 1 - Bottom wave */
-/* Liquid Wave Layer 1 - Bottom wave */
+/* Video Background inside Button */
+.btn-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.9;
+    filter: sepia(100%) hue-rotate(90deg) saturate(300%) brightness(0.7);
+    pointer-events: none;
+}
+
+/* Overlay for text contrast */
 .cta-square-btn::before {
     content: '';
     position: absolute;
-    bottom: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(0deg,
-            #FF0000 0%,
-            /* Red */
-            #FF7F00 16%,
-            /* Orange */
-            #FFFF00 32%,
-            /* Yellow */
-            #00FF00 48%,
-            /* Green */
-            #0000FF 64%,
-            /* Blue */
-            #4B0082 80%,
-            /* Indigo */
-            #9400D3 100%
-            /* Violet */
-        );
-    background-size: 100% 200%;
-    border-radius: 40%;
-    animation:
-        liquidWave 6s ease-in-out infinite,
-        waterFill 10s linear infinite;
-    opacity: 0.9;
-    transform-origin: center center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
-/* Liquid Wave Layer 2 - Top shimmer wave */
+/* Hover Shine */
 .cta-square-btn::after {
     content: '';
     position: absolute;
-    bottom: -30%;
+    top: -50%;
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(0deg,
-            rgba(255, 0, 0, 0.7) 0%,
-            rgba(255, 127, 0, 0.7) 16%,
-            rgba(255, 255, 0, 0.7) 32%,
-            rgba(0, 255, 0, 0.7) 48%,
-            rgba(0, 0, 255, 0.7) 64%,
-            rgba(75, 0, 130, 0.7) 80%,
-            rgba(148, 0, 211, 0.7) 100%);
-    background-size: 100% 200%;
-    border-radius: 45%;
-    animation:
-        liquidWave2 5s ease-in-out infinite,
-        waterFill 10s linear infinite reverse;
-    opacity: 0.6;
-    transform-origin: center center;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
 }
 
-@keyframes waterFill {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    50% {
-        background-position: 0% 100%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-/* Ultra smooth primary wave animation */
-@keyframes liquidWaveUltraSmooth {
-    0% {
-        transform: rotate(0deg) translateY(0) scale(1);
-        border-radius: 42%;
-    }
-
-    12.5% {
-        transform: rotate(45deg) translateY(-2px) scale(1.02);
-        border-radius: 40%;
-    }
-
-    25% {
-        transform: rotate(90deg) translateY(-4px) scale(1.01);
-        border-radius: 44%;
-    }
-
-    37.5% {
-        transform: rotate(135deg) translateY(-2px) scale(1.03);
-        border-radius: 41%;
-    }
-
-    50% {
-        transform: rotate(180deg) translateY(0) scale(1);
-        border-radius: 43%;
-    }
-
-    62.5% {
-        transform: rotate(225deg) translateY(2px) scale(1.02);
-        border-radius: 40%;
-    }
-
-    75% {
-        transform: rotate(270deg) translateY(4px) scale(1.01);
-        border-radius: 45%;
-    }
-
-    87.5% {
-        transform: rotate(315deg) translateY(2px) scale(1.03);
-        border-radius: 41%;
-    }
-
-    100% {
-        transform: rotate(360deg) translateY(0) scale(1);
-        border-radius: 42%;
-    }
-}
-
-/* Ultra smooth secondary wave */
-@keyframes liquidWaveUltraSmooth2 {
-    0% {
-        transform: rotate(0deg) translateY(3px) scale(1.01);
-        border-radius: 48%;
-    }
-
-    12.5% {
-        transform: rotate(-45deg) translateY(2px) scale(1.03);
-        border-radius: 46%;
-    }
-
-    25% {
-        transform: rotate(-90deg) translateY(0) scale(1);
-        border-radius: 49%;
-    }
-
-    37.5% {
-        transform: rotate(-135deg) translateY(-2px) scale(1.02);
-        border-radius: 47%;
-    }
-
-    50% {
-        transform: rotate(-180deg) translateY(-3px) scale(1.01);
-        border-radius: 50%;
-    }
-
-    62.5% {
-        transform: rotate(-225deg) translateY(-2px) scale(1.03);
-        border-radius: 46%;
-    }
-
-    75% {
-        transform: rotate(-270deg) translateY(0) scale(1);
-        border-radius: 48%;
-    }
-
-    87.5% {
-        transform: rotate(-315deg) translateY(2px) scale(1.02);
-        border-radius: 47%;
-    }
-
-    100% {
-        transform: rotate(-360deg) translateY(3px) scale(1.01);
-        border-radius: 48%;
-    }
-}
-
-/* Ultra smooth color flow */
-@keyframes colorFlowUltraSmooth {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    100% {
-        background-position: 0% 100%;
-    }
+.cta-square-btn:hover::after {
+    opacity: 1;
+    left: 100%;
 }
 
 /* The Text */
@@ -265,34 +132,16 @@
     color: #FFFFFF;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Hover Effects */
 .cta-square-btn:hover {
     transform: scale(1.05) translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: #FFFFFF;
     box-shadow:
-        0 8px 40px rgba(148, 0, 211, 0.5),
-        0 0 60px rgba(0, 255, 0, 0.3);
-}
-
-.cta-square-btn:hover::before {
-    animation:
-        liquidWaveUltraSmooth 6s ease-in-out infinite,
-        colorFlowUltraSmooth 18s linear infinite;
-}
-
-.cta-square-btn:hover::after {
-    animation:
-        liquidWaveUltraSmooth2 5.5s ease-in-out infinite,
-        colorFlowUltraSmooth 18s linear infinite reverse;
-}
-
-.cta-square-btn:hover .btn-text {
-    text-shadow:
-        0 0 20px rgba(255, 255, 255, 0.9),
-        0 0 40px rgba(255, 255, 255, 0.5);
+        0 8px 40px rgba(45, 80, 22, 0.6),
+        0 0 60px rgba(45, 80, 22, 0.3);
 }
 
 /* Connect the hooks visually on hover */
@@ -325,6 +174,63 @@
 
     .hook {
         display: none;
-        /* Hide hooks on mobile for cleaner look */
+    }
+}
+
+/* Cosmic Universe Button Background */
+.cosmic-universe-bg {
+    background: radial-gradient(circle at 20% 50%, rgba(76, 29, 149, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(219, 39, 119, 0.3) 0%, transparent 50%),
+        linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+    background-size: 200% 200%;
+    animation: cosmicShift 15s ease infinite;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(124, 58, 237, 0.3);
+    overflow: hidden;
+    position: relative;
+}
+
+.cosmic-universe-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(1px 1px at 10% 10%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 20% 20%, #fff 100%, transparent),
+        radial-gradient(2px 2px at 30% 30%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 40% 40%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 50% 50%, #fff 100%, transparent),
+        radial-gradient(2px 2px at 60% 60%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 70% 70%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 80% 80%, #fff 100%, transparent),
+        radial-gradient(1px 1px at 90% 90%, #fff 100%, transparent);
+    background-size: 200px 200px;
+    animation: cosmicStars 60s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes cosmicShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes cosmicStars {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-200px);
     }
 }

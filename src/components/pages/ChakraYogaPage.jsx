@@ -16,9 +16,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '396 Hz',
             frequencyName: 'Liberation of Guilt and Fear',
             yogaPoses: [
-                { name: 'Tadasana', english: 'Mountain Pose', desc: 'Connects you to the earth, building stability and grounding.', image: 'muladhara_tadasana.png' },
-                { name: 'Vrikshasana', english: 'Tree Pose', desc: 'Develops balance and focus, strengthening your roots.', image: 'muladhara_vrikshasana.png' },
-                { name: 'Virabhadrasana I', english: 'Warrior I', desc: 'Builds determination and connection to the ground.', image: 'muladhara_virabhadrasana.png' }
+                { name: 'Tadasana', english: 'Mountain Pose', desc: 'Connects you to the earth, building stability and grounding.', duration: 'Hold for 1-3 minutes (breathing deeply)', image: 'muladhara_tadasana.png' },
+                { name: 'Vrikshasana', english: 'Tree Pose', desc: 'Develops balance and focus, strengthening your roots.', duration: 'Hold for 30-60 seconds per leg', image: 'muladhara_vrikshasana.png' },
+                { name: 'Virabhadrasana I', english: 'Warrior I', desc: 'Builds determination and connection to the ground.', duration: 'Hold for 30-60 seconds per side', image: 'muladhara_virabhadrasana.png' }
             ],
             color: '#E74C3C',
             mantra: 'LAM'
@@ -29,9 +29,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '417 Hz',
             frequencyName: 'Undoing Situations and Facilitating Change',
             yogaPoses: [
-                { name: 'Baddha Konasana', english: 'Bound Angle Pose', desc: 'Opens the hips and releases emotional tension.', image: 'svadhisthana_baddhakonasana.png' },
-                { name: 'Upavistha Konasana', english: 'Wide-Angle Seated Forward Bend', desc: 'Stimulates flow and creativity.', image: 'svadhisthana_upavisthakonasana.png' },
-                { name: 'Eka Pada Rajakapotasana', english: 'Pigeon Pose', desc: 'Deep hip opener to release stored emotions.', image: 'svadhisthana_ekapadarajakapotasana.png' }
+                { name: 'Baddha Konasana', english: 'Bound Angle Pose', desc: 'Opens the hips and releases emotional tension.', duration: 'Hold for 3-5 minutes (gentle stretch)', image: 'svadhisthana_baddhakonasana.png' },
+                { name: 'Upavistha Konasana', english: 'Wide-Angle Seated Forward Bend', desc: 'Stimulates flow and creativity.', duration: 'Hold for 2-4 minutes', image: 'svadhisthana_upavisthakonasana.png' },
+                { name: 'Eka Pada Rajakapotasana', english: 'Pigeon Pose', desc: 'Deep hip opener to release stored emotions.', duration: 'Hold for 2-3 minutes per side', image: 'svadhisthana_ekapadarajakapotasana.png' }
             ],
             color: '#E67E22',
             mantra: 'VAM'
@@ -42,9 +42,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '528 Hz',
             frequencyName: 'Transformation and Miracles (DNA Repair)',
             yogaPoses: [
-                { name: 'Navasana', english: 'Boat Pose', desc: 'Strengthens the core and ignites inner fire (Agni).', image: 'manipura_navasana.png' },
-                { name: 'Dhanurasana', english: 'Bow Pose', desc: 'Stimulates the solar plexus and digestive organs.', image: 'manipura_dhanurasana.png' },
-                { name: 'Surya Namaskar', english: 'Sun Salutations', desc: 'Builds heat and honors the source of all power.', image: 'manipura_suryanamaskar.png' }
+                { name: 'Navasana', english: 'Boat Pose', desc: 'Strengthens the core and ignites inner fire (Agni).', duration: 'Hold for 30-60 seconds (repeat 3x)', image: 'manipura_navasana.png' },
+                { name: 'Dhanurasana', english: 'Bow Pose', desc: 'Stimulates the solar plexus and digestive organs.', duration: 'Hold for 20-30 seconds (repeat 2x)', image: 'manipura_dhanurasana.png' },
+                { name: 'Surya Namaskar', english: 'Sun Salutations', desc: 'Builds heat and honors the source of all power.', duration: 'Perform 5-10 rounds (flowing pace)', image: 'manipura_suryanamaskar.png' }
             ],
             color: '#F1C40F',
             mantra: 'RAM'
@@ -55,9 +55,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '639 Hz',
             frequencyName: 'Connecting/Relationships',
             yogaPoses: [
-                { name: 'Ustrasana', english: 'Camel Pose', desc: 'Deep backbend that opens the heart center.', image: 'anahata_ustrasana.png' },
-                { name: 'Bhujangasana', english: 'Cobra Pose', desc: 'Gentle heart opener allowing love to flow.', image: 'anahata_bhujangasana.png' },
-                { name: 'Chakrasana', english: 'Wheel Pose', desc: 'Full expression of an open heart and vulnerability.', image: 'anahata_chakrasana.png' }
+                { name: 'Ustrasana', english: 'Camel Pose', desc: 'Deep backbend that opens the heart center.', duration: 'Hold for 30-60 seconds', image: 'anahata_ustrasana.png' },
+                { name: 'Bhujangasana', english: 'Cobra Pose', desc: 'Gentle heart opener allowing love to flow.', duration: 'Hold for 30-45 seconds (repeat 2x)', image: 'anahata_bhujangasana.png' },
+                { name: 'Chakrasana', english: 'Wheel Pose', desc: 'Full expression of an open heart and vulnerability.', duration: 'Hold for 15-30 seconds (if comfortable)', image: 'anahata_chakrasana.png' }
             ],
             color: '#2ECC71',
             mantra: 'YAM'
@@ -68,9 +68,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '741 Hz',
             frequencyName: 'Expression/Solutions',
             yogaPoses: [
-                { name: 'Sarvangasana', english: 'Shoulder Stand', desc: 'Stimulates the thyroid and throat area.', image: 'vishuddha_sarvangasana.png' },
-                { name: 'Matsyasana', english: 'Fish Pose', desc: 'Opens the throat for clear communication.', image: 'vishuddha_matsyasana.png' },
-                { name: 'Halasana', english: 'Plow Pose', desc: 'Releases tension in the neck and shoulders.', image: 'vishuddha-1.png' }
+                { name: 'Sarvangasana', english: 'Shoulder Stand', desc: 'Stimulates the thyroid and throat area.', duration: 'Hold for 1-3 minutes', image: 'vishuddha_sarvangasana.png' },
+                { name: 'Matsyasana', english: 'Fish Pose', desc: 'Opens the throat for clear communication.', duration: 'Hold for 30-60 seconds (counter-pose)', image: 'vishuddha_matsyasana.png' },
+                { name: 'Halasana', english: 'Plow Pose', desc: 'Releases tension in the neck and shoulders.', duration: 'Hold for 1-2 minutes', image: 'vishuddha-1.png' }
             ],
             color: '#3498DB',
             mantra: 'HAM'
@@ -81,9 +81,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '852 Hz',
             frequencyName: 'Returning to Spiritual Order',
             yogaPoses: [
-                { name: 'Balasana', english: 'Child\'s Pose', desc: 'Connects the third eye to the earth, calming the mind.', image: 'ajna-3.png' },
-                { name: 'Garudasana', english: 'Eagle Pose', desc: 'Requires intense focus and single-pointed concentration.', image: 'ajna-3.png' },
-                { name: 'Padmasana', english: 'Lotus Pose', desc: 'The ultimate pose for meditation and inner vision.', image: 'ajna-3.png' }
+                { name: 'Balasana', english: 'Child\'s Pose', desc: 'Connects the third eye to the earth, calming the mind.', duration: 'Hold for 3-5 minutes (resting)', image: 'ajna-3.png' },
+                { name: 'Garudasana', english: 'Eagle Pose', desc: 'Requires intense focus and single-pointed concentration.', duration: 'Hold for 30-60 seconds per side', image: 'ajna-3.png' },
+                { name: 'Padmasana', english: 'Lotus Pose', desc: 'The ultimate pose for meditation and inner vision.', duration: 'Sit for 5-10 minutes (meditation)', image: 'ajna-3.png' }
             ],
             color: '#6C5CE7',
             mantra: 'OM'
@@ -94,9 +94,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '963 Hz',
             frequencyName: 'Awakening Perfect State',
             yogaPoses: [
-                { name: 'Sirsasana', english: 'Headstand', desc: 'Directs energy to the crown, reversing gravity\'s flow.', image: 'ajna-3.png' },
-                { name: 'Savasana', english: 'Corpse Pose', desc: 'Total surrender to the divine and cosmic consciousness.', image: 'ajna-3.png' },
-                { name: 'Padmasana', english: 'Lotus Pose', desc: 'Meditation for enlightenment and connection.', image: 'ajna-3.png' }
+                { name: 'Sirsasana', english: 'Headstand', desc: 'Directs energy to the crown, reversing gravity\'s flow.', duration: 'Hold for 1-5 minutes (advanced)', image: 'ajna-3.png' },
+                { name: 'Savasana', english: 'Corpse Pose', desc: 'Total surrender to the divine and cosmic consciousness.', duration: 'Rest for 5-10 minutes', image: 'ajna-3.png' },
+                { name: 'Padmasana', english: 'Lotus Pose', desc: 'Meditation for enlightenment and connection.', duration: 'Sit for 10-20 minutes (silent focus)', image: 'ajna-3.png' }
             ],
             color: '#9B59B6',
             mantra: 'OM' // Or Silence
@@ -167,6 +167,7 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
                             <div className="yoga-details">
                                 <h4>{pose.name}</h4>
                                 <span className="english-name">{pose.english}</span>
+                                <p className="pose-duration">⏱ {pose.duration}</p>
                                 <p>{pose.desc}</p>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthModal';
 import SlidingChartButton from './SlidingChartButton';
+import CalmMusicPlayer from './CalmMusicPlayer';
 
 const Header = ({ onLoginClick, onMembershipClick }) => {
     const { user, logout } = useAuth();
@@ -40,6 +41,9 @@ const Header = ({ onLoginClick, onMembershipClick }) => {
                 <nav className="nav nav-left">
                     <Link to="/knowledge" className="nav-chat-link desktop-only">Knowledge Source</Link>
                     <Link to="/chat" className="nav-chat-link desktop-only">AI Chat</Link>
+                    <div className="header-music-player desktop-only">
+                        <CalmMusicPlayer />
+                    </div>
                 </nav>
 
                 <Link to="/" className="logo-container logo-center">

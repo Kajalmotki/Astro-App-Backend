@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
 import ChatInterface from './components/ChatInterface';
@@ -29,6 +29,7 @@ import './App.css';
 import './components/HookedCTA.css';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
+  const location = useLocation();
   const [isMuted, setIsMuted] = React.useState(true);
   const videoRef = React.useRef(null);
 
@@ -95,7 +96,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
           <div className="workflow-section">
             <div className="hooked-cta-container">
               <div className="hook left-hook"></div>
-              <Link to="/sample" className="cta-square-btn golden-highlight">
+              <Link to="/sample" className="cta-square-btn golden-highlight cosmic-universe-bg">
                 <span className="btn-text">The AstroRevo Chart (Sample)</span>
               </Link>
               <div className="hook right-hook"></div>
@@ -105,6 +106,8 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
       </section>
 
       <Testimonials />
+
+      {!location.pathname.includes('/chat') && <DonationSection />}
 
       <section id="chat-window" className="assistant-showcase-section">
         <div className="assistant-layout-container">
@@ -133,11 +136,14 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
 function AppContent() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const { user } = useAuth();
+
+  const isChatPage = location.pathname.toLowerCase().includes('chat');
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
@@ -148,12 +154,15 @@ function AppContent() {
     <div className="app-container">
       <StarfieldBackground />
 
-      <ChakraEnergy />
-      <Header
-        onLoginClick={() => setIsAuthOpen(true)}
-        onMembershipClick={() => setIsDashboardOpen(true)}
-      />
-      <UserOnboarding />
+      {!isChatPage && <ChakraEnergy />}
+      {!isChatPage && (
+        <Header
+          onLoginClick={() => setIsAuthOpen(true)}
+          onMembershipClick={() => setIsDashboardOpen(true)}
+        />
+      )}
+      {!isChatPage && <UserOnboarding />}
+
       <Routes>
         <Route path="/" element={
           <LandingPage
@@ -167,7 +176,7 @@ function AppContent() {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/workflow" element={<WorkflowCanvas />} />
       </Routes>
-      <DonationSection />
+
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
@@ -183,7 +192,7 @@ function AppContent() {
         onClose={() => setIsDashboardOpen(false)}
         user={user}
       />
-      <Footer />
+      {!isChatPage && <Footer />}
     </div>
   );
 }

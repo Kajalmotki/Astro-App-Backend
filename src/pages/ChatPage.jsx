@@ -7,8 +7,7 @@ import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
 import { fetchUserBirthData } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
 import { updateProfile } from 'firebase/auth';
-import logo from '../assets/logo.png';
-import OmPlayer from '../components/OmPlayer';
+import CalmMusicPlayer from '../components/CalmMusicPlayer';
 import './ChatPage.css';
 
 const PaymentButtonLoader = ({ containerId }) => {
@@ -26,7 +25,7 @@ const ChatPage = () => {
         {
             id: 1,
             type: 'bot',
-            text: "Namaste! I am your AstroRevo Guide. I've been waiting for this cosmic connection. To begin our journey, I'll need to create your sacred birth chart. Shall we proceed?",
+            text: "Namaste! I am your AstroRevo Guide. I've been waiting for our cosmic paths to cross. To begin your journey, I'll need to create your sacred birth chart. Shall we proceed?",
             showFormLink: true
         }
     ]);
@@ -44,14 +43,11 @@ const ChatPage = () => {
                     const savedData = await fetchUserBirthData(user.uid);
                     if (savedData) {
                         setUserBirthData(savedData);
-                        console.log("Loaded saved birth data for chat:", savedData);
-
-                        // Update initial message to skip birth details request
                         setMessages([
                             {
                                 id: Date.now(),
                                 type: 'bot',
-                                text: `Namaste ${savedData.name || 'Seeker'}! I have successfully loaded your chart data. The stars align for revelation today. What question is weighing on your heart?`,
+                                text: `Namaste ${savedData.name || 'Seeker'}! I have successfully synchronized with your birth chart. The stars are aligned for revelation. What deep question brings you here today?`,
                                 showFormLink: false
                             }
                         ]);
@@ -77,14 +73,15 @@ const ChatPage = () => {
     }, [location.state]);
 
     const handleSend = async (text = inputValue) => {
-        if (!text.trim()) return;
+        const messageText = typeof text === 'string' ? text : inputValue;
+        if (!messageText.trim()) return;
 
-        setMessages(prev => [...prev, { id: Date.now(), type: 'user', text }]);
+        setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: messageText }]);
         setInputValue('');
         setIsTyping(true);
 
         try {
-            const response = await getAIResponse(text, user?.uid || 'guest', userBirthData, user?.displayName || userBirthData?.name || 'Seeker');
+            const response = await getAIResponse(messageText, user?.uid || 'guest', userBirthData, user?.displayName || userBirthData?.name || 'Seeker');
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
@@ -98,7 +95,7 @@ const ChatPage = () => {
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',
-                text: "The stars are slightly obscured right now. Please try again in a moment.",
+                text: "The celestial energies are shifting. Please ask your question again in a moment.",
                 isError: true
             }]);
         } finally {
@@ -127,7 +124,7 @@ const ChatPage = () => {
             setMessages(prev => [...prev, {
                 id: Date.now(),
                 type: 'bot',
-                text: `Dhanyawad, ${data.name}. Your planetary alignment is unique. I have prepared your D1 Lagna Chart analysis.`,
+                text: `Dhanyawad, ${data.name}. Your chart reveals a powerful destiny. I have prepared your personalized analysis.`,
                 showPayment: true,
                 kundliData: data
             }]);
@@ -143,7 +140,7 @@ const ChatPage = () => {
             setMessages(prev => [...prev, {
                 id: Date.now(),
                 type: 'bot',
-                text: "Payment Confirmed! Here is your personalized AstroRevo Decision Workflow.",
+                text: "Divine energy received. Here is your personalized AstroRevo Decision Workflow.",
                 isKundli: true,
                 kundliData: data
             }]);
@@ -155,7 +152,7 @@ const ChatPage = () => {
         <div className="chat-page-container">
             <aside className="chat-sidebar">
                 <div className="sidebar-header">
-                    <span className="logo-text" style={{ fontSize: '1.5rem' }}>AstroRevo</span>
+                    <span className="logo-text">AstroRevo</span>
                 </div>
                 <nav className="history-list">
                     <div className="history-item active">
@@ -167,58 +164,31 @@ const ChatPage = () => {
                         onClick={() => setShowBirthForm(true)}
                     >
                         <span className="icon">+</span>
-                        <span className="item-text">Add Charts</span>
+                        <span className="item-text">Birth Details</span>
                     </button>
                 </nav>
                 <div className="sidebar-footer">
-                    <button className="back-btn" onClick={() => navigate('/')}>← Exit to Home</button>
+                    <button className="back-btn" onClick={() => navigate('/')}>← Back Home</button>
                 </div>
             </aside>
 
             <main className="chat-main-area">
                 <header className="chat-page-header">
                     <div className="header-center">
-                        <div className="bot-avatar-container">
-                            <OmPlayer />
-                            <div className="online-indicator"></div>
-                        </div>
+                        <CalmMusicPlayer />
                     </div>
                     <div className="header-right">
-                        <div className="header-user">
-                            {user?.displayName || userBirthData?.name || 'Guest'}
+                        <div className="user-profile-mini">
+                            <div className="user-info-text">
+                                <span className="user-name-tag">{user?.displayName || userBirthData?.name || 'Guest'}</span>
+                                <span className="user-status-tag"><span className="status-dot"></span> Online</span>
+                            </div>
                         </div>
-                        <button className="header-tool-btn" onClick={() => navigate('/')}>✕</button>
+                        <button className="header-tool-btn" onClick={() => navigate('/')} title="Exit Chat">✕</button>
                     </div>
                 </header>
 
-                {/* Question Carousel */}
-                <div className="question-carousel">
-                    <button className="carousel-nav prev" onClick={() => {
-                        const carousel = document.querySelector('.carousel-track');
-                        carousel.scrollBy({ left: -300, behavior: 'smooth' });
-                    }}>‹</button>
-                    <div className="carousel-track">
-                        <button className="carousel-question" onClick={() => handleSend('Which planetary period will be most favorable for me?')}>
-                            Which planetary period will be most favorable for me?
-                        </button>
-                        <button className="carousel-question" onClick={() => handleSend('When will I get married?')}>
-                            When will I get married?
-                        </button>
-                        <button className="carousel-question" onClick={() => handleSend('Should I change my job or stay?')}>
-                            Should I change my job or stay?
-                        </button>
-                        <button className="carousel-question" onClick={() => handleSend('Is my chart good for business?')}>
-                            Is my chart good for business?
-                        </button>
-                        <button className="carousel-question" onClick={() => handleSend('Will I go abroad?')}>
-                            Will I go abroad?
-                        </button>
-                    </div>
-                    <button className="carousel-nav next" onClick={() => {
-                        const carousel = document.querySelector('.carousel-track');
-                        carousel.scrollBy({ left: 300, behavior: 'smooth' });
-                    }}>›</button>
-                </div>
+
 
                 <div className="messages-viewport">
                     <div className="messages-inner">

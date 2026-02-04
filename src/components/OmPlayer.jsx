@@ -6,7 +6,12 @@ const OmPlayer = () => {
 
     useEffect(() => {
         // Initialize audio element
-        audioRef.current = new Audio('/om-432hz.mp3');
+        audioRef.current = new Audio('/audio/om-namah-shivay.mp3'); // Updated to known path from previous task
+        // Fallback if that failed, try root
+        audioRef.current.onerror = () => {
+            console.log("Audio load failed, trying alternate path");
+            audioRef.current.src = '/om-432hz.mp3';
+        };
         audioRef.current.loop = true;
         audioRef.current.volume = 0.6;
 
