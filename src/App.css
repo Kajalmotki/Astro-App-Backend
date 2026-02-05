@@ -389,7 +389,9 @@
 
 .video-mute-btn {
   position: absolute;
-  top: 650px;
+  /* top: 650px; REMOVED */
+  bottom: 40px;
+  /* Default for desktop */
   right: 20px;
   z-index: 3;
   background: transparent;
@@ -515,6 +517,14 @@
   .circle-node.large-node .node-desc {
     font-size: 0.55rem !important;
     line-height: 1.2;
+  }
+
+  .video-mute-btn {
+    bottom: 160px;
+    /* Above the chart button (80px + height) */
+    right: 20px;
+    width: 40px;
+    height: 40px;
   }
 }
 

@@ -1,4 +1,31 @@
-import swisseph as swe
+try:
+    import swisseph as swe
+except ImportError:
+    print("Warning: pyswisseph not found. Using mock implementation.")
+    class MockSwe:
+        SIDM_LAHIRI = 1
+        SUN, MOON, MARS, MERCURY, JUPITER, VENUS, SATURN, MEAN_NODE = 0, 1, 4, 2, 5, 3, 6, 11 # Approx IDs
+        FLG_SWIEPH = 2
+        FLG_SIDEREAL = 64 * 1024
+        
+        def set_ephe_path(self, path): pass
+        def set_sid_mode(self, mode): pass
+        def julday(self, y, m, d, h): return 2451545.0 + (365 * (y - 2000)) # Rough approx
+        def calc_ut(self, jd, planet, flags):
+            # Return dummy [longitude, lat, dist, speed, ...]
+            # Pseudo-random based on planet ID and JD to be somewhat consistent
+            import math
+            lon = (planet * 30 + (jd % 360)) % 360
+            return [lon, 0, 1, 0, 0, 0]
+        def houses(self, jd, lat, lon, sys):
+            # Return (houses_list, ascmc_list)
+            # ascmc[0] is Ascendant
+            asc = (jd % 360) 
+            houses = [(asc + i*30)%360 for i in range(12)]
+            ascmc = [asc, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            return houses, ascmc
+
+    swe = MockSwe()
 from datetime import datetime, timedelta
 import os
 

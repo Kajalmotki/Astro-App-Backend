@@ -6,13 +6,13 @@ const ChakraEnergy = () => {
     const [selectedChakra, setSelectedChakra] = useState(null);
 
     const chakras = [
-        { name: 'Sahasrara', color: '#BE2EDD', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' }, // Vivid Purple
-        { name: 'Ajna', color: '#5F27CD', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' }, // Vivid Indigo
-        { name: 'Vishuddha', color: '#2F80ED', symbol: 'हं', petals: 16, description: 'Throat Chakra - Communication, self-expression, and truth' }, // Vivid Azure
-        { name: 'Anahata', color: '#2ED573', symbol: 'यं', petals: 12, description: 'Heart Chakra - Love, compassion, and emotional balance' }, // Vivid Emerald
-        { name: 'Manipura', color: '#FFD32A', symbol: 'रं', petals: 10, description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' }, // Vivid Gold
-        { name: 'Svadhisthana', color: '#FF9F43', symbol: 'वं', petals: 6, description: 'Sacral Chakra - Creativity, passion, and emotional flow' }, // Vivid Orange
-        { name: 'Muladhara', color: '#FF4757', symbol: 'लं', petals: 4, description: 'Root Chakra - Grounding, stability, and survival instincts' } // Vivid Crimson
+        { name: 'Sahasrara', color: '#D6A2E8', rgb: '214, 162, 232', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' }, // Light Purple
+        { name: 'Ajna', color: '#9A7FD1', rgb: '154, 127, 209', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' }, // Light Indigo
+        { name: 'Vishuddha', color: '#63CAFF', rgb: '99, 202, 255', symbol: 'हं', petals: 16, description: 'Throat Chakra - Communication, self-expression, and truth' }, // Light Blue
+        { name: 'Anahata', color: '#7BED9F', rgb: '123, 237, 159', symbol: 'यं', petals: 12, description: 'Heart Chakra - Love, compassion, and emotional balance' }, // Light Green
+        { name: 'Manipura', color: '#FFE159', rgb: '255, 225, 89', symbol: 'रं', petals: 10, description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' }, // Light Yellow
+        { name: 'Svadhisthana', color: '#FFC078', rgb: '255, 192, 120', symbol: 'वं', petals: 6, description: 'Sacral Chakra - Creativity, passion, and emotional flow' }, // Light Orange
+        { name: 'Muladhara', color: '#FF7979', rgb: '255, 121, 121', symbol: 'लं', petals: 4, description: 'Root Chakra - Grounding, stability, and survival instincts' } // Light Red
     ];
 
     const renderPetals = (petalCount, color) => {
@@ -61,6 +61,7 @@ const ChakraEnergy = () => {
                             className="chakra-item interactive"
                             style={{
                                 '--chakra-color': chakra.color,
+                                '--chakra-rgb': chakra.rgb,
                                 '--delay': `${index * 0.2}s`
                             }}
                             onClick={() => setSelectedChakra(chakra)}

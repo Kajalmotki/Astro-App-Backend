@@ -262,11 +262,14 @@
 @media (max-width: 768px) {
     .sliding-chart-button {
         top: auto;
-        bottom: 80px;
+        bottom: 90px;
+        /* Raised slightly */
         transform: translateY(0);
-        width: 160px;
-        height: 45px;
-        font-size: 0.85rem;
+        width: 150px;
+        /* Slightly narrower */
+        height: 40px;
+        /* Slightly shorter */
+        font-size: 0.8rem;
     }
 
     .sliding-chart-button.visible {
