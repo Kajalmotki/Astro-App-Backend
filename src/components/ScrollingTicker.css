@@ -1,91 +1,100 @@
+.ticker-title {
+    text-align: center;
+    font-family: var(--font-header, 'Cinzel'), serif;
+    font-size: 2.5rem;
+    color: #FFD700;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+[data-theme='light'] .ticker-title {
+    color: var(--text-main);
+    text-shadow: none;
+}
+
 .ticker-container {
     width: 100%;
     max-width: 1400px;
-    height: 420px;
-    /* Increased to fit symbols + names */
-    overflow-x: auto;
-    overflow-y: hidden;
-    background: radial-gradient(circle at center, rgba(20, 30, 60, 0.98) 0%, rgba(11, 19, 43, 0.98) 100%),
-        url('https://www.transparenttextures.com/patterns/stardust.png');
-    backdrop-filter: blur(25px);
-    border-top: 2px solid rgba(255, 215, 0, 0.4);
-    border-bottom: 2px solid rgba(255, 215, 0, 0.4);
-    border-radius: 20px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    z-index: 90;
-    perspective: 1500px;
-    box-shadow:
-        0 0 50px rgba(0, 0, 0, 0.8),
-        inset 0 0 80px rgba(255, 215, 0, 0.1);
+    height: 380px;
+    /* Condensed height slightly for better proportions */
     margin: 20px auto;
-    scroll-behavior: smooth;
-    cursor: grab;
-}
+    position: relative;
+    overflow: hidden;
+    /* Hide overflow for the infinite scroll illusion */
+    z-index: 10;
 
-.ticker-container:active {
-    cursor: grabbing;
-}
+    /* Premium Glassmorphism Base */
+    background: rgba(11, 19, 43, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 
-/* Custom scrollbar styling */
-.ticker-container::-webkit-scrollbar {
-    height: 8px;
-}
+    /* Horizontal Curve Effect */
+    border-radius: 50% / 40px;
+    padding: 0 40px;
+    /* Protect content from corners */
 
-.ticker-container::-webkit-scrollbar-track {
-    background: rgba(11, 19, 43, 0.5);
-    border-radius: 10px;
-}
-
-.ticker-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0.6), rgba(255, 215, 0, 0.3));
-    border-radius: 10px;
-    transition: background 0.3s ease;
-}
-
-.ticker-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0.9), rgba(255, 215, 0, 0.6));
-}
-
-/* Holographic background effect */
-.ticker-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg,
+    /* Fade edges mask for seamless look */
+    mask-image: linear-gradient(to right,
             transparent 0%,
-            rgba(255, 215, 0, 0.1) 25%,
-            rgba(138, 43, 226, 0.1) 50%,
-            rgba(0, 191, 255, 0.1) 75%,
+            black 10%,
+            black 90%,
             transparent 100%);
-    animation: holographic-sweep 8s linear infinite;
-    pointer-events: none;
-    z-index: 1;
+    -webkit-mask-image: linear-gradient(to right,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%);
 }
 
-@keyframes holographic-sweep {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
-}
-
+/* Track holding the card sets */
 .ticker-track {
     display: flex;
     gap: 3rem;
-    white-space: nowrap;
-    transform-style: preserve-3d;
-    z-index: 2;
-    position: relative;
-    padding: 0 2rem;
-    /* No auto-scroll animation - manual scroll only */
+    width: max-content;
+    /* Allow track to be as wide as needed */
+    animation: scroll 40s linear infinite;
+    /* Adjust speed here */
+    padding: 0 1rem;
+
+    /* Ensure hardware acceleration for smoothness */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+/* Pause on hover for interaction */
+.ticker-container:hover .ticker-track {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        /* Move left by 50% because we duplicated the items */
+        /* But wait, we need to know the width of one set of items. 
+           In a generic CSS infinite scroll, usually we move -50% if the sets are identical 
+           and the total width is exactly 2x. 
+           However, 'gap' complicates the 50% calculation if not careful.
+           A safer way for React mapped lists is usually to rely on JS for exact width or 
+           ensure the animation moves exactly the width of one full set (including gaps).
+           
+           Assumption: The lists are identical.
+           If we use translateX(-50%) on a container that is exactly 200% width, it works.
+           But here width is auto.
+           
+           Let's use the 'transform: translateX(-50%)' approach on the track 
+           which contains TWO identical sets of items.
+           When it reaches -50%, it snaps back to 0.
+        */
+        transform: translateX(-50%);
+    }
 }
 
 .ticker-card {
@@ -94,243 +103,109 @@
     align-items: center;
     justify-content: center;
     gap: 15px;
-    min-width: 350px;
-    width: 350px;
-    height: 350px;
+    width: 280px;
+    /* Fixed manageable width */
+    height: 320px;
     background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 12px 20px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform-style: preserve-3d;
-    position: relative;
-    overflow: visible;
+    transition: all 0.4s ease;
+
+    /* Ensure consistent sizing */
     flex-shrink: 0;
-    /* Prevent cards from shrinking */
-    will-change: transform;
-    backface-visibility: hidden;
-
-    /* No box shadow */
-    box-shadow: none;
+    position: relative;
+    padding-top: 20px;
+    /* Push content down to balance gaps */
 }
-
 
 .ticker-card:hover {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-10px) scale(1.02);
+    z-index: 20;
 }
-
-/* Clickable card styling */
-.ticker-card.clickable {
-    cursor: pointer;
-}
-
-.ticker-card.clickable::after {
-    content: '✨';
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.2rem;
-    opacity: 0.7;
-    animation: sparkle 2s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-
-    0%,
-    100% {
-        opacity: 0.5;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-}
-
-.ticker-card.clickable:hover .ticker-icon-wrapper {
-    box-shadow:
-        0 0 30px rgba(255, 215, 0, 0.7),
-        0 0 50px rgba(255, 215, 0, 0.4),
-        inset 0 2px 5px rgba(255, 255, 255, 0.2);
-}
-
 
 .ticker-icon-wrapper {
-    width: 280px;
-    height: 280px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.2) 0%, rgba(11, 19, 43, 0.4) 100%);
+    /* Deep cosmic button look */
+    background: radial-gradient(circle at 30% 30%,
+            rgba(40, 50, 80, 0.8),
+            rgba(10, 15, 30, 0.95));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        inset 0 0 15px rgba(255, 215, 0, 0.1);
+
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    transition: all 0.4s ease;
-    border: 2px solid rgba(255, 215, 0, 0.3);
-    box-shadow:
-        0 0 30px rgba(0, 0, 0, 0.5),
-        inset 0 0 20px rgba(255, 215, 0, 0.2);
     overflow: hidden;
-    /* Ensure image doesn't bleed out */
 }
 
+/* Premium Glow Ring on Hover */
 .ticker-card:hover .ticker-icon-wrapper {
-    transform: rotateY(360deg) scale(1.1);
     border-color: rgba(255, 215, 0, 0.8);
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.4) 0%, rgba(11, 19, 43, 0.6) 100%);
     box-shadow:
-        0 0 50px rgba(255, 215, 0, 0.4),
-        inset 0 0 30px rgba(255, 215, 0, 0.3);
+        0 0 30px rgba(255, 215, 0, 0.4),
+        inset 0 0 20px rgba(255, 215, 0, 0.3),
+        0 0 60px rgba(138, 43, 226, 0.2);
+    /* Purple hint */
+    transform: rotate(5deg);
 }
 
 .ticker-icon-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(1.1) contrast(1.1);
-    transition: all 0.3s ease;
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
+    transition: transform 0.5s ease;
 }
 
 .ticker-card:hover .ticker-icon-image {
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) brightness(1.2);
+    transform: scale(1.1);
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.6));
 }
 
 .ticker-label {
-    font-family: var(--font-header);
-    font-size: 1rem;
+    font-family: var(--font-header, 'Cinzel'), serif;
+    font-size: 1.1rem;
     font-weight: 600;
-    color: #FFD700;
+    color: #e0d8c0;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-align: center;
     transition: all 0.3s ease;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    position: relative;
-    z-index: 1;
+    margin-top: 5px;
 }
 
 .ticker-card:hover .ticker-label {
-    color: #FFF;
-    text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.8),
-        0 2px 4px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05);
-}
-
-/* Scroll indicators */
-.scroll-indicator {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 215, 0, 0.2);
-    border: 2px solid rgba(255, 215, 0, 0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    pointer-events: auto;
-}
-
-.scroll-indicator:hover {
-    background: rgba(255, 215, 0, 0.4);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-}
-
-.scroll-indicator.left {
-    left: 10px;
-}
-
-.scroll-indicator.right {
-    right: 10px;
-}
-
-.scroll-indicator svg {
-    width: 20px;
-    height: 20px;
-    fill: #FFD700;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    letter-spacing: 3px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .ticker-container {
-        height: 140px;
-        width: 90vw;
+        height: 260px;
+    }
+
+    .ticker-track {
+        gap: 1.5rem;
     }
 
     .ticker-card {
-        min-width: 150px;
-        height: 120px;
+        width: 180px;
+        height: 220px;
     }
 
     .ticker-icon-wrapper {
-        width: 80px;
-        height: 80px;
-    }
-
-    .ticker-icon-image {
-        width: 60px;
-        height: 60px;
+        width: 140px;
+        height: 140px;
     }
 
     .ticker-label {
-        font-size: 0.75rem;
+        font-size: 0.9rem;
     }
-}
-
-/* Day Mode Overrides for Scrolling Ticker */
-[data-theme='light'] .ticker-container {
-    background: linear-gradient(135deg, rgba(249, 246, 240, 0.9), rgba(255, 255, 255, 0.8));
-    border-color: rgba(26, 60, 52, 0.2);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='light'] .ticker-container::before {
-    background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(26, 60, 52, 0.05) 50%,
-            transparent 100%);
-}
-
-[data-theme='light'] .ticker-label {
-    color: var(--text-main);
-    /* Dark Green */
-    text-shadow: none;
-}
-
-[data-theme='light'] .ticker-card:hover .ticker-label {
-    color: var(--primary);
-    /* Gold/Dark Gold */
-    text-shadow: none;
-}
-
-[data-theme='light'] .ticker-icon-wrapper {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(249, 246, 240, 1) 100%);
-    border-color: rgba(26, 60, 52, 0.15);
-    box-shadow: 0 4px 15px rgba(26, 60, 52, 0.1);
-}
-
-[data-theme='light'] .ticker-card:hover .ticker-icon-wrapper {
-    background: #FFFFFF;
-    border-color: var(--primary);
-    box-shadow: 0 8px 25px rgba(26, 60, 52, 0.15);
-}
-
-[data-theme='light'] .scroll-indicator {
-    background: rgba(26, 60, 52, 0.1);
-    border-color: rgba(26, 60, 52, 0.2);
-}
-
-[data-theme='light'] .scroll-indicator svg {
-    fill: var(--text-main);
-}
-
-[data-theme='light'] .scroll-indicator:hover {
-    background: rgba(26, 60, 52, 0.2);
-    box-shadow: 0 0 15px rgba(26, 60, 52, 0.15);
 }

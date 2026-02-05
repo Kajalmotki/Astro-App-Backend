@@ -12,10 +12,7 @@ import KarmicReadingPage from './pages/KarmicReadingPage';
 import NumerologyPage from './pages/NumerologyPage';
 
 const ScrollingTicker = () => {
-    const scrollContainerRef = useRef(null);
-    const [isUserInteracting, setIsUserInteracting] = useState(false);
-    const [activeService, setActiveService] = useState(null); // 'pooja', 'chart', 'matchmaking', etc.
-    const autoScrollIntervalRef = useRef(null);
+    const [activeService, setActiveService] = useState(null);
 
     const services = [
         {
@@ -39,16 +36,6 @@ const ScrollingTicker = () => {
             action: () => setActiveService('pooja')
         },
         {
-            name: "Vedas",
-            image: "/images/vedas_symbol.png",
-            action: () => setActiveService('vedas')
-        },
-        {
-            name: "Upnishads",
-            image: "/images/upnishads_symbol.png",
-            action: () => setActiveService('upnishads')
-        },
-        {
             name: "Horoscope",
             image: "/images/horoscope_symbol.png",
             action: () => setActiveService('horoscope')
@@ -70,65 +57,9 @@ const ScrollingTicker = () => {
         }
     ];
 
-    // Duplicate services for seamless infinite scroll
-    const displayServices = [...services, ...services];
-
-    // Auto-scroll functionality
-    useEffect(() => {
-        const startAutoScroll = () => {
-            if (!isUserInteracting && scrollContainerRef.current) {
-                autoScrollIntervalRef.current = setInterval(() => {
-                    if (scrollContainerRef.current) {
-                        const container = scrollContainerRef.current;
-                        const maxScroll = container.scrollWidth - container.clientWidth;
-
-                        // Slow auto-scroll (1px every 50ms = 20px per second)
-                        container.scrollLeft += 1;
-
-                        // Reset to beginning when reaching the end for infinite effect
-                        if (container.scrollLeft >= maxScroll / 2) {
-                            container.scrollLeft = 0;
-                        }
-                    }
-                }, 50);
-            }
-        };
-
-        startAutoScroll();
-
-        return () => {
-            if (autoScrollIntervalRef.current) {
-                clearInterval(autoScrollIntervalRef.current);
-            }
-        };
-    }, [isUserInteracting]);
-
-    // Pause auto-scroll on user interaction
-    const handleUserInteraction = () => {
-        setIsUserInteracting(true);
-        if (autoScrollIntervalRef.current) {
-            clearInterval(autoScrollIntervalRef.current);
-        }
-
-        // Resume auto-scroll after 3 seconds of no interaction
-        setTimeout(() => {
-            setIsUserInteracting(false);
-        }, 3000);
-    };
-
-    const scroll = (direction) => {
-        handleUserInteraction();
-        if (scrollContainerRef.current) {
-            const scrollAmount = 400;
-            const newScrollPosition = scrollContainerRef.current.scrollLeft +
-                (direction === 'left' ? -scrollAmount : scrollAmount);
-
-            scrollContainerRef.current.scrollTo({
-                left: newScrollPosition,
-                behavior: 'smooth'
-            });
-        }
-    };
+    // Create a quadrupled list to ensure smooth infinite scrolling on ultra-wide screens
+    // and to allow the CSS animation to have enough buffer
+    const displayServices = [...services, ...services, ...services, ...services];
 
     const handleCardClick = (service) => {
         if (service.action) {
@@ -140,53 +71,27 @@ const ScrollingTicker = () => {
 
     return (
         <>
-            <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                <div
-                    className="ticker-container"
-                    ref={scrollContainerRef}
-                    onTouchStart={handleUserInteraction}
-                    onWheel={handleUserInteraction}
-                >
-                    <div className="ticker-track">
-                        {displayServices.map((service, index) => (
-                            <div
-                                key={`${service.name}-${index}`}
-                                className={`ticker-card clickable`}
-                                onClick={() => handleCardClick(service)}
-                            >
-                                <div className="ticker-icon-wrapper">
-                                    <img
-                                        src={service.image}
-                                        alt={service.name}
-                                        className="ticker-icon-image"
-                                        draggable="false"
-                                    />
-                                </div>
-                                <div className="ticker-label">{service.name}</div>
+            <h2 className="ticker-title">Our Free Services</h2>
+            <div className="ticker-container">
+                <div className="ticker-track">
+                    {displayServices.map((service, index) => (
+                        <div
+                            key={`${service.name}-${index}`}
+                            className="ticker-card"
+                            onClick={() => handleCardClick(service)}
+                        >
+                            <div className="ticker-icon-wrapper">
+                                <img
+                                    src={service.image}
+                                    alt={service.name}
+                                    className="ticker-icon-image"
+                                    draggable="false"
+                                />
                             </div>
-                        ))}
-                    </div>
+                            <div className="ticker-label">{service.name}</div>
+                        </div>
+                    ))}
                 </div>
-
-                {/* Scroll indicators */}
-                <button
-                    className="scroll-indicator left"
-                    onClick={() => scroll('left')}
-                    aria-label="Scroll left"
-                >
-                    <svg viewBox="0 0 24 24">
-                        <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" />
-                    </svg>
-                </button>
-                <button
-                    className="scroll-indicator right"
-                    onClick={() => scroll('right')}
-                    aria-label="Scroll right"
-                >
-                    <svg viewBox="0 0 24 24">
-                        <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" fill="none" />
-                    </svg>
-                </button>
             </div>
 
             {/* Feature Pages / Modals */}
