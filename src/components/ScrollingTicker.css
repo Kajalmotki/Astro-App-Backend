@@ -16,13 +16,13 @@
 
 .ticker-container {
     width: 100%;
-    max-width: 1400px;
-    height: 380px;
-    /* Condensed height slightly for better proportions */
+    /* Increased length (width) */
+    max-width: 1800px;
+    /* Increased height for larger icons */
+    height: 480px;
     margin: 20px auto;
     position: relative;
     overflow: hidden;
-    /* Hide overflow for the infinite scroll illusion */
     z-index: 10;
 
     /* Premium Glassmorphism Base */
@@ -33,22 +33,36 @@
     border-bottom: 1px solid rgba(255, 215, 0, 0.2);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 
-    /* Horizontal Curve Effect */
-    border-radius: 50% / 40px;
-    padding: 0 40px;
-    /* Protect content from corners */
+    /* Concave Curve Effect via Clip Path */
+    /* Simulating a smooth inward curve (Concave) on top and bottom */
+    clip-path: polygon(0% 0%,
+            10% 3%,
+            25% 5%,
+            50% 6%,
+            75% 5%,
+            90% 3%,
+            100% 0%,
+            100% 100%,
+            90% 97%,
+            75% 95%,
+            50% 94%,
+            25% 95%,
+            10% 97%,
+            0% 100%);
 
-    /* Fade edges mask for seamless look */
+    /* Fade edges mask for seamless look (Horizontal only) */
     mask-image: linear-gradient(to right,
             transparent 0%,
-            black 10%,
-            black 90%,
+            black 5%,
+            black 95%,
             transparent 100%);
     -webkit-mask-image: linear-gradient(to right,
             transparent 0%,
-            black 10%,
-            black 90%,
+            black 5%,
+            black 95%,
             transparent 100%);
+
+    padding: 0 40px;
 }
 
 /* Track holding the card sets */
@@ -102,10 +116,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    width: 280px;
-    /* Fixed manageable width */
-    height: 320px;
+    gap: 20px;
+    /* Increased width and height */
+    width: 360px;
+    height: 420px;
     background: transparent;
     cursor: pointer;
     transition: all 0.4s ease;
@@ -114,7 +128,6 @@
     flex-shrink: 0;
     position: relative;
     padding-top: 20px;
-    /* Push content down to balance gaps */
 }
 
 .ticker-card:hover {
@@ -123,8 +136,9 @@
 }
 
 .ticker-icon-wrapper {
-    width: 220px;
-    height: 220px;
+    /* Increased by ~2cm (~75-80px). Old: 220px. New: 300px. */
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     /* Deep cosmic button look */
     background: radial-gradient(circle at 30% 30%,

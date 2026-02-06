@@ -12,22 +12,24 @@ const VedicInfoSection = () => {
             subtitle: 'FOUNDATIONAL SOURCE',
             image: '/rigveda_cosmic_scene_1770047373611.png',
             content: {
-                intro: 'Jyotiṣa originates directly from the Rigveda.',
-                why: 'Because it contains:',
+                intro: 'Jyotiṣa is the "Eye of the Veda" (Veda Chakshu), originating from the Rigveda to harmonize human life with the eternal cosmic order (Ritam).',
+                why: 'It provides the celestial blueprint:',
                 points: [
-                    'The earliest references to planets (Grahas)',
-                    'Solar & lunar movements',
-                    'Nakṣatras (lunar constellations)',
-                    'Time-keeping (Ṛta – cosmic order)'
+                    'The earliest definition of the 360° Zodiac & Solar Path',
+                    'Specific mantras connecting Planets (Grahas) to Deities',
+                    'The 27 Nakṣatras described as the celestial abodes of Soma',
+                    'The concept of Ṛta (Cosmic Truth) as the root of Karma',
+                    'Precise time-keeping for Vedic Yajñas (Sacrifices)'
                 ],
                 concepts: [
-                    { name: 'Ṛta', role: 'Cosmic law → karma & destiny' },
-                    { name: 'Sūrya', role: 'Soul, time, authority' },
-                    { name: 'Soma (Moon)', role: 'Mind, emotions' },
-                    { name: 'Nakṣatra Devatās', role: 'Psychological & karmic patterns' },
-                    { name: 'Yajña timing', role: 'Muhūrta foundations' }
+                    { name: 'Ṛta (Cosmic Order)', role: 'The foundation of Destiny & Karma' },
+                    { name: 'Adityas (12 Suns)', role: 'Prototypes for the 12 Zodiac Signs' },
+                    { name: 'Sūrya (Sun)', role: 'Atman (Soul), Time, King of Grahas' },
+                    { name: 'Soma (Moon)', role: 'Manas (Mind), Emotions, Fluidity' },
+                    { name: 'Nakṣatra Devatās', role: 'Deities ruling psychological patterns' },
+                    { name: 'Brihaspati', role: 'Guru, Wisdom, Expansion (Jupiter)' }
                 ],
-                highlight: '👉 Without Rigveda, Jyotiṣa does not exist.'
+                highlight: '👉 The Rigveda is not just scripture; it is the source code of Vedic Astrology.'
             }
         },
         {

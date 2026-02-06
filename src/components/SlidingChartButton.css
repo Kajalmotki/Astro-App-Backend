@@ -1,73 +1,47 @@
-/* Sliding Chart Button - Slides from behind header on the left side */
+/* Sliding Chart Button - Slides from behind header on the right side */
 .sliding-chart-button {
     position: fixed;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) translateX(250px);
+    /* Start hidden to the right */
     right: 0;
     left: auto;
-    width: 180px;
-    height: 50px;
+    z-index: 998;
+    /* Below header (1000) but above content */
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+
+    width: 60px;
+    /* Collapsed width */
+    height: 160px;
+    padding: 0;
+
     background: #000;
-    /* Fallback */
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px 0 0 50px;
+    /* Rounded on left side */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-right: none;
-    border-radius: 25px 0 0 25px;
-    color: #FFFFFF;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(0, 0, 0, 0.2),
-        0 0 40px rgba(255, 255, 255, 0.3),
-        0 0 60px rgba(255, 255, 255, 0.2);
-    z-index: 998;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 0 25px;
-    width: auto;
-    min-width: 220px;
+
     overflow: hidden;
-
-    perspective: 1000px;
-    transform-style: preserve-3d;
-    transform-origin: right center;
-
-    /* Start state: opacity 0, slight left offset (inside) */
-    transform: translateY(-50%) translateX(-50px);
-    opacity: 0;
-    transition: all 0.5s ease;
-
-    /* White glowing aura animation */
-    animation: whiteAuraGlow 3s ease-in-out infinite;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
 }
 
-@keyframes whiteAuraGlow {
-
-    0%,
-    100% {
-        box-shadow:
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            0 0 30px rgba(255, 255, 255, 0.3),
-            0 0 50px rgba(255, 255, 255, 0.2),
-            0 0 70px rgba(255, 255, 255, 0.15);
-    }
-
-    50% {
-        box-shadow:
-            0 4px 20px rgba(0, 0, 0, 0.4),
-            0 0 40px rgba(255, 255, 255, 0.5),
-            0 0 70px rgba(255, 255, 255, 0.4),
-            0 0 100px rgba(255, 255, 255, 0.3),
-            0 0 130px rgba(255, 255, 255, 0.2);
-    }
+.sliding-chart-button.visible {
+    transform: translateY(-50%) translateX(0);
 }
 
+/* Hover State - Expand */
+.sliding-chart-button:hover {
+    width: 220px;
+    /* Expanded width */
+    box-shadow: 10px 0 40px rgba(46, 204, 113, 0.3);
+    border-color: rgba(46, 204, 113, 0.5);
+}
 
 /* Video Background */
 .ocean-video-bg {
@@ -77,269 +51,84 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 0;
-    opacity: 0.8;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    filter: hue-rotate(90deg) contrast(1.2);
+    /* Make it look like green mystic water */
 }
 
-/* Overlay to darken video slightly for text contrast */
-.sliding-chart-button::before {
-    content: '';
+.sliding-chart-button:hover .ocean-video-bg {
+    opacity: 0.9;
+}
+
+/* Fog/Aura Overlay */
+.fog-aura {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(10, 26, 50, 0.8), rgba(30, 85, 148, 0.4));
-    z-index: 1;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
 }
 
-/* Subtle Glint/Foam Overlay */
-.sliding-chart-button::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 40%, transparent 50%);
+/* Text Styling */
+.button-text {
+    position: relative;
     z-index: 2;
-    animation: sheenFlow 4s infinite linear;
-    pointer-events: none;
+    color: #fff;
+    font-family: var(--font-header, 'Cinzel'), serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    /* Vertical text */
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    /* Reading from bottom to top */
+    transition: all 0.3s;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-@keyframes sheenFlow {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(50%);
-    }
+.sliding-chart-button:hover .button-text {
+    writing-mode: horizontal-tb;
+    transform: rotate(0);
+    padding: 0 20px;
 }
 
-@keyframes oceanWaveFlow {
-    0% {
-        transform: translateX(0) translateY(0);
-    }
-
-    50% {
-        transform: translateX(-25%) translateY(-3px);
-    }
-
-    100% {
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-@keyframes foamSplash {
-    0% {
-        transform: translateX(0) scale(1, 1);
-        opacity: 0.8;
-    }
-
-    50% {
-        transform: translateX(-25%) scale(1.1, 1.15);
-        opacity: 0.9;
-    }
-
-    100% {
-        transform: translateX(-50%) scale(1, 1);
-        opacity: 0.8;
-    }
-}
-
-/* Water Droplets Container */
-.sliding-chart-button .water-droplet {
+/* Water Droplets Effect */
+.water-droplet {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: radial-gradient(circle, rgba(200, 230, 255, 0.9) 0%, rgba(100, 180, 255, 0.6) 100%);
-    border-radius: 50%;
+    top: -10px;
+    width: 2px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
     pointer-events: none;
+    animation: fall var(--fall-duration) linear forwards;
+    animation-delay: var(--delay);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
     z-index: 10;
-    animation: dropletFall var(--fall-duration, 1.5s) ease-in forwards;
-    opacity: 0;
-    animation-delay: var(--delay, 0s);
 }
 
-@keyframes dropletFall {
+@keyframes fall {
     0% {
+        transform: translateY(0);
         opacity: 0;
-        transform: translateY(-10px) scale(0.5);
     }
 
     10% {
         opacity: 1;
-        transform: translateY(-5px) scale(1);
+    }
+
+    90% {
+        opacity: 0.8;
     }
 
     100% {
+        transform: translateY(200px);
+        /* Fall past the button height */
         opacity: 0;
-        transform: translateY(60px) scale(0.3);
-    }
-}
-
-.sliding-chart-button.visible {
-    /* End state: right edge */
-    transform: translateY(-50%) translateX(0);
-    opacity: 1;
-    z-index: 999;
-    animation: slideInsideOut 1.5s ease-out forwards;
-}
-
-.sliding-chart-button .button-text {
-    animation: fadeInTitle 2s ease-out forwards;
-    opacity: 0;
-}
-
-@keyframes slideInsideOut {
-    0% {
-        transform: translateY(-50%) translateX(-100px);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(-50%) translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInTitle {
-    0% {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.sliding-chart-button:hover {
-    transform: translateY(-50%) translateX(-8px) scale(1.05);
-    border-color: rgba(255, 255, 255, 0.7);
-    box-shadow:
-        0 6px 30px rgba(52, 152, 219, 0.5),
-        0 0 40px rgba(30, 85, 148, 0.3),
-        8px 0 25px rgba(21, 62, 114, 0.3);
-}
-
-.sliding-chart-button:hover::before {
-    animation: surfingWave 2s linear infinite;
-}
-
-.sliding-chart-button:hover::after {
-    animation: surfingWave 1.5s linear infinite reverse;
-}
-
-.sliding-chart-button:active {
-    transform: translateY(-50%) translateX(0) scale(0.98);
-}
-
-.button-text {
-    font-family: 'GT Ultra', 'Playfair Display', serif;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
-    transform: translateZ(20px);
-    position: relative;
-    z-index: 5;
-}
-
-.button-arrow {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-    transform: translateZ(20px);
-    position: relative;
-    z-index: 5;
-}
-
-.sliding-chart-button:hover .button-arrow {
-    transform: translateX(5px) translateZ(20px);
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .sliding-chart-button {
-        top: auto;
-        bottom: 90px;
-        /* Raised slightly */
-        transform: translateY(0);
-        width: 150px;
-        /* Slightly narrower */
-        height: 40px;
-        /* Slightly shorter */
-        font-size: 0.8rem;
-    }
-
-    .sliding-chart-button.visible {
-        transform: translateX(0) rotateY(0deg) scale(1);
-    }
-
-    .sliding-chart-button:hover {
-        transform: translateX(8px) scale(1.05);
-    }
-
-    @keyframes slowMagicSlide {
-        0% {
-            transform: translateX(-100%) rotateY(-15deg) scale(0.9);
-            opacity: 0;
-        }
-
-        60% {
-            transform: translateX(0) rotateY(3deg) scale(1.02);
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateX(0) rotateY(0deg) scale(1);
-            opacity: 1;
-        }
-    }
-}
-
-/* White Fog Aura Effect */
-.fog-aura {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140%;
-    height: 180%;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0) 70%);
-    filter: blur(25px);
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    pointer-events: none;
-    z-index: 1;
-    /* Above background but below text */
-    mix-blend-mode: screen;
-    border-radius: 50%;
-}
-
-.sliding-chart-button:hover .fog-aura {
-    opacity: 1;
-    animation: fogDrift 8s infinite alternate ease-in-out;
-}
-
-@keyframes fogDrift {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    }
-
-    33% {
-        transform: translate(-45%, -55%) scale(1.1);
-        border-radius: 60% 40% 30% 70% / 50% 60% 30% 60%;
-    }
-
-    66% {
-        transform: translate(-55%, -45%) scale(0.95);
-        border-radius: 30% 70% 60% 40% / 60% 30% 50% 40%;
-    }
-
-    100% {
-        transform: translate(-50%, -50%) scale(1.05);
-        border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
     }
 }

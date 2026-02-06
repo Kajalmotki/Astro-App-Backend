@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from './AuthModal';
 import { getAssistantResponse } from '../services/aiService';
+import { processUserMessage } from '../services/chatAutomationService';
 
 const AstroAssistant = ({ onLoginClick }) => {
     const { user } = useAuth();
+    const [chatStep, setChatStep] = useState(0); // 0: Init, 1: Follow-up, 2: Forwarded
     const [messages, setMessages] = useState([
         {
             id: 1,
             type: 'bot',
-            text: "Welcome to AstroRevo. I am your AI Assistant. I can help you with your queries, take notes, or guide you through our features. How can I assist you today?"
+            text: "Welcome to AstroRevo. Please tell me your query?"
         }
     ]);
     const [inputValue, setInputValue] = useState('');
@@ -21,7 +23,6 @@ const AstroAssistant = ({ onLoginClick }) => {
     };
 
     useEffect(() => {
-        // Only scroll when messages change, not on initial mount
         if (messages.length > 1) {
             scrollToBottom();
         }
@@ -30,33 +31,35 @@ const AstroAssistant = ({ onLoginClick }) => {
     const handleSend = async (text = inputValue) => {
         if (!text.trim()) return;
 
+        // If specific logic relies on auth, keep it. Here we allow guests for general queries if desired,
+        // but preserving original auth check for consistency:
         if (!user) {
             onLoginClick();
             return;
         }
 
-        setMessages(prev => [...prev, { id: Date.now(), type: 'user', text }]);
+        const userMsg = { id: Date.now(), type: 'user', text };
+        setMessages(prev => [...prev, userMsg]);
         setInputValue('');
         setIsTyping(true);
 
         try {
-            const data = await getAssistantResponse(text, user.uid, user.displayName || 'Client');
+            // Call the "Small API" service
+            const { nextStep, response } = await processUserMessage(chatStep, text);
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',
-                text: data.response,
-                suggestedActions: data.suggestedActions
+                text: response
             }]);
 
-            if (data.isNote && data.noteContent) {
-                setNotes(prev => [...prev, { id: Date.now(), content: data.noteContent }]);
-            }
+            setChatStep(nextStep);
         } catch (error) {
+            console.error(error);
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',
-                text: "I'm having trouble processing that request at the moment. Please try again."
+                text: "Connection interrupted. Please try again."
             }]);
         } finally {
             setIsTyping(false);

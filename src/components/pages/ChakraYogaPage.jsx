@@ -2,8 +2,11 @@ import React, { useState, useRef } from 'react';
 import FullScreenOverlay from '../shared/FullScreenOverlay';
 import './ChakraYogaPage.css';
 
+import BCAAnalysis from '../BCAAnalysis';
+
 const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isBcaOpen, setIsBcaOpen] = useState(false);
     const audioRef = useRef(null);
 
     // If no chakra is selected, don't render content (modal won't be visible anyway)
@@ -115,7 +118,7 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
     };
 
     return (
-        <FullScreenOverlay isOpen={isOpen} onClose={onClose} title={`${chakra.name} Chakra Yoga & Healing`} variant="cool">
+        <FullScreenOverlay isOpen={isOpen} onClose={onClose} title={isBcaOpen ? "" : `${chakra.name} Chakra Yoga & Healing`} variant="cool">
             <div className="chakra-yoga-container" style={{ '--accent-color': currentChakra.color }}>
                 {/* Header Section */}
                 <div className="chakra-header">
@@ -174,6 +177,31 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
                     ))}
                 </div>
 
+                {/* BCA Guide Button */}
+                <div style={{ textAlign: 'center', margin: '40px 0' }}>
+                    <button
+                        className="bca-guide-btn"
+                        onClick={() => setIsBcaOpen(true)}
+                        style={{
+                            background: 'linear-gradient(135deg, #FF6B6B, #556270)',
+                            color: 'white',
+                            padding: '15px 30px',
+                            border: 'none',
+                            borderRadius: '30px',
+                            fontSize: '1.1rem',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 15px rgba(255, 107, 107, 0.4)',
+                            transition: 'transform 0.2s',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '10px'
+                        }}
+                    >
+                        <span>📊</span> Start BCA Composition Analysis Guide
+                    </button>
+                </div>
+
                 {/* Mantra Section */}
                 <div className="mantra-section">
                     <h4>Beej Mantra</h4>
@@ -183,6 +211,8 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
                     <p>Chant <strong>{currentChakra.mantra}</strong> while focusing on the chakra location.</p>
                 </div>
             </div>
+
+            <BCAAnalysis isOpen={isBcaOpen} onClose={() => setIsBcaOpen(false)} />
         </FullScreenOverlay>
     );
 };

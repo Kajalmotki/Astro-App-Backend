@@ -1,0 +1,484 @@
+/* BCAAnalysis.css - Holistic Body & Energy Optimization (Zen Mode) */
+
+/* --- Modal Overlay (Intro & Form Steps) --- */
+.bca-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 15, 30, 0.95);
+    /* Deep Calm Blue-Black */
+    backdrop-filter: blur(15px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', system-ui, sans-serif;
+    /* Clean, modern font */
+}
+
+/* Base Modal Content */
+.bca-modal-content {
+    background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+    width: 90%;
+    max-width: 500px;
+    padding: 40px;
+    border-radius: 24px;
+    color: #E2E8F0;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* --- FULL PAGE RESULT OVERRIDE --- */
+.bca-modal-content.full-page {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    margin: 0;
+    overflow-y: auto;
+    background: radial-gradient(circle at top center, #2C3E50, #000000 80%);
+    /* Zen Night Sky */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Close Button (Softened) */
+.bca-close-btn {
+    background: transparent;
+    border: none;
+    color: #A0AEC0;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    transition: color 0.3s;
+}
+
+.bca-close-btn:hover {
+    color: #fff;
+}
+
+/* Intro Section Centering */
+.bca-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* Typography & Titles (Readable & Calm) */
+.bca-title {
+    font-size: 2rem;
+    color: #81E6D9;
+    /* Teal/Aqua for calmness */
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(129, 230, 217, 0.3);
+    font-weight: 300;
+    /* Lighter weight */
+    letter-spacing: 1px;
+}
+
+.bca-subtitle {
+    font-size: 1.1rem;
+    color: #CBD5E0;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.bca-benefits {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.benefit-pill {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #E2E8F0;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Inputs (Soft & Accessible) */
+.bca-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bca-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #A0AEC0;
+    font-size: 0.95rem;
+}
+
+.bca-input-group input,
+.bca-input-group select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 1.1rem;
+    /* Larger text for seniors */
+    outline: none;
+    transition: all 0.3s;
+}
+
+.bca-input-group input:focus {
+    border-color: #81E6D9;
+    box-shadow: 0 0 10px rgba(129, 230, 217, 0.2);
+}
+
+/* Action Button (Inviting) */
+.bca-action-btn {
+    background: linear-gradient(90deg, #38B2AC, #4FD1C5);
+    /* Calm Teal Gradient */
+    color: #1A202C;
+    border: none;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(56, 178, 172, 0.4);
+}
+
+.bca-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 178, 172, 0.6);
+}
+
+/* --- RESULT DASHBOARD (ZEN GRID) --- */
+.bca-results {
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+        "header header header"
+        "sidebar main right";
+    gap: 30px;
+    padding: 40px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* 1. Header */
+.blueprint-header {
+    grid-area: header;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blueprint-title {
+    font-size: 2.2rem;
+    background: linear-gradient(to right, #81E6D9, #FED7D7);
+    /* Teal to Soft Pink */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* 2. Sidebar Utils */
+.result-sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.result-right {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #718096;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* Metric Cards (Soft Glass) */
+.metric-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.metric-title {
+    font-size: 0.9rem;
+    color: #A0AEC0;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.metric-sub {
+    font-size: 0.8rem;
+    color: #718096;
+}
+
+/* 3. Deep Dive & Details */
+.deep-dive-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 20px;
+    border-left: 4px solid #81E6D9;
+    /* Teal Accent */
+}
+
+.deep-dive-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.deep-dive-label {
+    color: #CBD5E0;
+}
+
+.deep-dive-val {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.comparison-text {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #718096;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #A0AEC0;
+}
+
+/* --- CHART & ENERGY (Main) --- */
+.chart-container {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+/* Composition Bars (Softened) */
+.cid-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cid-label {
+    width: 60px;
+    color: #A0AEC0;
+    font-weight: 500;
+}
+
+.cid-track {
+    flex: 1;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    margin: 0 15px;
+    overflow: hidden;
+}
+
+.cid-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s ease-out;
+}
+
+.cid-val {
+    width: 50px;
+    text-align: right;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Energy Panel (Zen) */
+.energy-panel {
+    background: linear-gradient(135deg, rgba(85, 60, 154, 0.1), rgba(66, 153, 225, 0.05));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.energy-title {
+    color: #D6BCFA;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chakra-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.chakra-item {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.chakra-item.issue {
+    border-color: rgba(246, 173, 85, 0.5);
+    background: rgba(246, 173, 85, 0.05);
+}
+
+.chakra-icon-sm {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.chakra-name {
+    font-size: 0.8rem;
+    color: #CBD5E0;
+    font-weight: 600;
+}
+
+.chakra-status {
+    font-size: 0.75rem;
+    color: #718096;
+    margin-top: 3px;
+}
+
+/* --- 21-DAY JOURNEY VIEW --- */
+.journey-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding-bottom: 60px;
+}
+
+.journey-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.journey-title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.journey-sub {
+    color: #A0AEC0;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.journey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.day-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.day-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+}
+
+.day-num {
+    color: #81E6D9;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.day-focus {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.day-activity {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #CBD5E0;
+    display: flex;
+    gap: 8px;
+    align-items: start;
+}
+
+.act-icon {
+    font-size: 1.1rem;
+    min-width: 25px;
+}
+
+/* Mobile Adaptations */
+@media (max-width: 1024px) {
+    .bca-results {
+        grid-template-areas: "header" "sidebar" "main" "right";
+        grid-template-columns: 1fr;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+}

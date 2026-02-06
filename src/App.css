@@ -356,11 +356,9 @@
 
 .main-hero-video {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding-bottom: 0;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
   border-radius: 0;
   overflow: hidden;
   background: #000;
@@ -377,6 +375,13 @@
   object-fit: cover;
   object-position: center;
   display: block;
+  /* Hide any potential scrollbars */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.main-hero-video-media::-webkit-scrollbar {
+  display: none;
 }
 
 .main-hero-video-overlay {

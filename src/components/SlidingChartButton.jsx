@@ -18,7 +18,9 @@ const SlidingChartButton = ({ isVisible }) => {
             droplet.style.setProperty('--delay', `${Math.random() * 0.5}s`);
             droplet.style.setProperty('--fall-duration', `${1.2 + Math.random() * 0.8}s`);
 
-            buttonRef.current.appendChild(droplet);
+            if (buttonRef.current) {
+                buttonRef.current.appendChild(droplet);
+            }
 
             // Remove droplet after animation completes
             setTimeout(() => {
