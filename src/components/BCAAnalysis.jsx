@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './BCAAnalysis.css';
 
@@ -19,6 +19,15 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         activityLevel: 'moderate' // sedentary, moderate, active, very_active
     });
     const [result, setResult] = useState(null);
+    const [notificationTime, setNotificationTime] = useState('07:00');
+    const [isNotifActive, setIsNotifActive] = useState(false);
+
+    // Reset to INTRO when opened
+    useEffect(() => {
+        if (isOpen) {
+            setStep('INTRO');
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
@@ -231,9 +240,6 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
     // --- RENDERERS ---
 
-    const [notificationTime, setNotificationTime] = useState('07:00');
-    const [isNotifActive, setIsNotifActive] = useState(false);
-
     const toggleNotification = () => {
         if (!("Notification" in window)) {
             alert("This browser does not support desktop notifications");
@@ -253,7 +259,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     };
 
     const renderJourney = () => (
-        <div className="bca-results full-page">
+        <div className="bca-journey-view full-page" style={{ zIndex: 2147483647 }}>
             <div className="journey-container">
                 <div className="journey-header">
                     <h2 className="journey-title">Your 21-Day Transformation</h2>
@@ -285,7 +291,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="journey-grid">
-                    {result.plan21Day.map((day) => {
+                    {result && result.plan21Day && result.plan21Day.map((day) => {
                         const isRest = day.focus.includes("Restoration");
                         const isMilestone = day.day % 7 === 0;
 
@@ -361,7 +367,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     );
 
     const renderResult = () => (
-        <div className="bca-results">
+        <div className="bca-results" style={{ zIndex: 2147483647 }}>
             {/* HEADER */}
             <div className="blueprint-header">
                 <div>
@@ -448,14 +454,14 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     );
 
     return ReactDOM.createPortal(
-        <div className="bca-modal-overlay" onClick={onClose}>
+        <div className="bca-modal-overlay" onClick={onClose} style={{ zIndex: 2147483647 }}>
             <div className={`bca-modal-content ${step === 'INTRO' || step === 'FORM' ? '' : 'full-page'}`} onClick={e => e.stopPropagation()}>
                 {(step === 'INTRO' || step === 'FORM') && <button className="bca-close-btn" onClick={onClose}>&times;</button>}
 
                 {step === 'INTRO' && renderIntro()}
                 {step === 'FORM' && renderForm()}
-                {step === 'RESULT' && renderResult()}
-                {step === 'JOURNEY' && renderJourney()}
+                {step === 'RESULT' && result && renderResult()}
+                {step === 'JOURNEY' && result && renderJourney()}
             </div>
         </div>,
         document.body
