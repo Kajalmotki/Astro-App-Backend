@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import './BCAAnalysis.css';
 
 const BCAAnalysis = ({ isOpen, onClose }) => {
@@ -230,6 +231,27 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
     // --- RENDERERS ---
 
+    const [notificationTime, setNotificationTime] = useState('07:00');
+    const [isNotifActive, setIsNotifActive] = useState(false);
+
+    const toggleNotification = () => {
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notifications");
+        } else if (Notification.permission === "granted") {
+            setIsNotifActive(!isNotifActive);
+            if (!isNotifActive) {
+                new Notification("Holistic Journey Reminder", { body: `Great! We'll remind you daily at ${notificationTime} to align your energy.` });
+            }
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    setIsNotifActive(true);
+                    new Notification("Holistic Journey Reminder", { body: "Notifications enabled!" });
+                }
+            });
+        }
+    };
+
     const renderJourney = () => (
         <div className="bca-results full-page">
             <div className="journey-container">
@@ -239,26 +261,57 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                     <button className="bca-close-btn" onClick={onClose} style={{ top: 20, right: 20 }}>&times;</button>
                 </div>
 
-                <div className="journey-grid">
-                    {result.plan21Day.map((day) => (
-                        <div key={day.day} className="day-card">
-                            <span className="day-num">Day {day.day}</span>
-                            <div className="day-focus">{day.focus}</div>
+                {/* NOTIFICATION SCRIPT BAR */}
+                <div className="notification-bar">
+                    <span style={{ fontSize: '1.5rem' }}>🔔</span>
+                    <div>
+                        <p className="notif-text">Commit to consistency.</p>
+                        <p style={{ fontSize: '0.8rem', color: '#CBD5E0', margin: 0 }}>Get daily reminders for your Yoga & Meditation.</p>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <input
+                            type="time"
+                            className="notif-time-input"
+                            value={notificationTime}
+                            onChange={(e) => setNotificationTime(e.target.value)}
+                        />
+                        <button
+                            className={`notif-btn ${isNotifActive ? 'active' : ''}`}
+                            onClick={toggleNotification}
+                        >
+                            {isNotifActive ? 'Active' : 'Turn On'}
+                        </button>
+                    </div>
+                </div>
 
-                            <div className="day-activity">
-                                <span className="act-icon">🧘</span>
-                                <span>{day.yoga}</span>
+                <div className="journey-grid">
+                    {result.plan21Day.map((day) => {
+                        const isRest = day.focus.includes("Restoration");
+                        const isMilestone = day.day % 7 === 0;
+
+                        return (
+                            <div key={day.day} className={`day-card ${isRest ? 'rest' : ''} ${isMilestone ? 'milestone' : ''}`}>
+                                <div className="day-num">
+                                    <span>Day {day.day}</span>
+                                    <div className="day-check" title="Mark Complete"></div>
+                                </div>
+                                <div className="day-focus">{day.focus}</div>
+
+                                <div className="day-activity">
+                                    <span className="act-icon">🧘</span>
+                                    <span>{day.yoga}</span>
+                                </div>
+                                <div className="day-activity">
+                                    <span className="act-icon">💪</span>
+                                    <span>{day.workout}</span>
+                                </div>
+                                <div className="day-activity">
+                                    <span className="act-icon">🧠</span>
+                                    <span>{day.mind}</span>
+                                </div>
                             </div>
-                            <div className="day-activity">
-                                <span className="act-icon">💪</span>
-                                <span>{day.workout}</span>
-                            </div>
-                            <div className="day-activity">
-                                <span className="act-icon">🧠</span>
-                                <span>{day.mind}</span>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </div>
@@ -287,8 +340,10 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 <button onClick={fillRandomData} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#81E6D9', padding: '5px 10px', borderRadius: '8px', cursor: 'pointer' }}>⚡ Auto-Fill</button>
             </div>
             {/* Same fields as before but styled by new CSS */}
-            <div className="bca-input-group"><label>Height (cm)</label><input name="height" type="number" value={formData.height} onChange={handleInputChange} /></div>
-            <div className="bca-input-group"><label>Weight (kg)</label><input name="weight" type="number" value={formData.weight} onChange={handleInputChange} /></div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Height (cm)</label><input name="height" type="number" value={formData.height} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Weight (kg)</label><input name="weight" type="number" value={formData.weight} onChange={handleInputChange} /></div>
+            </div>
             <div style={{ display: 'flex', gap: '15px' }}>
                 <div className="bca-input-group" style={{ flex: 1 }}><label>Age</label><input name="age" type="number" value={formData.age} onChange={handleInputChange} /></div>
                 <div className="bca-input-group" style={{ flex: 1 }}><label>Gender</label><select name="gender" value={formData.gender} onChange={handleInputChange}><option value="male">Male</option><option value="female">Female</option></select></div>
@@ -392,7 +447,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         </div>
     );
 
-    return (
+    return ReactDOM.createPortal(
         <div className="bca-modal-overlay" onClick={onClose}>
             <div className={`bca-modal-content ${step === 'INTRO' || step === 'FORM' ? '' : 'full-page'}`} onClick={e => e.stopPropagation()}>
                 {(step === 'INTRO' || step === 'FORM') && <button className="bca-close-btn" onClick={onClose}>&times;</button>}
@@ -402,7 +457,8 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 {step === 'RESULT' && renderResult()}
                 {step === 'JOURNEY' && renderJourney()}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

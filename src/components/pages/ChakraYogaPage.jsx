@@ -118,102 +118,101 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
     };
 
     return (
-        <FullScreenOverlay isOpen={isOpen} onClose={onClose} title={isBcaOpen ? "" : `${chakra.name} Chakra Yoga & Healing`} variant="cool">
-            <div className="chakra-yoga-container" style={{ '--accent-color': currentChakra.color }}>
-                {/* Header Section */}
-                <div className="chakra-header">
-                    <div className="chakra-symbol-large">{chakra.symbol}</div>
-                    <div className="chakra-info">
-                        <h2>{chakra.name} <span className="sanskrit">{currentChakra.sanskrit}</span></h2>
-                        <p className="meaning">"{currentChakra.meaning}"</p>
-                        <p className="description">{chakra.description}</p>
-                    </div>
-                </div>
-
-                {/* Music Player Section */}
-                <div className="music-player-section">
-                    <div className="frequency-display">
-                        <span className="freq-value">{currentChakra.frequency}</span>
-                        <span className="freq-name">{currentChakra.frequencyName}</span>
+        <>
+            <FullScreenOverlay isOpen={isOpen} onClose={onClose} title={isBcaOpen ? "" : `${chakra.name} Chakra Yoga & Healing`} variant="cool">
+                <div className="chakra-yoga-container" style={{ '--accent-color': currentChakra.color }}>
+                    {/* Header Section */}
+                    <div className="chakra-header">
+                        <div className="chakra-symbol-large">{chakra.symbol}</div>
+                        <div className="chakra-info">
+                            <h2>{chakra.name} <span className="sanskrit">{currentChakra.sanskrit}</span></h2>
+                            <p className="meaning">"{currentChakra.meaning}"</p>
+                            <p className="description">{chakra.description}</p>
+                        </div>
                     </div>
 
-                    <button className={`play-btn ${isPlaying ? 'playing' : ''}`} onClick={togglePlay}>
-                        {isPlaying ? '⏸' : '▶'}
-                    </button>
-                    <p className="player-status">{isPlaying ? 'Healing Frequency Playing...' : 'Play Healing Frequency'}</p>
+                    {/* Music Player Section */}
+                    <div className="music-player-section">
+                        <div className="frequency-display">
+                            <span className="freq-value">{currentChakra.frequency}</span>
+                            <span className="freq-name">{currentChakra.frequencyName}</span>
+                        </div>
 
-                    <audio ref={audioRef} loop>
-                        <source src={`/audio/chakra-${chakra.name.toLowerCase()}.mp3`} type="audio/mp3" />
-                    </audio>
-                </div>
+                        <button className={`play-btn ${isPlaying ? 'playing' : ''}`} onClick={togglePlay}>
+                            {isPlaying ? '⏸' : '▶'}
+                        </button>
+                        <p className="player-status">{isPlaying ? 'Healing Frequency Playing...' : 'Play Healing Frequency'}</p>
 
-                {/* Yoga Section */}
-                <h3 className="section-title">🧘 Yoga for {chakra.name}</h3>
-                <div className="yoga-grid">
-                    {currentChakra.yogaPoses.map((pose, index) => (
-                        <div key={pose.name} className="yoga-card" style={{ '--delay': `${index * 0.1}s` }}>
-                            <div className="yoga-image-container">
-                                <img
-                                    src={pose.image ? `/images/yoga/${pose.image}` : `/images/yoga/${chakra.name.toLowerCase()}-${index + 1}.png`}
-                                    alt={pose.name}
-                                    className="yoga-pos-img"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'flex';
-                                    }}
-                                />
-                                <div className="yoga-fallback">
-                                    <span className="pose-icon">🧘</span>
+                        <audio ref={audioRef} loop>
+                            <source src={`/audio/chakra-${chakra.name.toLowerCase()}.mp3`} type="audio/mp3" />
+                        </audio>
+                    </div>
+
+                    {/* Yoga Section */}
+                    <h3 className="section-title">🧘 Yoga for {chakra.name}</h3>
+                    <div className="yoga-grid">
+                        {currentChakra.yogaPoses.map((pose, index) => (
+                            <div key={pose.name} className="yoga-card" style={{ '--delay': `${index * 0.1}s` }}>
+                                <div className="yoga-image-container">
+                                    <img
+                                        src={pose.image ? `/images/yoga/${pose.image}` : `/images/yoga/${chakra.name.toLowerCase()}-${index + 1}.png`}
+                                        alt={pose.name}
+                                        className="yoga-pos-img"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.style.display = 'none';
+                                            e.target.nextSibling.style.display = 'flex';
+                                        }}
+                                    />
+                                    <div className="yoga-fallback">
+                                        <span className="pose-icon">🧘</span>
+                                    </div>
+                                </div>
+                                <div className="yoga-details">
+                                    <h4>{pose.name}</h4>
+                                    <span className="english-name">{pose.english}</span>
+                                    <p className="pose-duration">⏱ {pose.duration}</p>
+                                    <p>{pose.desc}</p>
                                 </div>
                             </div>
-                            <div className="yoga-details">
-                                <h4>{pose.name}</h4>
-                                <span className="english-name">{pose.english}</span>
-                                <p className="pose-duration">⏱ {pose.duration}</p>
-                                <p>{pose.desc}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* BCA Guide Button */}
-                <div style={{ textAlign: 'center', margin: '40px 0' }}>
-                    <button
-                        className="bca-guide-btn"
-                        onClick={() => setIsBcaOpen(true)}
-                        style={{
-                            background: 'linear-gradient(135deg, #FF6B6B, #556270)',
-                            color: 'white',
-                            padding: '15px 30px',
-                            border: 'none',
-                            borderRadius: '30px',
-                            fontSize: '1.1rem',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            boxShadow: '0 4px 15px rgba(255, 107, 107, 0.4)',
-                            transition: 'transform 0.2s',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '10px'
-                        }}
-                    >
-                        <span>📊</span> Start BCA Composition Analysis Guide
-                    </button>
-                </div>
-
-                {/* Mantra Section */}
-                <div className="mantra-section">
-                    <h4>Beej Mantra</h4>
-                    <div className="mantra-circle">
-                        {currentChakra.mantra}
+                        ))}
                     </div>
-                    <p>Chant <strong>{currentChakra.mantra}</strong> while focusing on the chakra location.</p>
-                </div>
-            </div>
 
+                    {/* BCA Guide Button */}
+                    <div style={{ textAlign: 'center', margin: '40px 0' }}>
+                        <button
+                            className="bca-guide-btn"
+                            onClick={() => setIsBcaOpen(true)}
+                            style={{
+                                background: 'linear-gradient(135deg, #FF6B6B, #556270)',
+                                color: 'white',
+                                padding: '15px 30px',
+                                border: 'none',
+                                borderRadius: '30px',
+                                fontSize: '1.1rem',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                boxShadow: '0 4px 15px rgba(255, 107, 107, 0.4)',
+                                transition: 'transform 0.2s',
+                            }}
+                        >
+                            Start BCA Composition Analysis Guide
+                        </button>
+                    </div>
+
+                    {/* Mantra Section */}
+                    <div className="mantra-section">
+                        <h4>Beej Mantra</h4>
+                        <div className="mantra-circle">
+                            {currentChakra.mantra}
+                        </div>
+                        <p>Chant <strong>{currentChakra.mantra}</strong> while focusing on the chakra location.</p>
+                    </div>
+                </div>
+
+            </FullScreenOverlay>
             <BCAAnalysis isOpen={isBcaOpen} onClose={() => setIsBcaOpen(false)} />
-        </FullScreenOverlay>
+        </>
     );
 };
 
