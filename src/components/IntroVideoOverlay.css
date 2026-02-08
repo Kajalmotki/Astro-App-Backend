@@ -1,0 +1,244 @@
+/* Intro Video Overlay - 5x5 Floating Window */
+.intro-video-overlay-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    /* "5x5" logic approx - small compact window */
+    height: 350px;
+    background: radial-gradient(circle at center, #1a0f0f, #000);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    /* On top of everything */
+    overflow: hidden;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 20;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    background: #ff4444;
+}
+
+/* Video Screen Content */
+.video-screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-overlay {
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.play-overlay:hover {
+    transform: scale(1.05);
+}
+
+.play-icon {
+    font-size: 60px;
+    color: #FFD700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    /* Let interactions pass */
+}
+
+.stop-btn {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+/* Lyrics Styling */
+.lyrics-overlay {
+    position: absolute;
+    bottom: 50px;
+    width: 90%;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.lyric-line {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 5px 0;
+    opacity: 0;
+    animation: fadeInLyrics 0.5s forwards;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px 8px;
+    border-radius: 8px;
+    color: #FFD700;
+}
+
+.line-1 {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInLyrics {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Visual Scenes (CSS Animation) */
+.scene-visual {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 4rem;
+}
+
+/* Scene 1: Chart */
+.rotating-chart-icon {
+    animation: spin 10s linear infinite;
+    filter: drop-shadow(0 0 10px gold);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scene 2: Beam */
+.connection {
+    position: relative;
+}
+
+.energy-beam {
+    width: 4px;
+    height: 50px;
+    background: linear-gradient(gold, transparent);
+    animation: beamFlow 1s infinite;
+}
+
+@keyframes beamFlow {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+
+    50% {
+        height: 50px;
+        opacity: 1;
+    }
+
+    100% {
+        height: 0;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+/* Scene 4: BCA Scan */
+.scanner-line {
+    width: 80%;
+    height: 2px;
+    background: #00ff00;
+    position: absolute;
+    top: 20%;
+    animation: scanMove 2s ease-in-out infinite alternate;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+@keyframes scanMove {
+    to {
+        top: 80%;
+    }
+}
+
+.data-points {
+    position: absolute;
+    font-size: 0.8rem;
+    color: #00ff00;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Visualizer */
+.audio-visualizer {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 3px;
+}
+
+.bar {
+    width: 4px;
+    height: 10px;
+    background: #FFD700;
+    animation: equalizer 0.5s infinite;
+}
+
+.bar:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.bar:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+@keyframes equalizer {
+    50% {
+        height: 25px;
+    }
+}

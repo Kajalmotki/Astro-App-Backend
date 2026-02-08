@@ -28,9 +28,12 @@ import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 import './components/HookedCTA.css';
 
+import IntroVideoOverlay from './components/IntroVideoOverlay';
+
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
   const [isMuted, setIsMuted] = React.useState(true);
+  const [showIntroVideo, setShowIntroVideo] = React.useState(true);
   const videoRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -54,6 +57,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
   return (
     <main className="content">
+      {showIntroVideo && <IntroVideoOverlay onClose={() => setShowIntroVideo(false)} />}
       <section className="hero-section">
         <div className="main-hero-video">
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
