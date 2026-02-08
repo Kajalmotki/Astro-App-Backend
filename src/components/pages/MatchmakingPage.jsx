@@ -1,82 +1,30 @@
 import React, { useState } from 'react';
 import FullScreenOverlay from '../shared/FullScreenOverlay';
 import BirthDetailsForm from '../BirthDetailsForm';
+import { calculateAshtakoot } from '../../utils/matchmakingUtils';
 import './MatchmakingPage.css';
 
 const MatchmakingPage = ({ isOpen, onClose }) => {
     const [step, setStep] = useState(1); // 1: input, 2: analyzing, 3: results
     const [profile1, setProfile1] = useState(null);
     const [profile2, setProfile2] = useState(null);
+    const [results, setResults] = useState([]);
 
-    // Ashtakoot (8 Kootas) data with individual scores
-    const kootaResults = [
-        {
-            name: "Varna",
-            sanskrit: "वर्ण",
-            maxPoints: 1,
-            obtained: 1,
-            description: "Spiritual compatibility & ego levels",
-            detail: "Both partners have compatible spiritual orientations."
-        },
-        {
-            name: "Vashya",
-            sanskrit: "वश्य",
-            maxPoints: 2,
-            obtained: 2,
-            description: "Mutual attraction & influence",
-            detail: "Strong mutual attraction and balanced power dynamics."
-        },
-        {
-            name: "Tara",
-            sanskrit: "तारा",
-            maxPoints: 3,
-            obtained: 3,
-            description: "Health, well-being & destiny",
-            detail: "Nakshatras indicate excellent health compatibility."
-        },
-        {
-            name: "Yoni",
-            sanskrit: "योनि",
-            maxPoints: 4,
-            obtained: 3,
-            description: "Physical & intimate compatibility",
-            detail: "Good physical harmony with minor adjustments needed."
-        },
-        {
-            name: "Graha Maitri",
-            sanskrit: "ग्रह मैत्री",
-            maxPoints: 5,
-            obtained: 4,
-            description: "Mental compatibility & friendship",
-            detail: "Moon signs indicate strong mental rapport."
-        },
-        {
-            name: "Gana",
-            sanskrit: "गण",
-            maxPoints: 6,
-            obtained: 6,
-            description: "Temperament & character match",
-            detail: "Perfect temperament match - both share similar nature."
-        },
-        {
-            name: "Bhakoot",
-            sanskrit: "भकूट",
-            maxPoints: 7,
-            obtained: 7,
-            description: "Emotional & financial harmony",
-            detail: "Excellent emotional bonding and financial prosperity indicated."
-        },
-        {
-            name: "Nadi",
-            sanskrit: "नाडी",
-            maxPoints: 8,
-            obtained: 6,
-            description: "Genetic compatibility & progeny",
-            detail: "Different Nadis ensure healthy progeny. Minor dosha present."
+    const handleCalculate = () => {
+        if (profile1 && profile2) {
+            setStep(2);
+            // Simulate processing delay for dramatic effect
+            setTimeout(() => {
+                const calculatedResults = calculateAshtakoot(profile1, profile2);
+                setResults(calculatedResults);
+                setStep(3);
+            }, 2500);
         }
-    ];
+    };
 
-    const totalObtained = kootaResults.reduce((sum, k) => sum + k.obtained, 0);
+    const kootaResults = results.length > 0 ? results : [];
+
+    const totalObtained = kootaResults.reduce((sum, k) => sum + (k.obtained || 0), 0);
     const totalMax = 36;
     const percentage = Math.round((totalObtained / totalMax) * 100);
 
@@ -89,18 +37,11 @@ const MatchmakingPage = ({ isOpen, onClose }) => {
 
     const compatibility = getCompatibilityLevel(totalObtained);
 
-    const handleCalculate = () => {
-        if (profile1 && profile2) {
-            setStep(2);
-            // Simulate analysis
-            setTimeout(() => setStep(3), 2500);
-        }
-    };
-
     const resetForm = () => {
         setStep(1);
         setProfile1(null);
         setProfile2(null);
+        setResults([]);
     };
 
     return (
