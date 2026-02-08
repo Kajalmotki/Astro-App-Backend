@@ -4,37 +4,43 @@ import './IntroVideoOverlay.css';
 const SCENES = [
     {
         id: 1,
-        text: "Written in the stars, before you took a breath...\nYour map was drawn, defying life and death.",
+        text: "Your journey begins... with your Janma Kundli.\nIt reveals the cosmic blueprint... your strengths, your weaknesses...\nand the karmic patterns you were born to master.",
         visual: "chart",
-        voice: "Your journey begins with your Janma Kundli. It reveals the cosmic blueprint—your strengths, your weaknesses, and the karmic patterns you were born to master."
+        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1080&q=80", // Starry Night / Galaxy (Reliable)
+        voice: "Your journey begins... with your Janma Kundli. It reveals the cosmic blueprint... your strengths... your weaknesses... and the karmic patterns... you were born to master."
     },
     {
         id: 2,
-        text: "Planets pull the strings, deep within your core...\nAwakening the energy, opening the door.",
+        text: "But planets aren't just in the sky... they live inside you.\nA weak Mars becomes a blocked Root Chakra.\nA troubled Mercury clouds your Throat Chakra.\nAstrology is the diagnosis... Chakras are the symptoms.",
         visual: "connection",
-        voice: "But planets aren't just in the sky—they live inside you. A weak Mars becomes a blocked Root Chakra. A troubled Mercury clouds your Throat Chakra. Astrology is the diagnosis; Chakras are the symptoms."
+        image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1080&q=80", // Yoga Silhouette Sunset (Reliable)
+        voice: "But planets aren't just in the sky... they live inside you. A weak Mars... becomes a blocked Root Chakra. A troubled Mercury... clouds your Throat Chakra. Astrology is the diagnosis... Chakras... are the symptoms."
     },
     {
         id: 3,
-        text: "Move the body, heal the soul...\nAncient movements make you whole.",
+        text: "You don't need expensive gems to fix your fate.\nYou simply... need to move.\nOur custom Yoga Routines are the remedy...\nto strengthen your weak planets by activating their Chakras.",
         visual: "yoga",
-        voice: "You don't need expensive gems to fix your fate. You simply need to move. Our custom Yoga Routines are the low-cost, high-impact remedy to strengthen your weak planets by activating their corresponding Chakras."
+        image: "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=1080&q=80", // Yoga Pose Indoors (Reliable)
+        voice: "You don't need expensive gems to fix your fate. You simply... need to move. Our custom Yoga Routines are the low-cost... high-impact remedy... to strengthen your weak planets... by activating their corresponding Chakras."
     },
     {
         id: 4,
-        text: "Measure the change, see the power rise...\nA temple built before your very eyes.",
+        text: "How do you know it's working?\nOur Body Composition Analysis tracks your physical transformation.\nAs your body aligns with the Golden Ratio...\nyour vessel becomes strong enough to hold higher cosmic energy.",
         visual: "bca",
-        voice: "How do you know it's working? Our Body Composition Analysis tracks your physical transformation. As your body aligns with the Golden Ratio, your vessel becomes strong enough to hold higher cosmic energy."
+        image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1080&q=80", // Science / Lab / Analytical (Reliable)
+        voice: "How do you know it's working? Our Body Composition Analysis... tracks your physical transformation. As your body aligns with the Golden Ratio... your vessel becomes strong enough... to hold higher... cosmic energy."
     },
     {
         id: 5,
-        text: "Star to Cell, Sky to Ground...\nIn AstroRevo, your true self is found.",
+        text: "AstroRevo.\nUnderstand your Fate.\nHeal your Energy.\nBuild your Body.\nComplete... the Loop.",
         visual: "holistic",
-        voice: "AstroRevo. Understand your Fate. Heal your Energy. Build your Body. Complete the Loop."
+        image: "https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&w=1080&q=80", // Galaxy Gradient / Loop (Reliable)
+        voice: "AstroRevo. Understand your Fate. Heal your Energy. Build your Body. Complete... the Loop."
     }
 ];
 
 const IntroVideoOverlay = ({ onClose }) => {
+    const [isMaximized, setIsMaximized] = useState(false); // Default to small button
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [speechSupported, setSpeechSupported] = useState(true);
@@ -48,9 +54,16 @@ const IntroVideoOverlay = ({ onClose }) => {
         }
     }, []);
 
+    // Handle Maximized State (Reset on minimize)
+    useEffect(() => {
+        if (!isMaximized) {
+            handleStop();
+        }
+    }, [isMaximized]);
+
     // Handle Scene Transition and Speech
     useEffect(() => {
-        if (!isPlaying || !speechSupported) return;
+        if (!isPlaying || !speechSupported || !isMaximized) return;
 
         const scene = SCENES[currentSceneIndex];
 
@@ -59,18 +72,37 @@ const IntroVideoOverlay = ({ onClose }) => {
 
         // Create new utterance
         const utterance = new SpeechSynthesisUtterance(scene.voice);
-        utterance.rate = 0.95; // Slightly slower for clarity
-        utterance.pitch = 1.1; // Slightly feminine/higher pitch
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
 
-        // Try to find a female voice
+        // Try to find appropriate voice
         const voices = synthRef.current.getVoices();
-        const femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('Google US English'));
-        if (femaleVoice) utterance.voice = femaleVoice;
+
+        // English Logic (Female priority)
+        const preferredVoices = [
+            'Google US English',
+            'Microsoft Zira',
+            'Samantha',
+            'Karen',
+            'Moira',
+            'Tessa',
+            'Veena',
+            'Fiona'
+        ];
+        let femaleVoice = voices.find(v => preferredVoices.some(name => v.name.includes(name)));
+        if (!femaleVoice) {
+            femaleVoice = voices.find(v => v.name.includes('Female'));
+        }
+        if (femaleVoice) {
+            utterance.voice = femaleVoice;
+            if (femaleVoice.name.includes('Zira')) utterance.pitch = 0.95;
+            if (femaleVoice.name.includes('Google')) utterance.pitch = 1.0;
+        }
 
         utterance.onend = () => {
             if (currentSceneIndex < SCENES.length - 1) {
                 // Auto-advance to next scene after speech ends
-                setTimeout(() => setCurrentSceneIndex(prev => prev + 1), 1000); // 1s pause between scenes
+                setTimeout(() => setCurrentSceneIndex(prev => prev + 1), 1000);
             } else {
                 // End of video loop
                 setIsPlaying(false);
@@ -83,7 +115,7 @@ const IntroVideoOverlay = ({ onClose }) => {
         return () => {
             synthRef.current.cancel();
         };
-    }, [currentSceneIndex, isPlaying, speechSupported]);
+    }, [currentSceneIndex, isPlaying, speechSupported, isMaximized]);
 
 
     const handlePlay = () => {
@@ -96,70 +128,58 @@ const IntroVideoOverlay = ({ onClose }) => {
         synthRef.current.cancel();
     };
 
-    // Render Scene Visuals (CSS Only since Images failed)
-    const renderVisual = (visualType) => {
-        switch (visualType) {
-            case 'chart':
-                return (
-                    <div className="scene-visual cosmic-chart">
-                        <div className="star-field"></div>
-                        <div className="rotating-chart-icon">☸️</div>
-                    </div>
-                );
-            case 'connection':
-                return (
-                    <div className="scene-visual connection">
-                        <div className="planet-icon">🪐</div>
-                        <div className="energy-beam"></div>
-                        <div className="chakra-icon">🧘</div>
-                    </div>
-                );
-            case 'yoga':
-                return (
-                    <div className="scene-visual yoga-action">
-                        <div className="yoga-pose-icon">🤸</div>
-                        <div className="chakra-glow-points">
-                            <span className="c-point p1"></span>
-                            <span className="c-point p2"></span>
-                            <span className="c-point p3"></span>
-                        </div>
-                    </div>
-                );
-            case 'bca':
-                return (
-                    <div className="scene-visual bca-scan">
-                        <div className="body-wireframe">🧍</div>
-                        <div className="scanner-line"></div>
-                        <div className="data-points">
-                            <span>Ratio: 1.618</span>
-                            <span>Vitality: 98%</span>
-                        </div>
-                    </div>
-                );
-            default: // holistic
-                return (
-                    <div className="scene-visual holistic">
-                        <div className="aura-ring"></div>
-                        <div className="meditation-icon">🧘‍♂️</div>
-                        <div className="logo-text">AstroRevo</div>
-                    </div>
-                );
-        }
+    const handleMaximize = () => {
+        setIsMaximized(true);
     };
 
-    if (!speechSupported) return null; // Or show error
+    const handleMinimize = (e) => {
+        e.stopPropagation();
+        setIsMaximized(false);
+        // We do not call onClose (unmount) unless user explicitly wants to remove it from DOM entirely,
+        // but for this interaction pattern, we just minimize back to button.
+        // If "onClose" is passed from parent intending to unmount, we can call it too.
+        // For now, let's keep it mounted as a button.
+    };
 
+    // Render Scene Visuals (Images)
+    const renderVisual = (scene) => {
+        return (
+            <div className="scene-visual-container">
+                <img
+                    src={scene.image}
+                    alt={scene.visual}
+                    className="scene-cinematic-image"
+                    onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5980?auto=format&fit=crop&w=1080&q=80'; }} // Fallback
+                />
+                <div className="visual-overlay-gradient"></div>
+            </div>
+        );
+    };
+
+    if (!speechSupported) return null;
+
+    // Small Button State
+    if (!isMaximized) {
+        return (
+            <div className="intro-video-trigger" onClick={handleMaximize}>
+                <div className="trigger-icon">▶</div>
+                <span className="trigger-text">Cosmic Loop</span>
+            </div>
+        );
+    }
+
+    // Maximized Modal State
     return (
-        <div className="intro-video-overlay-container">
-            <button className="close-btn" onClick={onClose}>×</button>
+        <div className="intro-video-overlay-container maximized">
+            <button className="close-btn" onClick={handleMinimize}>×</button>
 
             <div className={`video-screen ${isPlaying ? 'playing' : 'paused'}`}>
                 {isPlaying ? (
                     <>
-                        {renderVisual(SCENES[currentSceneIndex].visual)}
-                        <div className="lyrics-overlay">
+                        {renderVisual(SCENES[currentSceneIndex])}
+                        <div className="lyrics-overlay-compact">
                             {SCENES[currentSceneIndex].text.split('\n').map((line, i) => (
-                                <p key={i} className={`lyric-line line-${i}`}>{line}</p>
+                                <p key={i} className={`lyric-line-compact`}>{line}</p>
                             ))}
                         </div>
                         <div className="audio-visualizer">
@@ -167,10 +187,14 @@ const IntroVideoOverlay = ({ onClose }) => {
                         </div>
                     </>
                 ) : (
-                    <div className="play-overlay" onClick={handlePlay}>
-                        <div className="play-icon">▶</div>
-                        <p>Watch "The Cosmic Loop"</p>
-                    </div>
+                    <>
+                        {/* Show First Scene Background logic */}
+                        {renderVisual(SCENES[0])}
+                        <div className="play-overlay" onClick={handlePlay}>
+                            <div className="play-icon">▶</div>
+                            <p>Watch "The Cosmic Loop"</p>
+                        </div>
+                    </>
                 )}
             </div>
 

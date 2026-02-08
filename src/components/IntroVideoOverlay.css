@@ -1,55 +1,131 @@
 /* Intro Video Overlay - 5x5 Floating Window */
 .intro-video-overlay-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    /* "5x5" logic approx - small compact window */
-    height: 350px;
-    background: radial-gradient(circle at center, #1a0f0f, #000);
-    border: 2px solid #FFD700;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vmin;
+    height: 85vmin;
+    max-width: 1000px;
+    max-height: 1000px;
+    background: #000;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 25px;
+    box-shadow: 0 0 80px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 215, 0, 0.3);
     z-index: 10000;
-    /* On top of everything */
     overflow: hidden;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    animation: slideUp 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    animation: openOverlay 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@keyframes slideUp {
+/* Trigger Button (Before Opening) */
+.intro-video-trigger {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+    border: 1px solid #FFD700;
+    border-radius: 30px;
+    padding: 12px 30px;
+    /* Slightly larger for center stage */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    z-index: 9999;
+    transition: all 0.3s ease;
+    animation: floatButton 3s ease-in-out infinite;
+}
+
+@keyframes floatButton {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) translateY(-10px);
+    }
+}
+
+.intro-video-trigger:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+}
+
+.trigger-icon {
+    font-size: 18px;
+    color: #FFD700;
+}
+
+.trigger-text {
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Modal Container (Maximized) */
+.intro-video-overlay-container.maximized {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vmin;
+    height: 85vmin;
+    max-width: 1000px;
+    max-height: 1000px;
+    background: #000;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 25px;
+    box-shadow: 0 0 80px rgba(0, 0, 0, 1), 0 0 20px rgba(255, 215, 0, 0.3);
+    z-index: 10000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: openOverlay 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes openOverlay {
     from {
-        transform: translateY(100%);
+        transform: translate(-50%, -50%) scale(0.9);
         opacity: 0;
     }
 
     to {
-        transform: translateY(0);
+        transform: translate(-50%, -50%) scale(1);
         opacity: 1;
     }
 }
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
     font-size: 24px;
     cursor: pointer;
     z-index: 20;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .close-btn:hover {
     background: #ff4444;
+    border-color: #ff4444;
+    transform: rotate(90deg);
 }
 
 /* Video Screen Content */
@@ -59,77 +135,159 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
+    padding-bottom: 80px;
+    /* Space for text/controls */
 }
 
 .play-overlay {
-    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: background 0.3s;
 }
 
 .play-overlay:hover {
-    transform: scale(1.05);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .play-icon {
-    font-size: 60px;
+    font-size: 80px;
     color: #FFD700;
-    margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    margin-bottom: 25px;
+    animation: pulsePlay 2s infinite;
 }
 
-.video-controls {
-    position: absolute;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    pointer-events: none;
-    /* Let interactions pass */
+@keyframes pulsePlay {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-.stop-btn {
-    pointer-events: auto;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 5px 15px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.8rem;
+.play-overlay p {
+    color: white;
+    font-size: 1.4rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
-/* Lyrics Styling */
+/* Lyrics Overlay (Cinematic Text) */
 .lyrics-overlay {
-    position: absolute;
-    bottom: 50px;
-    width: 90%;
+    position: relative;
+    z-index: 5;
     text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+    width: 85%;
+    margin-bottom: 20px;
+    pointer-events: none;
 }
 
 .lyric-line {
-    font-size: 1rem;
-    font-weight: 500;
-    margin: 5px 0;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 8px 0;
     opacity: 0;
-    animation: fadeInLyrics 0.5s forwards;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 4px 8px;
-    border-radius: 8px;
-    color: #FFD700;
+    animation: simpleFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.line-1 {
-    animation-delay: 0.5s;
-}
+@keyframes simpleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
 
-@keyframes fadeInLyrics {
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Compact Lyrics Overlay */
+.lyrics-overlay-compact {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    width: 80%;
+    margin-bottom: 10px;
+    /* Closer to bottom */
+    pointer-events: none;
+}
+
+.lyric-line-compact {
+    color: #fff;
+    font-size: 1.2rem;
+    /* reduced from 1.6rem */
+    font-weight: 500;
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+    margin: 5px 0;
+    opacity: 0;
+    animation: simpleFadeIn 0.8s ease-out forwards;
+}
+
+/* Cinematic Image Styles */
+.scene-visual-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.scene-cinematic-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: panZoom 20s linear infinite alternate;
+}
+
+@keyframes panZoom {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    100% {
+        transform: scale(1.15) translate(-2%, -2%);
+    }
+}
+
+.visual-overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.1) 0%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.9) 100%);
+    z-index: 1;
 }
 
 /* Visual Scenes (CSS Animation) */
@@ -142,18 +300,6 @@
     justify-content: center;
     position: relative;
     font-size: 4rem;
-}
-
-/* Scene 1: Chart */
-.rotating-chart-icon {
-    animation: spin 10s linear infinite;
-    filter: drop-shadow(0 0 10px gold);
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 /* Scene 2: Beam */
@@ -213,32 +359,72 @@
     gap: 5px;
 }
 
-/* Visualizer */
-.audio-visualizer {
+/* Controls */
+.video-controls {
     position: absolute;
     bottom: 20px;
     right: 20px;
+    z-index: 20;
+}
+
+.stop-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.stop-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: #ff4444;
+}
+
+.audio-visualizer {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
     display: flex;
     gap: 3px;
+    z-index: 10;
 }
 
 .bar {
     width: 4px;
-    height: 10px;
+    height: 15px;
     background: #FFD700;
-    animation: equalizer 0.5s infinite;
+    animation: equalizer 1s ease-in-out infinite;
+}
+
+.bar:nth-child(1) {
+    animation-delay: 0.1s;
+    height: 10px;
 }
 
 .bar:nth-child(2) {
-    animation-delay: 0.1s;
+    animation-delay: 0.2s;
+    height: 18px;
 }
 
 .bar:nth-child(3) {
-    animation-delay: 0.2s;
+    animation-delay: 0.3s;
+    height: 14px;
 }
 
 @keyframes equalizer {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+        opacity: 0.7;
+    }
+
     50% {
-        height: 25px;
+        transform: scaleY(1.8);
+        opacity: 1;
     }
 }
