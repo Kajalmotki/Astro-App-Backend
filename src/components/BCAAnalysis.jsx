@@ -10,10 +10,15 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         height: '', // cm
         weight: '', // kg
         neck: '', // cm
+        shoulder: '', // cm (X-frame)
+        chest: '', // cm (New)
         waist: '', // cm (at navel)
         abdomen: '', // cm (often distinct from waist)
         hip: '', // cm (females only)
-        shoulder: '', // cm (X-frame)
+        bicep: '', // cm (New)
+        forearm: '', // cm (New/renamed from wrist for clarity but wrist is bone) - keeping wrist for frame
+        thigh: '', // cm (New)
+        calf: '', // cm (New - good for symmetry but keeping simple for now? let's stick to core request)
         wrist: '', // cm (Frame size)
         ankle: '', // cm (Symmetry)
         activityLevel: 'moderate' // sedentary, moderate, active, very_active
@@ -29,7 +34,12 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         }
     }, [isOpen]);
 
-    if (!isOpen) return null;
+    // --- ROUTINE PLAYER STATE (Moved to Top) ---
+    const [activeRoutine, setActiveRoutine] = useState(null);
+    const [timer, setTimer] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
+    const [showPlayer, setShowPlayer] = useState(false);
 
     // --- UTILS ---
     const handleInputChange = (e) => {
@@ -38,17 +48,21 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     };
 
     const fillRandomData = () => {
+        const isMale = Math.random() > 0.5;
         setFormData({
             age: Math.floor(Math.random() * (40 - 20) + 20),
-            gender: 'male',
-            height: Math.floor(Math.random() * (185 - 170) + 170),
-            weight: Math.floor(Math.random() * (85 - 65) + 65),
-            neck: Math.floor(Math.random() * (42 - 36) + 36),
-            waist: Math.floor(Math.random() * (95 - 75) + 75),
-            abdomen: Math.floor(Math.random() * (95 - 75) + 75),
-            hip: 0,
-            shoulder: Math.floor(Math.random() * (130 - 110) + 110),
-            wrist: Math.floor(Math.random() * (19 - 16) + 16),
+            gender: isMale ? 'male' : 'female',
+            height: Math.floor(Math.random() * (185 - 160) + 160),
+            weight: Math.floor(Math.random() * (90 - 55) + 55),
+            neck: Math.floor(Math.random() * (42 - 32) + 32),
+            shoulder: Math.floor(Math.random() * (130 - 100) + 100),
+            chest: Math.floor(Math.random() * (110 - 85) + 85),
+            waist: Math.floor(Math.random() * (100 - 65) + 65),
+            abdomen: Math.floor(Math.random() * (100 - 65) + 65), // usually similar to waist
+            hip: Math.floor(Math.random() * (110 - 85) + 85),
+            bicep: Math.floor(Math.random() * (40 - 25) + 25),
+            thigh: Math.floor(Math.random() * (65 - 45) + 45),
+            wrist: Math.floor(Math.random() * (19 - 15) + 15),
             ankle: 22,
             activityLevel: 'moderate'
         });
@@ -61,50 +75,62 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         // Loop 21 days
         for (let i = 1; i <= 21; i++) {
             let focus = "";
-            let workout = "";
-            let yoga = "";
-            let mind = "";
+            let routine = [];
 
             // --- PHASES ---
             if (i <= 7) {
                 // Phase 1: Cleansing & Foundation (Root/Sacral)
                 focus = "Detox & Foundation";
-                yoga = i % 2 !== 0 ? "Surya Namaskar (5 Rounds)" : yogaPrescription[0]?.name || "Balasana";
-                mind = "5 min Breath Awareness (Pranayama)";
+                const asana = i % 2 !== 0 ? "Surya Namaskar (Sun Salutation)" : (yogaPrescription[0]?.name || "Balasana");
 
-                if (cidShape === 'C') workout = "Low Impact Cardio (30 mins)";
-                else if (cidShape === 'D') workout = "Bodyweight Circuit (Pushups/Squats)";
-                else workout = "Gentle Core Activation";
+                routine = [
+                    { time: "5 min", activity: "Joint Release (Pawanmuktasana Series)", type: "warmup" },
+                    { time: "5 min", activity: "Cat-Cow & Child's Pose Flow", type: "yoga" },
+                    { time: "8 min", activity: `${asana} - 5 Rounds Slow`, type: "yoga" },
+                    { time: "7 min", activity: cidShape === 'C' ? "Brisk Walk / Spot Jogging" : "Malasana (Squat) & Lunges", type: "workout" },
+                    { time: "5 min", activity: "Pranayama (Kapalbhati - Skull Shining)", type: "mind" }
+                ];
 
             } else if (i <= 14) {
                 // Phase 2: Fire & Strength (Solar/Heart)
                 focus = "Igniting the Fire";
-                yoga = yogaPrescription[1]?.name || "Warrior II";
-                mind = "Gratitude Journaling";
+                const asana = yogaPrescription[1]?.name || "Warrior II";
 
-                if (cidShape === 'C') workout = "Interval Training (HIIT) 20 mins";
-                else if (cidShape === 'D') workout = "Heavy Resistance (Gym/Weights)";
-                else workout = "Dynamic Pilates/Calisthenics";
+                routine = [
+                    { time: "5 min", activity: "Active Warmup (Jumping Jacks/High Knees)", type: "warmup" },
+                    { time: "5 min", activity: "Boat Pose (Navasana) Intervals", type: "yoga" },
+                    { time: "8 min", activity: `${asana} & Reverse Warrior Flow`, type: "yoga" },
+                    { time: "7 min", activity: cidShape === 'D' ? "Pushups & Plank Holds" : "Burpees (Modified) & Climbers", type: "workout" },
+                    { time: "5 min", activity: "Breath of Fire (Bhastrika)", type: "mind" }
+                ];
 
             } else {
                 // Phase 3: Flow & Expansion (Throat/Third Eye/Crown)
                 focus = "Flow & Integration";
-                yoga = yogaPrescription[2]?.name || "Tree Pose";
-                mind = "Visualization Meditation";
+                const asana = yogaPrescription[2]?.name || "Tree Pose";
 
-                if (cidShape === 'C') workout = "Endurance Walk/Run (45 mins)";
-                else if (cidShape === 'D') workout = "Functional Compound Lifts";
-                else workout = "Full Body Mobility Flow";
+                routine = [
+                    { time: "5 min", activity: "Neck & Shoulder Opening", type: "warmup" },
+                    { time: "5 min", activity: "Tree Pose (Vrikshasana) Balance", type: "yoga" },
+                    { time: "10 min", activity: `Vinyasa Flow focusing on ${asana}`, type: "yoga" },
+                    { time: "5 min", activity: "Inversion Prep (Bridge/Shoulder Stand)", type: "workout" },
+                    { time: "5 min", activity: "Nadi Shodhana (Alt Nostril Breathing)", type: "mind" }
+                ];
             }
 
             // Rest Days (Day 4, 11, 18)
             if (i === 4 || i === 11 || i === 18) {
-                workout = "Active Rest (Nature Walk)";
                 focus = "Restoration";
-                mind = "Sleep Yoga (Nidra)";
+                routine = [
+                    { time: "5 min", activity: "Gentle Spinal Twists", type: "warmup" },
+                    { time: "10 min", activity: "Legs Up The Wall (Viparita Karani)", type: "yoga" },
+                    { time: "5 min", activity: "Supta Baddha Konasana (Reclined Bound Angle)", type: "yoga" },
+                    { time: "5 min", activity: "Deep Belly Breathing", type: "mind" },
+                    { time: "5 min", activity: "Gratitude Journaling", type: "mind" }
+                ];
             }
 
-            plan.push({ day: i, focus, workout, yoga, mind });
+            plan.push({ day: i, focus, routine });
         }
         return plan;
     };
@@ -115,9 +141,12 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         const weightKg = parseFloat(formData.weight);
         const waistCm = parseFloat(formData.waist);
         const shoulderCm = parseFloat(formData.shoulder);
+        const chestCm = parseFloat(formData.chest) || shoulderCm * 0.85; // Fallback
         const neckCm = parseFloat(formData.neck);
-        const hipCm = parseFloat(formData.hip) || (waistCm * 1.05); // Estimate for males if 0
+        const hipCm = parseFloat(formData.hip) || (waistCm * 1.05);
         const abdomenCm = parseFloat(formData.abdomen) || waistCm;
+        const bicepCm = parseFloat(formData.bicep) || (chestCm * 0.35); // Approx fallback
+        const thighCm = parseFloat(formData.thigh) || (waistCm * 0.6); // Approx fallback
         const wristCm = parseFloat(formData.wrist);
 
         if (!heightCm || !weightKg) return;
@@ -145,7 +174,6 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         const heartScore = Math.min(100, (shoulderCm / waistCm) * 60);
 
         // 5. Throat (Vishuddha): Thyroid/Metabolism. (Neck circumference sweet spot)
-        // Too thick (fat) or too thin (wasting) is bad. Ideal male ~38cm, female ~33cm.
         const idealNeck = formData.gender === 'male' ? 38 : 33;
         const neckDiff = Math.abs(neckCm - idealNeck);
         const throatScore = Math.max(30, 100 - (neckDiff * 5));
@@ -170,7 +198,6 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
         // --- 3. YOGA PRESCRIPTION ---
         let yogaPrescription = [];
-        // Based on weakest link
         const weakestChakra = [...chakras].sort((a, b) => a.score - b.score)[0];
 
         if (weakestChakra.name === "Solar Plexus") {
@@ -204,12 +231,79 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         const leanBodyMass = weightKg - fatMass;
         const ffmi = (leanBodyMass / ((heightCm / 100) ** 2)).toFixed(1);
 
-        // Shape Logic (C-I-D)
         let cidShape = "I"; // Balanced
         if (bodyFatPercentage > 25) cidShape = "C"; // Higher Fat
         else if (ffmi > 22) cidShape = "D"; // Muscular
 
-        // --- 5. GENERATE 21-DAY PLAN ---
+        // --- 5. ANTHROPOMETRIC RATIOS (New Standards) ---
+        const ratios = [];
+
+        // Helper to evaluate ratio
+        const checkRatio = (name, current, ideal, desc) => {
+            const deviation = Math.abs(1 - (current / ideal)); // % diff from ideal
+            let status = "Perfect";
+            if (deviation > 0.15) status = "Needs Work";
+            else if (deviation > 0.05) status = "Good";
+
+            return { name, current: current.toFixed(2), ideal: ideal.toString(), status, desc };
+        };
+
+        if (formData.gender === 'male') {
+            ratios.push(checkRatio(
+                "Shoulder-to-Waist (Adonis)",
+                shoulderCm / waistCm,
+                1.618,
+                "The 'Golden Ratio' for male aesthetics. Broad shoulders and tight waist."
+            ));
+            ratios.push(checkRatio(
+                "Chest-to-Waist",
+                chestCm / waistCm,
+                1.4,
+                "Indicates upper body muscularity relative to core."
+            ));
+            ratios.push(checkRatio(
+                "Waist-to-Hip",
+                waistCm / hipCm,
+                0.9,
+                "Key health indicator. Lower is generally better for metabolism."
+            ));
+            ratios.push(checkRatio(
+                "Bicep-to-Wrist",
+                bicepCm / wristCm,
+                2.5,
+                "Arm size relative to frame. >2.5 indicates significant muscle mass."
+            ));
+        } else {
+            ratios.push(checkRatio(
+                "Waist-to-Hip (Hourglass)",
+                waistCm / hipCm,
+                0.7,
+                "The classic indicator of feminine curves and metabolic health."
+            ));
+            ratios.push(checkRatio(
+                "Shoulder-to-Waist",
+                shoulderCm / waistCm,
+                1.4,
+                "Athletic and balanced upper body structure."
+            ));
+            ratios.push(checkRatio(
+                "Thigh-to-Waist",
+                thighCm / waistCm,
+                0.8,
+                "Lower body power and curve proportion."
+            ));
+        }
+
+        // Common Ratio
+        ratios.push(checkRatio(
+            "Waist-to-Height",
+            waistCm / heightCm,
+            0.45,
+            "General health marker. Keep below 0.5 for longevity."
+        ));
+
+
+        // --- 6. GENERATE 21-DAY PLAN ---
         const plan21Day = generate21DayPlan({ cidShape, yogaPrescription, chakras });
 
         // Macros
@@ -223,7 +317,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             ffmi,
             visceralLevel,
             idealWeightStr: `${(heightCm - 105).toFixed(1)} - ${(heightCm - 95).toFixed(1)} kg`,
-            scoreWeight: 50, // simplified vis
+            scoreWeight: 50,
             scoreSMM: cidShape === 'D' ? 80 : 50,
             scoreFat: cidShape === 'C' ? 80 : 40,
             smm: (leanBodyMass * 0.5).toFixed(1),
@@ -233,9 +327,165 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             plan21Day,
             tdee,
             macros: { p: Math.round(weightKg * 1.8), f: Math.round(weightKg), c: Math.round((tdee - (weightKg * 1.8 * 4 + weightKg * 9)) / 4) },
-            cidShape
+            cidShape,
+            ratios // Pass ratios to result
         });
         setStep('RESULT');
+    };
+
+    // --- RENDERERS ---
+
+    // --- ROUTINE PLAYER STATE ---
+    // (Moved to top)
+
+    // Audio Helper
+    const speak = (text) => {
+        if (isMuted || !window.speechSynthesis) return;
+        window.speechSynthesis.cancel(); // Stop previous
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1.1;
+        // Try to pick a calm voice if available (usually female voices sound calmer in browser defaults)
+        const voices = window.speechSynthesis.getVoices();
+        const calmVoice = voices.find(v => v.name.includes("Female") || v.name.includes("Google US English"));
+        if (calmVoice) utterance.voice = calmVoice;
+        window.speechSynthesis.speak(utterance);
+    };
+
+    // Parse time string to seconds (e.g. "5 min" -> 300)
+    const parseSeconds = (timeStr) => {
+        const min = parseInt(timeStr.split(' ')[0]);
+        return min * 60;
+    };
+
+    const startRoutine = (day) => {
+        const activities = day.routine;
+        setActiveRoutine({
+            day: day.day,
+            focus: day.focus,
+            activities,
+            currentIdx: 0
+        });
+        setTimer(parseSeconds(activities[0].time));
+        setShowPlayer(true);
+        setIsPlaying(true);
+        speak(`Day ${day.day}. ${day.focus}. Let's begin with ${activities[0].activity}`);
+    };
+
+    const handleNextActivity = () => {
+        if (!activeRoutine) return;
+        const nextIdx = activeRoutine.currentIdx + 1;
+
+        if (nextIdx < activeRoutine.activities.length) {
+            setActiveRoutine(prev => ({ ...prev, currentIdx: nextIdx }));
+            const nextAct = activeRoutine.activities[nextIdx];
+            setTimer(parseSeconds(nextAct.time));
+            speak(`Next up. ${nextAct.activity}. ${nextAct.time}`);
+        } else {
+            // Finished
+            setIsPlaying(false);
+            speak("Routine complete. Great job aligning your energy today.");
+            // Optional: Close player after short delay or show summary screen
+            setTimeout(() => setShowPlayer(false), 5000);
+        }
+    };
+
+    const handlePrevActivity = () => {
+        if (!activeRoutine || activeRoutine.currentIdx === 0) return;
+        const prevIdx = activeRoutine.currentIdx - 1;
+        setActiveRoutine(prev => ({ ...prev, currentIdx: prevIdx }));
+        setTimer(parseSeconds(activeRoutine.activities[prevIdx].time));
+    };
+
+    const togglePlay = () => setIsPlaying(!isPlaying);
+    const toggleMute = () => {
+        const newMute = !isMuted;
+        setIsMuted(newMute);
+        if (newMute) window.speechSynthesis.cancel();
+    };
+
+    // Timer Logic (Moved Effect Logic here)
+    useEffect(() => {
+        let interval = null;
+        if (isPlaying && timer > 0) {
+            interval = setInterval(() => {
+                setTimer(t => t - 1);
+            }, 1000);
+        } else if (isPlaying && timer === 0) {
+            // Auto-advance
+            handleNextActivity();
+        }
+        return () => clearInterval(interval);
+    }, [isPlaying, timer]); // Note hooks are moved, but function refs might need review if strict mode.
+    // Actually, simply moving this useEffect to top might issue 'handleNextActivity' not defined if called inside useeffect synchronously (it's not).
+    // HOWEVER to be safe, I'd rather define handleNextActivity via useCallback or keep it here but ensure useEffect is DECLARED at top.
+
+    // WAIT. If I move useEffect to top, 'handleNextActivity' is const defined BELOW.
+    // In React function components, consts defined below are NOT accessible in code above (TDZ), even in callbacks if the callback was invoked immediately.
+    // useEffect invokes callback AFTER render. By then, the consts are assigned.
+    // So it IS safe.
+
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    const renderRoutinePlayer = () => {
+        if (!showPlayer || !activeRoutine) return null;
+        const currentAct = activeRoutine.activities[activeRoutine.currentIdx];
+        const progress = activeRoutine.currentIdx / activeRoutine.activities.length * 100;
+
+        return (
+            <div className="routine-overlay">
+                <div className="routine-player-card">
+                    <button className="player-close" onClick={() => { setShowPlayer(false); setIsPlaying(false); window.speechSynthesis.cancel(); }}>&times;</button>
+
+                    <div className="player-header">
+                        <span className="player-day">Day {activeRoutine.day} — {activeRoutine.focus}</span>
+                        <div className="progress-track"><div className="progress-fill" style={{ width: `${progress}%` }}></div></div>
+                    </div>
+
+                    <div className="player-main">
+                        <div className="timer-circle">
+                            <span className="timer-val">{formatTime(timer)}</span>
+                            <span className="timer-label">Remaining</span>
+                        </div>
+
+                        <div className="active-item-display">
+                            {currentAct.image && (
+                                <div className="routine-img-container">
+                                    <img
+                                        src={currentAct.image.includes('/') ? currentAct.image : `/images/yoga/${currentAct.image}`}
+                                        onError={(e) => e.target.style.display = 'none'}
+                                        alt={currentAct.activity}
+                                        className="routine-img"
+                                    />
+                                </div>
+                            )}
+                            <span className="act-type-badge">{currentAct.type}</span>
+                            <h3 className="act-name-lg">{currentAct.activity}</h3>
+                            <p className="act-instruction">Focus on your breath. Align your movement.</p>
+                        </div>
+                    </div>
+
+                    <div className="player-controls">
+                        <button className="ctrl-btn sm" onClick={handlePrevActivity} disabled={activeRoutine.currentIdx === 0}>⏮</button>
+                        <button className="ctrl-btn lg" onClick={togglePlay}>{isPlaying ? '⏸' : '▶'}</button>
+                        <button className="ctrl-btn sm" onClick={handleNextActivity}>⏭</button>
+                        <button className="ctrl-btn vol" onClick={toggleMute}>{isMuted ? '🔇' : '🔊'}</button>
+                    </div>
+
+                    {activeRoutine.currentIdx < activeRoutine.activities.length - 1 && (
+                        <div className="up-next-bar">
+                            <span>Up Next: </span>
+                            <strong style={{ color: '#fff' }}>{activeRoutine.activities[activeRoutine.currentIdx + 1].activity}</strong>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     };
 
     // --- RENDERERS ---
@@ -260,6 +510,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
     const renderJourney = () => (
         <div className="bca-journey-view full-page" style={{ zIndex: 2147483647 }}>
+            {renderRoutinePlayer()}
             <div className="journey-container">
                 <div className="journey-header">
                     <h2 className="journey-title">Your 21-Day Transformation</h2>
@@ -296,24 +547,22 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                         const isMilestone = day.day % 7 === 0;
 
                         return (
-                            <div key={day.day} className={`day-card ${isRest ? 'rest' : ''} ${isMilestone ? 'milestone' : ''}`}>
+                            <div key={day.day} className={`day-card ${isRest ? 'rest' : ''} ${isMilestone ? 'milestone' : ''}`} onClick={() => startRoutine(day)}>
+                                <div className="day-card-overlay"><span className="play-icon">▶ Start Routine</span></div>
                                 <div className="day-num">
                                     <span>Day {day.day}</span>
-                                    <div className="day-check" title="Mark Complete"></div>
+                                    <div className="day-check" title="Mark Complete" onClick={(e) => { e.stopPropagation(); /* logic */ }}></div>
                                 </div>
                                 <div className="day-focus">{day.focus}</div>
 
-                                <div className="day-activity">
-                                    <span className="act-icon">🧘</span>
-                                    <span>{day.yoga}</span>
-                                </div>
-                                <div className="day-activity">
-                                    <span className="act-icon">💪</span>
-                                    <span>{day.workout}</span>
-                                </div>
-                                <div className="day-activity">
-                                    <span className="act-icon">🧠</span>
-                                    <span>{day.mind}</span>
+                                <div className="routine-list">
+                                    <p style={{ fontSize: '0.8rem', color: '#81E6D9', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>30 Min Routine</p>
+                                    {day.routine.map((item, idx) => (
+                                        <div key={idx} className="routine-item">
+                                            <span className="routine-time">{item.time}</span>
+                                            <span className="routine-act">{item.activity}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         );
@@ -333,7 +582,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             <div className="bca-benefits">
                 <span className="benefit-pill">✨ 7 Chakra Analysis</span>
                 <span className="benefit-pill">🌿 21-Day Journey</span>
-                <span className="benefit-pill">🧬 Body Composition</span>
+                <span className="benefit-pill">🧬 Body Standards</span>
             </div>
             <button className="bca-action-btn" onClick={() => setStep('FORM')}>Begin Healing</button>
         </div>
@@ -345,19 +594,33 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 <h2 className="bca-title" style={{ fontSize: '1.5rem', marginBottom: 0 }}>Biometrics</h2>
                 <button onClick={fillRandomData} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#81E6D9', padding: '5px 10px', borderRadius: '8px', cursor: 'pointer' }}>⚡ Auto-Fill</button>
             </div>
-            {/* Same fields as before but styled by new CSS */}
-            <div style={{ display: 'flex', gap: '15px' }}>
-                <div className="bca-input-group" style={{ flex: 1 }}><label>Height (cm)</label><input name="height" type="number" value={formData.height} onChange={handleInputChange} /></div>
-                <div className="bca-input-group" style={{ flex: 1 }}><label>Weight (kg)</label><input name="weight" type="number" value={formData.weight} onChange={handleInputChange} /></div>
-            </div>
+
             <div style={{ display: 'flex', gap: '15px' }}>
                 <div className="bca-input-group" style={{ flex: 1 }}><label>Age</label><input name="age" type="number" value={formData.age} onChange={handleInputChange} /></div>
                 <div className="bca-input-group" style={{ flex: 1 }}><label>Gender</label><select name="gender" value={formData.gender} onChange={handleInputChange}><option value="male">Male</option><option value="female">Female</option></select></div>
             </div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Height (cm)</label><input name="height" type="number" value={formData.height} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Weight (kg)</label><input name="weight" type="number" value={formData.weight} onChange={handleInputChange} /></div>
+            </div>
 
             <h4 style={{ color: '#81E6D9', marginTop: '10px', textTransform: 'uppercase', fontSize: '0.8rem' }}>Circumferences (cm)</h4>
-            <div style={{ display: 'flex', gap: '15px' }}><div className="bca-input-group" style={{ flex: 1 }}><label>Waist</label><input name="waist" type="number" value={formData.waist} onChange={handleInputChange} /></div><div className="bca-input-group" style={{ flex: 1 }}><label>Shoulder</label><input name="shoulder" type="number" value={formData.shoulder} onChange={handleInputChange} /></div></div>
-            <div style={{ display: 'flex', gap: '15px' }}><div className="bca-input-group" style={{ flex: 1 }}><label>Neck</label><input name="neck" type="number" value={formData.neck} onChange={handleInputChange} /></div><div className="bca-input-group" style={{ flex: 1 }}><label>Wrist</label><input name="wrist" type="number" value={formData.wrist} onChange={handleInputChange} /></div></div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Neck</label><input name="neck" type="number" value={formData.neck} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Waist (Navel)</label><input name="waist" type="number" value={formData.waist} onChange={handleInputChange} /></div>
+            </div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Shoulder</label><input name="shoulder" type="number" value={formData.shoulder} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Chest</label><input name="chest" type="number" value={formData.chest} onChange={handleInputChange} /></div>
+            </div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Bicep</label><input name="bicep" type="number" value={formData.bicep} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Wrist</label><input name="wrist" type="number" value={formData.wrist} onChange={handleInputChange} /></div>
+            </div>
+            <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Hips</label><input name="hip" type="number" value={formData.hip} onChange={handleInputChange} /></div>
+                <div className="bca-input-group" style={{ flex: 1 }}><label>Thigh</label><input name="thigh" type="number" value={formData.thigh} onChange={handleInputChange} /></div>
+            </div>
             <div className="bca-input-group"><label>Abdomen (Visceral)</label><input name="abdomen" type="number" value={formData.abdomen} onChange={handleInputChange} /></div>
 
             <div style={{ textAlign: 'center', marginTop: '20px' }}>
@@ -377,7 +640,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 <button className="bca-close-btn" onClick={onClose} style={{ position: 'static', fontSize: '1rem', border: '1px solid #aaa', padding: '8px 15px', borderRadius: '20px' }}>New</button>
             </div>
 
-            {/* SIDEBAR: RATIOS */}
+            {/* SIDEBAR: RATIOS (Updated) */}
             <div className="result-sidebar">
                 <span className="section-label">Composition</span>
                 <div className="metric-block">
@@ -388,14 +651,29 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 <div className="deep-dive-card">
                     <div className="deep-dive-row"><span className="deep-dive-label">FFMI (Muscle)</span><span className="deep-dive-val">{result.ffmi}</span></div>
                     <span className="comparison-text" style={{ marginBottom: '15px' }}>Indicator of root strength.</span>
-
                     <div className="deep-dive-row"><span className="deep-dive-label">Frame</span><span className="deep-dive-val">{result.frameSize}</span></div>
                 </div>
+
+                {/* NEW: RATIO SUMMARY MINI */}
+                <div style={{ marginTop: '20px' }}>
+                    <span className="section-label">Symmetry Check</span>
+                    {result.ratios.map((r, i) => (
+                        <div key={i} className="mini-ratio-row">
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+                                <span style={{ color: '#A0AEC0' }}>{r.name.split(' ')[0]}</span>
+                                <span style={{ color: r.status === 'Perfect' ? '#48BB78' : '#F6AD55' }}>{r.status}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
             </div>
 
-            {/* MAIN: CHAKRAS */}
+            {/* MAIN: CHAKRAS & STANDARDS */}
             <div className="result-main">
                 <div className="chart-container">
+
+                    {/* 1. CHAKRA ENERGY */}
                     <div className="energy-panel" style={{ marginTop: 0 }}>
                         <div className="energy-title">
                             <span>7-Chakra Vitality Scan</span>
@@ -409,11 +687,47 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                                     <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', margin: '10px 0' }}>
                                         <div style={{ width: `${c.score}%`, height: '100%', background: c.score < 50 ? '#F6AD55' : '#68D391', borderRadius: '2px' }}></div>
                                     </div>
-                                    <span className="chakra-status">{c.score < 50 ? "Needs Care" : "Balanced"}</span>
                                 </div>
                             ))}
                         </div>
                     </div>
+
+                    {/* 2. BODY STANDARDS COMPARISON (New) */}
+                    <div className="energy-panel">
+                        <div className="energy-title">
+                            <span>Anthropometric Standards</span>
+                            <span>Golden Ratio Analysis</span>
+                        </div>
+                        <div className="ratios-grid">
+                            {result.ratios.map((ratio, index) => (
+                                <div key={index} className="ratio-card">
+                                    <div className="ratio-header">
+                                        <h4 className="ratio-name">{ratio.name}</h4>
+                                        <span className={`ratio-badge ${ratio.status.replace(' ', '-').toLowerCase()}`}>{ratio.status}</span>
+                                    </div>
+                                    <div className="ratio-vis">
+                                        <div className="ratio-bar-bg">
+                                            {/* We normalize ideal to 60% of the bar for visualization */}
+                                            <div className="ratio-ideal-marker" style={{ left: '60%' }} title={`Ideal: ${ratio.ideal}`}></div>
+                                            <div
+                                                className="ratio-fill"
+                                                style={{
+                                                    width: `${Math.min(100, (parseFloat(ratio.current) / parseFloat(ratio.ideal)) * 60)}%`,
+                                                    background: ratio.status === 'Perfect' ? '#48BB78' : '#ECC94B'
+                                                }}
+                                            ></div>
+                                        </div>
+                                        <div className="ratio-nums">
+                                            <span>You: {ratio.current}</span>
+                                            <span>Ideal: {ratio.ideal}</span>
+                                        </div>
+                                    </div>
+                                    <p className="ratio-desc">{ratio.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
 
                     <div style={{ marginTop: '30px' }}>
                         <span className="section-label">Correction Strategy (Yoga)</span>
@@ -452,6 +766,8 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             </div>
         </div>
     );
+
+    if (!isOpen) return null;
 
     return ReactDOM.createPortal(
         <div className="bca-modal-overlay" onClick={onClose} style={{ zIndex: 2147483647 }}>
