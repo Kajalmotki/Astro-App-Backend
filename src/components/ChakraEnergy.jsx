@@ -6,74 +6,106 @@ const ChakraEnergy = () => {
     const [selectedChakra, setSelectedChakra] = useState(null);
 
     const chakras = [
-        { name: 'Sahasrara', color: '#D6A2E8', rgb: '214, 162, 232', symbol: 'ॐ', petals: 1000, description: 'Crown Chakra - Divine consciousness, enlightenment, and spiritual connection' }, // Light Purple
-        { name: 'Ajna', color: '#9A7FD1', rgb: '154, 127, 209', symbol: 'ॐ', petals: 2, description: 'Third Eye Chakra - Intuition, wisdom, and inner vision' }, // Light Indigo
-        { name: 'Vishuddha', color: '#63CAFF', rgb: '99, 202, 255', symbol: 'हं', petals: 16, description: 'Throat Chakra - Communication, self-expression, and truth' }, // Light Blue
-        { name: 'Anahata', color: '#7BED9F', rgb: '123, 237, 159', symbol: 'यं', petals: 12, description: 'Heart Chakra - Love, compassion, and emotional balance' }, // Light Green
-        { name: 'Manipura', color: '#FFE159', rgb: '255, 225, 89', symbol: 'रं', petals: 10, description: 'Solar Plexus Chakra - Personal power, confidence, and transformation' }, // Light Yellow
-        { name: 'Svadhisthana', color: '#FFC078', rgb: '255, 192, 120', symbol: 'वं', petals: 6, description: 'Sacral Chakra - Creativity, passion, and emotional flow' }, // Light Orange
-        { name: 'Muladhara', color: '#FF7979', rgb: '255, 121, 121', symbol: 'लं', petals: 4, description: 'Root Chakra - Grounding, stability, and survival instincts' } // Light Red
+        { name: 'Sahasrara', color: '#E9D8FD', rgb: '233, 216, 253', symbol: 'ॐ', description: 'Crown: Pure Consciousness', petals: 1000, yantra: 'circle' },
+        { name: 'Ajna', color: '#B794F4', rgb: '183, 148, 244', symbol: 'ॐ', description: 'Third Eye: Intuition', petals: 2, yantra: 'circle' },
+        { name: 'Vishuddha', color: '#63B3ED', rgb: '99, 179, 237', symbol: 'हं', description: 'Throat: Expression', petals: 16, yantra: 'circle' },
+        { name: 'Anahata', color: '#68D391', rgb: '104, 211, 145', symbol: 'यं', description: 'Heart: Love & Balance', petals: 12, yantra: 'hexagram' },
+        { name: 'Manipura', color: '#F6E05E', rgb: '246, 224, 94', symbol: 'रं', description: 'Solar Plexus: Power', petals: 10, yantra: 'triangle' },
+        { name: 'Svadhisthana', color: '#F6AD55', rgb: '246, 173, 85', symbol: 'वं', description: 'Sacral: Creativity', petals: 6, yantra: 'crescent' },
+        { name: 'Muladhara', color: '#FC8181', rgb: '252, 129, 129', symbol: 'लं', description: 'Root: Stability', petals: 4, yantra: 'square' }
     ];
 
-    const renderPetals = (petalCount, color) => {
-        // For Sahasrara (1000 petals), use a radial effect instead
-        if (petalCount === 1000) {
-            return <div className="thousand-petals-glow"></div>;
-        }
+    const renderYantra = (type, color) => {
+        if (type === 'square') return <div className="yantra-square" style={{ borderColor: color }}></div>;
+        if (type === 'triangle') return <div className="yantra-triangle" style={{ borderTopColor: color }}></div>;
+        if (type === 'crescent') return <div className="yantra-crescent" style={{ boxShadow: `0 4px 0 0 ${color}` }}></div>;
+        if (type === 'hexagram') return (
+            <div className="yantra-hexagram">
+                <div className="hex-tri up" style={{ borderBottomColor: color }}></div>
+                <div className="hex-tri down" style={{ borderTopColor: color }}></div>
+            </div>
+        );
+        return null; // Circles are default
+    };
+
+    const renderPetals = (count, color, name) => {
+        if (count === 1000) return <div className="thousand-petals-aura"></div>;
 
         const petals = [];
-        const angleStep = 360 / petalCount;
+        const step = 360 / count;
 
-        for (let i = 0; i < petalCount; i++) {
-            const angle = i * angleStep;
+        // Organic Petal Sizing - Uniform for all chakras as requested
+        const width = 12;
+        const height = 20;
+
+        for (let i = 0; i < count; i++) {
+            // Center the element
+            const marginLeft = -width / 2;
+            const marginTop = -height / 2;
+
+            // Radius: Push out so the base touches the orb (radius 22)
+            // Visual correction: The petal center needs to be further out
+            const radius = 22 + (height * 0.4);
+
             petals.push(
                 <div
                     key={i}
-                    className="chakra-petal"
+                    className="lotus-petal"
                     style={{
-                        '--petal-angle': `${angle}deg`,
+                        width: `${width}px`,
+                        height: `${height}px`,
+                        marginLeft: `${marginLeft}px`,
+                        marginTop: `${marginTop}px`,
+                        // Rotation: Angle -> Move Out -> Un-tilt the diagonal leaf shape (-45deg so tip points out) (Actually 135deg? Let's try 45 correction)
+                        // Leaf 100% 0 100% 0: Tips are TR/BL. 
+                        // To point TR straight UP relative to the radial line: rotate(-45deg).
+                        transform: `rotate(${i * step}deg) translateY(-${radius}px) rotate(-45deg)`,
                         '--petal-color': color
                     }}
                 ></div>
             );
         }
-
-        return petals;
+        return <div className="petals-ring">{petals}</div>;
     };
 
     return (
         <>
-            <div className="chakra-energy-container">
-                {/* Vertical energy line with smoke */}
-                <div className="energy-line">
-                    <div className="smoke-particle smoke-1"></div>
-                    <div className="smoke-particle smoke-2"></div>
-                    <div className="smoke-particle smoke-3"></div>
-                    <div className="smoke-particle smoke-4"></div>
-                    <div className="smoke-particle smoke-5"></div>
+            <div className="chakra-system-container">
+                {/* Central Energy Channel (Sushumna Nadi) */}
+                <div className="sushumna-channel">
+                    <div className="energy-pulse"></div>
                 </div>
 
-                {/* Chakras */}
-                <div className="chakras-container">
+                <div className="chakras-stack">
                     {chakras.map((chakra, index) => (
                         <div
                             key={chakra.name}
-                            className="chakra-item interactive"
+                            className="chakra-orb-container"
                             style={{
                                 '--chakra-color': chakra.color,
-                                '--chakra-rgb': chakra.rgb,
-                                '--delay': `${index * 0.2}s`
+                                '--chakra-glow': `rgba(${chakra.rgb}, 0.6)`,
+                                '--delay': `${index * 0.15}s`
                             }}
                             onClick={() => setSelectedChakra(chakra)}
+                            title={chakra.description} // Native tooltip is cleaner
                         >
-                            <div className="chakra-petals-container">
-                                {renderPetals(chakra.petals, chakra.color)}
+                            {/* Outer Rotating Energy Ring */}
+                            <div className="energy-ring"></div>
+
+                            {/* Organic Lotus Petals */}
+                            {renderPetals(chakra.petals, chakra.color, chakra.name)}
+
+                            {/* Inner Pulsing Core with Yantra */}
+                            <div className="chakra-core">
+                                {renderYantra(chakra.yantra, chakra.color)}
+                                <span className="veneer-glint"></span>
+                                <span className="sanskrit-symbol">{chakra.symbol}</span>
                             </div>
-                            <div className="chakra-circle">
-                                <div className="chakra-inner">
-                                    <span className="chakra-symbol">{chakra.symbol}</span>
-                                </div>
-                            </div>
+
+                            {/* Hover Halo */}
+                            <div className="hover-halo"></div>
+
+                            {/* Tooltip (Restored) */}
                             <div className="chakra-tooltip">
                                 <h4>{chakra.name}</h4>
                                 <p>{chakra.description}</p>
@@ -84,7 +116,6 @@ const ChakraEnergy = () => {
                 </div>
             </div>
 
-            {/* Yoga Modal */}
             <ChakraYogaPage
                 isOpen={!!selectedChakra}
                 onClose={() => setSelectedChakra(null)}
