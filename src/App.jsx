@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Capacitor } from '@capacitor/core';
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
@@ -17,6 +17,7 @@ import ScrollingTicker from './components/ScrollingTicker';
 
 
 import ChakraEnergy from './components/ChakraEnergy';
+import BCAAnalysis from './components/BCAAnalysis';
 import Footer from './components/Footer';
 import Testimonials from './components/Testimonials';
 import DonationSection from './components/DonationSection';
@@ -36,6 +37,17 @@ import MobileLayout from './components/mobile/MobileLayout';
 import MobileHome from './pages/MobileHome';
 import MobileReports from './pages/MobileReports';
 import MobileProfile from './pages/MobileProfile';
+import MobileKundli from './pages/MobileKundli';
+import MobileMatchmaking from './pages/MobileMatchmaking';
+
+// Feature Pages for Mobile Routes
+import AstroChartPage from './components/pages/AstroChartPage';
+import PanchangPage from './components/pages/PanchangPage';
+import HoroscopePage from './components/pages/HoroscopePage';
+import GemstonesPage from './components/pages/GemstonesPage';
+import KarmicReadingPage from './components/pages/KarmicReadingPage';
+import NumerologyPage from './components/pages/NumerologyPage';
+import VirtualPooja from './components/VirtualPooja';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
@@ -169,6 +181,24 @@ function AppContent() {
             <Route path="chat" element={<ChatPage />} />
             <Route path="reports" element={<MobileReports />} />
             <Route path="profile" element={<MobileProfile />} />
+            <Route path="full-kundli" element={<MobileKundli />} />
+            <Route path="matchmaking" element={<MobileMatchmaking />} />
+            <Route path="bca" element={<div className="page-content" style={{ paddingTop: '60px' }}><BCAAnalysis isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+
+            {/* Feature Routes mapped for Mobile Ticker */}
+            <Route path="astro-chart" element={<div className="page-content" style={{ paddingTop: '60px' }}><AstroChartPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="panchang" element={<div className="page-content" style={{ paddingTop: '60px' }}><PanchangPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="virtual-pooja" element={<div className="page-content" style={{ paddingTop: '60px' }}><VirtualPooja isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="horoscope" element={<div className="page-content" style={{ paddingTop: '60px' }}><HoroscopePage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="gemstones" element={<div className="page-content" style={{ paddingTop: '60px' }}><GemstonesPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="karmic-reading" element={<div className="page-content" style={{ paddingTop: '60px' }}><KarmicReadingPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+
+            {/* Redirects/Placeholders */}
+            <Route path="life-reports" element={<MobileReports />} />
+            <Route path="gemstone" element={<MobileReports />} />
+
+            <Route index element={<Navigate to="home" replace />} />
           </Route>
         </Routes>
       </div>

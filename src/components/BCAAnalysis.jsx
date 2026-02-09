@@ -508,69 +508,112 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         }
     };
 
-    const renderJourney = () => (
-        <div className="bca-journey-view full-page" style={{ zIndex: 2147483647 }}>
-            {renderRoutinePlayer()}
-            <div className="journey-container">
-                <div className="journey-header">
-                    <h2 className="journey-title">Your 21-Day Transformation</h2>
-                    <p className="journey-sub">A holistic path to align your body with your energy centers. Consistent action creates cellular memory.</p>
-                    <button className="bca-close-btn" onClick={onClose} style={{ top: 20, right: 20 }}>&times;</button>
-                </div>
+    // --- CALENDAR & JOURNEY LOGIC ---
+    const [selectedDay, setSelectedDay] = useState(null);
 
-                {/* NOTIFICATION SCRIPT BAR */}
-                <div className="notification-bar">
-                    <span style={{ fontSize: '1.5rem' }}>🔔</span>
-                    <div>
-                        <p className="notif-text">Commit to consistency.</p>
-                        <p style={{ fontSize: '0.8rem', color: '#CBD5E0', margin: 0 }}>Get daily reminders for your Yoga & Meditation.</p>
+    const renderCalendar = () => {
+        const plan = result?.plan21Day || [];
+
+        return (
+            <div className="bca-journey-view full-page" style={{ zIndex: 2147483647 }}>
+                {renderRoutinePlayer()}
+                {selectedDay && renderDayDetail(selectedDay)}
+
+                <div className="journey-container">
+                    <div className="journey-header">
+                        <h2 className="journey-title">21-Day Transformation</h2>
+                        <p className="journey-sub">Consistent action creates cellular memory. Tap a day to begin.</p>
+                        <button className="bca-close-btn" onClick={onClose} style={{ top: 20, right: 20 }}>&times;</button>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <input
-                            type="time"
-                            className="notif-time-input"
-                            value={notificationTime}
-                            onChange={(e) => setNotificationTime(e.target.value)}
-                        />
-                        <button
-                            className={`notif-btn ${isNotifActive ? 'active' : ''}`}
-                            onClick={toggleNotification}
-                        >
-                            {isNotifActive ? 'Active' : 'Turn On'}
+
+                    {/* NOTIFICATION */}
+                    <div className="notification-bar">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <span style={{ fontSize: '1.5rem' }}>🔔</span>
+                            <div>
+                                <p className="notif-text" style={{ fontSize: '0.95rem' }}>Daily Reminder</p>
+                                <p style={{ fontSize: '0.75rem', color: '#94A3B8', margin: 0 }}>Commit to your practice.</p>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <input
+                                type="time"
+                                className="notif-time-input"
+                                value={notificationTime}
+                                onChange={(e) => setNotificationTime(e.target.value)}
+                            />
+                            <button
+                                className={`notif-btn ${isNotifActive ? 'active' : ''}`}
+                                onClick={toggleNotification}
+                            >
+                                {isNotifActive ? 'On' : 'Set'}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* CALENDAR GRID */}
+                    <div className="calendar-grid">
+                        {plan.map((day) => {
+                            const isRest = day.focus.includes("Restoration");
+                            const isMilestone = day.day % 7 === 0;
+                            // Helper for quick status visualization
+                            let statusClass = "normal";
+                            if (isRest) statusClass = "rest-day";
+                            if (isMilestone) statusClass = "milestone-day";
+
+                            return (
+                                <button
+                                    key={day.day}
+                                    className={`cal-day-btn ${statusClass}`}
+                                    onClick={() => setSelectedDay(day)}
+                                >
+                                    <span className="cal-day-num">{day.day}</span>
+                                    {isMilestone && <span className="cal-badge">★</span>}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const renderDayDetail = (day) => {
+        const isRest = day.focus.includes("Restoration");
+
+        return (
+            <div className="day-detail-overlay" onClick={() => setSelectedDay(null)}>
+                <div className={`day-detail-card ${isRest ? 'rest-theme' : ''}`} onClick={e => e.stopPropagation()}>
+                    <button className="detail-close" onClick={() => setSelectedDay(null)}>&times;</button>
+
+                    <div className="detail-header">
+                        <span className="detail-day-label">Day {day.day}</span>
+                        <h3 className="detail-focus">{day.focus}</h3>
+                    </div>
+
+                    <div className="detail-content">
+                        <div className="detail-routine-list">
+                            <h4 style={{ color: '#A0AEC0', fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '15px' }}>
+                                Today's Sequence
+                            </h4>
+                            {day.routine.map((item, idx) => (
+                                <div key={idx} className="detail-routine-item">
+                                    <div className="detail-time-badge">{item.time}</div>
+                                    <span className="detail-act-name">{item.activity}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="detail-actions">
+                        <button className="start-routine-btn" onClick={() => { setSelectedDay(null); startRoutine(day); }}>
+                            <span style={{ marginRight: '8px' }}>▶</span> Start Guided Session
                         </button>
                     </div>
                 </div>
-
-                <div className="journey-grid">
-                    {result && result.plan21Day && result.plan21Day.map((day) => {
-                        const isRest = day.focus.includes("Restoration");
-                        const isMilestone = day.day % 7 === 0;
-
-                        return (
-                            <div key={day.day} className={`day-card ${isRest ? 'rest' : ''} ${isMilestone ? 'milestone' : ''}`} onClick={() => startRoutine(day)}>
-                                <div className="day-card-overlay"><span className="play-icon">▶ Start Routine</span></div>
-                                <div className="day-num">
-                                    <span>Day {day.day}</span>
-                                    <div className="day-check" title="Mark Complete" onClick={(e) => { e.stopPropagation(); /* logic */ }}></div>
-                                </div>
-                                <div className="day-focus">{day.focus}</div>
-
-                                <div className="routine-list">
-                                    <p style={{ fontSize: '0.8rem', color: '#81E6D9', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>30 Min Routine</p>
-                                    {day.routine.map((item, idx) => (
-                                        <div key={idx} className="routine-item">
-                                            <span className="routine-time">{item.time}</span>
-                                            <span className="routine-act">{item.activity}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     const renderIntro = () => (
         <div className="bca-intro">
@@ -777,7 +820,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                 {step === 'INTRO' && renderIntro()}
                 {step === 'FORM' && renderForm()}
                 {step === 'RESULT' && result && renderResult()}
-                {step === 'JOURNEY' && result && renderJourney()}
+                {step === 'JOURNEY' && result && renderCalendar()}
             </div>
         </div>,
         document.body

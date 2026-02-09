@@ -175,7 +175,6 @@ const ChatPage = () => {
             <main className="chat-main-area">
                 <header className="chat-page-header">
                     <div className="header-center">
-                        <CalmMusicPlayer />
                     </div>
                     <div className="header-right">
                         <div className="user-profile-mini">

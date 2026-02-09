@@ -1,8 +1,11 @@
 /* MobileReports.css */
+
 .mobile-reports-container {
-    padding: 20px;
-    color: #fff;
+    padding: 24px 20px;
     min-height: 100vh;
+    color: #f1f5f9;
+    font-family: 'Inter', sans-serif;
+    padding-bottom: 100px;
 }
 
 .page-header {
@@ -11,65 +14,515 @@
 
 .page-header h2 {
     font-size: 24px;
-    margin: 0 0 8px 0;
-    background: linear-gradient(90deg, #fff, #bbaaff);
+    margin: 0;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.page-header p {
+    margin: 6px 0 0;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+/* Accordion Styles */
+.reports-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.accordion-item {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.accordion-item.active {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.accordion-header {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.accordion-header:active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.header-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-info {
+    flex: 1;
+}
+
+.header-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+.header-info span {
+    font-size: 12px;
+    color: #94a3b8;
+    display: block;
+    margin-top: 2px;
+}
+
+.premium-badge-text {
+    color: #FFD700 !important;
+    font-weight: 600;
+    font-size: 10px !important;
+    margin-top: 4px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.accordion-content {
+    padding: 0 16px 20px 16px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Existing Content Styles (Reused) */
+.glass-panel {
+    background: rgba(0, 0, 0, 0.2);
+    /* Darker inside accordion */
+    border-radius: 16px;
+    border: none;
+}
+
+/* Birth Chart Section */
+.birth-chart-section .chart-card {
+    padding: 16px;
+    min-height: 300px;
+}
+
+.embedded-form-wrapper .birth-form-container {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.embedded-form-wrapper h2 {
+    display: none;
+}
+
+.embedded-chart-view {
+    text-align: center;
+}
+
+.chart-header-mini {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-header-mini h4 {
+    margin: 0;
+    color: #e2e8f0;
+}
+
+.reset-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #cbd5e1;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.chart-viz-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.chart-summary-mini {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #94a3b8;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* AstroRevo Chart Promo Card */
+.astrorevo-promo-card {
+    position: relative;
+    background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+    border-radius: 20px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    cursor: pointer;
+    box-shadow: 0 10px 30px -10px rgba(7, 89, 133, 0.5);
+    margin-top: 10px;
+}
+
+.promo-bg-glow {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 60%);
+    animation: rotateSlow 20s linear infinite;
+}
+
+.promo-content {
+    position: relative;
+    z-index: 1;
+}
+
+.promo-badge {
+    background: rgba(56, 189, 248, 0.2);
+    color: #7dd3fc;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.promo-content h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: white;
+}
+
+.promo-content p {
+    font-size: 13px;
+    margin: 0 0 16px;
+    color: #bae6fd;
+    line-height: 1.5;
+}
+
+.promo-cta-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    width: max-content;
+    transition: background 0.2s;
+}
+
+.promo-cta-btn:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Premium Section */
+.premium-promo-card {
+    position: relative;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border-radius: 20px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(129, 140, 248, 0.3);
+    cursor: pointer;
+    box-shadow: 0 10px 30px -10px rgba(49, 46, 129, 0.5);
+    margin-top: 10px;
+}
+
+.premium-bg-glow {
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, transparent 60%);
+    animation: rotateSlow 20s linear infinite;
+}
+
+.premium-content {
+    position: relative;
+    z-index: 1;
+}
+
+.premium-badge {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.premium-content h3 {
+    font-size: 20px;
+    margin: 0 0 12px;
+    background: linear-gradient(to right, #ffffff, #c7d2fe);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.page-header p {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 14px;
+.premium-benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: #e0e7ff;
+    line-height: 1.8;
 }
 
-.reports-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-
-.report-card {
+.premium-cta-btn {
+    background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
     display: flex;
     align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    width: max-content;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+/* Yoga / Chakra Section */
+.chakra-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.chakra-item-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 16px;
-    border-radius: 16px;
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
-}
-
-.report-card:active {
-    transform: scale(0.98);
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.report-icon-wrapper {
-    width: 48px;
-    height: 48px;
+    padding: 10px 14px;
     border-radius: 12px;
-    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.chakra-item-card:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chakra-symbol-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 16px;
+    background: rgba(0, 0, 0, 0.2);
+    font-family: 'Georgia', serif;
+    font-size: 16px;
 }
 
-.report-info {
+.chakra-info h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #f1f5f9;
+}
+
+.chakra-info span {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.arrow-icon {
+    color: #475569;
+}
+
+/* BCA Section */
+.bca-promo-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+.bca-icon-circle {
+    width: 48px;
+    height: 48px;
+    background: #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bca-text {
     flex: 1;
 }
 
-.report-info h3 {
-    margin: 0 0 4px 0;
-    font-size: 16px;
-    font-weight: 500;
-    color: #eee;
+.bca-text h3 {
+    margin: 0;
+    font-size: 15px;
+    color: white;
 }
 
-.view-link {
+.bca-text p {
+    margin: 4px 0 0;
     font-size: 12px;
+    color: #cbd5e1;
+}
+
+.bca-btn {
+    background: transparent;
+    border: 1px solid #10b981;
+    color: #10b981;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Sample Chart / Razorpay Button Styles (Shared from MobileHome) */
+.sample-chart-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 20px;
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sample-chart-preview-btn {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: inherit;
+    text-align: left;
+}
+
+.sample-chart-preview-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.preview-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.preview-title {
     color: #FFD700;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.preview-subtitle {
+    color: #cbd5e1;
+    font-size: 11px;
+}
+
+.preview-arrow {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.razorpay-buy-btn {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.razorpay-buy-btn:active {
+    transform: scale(0.98);
+}
+
+.buy-text {
+    font-size: 15px;
+}
+
+.buy-price {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 14px;
 }

@@ -1,23 +1,60 @@
 /* MobileLayout.css */
+:root {
+    /* Updated for Dark Video Theme */
+    --mobile-bg: #000000;
+    --mobile-text-main: #ffffff;
+    --mobile-text-sub: rgba(255, 255, 255, 0.7);
+    --mobile-accent: #FFD700;
+    --mobile-border: rgba(255, 255, 255, 0.1);
+}
+
 .mobile-layout-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     overflow: hidden;
-    background: #050510;
-    /* Fallback background */
     position: relative;
+    color: var(--mobile-text-main);
 }
 
+/* Video Background Styles */
+.mobile-video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.mobile-video-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly darker overlay for readability */
+    z-index: 1;
+}
+
+/* Updated Back Header for dark theme */
 .mobile-back-header {
     height: 50px;
     display: flex;
     align-items: center;
     padding: 0 16px;
-    background: rgba(10, 10, 25, 0.9);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--mobile-border);
     z-index: 100;
     position: sticky;
     top: 0;
@@ -26,9 +63,9 @@
 .mobile-back-btn {
     background: transparent;
     border: none;
-    color: #FFD700;
+    color: var(--mobile-accent);
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -39,10 +76,11 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-bottom: 80px;
+    padding-bottom: 70px;
     /* Space for bottom nav */
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    /* Above video overlay */
 }
 
 /* Ensure nested pages like ChatPage don't break out of the flex container */
@@ -59,4 +97,6 @@
 .mobile-content-area .embedded-dashboard .dashboard-window {
     min-height: auto;
     height: auto;
+    background: transparent !important;
+    /* Let transparency show through */
 }

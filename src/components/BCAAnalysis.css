@@ -183,99 +183,92 @@
     box-shadow: 0 6px 20px rgba(56, 178, 172, 0.6);
 }
 
-/* --- RESULT DASHBOARD (ZEN GRID) --- */
+/* --- RESULT DASHBOARD (ZEN GRID) - Mobile First --- */
 .bca-results {
-    display: grid;
-    grid-template-columns: 320px 1fr 320px;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-        "header header header"
-        "sidebar main right";
-    gap: 30px;
-    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
     min-height: 100vh;
     box-sizing: border-box;
     background: radial-gradient(circle at top center, #2C3E50, #000000 80%);
-    /* Moved bg here */
+    padding-bottom: 100px;
 }
 
 /* 1. Header */
 .blueprint-header {
-    grid-area: header;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .blueprint-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     background: linear-gradient(to right, #81E6D9, #FED7D7);
-    /* Teal to Soft Pink */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
 }
 
-/* 2. Sidebar Utils */
+/* 2. Sidebar Utils - Now Stacked */
 .result-sidebar {
-    grid-area: sidebar;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 .result-main {
-    grid-area: main;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-.result-right {
-    grid-area: right;
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.result-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .section-label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: #718096;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 600;
 }
 
-/* Metric Cards (Soft Glass) */
+/* Metric Cards */
 .metric-block {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    padding: 20px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 .metric-title {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #A0AEC0;
 }
 
 .metric-value {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
 }
 
 .metric-sub {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #718096;
 }
 
@@ -283,185 +276,103 @@
 .deep-dive-card {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 16px;
-    padding: 20px;
-    border-left: 4px solid #81E6D9;
-    /* Teal Accent */
+    padding: 16px;
+    border-left: 3px solid #81E6D9;
 }
 
 .deep-dive-row {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 }
 
 .deep-dive-label {
+    font-size: 0.9rem;
     color: #CBD5E0;
 }
 
 .deep-dive-val {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #fff;
 }
 
 .comparison-text {
     display: block;
-    margin-top: 5px;
-    font-size: 0.75rem;
+    margin-top: 4px;
+    font-size: 0.7rem;
     color: #718096;
-}
-
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: #A0AEC0;
 }
 
 /* --- CHART & ENERGY (Main) --- */
 .chart-container {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
-    padding: 30px;
-}
-
-/* Composition Bars (Softened) */
-.cid-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.cid-label {
-    width: 60px;
-    color: #A0AEC0;
-    font-weight: 500;
-}
-
-.cid-track {
-    flex: 1;
-    height: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-    margin: 0 15px;
-    overflow: hidden;
-}
-
-.cid-bar {
-    height: 100%;
-    border-radius: 6px;
-    transition: width 1s ease-out;
-}
-
-.cid-val {
-    width: 50px;
-    text-align: right;
-    color: #fff;
-    font-weight: 600;
+    background: transparent;
+    /* Clean look for mobile */
+    border-radius: 0;
+    padding: 0;
 }
 
 /* Energy Panel (Zen) */
 .energy-panel {
-    background: linear-gradient(135deg, rgba(85, 60, 154, 0.1), rgba(66, 153, 225, 0.05));
+    background: linear-gradient(135deg, rgba(85, 60, 154, 0.15), rgba(66, 153, 225, 0.08));
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    padding: 25px;
-    margin-top: 30px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .energy-title {
     color: #D6BCFA;
-    font-size: 1rem;
-    margin-bottom: 20px;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding-bottom: 8px;
+    font-weight: 600;
 }
 
 .chakra-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr;
+    /* List view is better for mobile detail */
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .chakra-item {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2));
-    padding: 15px 10px;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 30px 80px 1fr;
+    /* Icon, Name, Bar */
     align-items: center;
-    text-align: center;
+    gap: 10px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    text-align: left;
 }
 
 .chakra-item:hover {
-    transform: translateY(-5px);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.3));
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transform: none;
+    /* No hover on touch */
 }
 
-.chakra-ring-wrapper {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.chakra-ring-icon {
-    position: absolute;
-    font-size: 1.8rem;
-    z-index: 2;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
-}
-
-.chakra-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-bottom: 8px;
+.chakra-icon-sm {
+    font-size: 1.2rem;
 }
 
 .chakra-name {
-    font-size: 0.75rem;
-    color: #A0AEC0;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    color: #cbd5e0;
+    text-align: left;
 }
 
-.chakra-score-val {
-    font-size: 1.1rem;
-    font-weight: 800;
-}
-
-.chakra-status-pill {
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    border: 1px solid;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-/* Removed old .chakra-icon-sm and bar styles */
 
 /* Correction Strategy (Yoga) */
 .yoga-prescription {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    flex-direction: column;
+    /* Stack on mobile */
+    gap: 12px;
     margin-top: 15px;
 }
 
@@ -469,25 +380,28 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 15px;
-    flex: 1;
-    min-width: 140px;
+    padding: 12px 16px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
+    text-align: left;
+    gap: 15px;
 }
 
 .yoga-icon {
-    font-size: 2rem;
-    margin-bottom: 8px;
+    font-size: 1.8rem;
+    margin-bottom: 0;
+}
+
+.yoga-info {
+    display: flex;
+    flex-direction: column;
 }
 
 .yoga-name {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #fff;
-    font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .yoga-for {
@@ -495,143 +409,272 @@
     color: #A0AEC0;
 }
 
-/* --- 21-DAY JOURNEY VIEW (Immersive) --- */
-.journey-container {
-    width: 95%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding-bottom: 100px;
+/* Desktop override if needed */
+@media (min-width: 1024px) {
+    .bca-results {
+        display: grid;
+        grid-template-columns: 300px 1fr 300px;
+        grid-template-areas:
+            "header header header"
+            "sidebar main right";
+        gap: 30px;
+        padding: 40px;
+    }
+
+    .chakra-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .chakra-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .yoga-prescription {
+        flex-direction: row;
+    }
+
+    .yoga-card-mini {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* --- 21-DAY JOURNEY VIEW (Premium Immersive) --- */
+.bca-journey-view.full-page {
+    background: #050505;
     position: relative;
+    overflow-x: hidden;
+    /* Subtle moving mesh gradient via pseudo-element is expensive on mobile, using static rich gradient */
+    background: radial-gradient(circle at 10% 20%, #1a202c 0%, #000000 90%);
+}
+
+.journey-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 150px;
+    position: relative;
+    padding-top: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
 }
 
 .journey-header {
     text-align: center;
-    margin-bottom: 60px;
-    padding-top: 120px;
-    position: relative;
+    margin-bottom: 50px;
+    padding-top: 20px;
 }
 
 .journey-title {
-    font-size: 3.5rem;
-    background: linear-gradient(to right, #81E6D9, #FED7D7, #81E6D9);
-    background-size: 200% auto;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #E2E8F0 0%, #81E6D9 50%, #4FD1C5 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-weight: 800;
-    animation: shine 5s linear infinite;
-}
-
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
+    letter-spacing: -1px;
+    text-shadow: 0 0 30px rgba(129, 230, 217, 0.15);
 }
 
 .journey-sub {
-    color: #A0AEC0;
-    font-size: 1.2rem;
-    max-width: 700px;
+    font-size: 1rem;
+    color: #94A3B8;
+    line-height: 1.6;
+    max-width: 90%;
     margin: 0 auto;
 }
 
-/* Notification Bar (Sticky) */
+/* Notification Bar (Floating Glass) */
 .notification-bar {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(44, 62, 80, 0.9);
-    backdrop-filter: blur(10px);
-    padding: 15px 30px;
-    border-radius: 50px;
-    border: 1px solid rgba(129, 230, 217, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    transition: all 0.3s ease;
-}
-
-.notification-bar:hover {
-    box-shadow: 0 15px 40px rgba(129, 230, 217, 0.2);
-    border-color: #81E6D9;
-}
-
-.notif-text {
-    color: #fff;
-    font-weight: 600;
-    margin: 0;
-}
-
-.notif-time-input {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    padding: 8px 15px;
+    background: rgba(22, 27, 34, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    outline: none;
-    cursor: pointer;
-}
-
-.notif-btn {
-    background: #81E6D9;
-    color: #1A202C;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 25px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.notif-btn:hover {
-    transform: scale(1.05);
-}
-
-.notif-btn.active {
-    background: #48BB78;
-    color: white;
-}
-
-/* Snake Path Grid */
-.journey-grid {
+    padding: 16px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    position: relative;
-}
-
-/* Day Card Interactive */
-.day-card {
-    width: 320px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 24px;
-    padding: 25px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8);
     position: relative;
     overflow: hidden;
-    cursor: pointer;
 }
 
-.day-card-overlay {
+/* Shine effect on notification bar */
+.notification-bar::after {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(129, 230, 217, 0.4), transparent);
+}
+
+.journey-grid {
     display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Day Cards (Premium Cards) */
+.day-card {
+    width: 100%;
+    background: rgba(26, 32, 44, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 24px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.day-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #2D3748;
+    opacity: 0.5;
+}
+
+.day-card:active {
+    transform: scale(0.98);
+}
+
+/* Status variants */
+.day-card.milestone {
+    background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.05), rgba(26, 32, 44, 0.6));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.day-card.milestone::before {
+    background: #F6E05E;
+    box-shadow: 0 0 15px rgba(246, 224, 94, 0.4);
+}
+
+.day-card.rest {
+    background: radial-gradient(circle at top right, rgba(66, 153, 225, 0.05), rgba(26, 32, 44, 0.6));
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.day-card.rest::before {
+    background: #63B3ED;
+    box-shadow: 0 0 15px rgba(99, 179, 237, 0.4);
+}
+
+
+.day-num {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    padding-left: 12px;
+    /* space from border strip */
+    font-variant-numeric: tabular-nums;
+}
+
+.day-focus {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #1A202C;
+    background: #81E6D9;
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-left: 12px;
+    box-shadow: 0 0 15px rgba(129, 230, 217, 0.3);
+}
+
+/* Modifiers for focus badge */
+.day-card.milestone .day-focus {
+    background: #F6E05E;
+    color: #744210;
+    box-shadow: 0 0 15px rgba(246, 224, 94, 0.3);
+}
+
+.day-card.rest .day-focus {
+    background: #63B3ED;
+    color: #1A365D;
+    box-shadow: 0 0 15px rgba(99, 179, 237, 0.3);
+}
+
+
+/* Routine List Styling */
+.routine-list {
+    margin-left: 12px;
+}
+
+.routine-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.routine-item:last-child {
+    border-bottom: none;
+}
+
+.routine-time {
+    color: #81E6D9;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    background: rgba(129, 230, 217, 0.08);
+    /* subtle text bg */
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 55px;
+    text-align: center;
+}
+
+/* Rest styling adjustment */
+.day-card.rest .routine-time {
+    color: #63B3ED;
+    background: rgba(99, 179, 237, 0.1);
+}
+
+.day-card.milestone .routine-time {
+    color: #F6E05E;
+    background: rgba(246, 224, 94, 0.1);
+}
+
+.routine-act {
+    color: #E2E8F0;
+    text-align: right;
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding-left: 15px;
+}
+
+
+/* Overlay Action */
+.day-card-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 5;
-    backdrop-filter: blur(2px);
+    transition: opacity 0.2s ease;
 }
 
 .day-card:hover .day-card-overlay {
@@ -639,181 +682,16 @@
 }
 
 .play-icon {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #0d0d0d;
-    background: #81E6D9;
-    padding: 12px 24px;
-    border-radius: 30px;
-    box-shadow: 0 0 20px rgba(129, 230, 217, 0.5);
-    transform: scale(0.9);
-    transition: transform 0.2s;
-}
-
-.play-icon:hover {
-    transform: scale(1);
-}
-
-/* ROUTINE PLAYER OVERLAY */
-.routine-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
-    z-index: 2147483649;
-    /* Top of everything */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.routine-player-card {
-    width: 90%;
-    max-width: 500px;
-    background: linear-gradient(145deg, #1a202c, #000);
-    border: 1px solid #2D3748;
-    border-radius: 30px;
-    padding: 30px;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    text-align: center;
-}
-
-.player-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: transparent;
-    border: none;
-    color: #4A5568;
-    font-size: 2rem;
-    cursor: pointer;
-    line-height: 1;
-}
-
-.player-header {
-    margin-bottom: 30px;
-}
-
-.player-day {
-    font-size: 1.1rem;
-    color: #81E6D9;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.progress-track {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #81E6D9;
-    transition: width 0.3s ease;
-}
-
-.player-main {
-    margin-bottom: 40px;
-}
-
-.timer-circle {
-    width: 200px;
-    height: 200px;
-    border: 4px solid rgba(129, 230, 217, 0.1);
-    border-radius: 50%;
-    margin: 0 auto 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    box-shadow: 0 0 30px rgba(129, 230, 217, 0.05);
-}
-
-.timer-circle::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border: 4px solid #81E6D9;
-    border-radius: 50%;
-    border-left-color: transparent;
-    border-bottom-color: transparent;
-    animation: spin 4s linear infinite;
-    opacity: 0.3;
-}
-
-@keyframes spin {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.timer-val {
-    font-size: 4rem;
-    font-weight: 700;
-    color: #fff;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-}
-
-.timer-label {
     font-size: 0.9rem;
-    color: #718096;
-    margin-top: 5px;
-    text-transform: uppercase;
-}
-
-.act-type-badge {
-    background: #4A5568;
-    color: #CBD5E0;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
     font-weight: 700;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-
-.act-name-lg {
-    font-size: 1.8rem;
+    letter-spacing: 1px;
     color: #fff;
-    margin: 10px 0;
-    line-height: 1.2;
-}
-
-.act-instruction {
-    color: #A0AEC0;
-    font-size: 1rem;
-}
-
-.routine-img-container {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 15px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgba(129, 230, 217, 0.3);
-    box-shadow: 0 0 20px rgba(129, 230, 217, 0.2);
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.routine-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 28px;
+    border-radius: 40px;
+    box-shadow: 0 0 30px rgba(129, 230, 217, 0.3);
+    text-transform: uppercase;
 }
 
 .player-controls {
@@ -912,13 +790,202 @@
     align-items: center;
 }
 
-.day-check {
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
+/* --- CALENDAR GRID (Premium) --- */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns for mobile (21 days = 7 rows) */
+    gap: 15px;
+    padding-bottom: 40px;
+}
+
+.cal-day-btn {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+}
+
+.cal-day-btn:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cal-day-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    z-index: 2;
+}
+
+.cal-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 0.8rem;
+    color: #F6E05E;
+}
+
+/* Modifiers */
+.cal-day-btn.milestone-day {
+    background: linear-gradient(135deg, rgba(246, 224, 94, 0.1), rgba(0, 0, 0, 0.2));
+    border-color: rgba(246, 224, 94, 0.3);
+    box-shadow: 0 0 15px rgba(246, 224, 94, 0.1);
+}
+
+.cal-day-btn.milestone-day .cal-day-num {
+    color: #F6E05E;
+}
+
+.cal-day-btn.rest-day {
+    background: linear-gradient(135deg, rgba(99, 179, 237, 0.1), rgba(0, 0, 0, 0.2));
+    border-color: rgba(99, 179, 237, 0.3);
+}
+
+.cal-day-btn.rest-day .cal-day-num {
+    color: #63B3ED;
+}
+
+
+/* --- DAY DETAIL MODAL/SHEET --- */
+.day-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 2147483648;
+    /* below player */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.day-detail-card {
+    background: #171923;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 24px;
+    padding: 30px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.detail-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #718096;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.detail-header {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.detail-day-label {
+    display: block;
+    color: #81E6D9;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.detail-focus {
+    color: #fff;
+    font-size: 1.6rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.detail-routine-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-time-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #CBD5E0;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-right: 15px;
+    min-width: 50px;
+    text-align: center;
+}
+
+.detail-act-name {
+    color: #E2E8F0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.start-routine-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #38B2AC, #4FD1C5);
+    color: #1A202C;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(56, 178, 172, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.start-routine-btn:active {
+    transform: scale(0.98);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .day-check:hover {

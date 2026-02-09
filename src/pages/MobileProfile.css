@@ -1,86 +1,248 @@
-/* MobileProfile.css */
+/* MobileProfile.css - Premium Upgrade */
 .mobile-profile-container {
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
+    background: radial-gradient(circle at top center, #1a1a2e, #000000);
+    padding: 0 0 100px 0;
+    /* Space for bottom nav */
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
 }
 
-.embedded-dashboard {
-    height: 100%;
-    width: 100%;
+/* Header */
+.profile-header {
+    background: linear-gradient(180deg, rgba(20, 20, 30, 0.8) 0%, transparent 100%);
+    padding: 40px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Overrides for PremiumDashboard when embedded in mobile profile */
-.mobile-profile-container .dashboard-overlay {
-    position: static;
-    background: transparent;
-    backdrop-filter: none;
-    padding: 0;
-    height: auto;
-    min-height: 100%;
+.profile-avatar-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+    color: #FFD700;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    animation: pulseAvatar 2s infinite;
     z-index: 1;
 }
 
-.mobile-profile-container .dashboard-window {
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    border-radius: 0;
-    border: none;
-    background: transparent;
+@keyframes pulseAvatar {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+
+    100% {
+        width: 140%;
+        height: 140%;
+        opacity: 0;
+    }
+}
+
+.profile-info {
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    background: linear-gradient(to right, #fff, #a0a0a0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.profile-badge {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    color: #000;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+/* Stats Carousel */
+.stats-carousel {
     display: flex;
-    flex-direction: column;
-}
-
-.mobile-profile-container .dashboard-close {
-    display: none;
-}
-
-.mobile-profile-container .dashboard-sidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    display: none;
-    /* Hide sidebar on mobile, use a different nav or default tab */
-}
-
-/* We might want to show tab navigation differently if sidebar is hidden */
-
-/* For now, let's keep it simple and just show the main content area */
-.mobile-profile-container .dashboard-main {
-    padding: 10px;
-}
-
-.mobile-profile-container .dashboard-sidebar {
-    /* If we want to show it, we need to make it a horizontal scroll or collapsible */
-    display: flex;
+    gap: 15px;
     overflow-x: auto;
-    width: 100%;
-    padding: 10px;
-    gap: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    scrollbar-width: none;
+    /* Hide scrollbar */
+    -ms-overflow-style: none;
 }
 
-.mobile-profile-container .sidebar-nav {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
-
-.mobile-profile-container .sidebar-btn {
-    white-space: nowrap;
-    padding: 8px 12px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.mobile-profile-container .sidebar-footer {
+.stats-carousel::-webkit-scrollbar {
     display: none;
 }
 
-.mobile-profile-container .dashboard-content-header {
+.stat-card {
+    min-width: 120px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 10px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s;
+}
+
+.stat-card:active {
+    transform: scale(0.98);
+}
+
+.stat-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #a0a0a0;
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Menu Grid */
+.profile-menu {
+    padding: 10px 20px;
+}
+
+.section-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #a0a0a0;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-item {
+    background: rgba(30, 30, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    backdrop-filter: blur(12px);
+    transition: background 0.2s;
+}
+
+.menu-item:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFD700;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.menu-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.menu-sub {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.menu-arrow {
+    color: #555;
+}
+
+/* Zen Quote */
+.zen-quote {
+    padding: 30px 20px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.zen-quote p {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.zen-quote span {
+    font-size: 0.8rem;
+    color: #FFD700;
 }

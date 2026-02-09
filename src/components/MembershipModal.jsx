@@ -52,23 +52,23 @@ const MembershipModal = ({ isOpen, onClose }) => {
                 <button onClick={onClose} className="auth-close">×</button>
 
                 <div className="membership-content">
-                    <h2 className="gold-text">Join AstroRevo Premium</h2>
-                    <p className="membership-subtitle">Unlock Your Cosmic Potential</p>
+                    <h2 className="gold-text">The AstroRevo Chart</h2>
+                    <p className="membership-subtitle">Your Complete Life & Destiny Report</p>
 
                     <div className="membership-price">
-                        <span className="price-amount">₹11</span>
-                        <span className="price-period">Monthly Access</span>
+                        <span className="price-amount">₹99</span>
+                        <span className="price-period">One-Time Purchase</span>
                     </div>
 
                     <div className="membership-features">
                         <h3>Premium Benefits:</h3>
                         <ul>
-                            <li>✨ Unlimited AI Astrology Consultations</li>
-                            <li>🔮 Advanced Birth Chart Analysis</li>
-                            <li>📊 Personalized AstroRevo Workflows</li>
-                            <li>🎯 Priority Support</li>
-                            <li>🌟 Exclusive Vedic Remedies</li>
-                            <li>📈 Monthly Predictions & Insights</li>
+                            <li>✨ Full Life Predictions (100+ Pages)</li>
+                            <li>🔮 In-depth Carrier & Wealth Path</li>
+                            <li>❤️ Detailed Relationship Compatibility</li>
+                            <li>🌿 Health & Wellbeing Analysis</li>
+                            <li>📅 5-Year Dasha Predictions</li>
+                            <li>💎 Personalized Gemstone Recommendations</li>
                         </ul>
                     </div>
 
