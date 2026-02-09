@@ -1,0 +1,86 @@
+/* MobileProfile.css */
+.mobile-profile-container {
+    height: 100%;
+    width: 100%;
+}
+
+.embedded-dashboard {
+    height: 100%;
+    width: 100%;
+}
+
+/* Overrides for PremiumDashboard when embedded in mobile profile */
+.mobile-profile-container .dashboard-overlay {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0;
+    height: auto;
+    min-height: 100%;
+    z-index: 1;
+}
+
+.mobile-profile-container .dashboard-window {
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-profile-container .dashboard-close {
+    display: none;
+}
+
+.mobile-profile-container .dashboard-sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    display: none;
+    /* Hide sidebar on mobile, use a different nav or default tab */
+}
+
+/* We might want to show tab navigation differently if sidebar is hidden */
+
+/* For now, let's keep it simple and just show the main content area */
+.mobile-profile-container .dashboard-main {
+    padding: 10px;
+}
+
+.mobile-profile-container .dashboard-sidebar {
+    /* If we want to show it, we need to make it a horizontal scroll or collapsible */
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-profile-container .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.mobile-profile-container .sidebar-btn {
+    white-space: nowrap;
+    padding: 8px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-profile-container .sidebar-footer {
+    display: none;
+}
+
+.mobile-profile-container .dashboard-content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}

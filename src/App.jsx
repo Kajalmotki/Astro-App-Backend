@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
+import { Capacitor } from '@capacitor/core';
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
 import ChatInterface from './components/ChatInterface';
@@ -29,6 +30,12 @@ import './App.css';
 import './components/HookedCTA.css';
 
 import IntroVideoOverlay from './components/IntroVideoOverlay';
+
+// Mobile Imports
+import MobileLayout from './components/mobile/MobileLayout';
+import MobileHome from './pages/MobileHome';
+import MobileReports from './pages/MobileReports';
+import MobileProfile from './pages/MobileProfile';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
@@ -131,13 +138,42 @@ function AppContent() {
   const [isMembershipOpen, setIsMembershipOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const { user } = useAuth();
+  const [isNativeChecked, setIsNativeChecked] = useState(false);
 
+  const isNative = Capacitor.isNativePlatform();
+  const isMobileRoute = location.pathname.startsWith('/mobile');
   const isChatPage = location.pathname.toLowerCase().includes('chat');
+
+  useEffect(() => {
+    // Redirect to mobile home if native app and on root
+    if (isNative && location.pathname === '/') {
+      console.log("Detected native platform, redirecting to mobile home");
+      navigate('/mobile/home');
+    }
+    setIsNativeChecked(true);
+  }, [isNative, location.pathname, navigate]);
 
   const handleQuestionSelect = (question) => {
     setActiveQuestion(question);
     navigate('/chat', { state: { initialQuestion: question } });
   };
+
+  // If in mobile mode/route, we don't render the desktop header/footer wrappers
+  // The MobileLayout handles its own structure.
+  if (isMobileRoute) {
+    return (
+      <div className="app-container mobile-app-container">
+        <Routes>
+          <Route path="/mobile" element={<MobileLayout />}>
+            <Route path="home" element={<MobileHome />} />
+            <Route path="chat" element={<ChatPage />} />
+            <Route path="reports" element={<MobileReports />} />
+            <Route path="profile" element={<MobileProfile />} />
+          </Route>
+        </Routes>
+      </div>
+    )
+  }
 
   return (
     <div className="app-container">
