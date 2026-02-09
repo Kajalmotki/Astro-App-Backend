@@ -6,6 +6,7 @@ import AstroChart from '../components/AstroChart';
 import { getLocalVedicChart } from '../services/vedicAstroApi';
 import ChakraYogaPage from '../components/pages/ChakraYogaPage';
 import MembershipModal from '../components/MembershipModal';
+import BCAAnalysis from '../components/BCAAnalysis';
 import './MobileReports.css';
 
 const MobileReports = () => {
@@ -23,6 +24,7 @@ const MobileReports = () => {
     // State for Modals
     const [selectedChakra, setSelectedChakra] = useState(null);
     const [isMembershipOpen, setIsMembershipOpen] = useState(false);
+    const [isBCAOpen, setIsBCAOpen] = useState(false);
 
     const toggleSection = (section) => {
         setActiveSection(activeSection === section ? null : section);
@@ -111,7 +113,7 @@ const MobileReports = () => {
                         </div>
                         <div className="header-info">
                             <h3>The AstroRevo Chart</h3>
-                            <span>Your Cosmic Blueprint</span>
+                            <span>Your Soul's Blueprint</span>
                         </div>
                         {activeSection === 'astrorevo-chart' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
@@ -122,14 +124,14 @@ const MobileReports = () => {
                                 <div className="promo-content">
                                     <div className="promo-badge">RECOMMENDED</div>
                                     <h3>Discover Your True Self</h3>
-                                    <p>Get a deep-dive analysis of your soul's journey, destiny, and hidden potentials.</p>
+                                    <p>A comprehensive map of your destiny, engraved in the stars at the moment of your birth. Discover hidden potentials and karmic paths.</p>
                                     <div className="sample-chart-container" style={{ marginTop: '16px' }}>
                                         <button className="sample-chart-preview-btn" onClick={(e) => { e.stopPropagation(); navigate('/sample'); }}>
                                             <div className="preview-icon">
                                                 <span style={{ fontSize: '20px' }}>📊</span>
                                             </div>
                                             <div className="preview-text">
-                                                <span className="preview-title">The AstroRevo Chart (Sample)</span>
+                                                <span className="preview-title">View Sample Report</span>
                                                 <span className="preview-subtitle">See what your future holds</span>
                                             </div>
                                             <div className="preview-arrow">→</div>
@@ -164,10 +166,13 @@ const MobileReports = () => {
                                 <div className="premium-bg-glow"></div>
                                 <div className="premium-content">
                                     <div className="premium-badge">FULL VERSION</div>
-                                    <h3>The AstroRevo Chart</h3>
-                                    <p style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.5' }}>
-                                        Get your complete life report with detailed predictions for career, relationships, and health.
-                                    </p>
+                                    <h3>Complete Life Prediction</h3>
+                                    <ul style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', textAlign: 'left' }}>
+                                        <li>50+ Pages of Detailed Analysis</li>
+                                        <li>Vimshottari Dasha Predictions (5 Years)</li>
+                                        <li>Gemstone & Rudraksha Recommendations</li>
+                                        <li>Sadhesati & Mangal Dosha Remedies</li>
+                                    </ul>
                                     <button className="premium-cta-btn" style={{ width: '100%', justifyContent: 'center' }} onClick={(e) => { e.stopPropagation(); setIsMembershipOpen(true); }}>
                                         Buy Full Report • ₹99
                                     </button>
@@ -229,15 +234,15 @@ const MobileReports = () => {
                     </div>
                     {activeSection === 'bca' && (
                         <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/bca')}>
+                            <div className="bca-promo-card" onClick={() => setIsBCAOpen(true)}>
                                 <div className="bca-icon-circle">
                                     <Activity size={24} color="#ffffff" />
                                 </div>
                                 <div className="bca-text">
                                     <h3>Body Composition Analysis</h3>
-                                    <p>Ayurvedic health insights based on your chart.</p>
+                                    <p>Discover how your physical form aligns with your energy centers. Get a personalized health & yoga plan.</p>
                                 </div>
-                                <button className="bca-btn">Check Now</button>
+                                <button className="bca-btn">Start Analysis</button>
                             </div>
                         </div>
                     )}
@@ -258,6 +263,11 @@ const MobileReports = () => {
             <MembershipModal
                 isOpen={isMembershipOpen}
                 onClose={() => setIsMembershipOpen(false)}
+            />
+
+            <BCAAnalysis
+                isOpen={isBCAOpen}
+                onClose={() => setIsBCAOpen(false)}
             />
         </div>
     );
