@@ -41,6 +41,8 @@ const PanchangPage = ({ isOpen, onClose }) => {
     return (
         <FullScreenOverlay isOpen={isOpen} onClose={onClose} title="Today's Choghadiya" variant="warm">
             <div className="panchang-native-container">
+                {/* Global video background from FullScreenOverlay will show through transparent background */}
+
                 <div className="panchang-header-info">
                     <div className="info-pill">
                         <span className="icon">🌅</span> Sunrise: {choghadiyaData.sunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

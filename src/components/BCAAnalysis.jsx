@@ -438,7 +438,18 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         const progress = activeRoutine.currentIdx / activeRoutine.activities.length * 100;
 
         return (
-            <div className="routine-overlay">
+            <div className="routine-overlay" style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: '#000',
+                zIndex: 99999,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
                 <div className="routine-player-card">
                     <button className="player-close" onClick={() => { setShowPlayer(false); setIsPlaying(false); window.speechSynthesis.cancel(); }}>&times;</button>
 
@@ -526,27 +537,32 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                         <button className="bca-close-btn" onClick={onClose} style={{ top: 20, right: 20 }}>&times;</button>
                     </div>
 
-                    {/* NOTIFICATION */}
-                    <div className="notification-bar">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            <span style={{ fontSize: '1.5rem' }}>🔔</span>
-                            <div>
-                                <p className="notif-text" style={{ fontSize: '0.95rem' }}>Daily Reminder</p>
-                                <p style={{ fontSize: '0.75rem', color: '#94A3B8', margin: 0 }}>Commit to your practice.</p>
+                    {/* NOTIFICATION (Premium Glass) */}
+                    <div className="notification-bar glass-panel">
+                        <div className="notif-content">
+                            <div className="notif-icon-box">
+                                <span className="bell-icon">🔔</span>
+                            </div>
+                            <div className="notif-text-group">
+                                <p className="notif-title">Daily Reminder</p>
+                                <p className="notif-subtitle">Commit to your practice.</p>
                             </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <input
-                                type="time"
-                                className="notif-time-input"
-                                value={notificationTime}
-                                onChange={(e) => setNotificationTime(e.target.value)}
-                            />
+
+                        <div className="notif-actions">
+                            <div className="time-input-wrapper">
+                                <input
+                                    type="time"
+                                    className="notif-time-input"
+                                    value={notificationTime}
+                                    onChange={(e) => setNotificationTime(e.target.value)}
+                                />
+                            </div>
                             <button
                                 className={`notif-btn ${isNotifActive ? 'active' : ''}`}
                                 onClick={toggleNotification}
                             >
-                                {isNotifActive ? 'On' : 'Set'}
+                                {isNotifActive ? 'ON' : 'SET'}
                             </button>
                         </div>
                     </div>
