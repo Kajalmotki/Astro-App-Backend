@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const questions = [
     { id: 1, category: 'Marriage', icon: '💍', text: 'When will I get married?' },
@@ -56,45 +56,64 @@ const questions = [
 ];
 
 const FullCustomerChart = ({ userInfo }) => {
+    const [isUnlocked, setIsUnlocked] = useState(false);
+    const [showContent, setShowContent] = useState(false);
+
+    const handleUnlock = () => {
+        setIsUnlocked(true);
+        // Delay showing content slightly to allow button fade out (if needed) or just strictly swap
+        setTimeout(() => setShowContent(true), 600);
+    };
+
     return (
         <div className="full-customer-chart-container">
-            <div className="customer-header glass-card">
-                <div className="header-flex">
-                    <div className="profile-badge pulse-border">
-                        <span className="om-logo">ॐ</span>
-                    </div>
-                    <div className="customer-info">
-                        <h2 className="gold-text">Personalized AstroRevo Chart</h2>
-                        <p className="text-dim">Generated for: <span className="highlight-text">{userInfo?.name || 'Valued Seeker'}</span></p>
-                        <p className="birth-summary">Birth Data: {userInfo?.date} | {userInfo?.time} | {userInfo?.place}</p>
-                    </div>
-                    <div className="engine-badge">
-                        <span className="badge-text">PREMIUM ENGINE ACTIVE</span>
-                    </div>
+            {/* UNLOCK OVERLAY */}
+            {!isUnlocked && (
+                <div className="unlock-overlay-container">
+                    <button className="cta-btn large glow-on-hover scale-pulse" onClick={handleUnlock}>
+                        UNLOCK
+                    </button>
+                    <p className="unlock-subtext">Tap to Reveal Your Cosmic Blueprint</p>
                 </div>
-            </div>
+            )}
 
-            <div className="questions-grid-premium">
-                {questions.map((q) => (
-                    <div key={q.id} className="premium-q-card glass-card">
-                        <div className="q-card-inner">
-                            <span className="p-icon">{q.icon}</span>
-                            <div className="p-content">
-                                <span className="p-category">{q.category}</span>
-                                <span className="p-text">{q.text}</span>
-                            </div>
-                            <div className="q-status-locked">
-                                <span className="status-dot green"></span>
-                                <span className="status-label">ANALYZED</span>
-                            </div>
+            {/* CHART CONTENT - Fades in */}
+            <div className={`chart-content-wrapper ${showContent ? 'visible' : 'hidden'}`}>
+                <div className="customer-header glass-card">
+                    <div className="header-flex">
+                        <div className="profile-badge pulse-border">
+                            <span className="om-logo">ॐ</span>
+                        </div>
+                        <div className="customer-info">
+                            <h2 className="gold-text">Personalized AstroRevo Chart</h2>
+                            <p className="text-dim">Generated for: <span className="highlight-text">{userInfo?.name || 'Valued Seeker'}</span></p>
+                            <p className="birth-summary">Birth Data: {userInfo?.date} | {userInfo?.time} | {userInfo?.place}</p>
+                        </div>
+                        <div className="engine-badge">
+                            <span className="badge-text">PREMIUM ENGINE ACTIVE</span>
                         </div>
                     </div>
-                ))}
-            </div>
+                </div>
 
-            <div className="chart-actions-footer">
-                <button className="cta-btn large glow-on-hover">Initialize AI Interpretation Matrix</button>
+                <div className="questions-grid-premium">
+                    {questions.map((q) => (
+                        <div key={q.id} className="premium-q-card glass-card">
+                            <div className="q-card-inner">
+                                <span className="p-icon">{q.icon}</span>
+                                <div className="p-content">
+                                    <span className="p-category">{q.category}</span>
+                                    <span className="p-text">{q.text}</span>
+                                </div>
+                                <div className="q-status-locked">
+                                    <span className="status-dot green"></span>
+                                    <span className="status-label">ANALYZED</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
+            {/* Removed old footer button as it's replaced by the initial unlock flow */}
         </div>
     );
 };

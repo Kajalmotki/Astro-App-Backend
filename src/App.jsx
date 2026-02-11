@@ -30,7 +30,8 @@ import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 import './components/HookedCTA.css';
 
-import IntroVideoOverlay from './components/IntroVideoOverlay';
+import WhyAstroRevo from './components/WhyAstroRevo';
+import InstallPrompt from './components/InstallPrompt';
 
 // Mobile Imports
 import MobileLayout from './components/mobile/MobileLayout';
@@ -94,7 +95,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
   return (
     <main className="content">
-      {showIntroVideo && <IntroVideoOverlay isHidden={isScrolledPastHero} onClose={() => setShowIntroVideo(false)} />}
+      <WhyAstroRevo isHidden={isScrolledPastHero} />
       <section className="hero-section">
         <div className="main-hero-video">
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
@@ -176,25 +177,25 @@ function AppContent() {
 
   // Detect if user is on a mobile device
   const isMobileDevice = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
       || window.innerWidth <= 768;
   };
 
   useEffect(() => {
     const isMobile = isMobileDevice();
-    
+
     // Redirect to mobile home if native app or mobile device and on root or desktop route
     if ((isNative || isMobile) && (location.pathname === '/' || (!location.pathname.startsWith('/mobile') && !location.pathname.startsWith('/chat')))) {
       console.log("Detected mobile device, redirecting to mobile home");
       navigate('/mobile/home');
     }
-    
+
     // Redirect to desktop home if desktop device and on mobile route
     if (!isNative && !isMobile && location.pathname.startsWith('/mobile')) {
       console.log("Detected desktop device, redirecting to desktop home");
       navigate('/');
     }
-    
+
     setIsNativeChecked(true);
   }, [isNative, location.pathname, navigate]);
 
@@ -227,6 +228,7 @@ function AppContent() {
             <Route path="gemstones" element={<div className="page-content" style={{ paddingTop: '60px' }}><GemstonesPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
             <Route path="karmic-reading" element={<div className="page-content" style={{ paddingTop: '60px' }}><KarmicReadingPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
             <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
 
             {/* Redirects/Placeholders */}
             <Route path="life-reports" element={<MobileReports />} />
@@ -288,6 +290,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
+      <InstallPrompt />
       <AppContent />
     </Router>
   );

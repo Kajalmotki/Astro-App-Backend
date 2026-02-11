@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import BottomNavigation from './BottomNavigation';
 import MobileHeader from './MobileHeader';
-import IntroVideoOverlay from '../IntroVideoOverlay';
 import './MobileLayout.css';
 
 const MobileLayout = () => {
@@ -10,7 +9,6 @@ const MobileLayout = () => {
     const navigate = useNavigate();
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [isMembershipOpen, setIsMembershipOpen] = useState(false);
-    const [showIntroVideo, setShowIntroVideo] = useState(false);
 
     // Define main tabs where back button should NOT appear
     // Also check for root /mobile route just in case
@@ -50,10 +48,7 @@ const MobileLayout = () => {
                 <Outlet />
             </div>
 
-            <BottomNavigation onCosmicClick={() => setShowIntroVideo(true)} />
-
-            {/* Modals for Mobile */}
-            {showIntroVideo && <IntroVideoOverlay startMaximized={true} onClose={() => setShowIntroVideo(false)} />}
+            <BottomNavigation />
         </div>
     );
 };

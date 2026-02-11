@@ -119,14 +119,14 @@ const MobileReports = () => {
                     </div>
                     {activeSection === 'astrorevo-chart' && (
                         <div className="accordion-content">
-                            <div className="astrorevo-promo-card" onClick={() => navigate('/sample')}>
+                            <div className="astrorevo-promo-card" onClick={() => navigate('/mobile/sample')}>
                                 <div className="promo-bg-glow"></div>
                                 <div className="promo-content">
                                     <div className="promo-badge">RECOMMENDED</div>
                                     <h3>Discover Your True Self</h3>
                                     <p>A comprehensive map of your destiny, engraved in the stars at the moment of your birth. Discover hidden potentials and karmic paths.</p>
                                     <div className="sample-chart-container" style={{ marginTop: '16px' }}>
-                                        <button className="sample-chart-preview-btn" onClick={(e) => { e.stopPropagation(); navigate('/sample'); }}>
+                                        <button className="sample-chart-preview-btn" onClick={(e) => { e.stopPropagation(); navigate('/mobile/sample'); }}>
                                             <div className="preview-icon">
                                                 <span style={{ fontSize: '20px' }}>📊</span>
                                             </div>

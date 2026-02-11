@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate PWA Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #0a0a0f;
+            color: white;
+        }
+
+        canvas {
+            border: 2px solid #d4af37;
+            margin: 10px;
+            border-radius: 8px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: #0a0a0f;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #ffffff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>AstroRevo PWA Icon Generator</h1>
+        <p>Click the buttons below to download the app icons for your PWA.</p>
+
+        <div>
+            <canvas id="icon192" width="192" height="192"></canvas>
+            <canvas id="icon512" width="512" height="512"></canvas>
+        </div>
+
+        <div>
+            <button onclick="downloadIcon('icon192', 'icon-192.png')">Download 192x192 Icon</button>
+            <button onclick="downloadIcon('icon512', 'icon-512.png')">Download 512x512 Icon</button>
+        </div>
+
+        <p style="margin-top: 30px; color: #d4af37;">
+            <strong>Instructions:</strong><br>
+            1. Click each button to download the icons<br>
+            2. Save them to the <code>public/</code> folder in your project<br>
+            3. Replace these placeholder icons with custom-designed ones later
+        </p>
+    </div>
+
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(0.5, '#2d1b4e');
+            gradient.addColorStop(1, '#1a1a2e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Add golden circle
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+
+            const circleGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+            circleGradient.addColorStop(0, '#f4d03f');
+            circleGradient.addColorStop(1, '#d4af37');
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = circleGradient;
+            ctx.fill();
+
+            // Add inner circle (cosmic ring)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.7, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#1a1a2e';
+            ctx.lineWidth = size * 0.02;
+            ctx.stroke();
+
+            // Add stars
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < 12; i++) {
+                const angle = (i * 30) * Math.PI / 180;
+                const starX = centerX + Math.cos(angle) * radius * 0.85;
+                const starY = centerY + Math.sin(angle) * radius * 0.85;
+
+                ctx.beginPath();
+                ctx.arc(starX, starY, size * 0.015, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+
+            // Add center symbol (simplified zodiac wheel)
+            ctx.strokeStyle = '#1a1a2e';
+            ctx.lineWidth = size * 0.015;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.3, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            // Add text
+            ctx.fillStyle = '#1a1a2e';
+            ctx.font = `bold ${size * 0.12}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('AR', centerX, centerY);
+        }
+
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // Generate icons on page load
+        createIcon('icon192', 192);
+        createIcon('icon512', 512);
+    </script>
+</body>
+
+</html>

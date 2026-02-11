@@ -3,17 +3,11 @@ import { NavLink } from 'react-router-dom';
 import { Home, MessageCircle, FileText, User, Infinity } from 'lucide-react';
 import './BottomNavigation.css';
 
-const BottomNavigation = ({ onCosmicClick }) => {
+const BottomNavigation = () => {
 
 
     return (
         <>
-            <button className="cosmic-loop-btn" onClick={onCosmicClick}>
-                <div className="play-icon-circle">
-                    <div className="play-triangle"></div>
-                </div>
-                <span className="btn-text">Enter Cosmic Loop</span>
-            </button>
 
             <nav className="mobile-bottom-nav">
                 <NavLink to="/mobile/home" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>

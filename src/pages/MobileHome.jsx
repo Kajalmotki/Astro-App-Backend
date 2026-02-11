@@ -51,7 +51,7 @@ const MobileHome = () => {
                                     <img
                                         src={service.image}
                                         alt={service.name}
-                                        className="ticker-img"
+                                        className="ticker-img-premium"
                                     />
                                 </div>
                                 <span>{service.name}</span>
