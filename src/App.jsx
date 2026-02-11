@@ -53,6 +53,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
   const location = useLocation();
   const [isMuted, setIsMuted] = React.useState(true);
   const [showIntroVideo, setShowIntroVideo] = React.useState(true);
+  const [isScrolledPastHero, setIsScrolledPastHero] = React.useState(false);
   const videoRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -67,6 +68,23 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
     }
   }, []);
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const heroSection = document.querySelector('.hero-section');
+      if (!heroSection) {
+        setIsScrolledPastHero(false);
+        return;
+      }
+
+      const heroBounds = heroSection.getBoundingClientRect();
+      setIsScrolledPastHero(heroBounds.bottom <= 0);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const toggleMute = () => {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
@@ -76,7 +94,7 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
   return (
     <main className="content">
-      {showIntroVideo && <IntroVideoOverlay onClose={() => setShowIntroVideo(false)} />}
+      {showIntroVideo && <IntroVideoOverlay isHidden={isScrolledPastHero} onClose={() => setShowIntroVideo(false)} />}
       <section className="hero-section">
         <div className="main-hero-video">
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
@@ -156,12 +174,27 @@ function AppContent() {
   const isMobileRoute = location.pathname.startsWith('/mobile');
   const isChatPage = location.pathname.toLowerCase().includes('chat');
 
+  // Detect if user is on a mobile device
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+      || window.innerWidth <= 768;
+  };
+
   useEffect(() => {
-    // Redirect to mobile home if native app and on root
-    if (isNative && location.pathname === '/') {
-      console.log("Detected native platform, redirecting to mobile home");
+    const isMobile = isMobileDevice();
+    
+    // Redirect to mobile home if native app or mobile device and on root or desktop route
+    if ((isNative || isMobile) && (location.pathname === '/' || (!location.pathname.startsWith('/mobile') && !location.pathname.startsWith('/chat')))) {
+      console.log("Detected mobile device, redirecting to mobile home");
       navigate('/mobile/home');
     }
+    
+    // Redirect to desktop home if desktop device and on mobile route
+    if (!isNative && !isMobile && location.pathname.startsWith('/mobile')) {
+      console.log("Detected desktop device, redirecting to desktop home");
+      navigate('/');
+    }
+    
     setIsNativeChecked(true);
   }, [isNative, location.pathname, navigate]);
 
@@ -177,6 +210,7 @@ function AppContent() {
       <div className="app-container mobile-app-container">
         <Routes>
           <Route path="/mobile" element={<MobileLayout />}>
+            <Route index element={<Navigate to="home" replace />} />
             <Route path="home" element={<MobileHome />} />
             <Route path="chat" element={<ChatPage />} />
             <Route path="reports" element={<MobileReports />} />
@@ -197,8 +231,6 @@ function AppContent() {
             {/* Redirects/Placeholders */}
             <Route path="life-reports" element={<MobileReports />} />
             <Route path="gemstone" element={<MobileReports />} />
-
-            <Route index element={<Navigate to="home" replace />} />
           </Route>
         </Routes>
       </div>
@@ -226,6 +258,7 @@ function AppContent() {
             onLoginClick={() => setIsAuthOpen(true)}
           />
         } />
+        <Route path="/mobile" element={<Navigate to="/mobile/home" replace />} />
         <Route path="/knowledge" element={<KnowledgeSources />} />
         <Route path="/sample" element={<SampleChart />} />
         <Route path="/chat" element={<ChatPage />} />

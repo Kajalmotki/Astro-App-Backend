@@ -53,7 +53,7 @@ const MobileLayout = () => {
             <BottomNavigation onCosmicClick={() => setShowIntroVideo(true)} />
 
             {/* Modals for Mobile */}
-            {showIntroVideo && <IntroVideoOverlay onClose={() => setShowIntroVideo(false)} />}
+            {showIntroVideo && <IntroVideoOverlay startMaximized={true} onClose={() => setShowIntroVideo(false)} />}
         </div>
     );
 };

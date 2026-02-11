@@ -39,8 +39,8 @@ const SCENES = [
     }
 ];
 
-const IntroVideoOverlay = ({ onClose }) => {
-    const [isMaximized, setIsMaximized] = useState(false); // Default to small button
+const IntroVideoOverlay = ({ onClose, startMaximized = false, isHidden = false }) => {
+    const [isMaximized, setIsMaximized] = useState(startMaximized); // Default to small button unless startMaximized is true
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [speechSupported, setSpeechSupported] = useState(true);
@@ -158,14 +158,19 @@ const IntroVideoOverlay = ({ onClose }) => {
 
     if (!speechSupported) return null;
 
-    // Small Button State
-    if (!isMaximized) {
+    // Small Button State (only show if not starting maximized)
+    if (!isMaximized && !startMaximized) {
         return (
-            <div className="intro-video-trigger" onClick={handleMaximize}>
+            <div className={`intro-video-trigger ${isHidden ? 'hidden' : ''}`} onClick={handleMaximize}>
                 <div className="trigger-icon">▶</div>
                 <span className="trigger-text">Cosmic Loop</span>
             </div>
         );
+    }
+
+    // If startMaximized is true but isMaximized is false, don't render anything
+    if (!isMaximized && startMaximized) {
+        return null;
     }
 
     // Maximized Modal State
