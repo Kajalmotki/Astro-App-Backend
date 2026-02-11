@@ -82,7 +82,36 @@ const VirtualPooja = ({ isOpen, onClose }) => {
 
     return (
         <div className="virtual-pooja-overlay" onClick={onClose}>
-            <div className="virtual-pooja-modal" onClick={e => e.stopPropagation()}>
+            {/* Video Background */}
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="pooja-video-bg"
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    zIndex: -1
+                }}
+            >
+                <source src="/videos/night_sky_timelapse.mp4" type="video/mp4" />
+            </video>
+            <div className="pooja-video-overlay" style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'rgba(0, 0, 0, 0.7)',
+                zIndex: 0
+            }}></div>
+
+            <div className="virtual-pooja-modal" onClick={e => e.stopPropagation()} style={{ zIndex: 1, position: 'relative' }}>
                 <button className="pooja-close-btn" onClick={onClose}>×</button>
 
                 <h2 className="pooja-title">🙏 Virtual Pooja</h2>

@@ -36,48 +36,40 @@ const CosmicBackground = ({ variant = 'default' }) => {
 
     return (
         <div className={`cosmic-bg cosmic-bg--${variant}`}>
-            {/* Nebula gradient layers */}
-            <div className="nebula-layer nebula-1"></div>
-            <div className="nebula-layer nebula-2"></div>
-            <div className="nebula-layer nebula-3"></div>
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="cosmic-video-bg"
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    zIndex: -1
+                }}
+            >
+                <source src="/videos/night_sky_timelapse.mp4" type="video/mp4" />
+            </video>
+            <div
+                className="cosmic-video-overlay"
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    backdropFilter: 'blur(3px)',
+                    zIndex: 0
+                }}
+            ></div>
 
-            {/* Stars at different depths */}
-            <div className="stars-container">
-                {stars.map((star) => (
-                    <div
-                        key={star.id}
-                        className={`star depth-${star.depth}`}
-                        style={{
-                            left: `${star.left}%`,
-                            top: `${star.top}%`,
-                            width: `${star.size}px`,
-                            height: `${star.size}px`,
-                            animationDelay: `${star.delay}s`,
-                            animationDuration: `${star.duration}s`,
-                        }}
-                    />
-                ))}
-            </div>
-
-            {/* Floating particles */}
-            <div className="particles-container">
-                {particles.map((particle) => (
-                    <div
-                        key={particle.id}
-                        className="floating-particle"
-                        style={{
-                            left: `${particle.left}%`,
-                            width: `${particle.size}px`,
-                            height: `${particle.size}px`,
-                            animationDelay: `${particle.delay}s`,
-                            animationDuration: `${particle.duration}s`,
-                        }}
-                    />
-                ))}
-            </div>
-
-            {/* Central glow */}
-            <div className="center-glow"></div>
+            {/* Keeping the glow for subtle effect */}
+            <div className="center-glow" style={{ zIndex: 1, opacity: 0.3 }}></div>
         </div>
     );
 };

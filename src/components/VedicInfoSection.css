@@ -582,6 +582,7 @@
     /* Enhance contrast for title on beige */
     background: linear-gradient(135deg, #1A3C34, #2C5F52);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

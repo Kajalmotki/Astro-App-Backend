@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">AstroRevo</string>
-    <string name="title_activity_main">AstroRevo</string>
-    <string name="package_name">com.astrorevo.app</string>
-    <string name="custom_url_scheme">com.astrorevo.app</string>
-</resources>

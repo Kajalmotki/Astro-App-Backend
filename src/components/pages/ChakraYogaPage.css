@@ -408,3 +408,50 @@
     letter-spacing: 0.5px;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
 }
+
+/* Desktop Responsiveness */
+@media (min-width: 1024px) {
+    .chakra-yoga-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-bottom: 200px;
+        /* More space for player */
+    }
+
+    .chakra-header {
+        max-width: 800px;
+        margin: 0 auto 40px;
+        border-radius: 0 0 60px 60px;
+    }
+
+    .yoga-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .music-player-section {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        right: auto;
+        bottom: 40px;
+        border-radius: 100px;
+        padding: 15px 40px;
+    }
+
+    .player-status {
+        display: block;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+    }
+
+    .mantra-section {
+        max-width: 600px;
+        margin: 40px auto 100px;
+    }
+
+    .bca-guide-btn {
+        margin: 40px auto;
+    }
+}
