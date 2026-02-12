@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+/* Matchmaking & Form Styles */
+.quote-header {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
+}
+
+.motivational-quote {
+    font-family: 'Dancing Script', cursive;
+    font-size: 22px;
+    color: #FFD700;
+    line-height: 1.4;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    max-width: 90%;
+    animation: fadeInQuote 0.5s ease;
+}
+
+.quote-author {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+@keyframes fadeInQuote {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bg-cosmic {
+    background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+    min-height: 100vh;
+    color: #fff;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+.form-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    background: linear-gradient(to right, #FFD700, #F0E68C, #FFD700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.form-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 300;
+}
+
+/* Stepper */
+.match-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0 30px;
+}
+
+.step-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.step-dot.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+    color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.step-dot.completed {
+    background: #FFD700;
+    border-color: #FFD700;
+    color: #000;
+    font-weight: bold;
+}
+
+.step-line {
+    width: 60px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 10px;
+}
+
+.step-dot.completed+.step-line {
+    background: #FFD700;
+}

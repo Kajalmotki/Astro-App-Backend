@@ -40,8 +40,24 @@ const MagicCrystalBall = () => {
 
     return (
         <div className="crystal-ball-container">
-            <h2 className="crystal-ball-title">Daily Horoscope</h2>
-            <p className="crystal-ball-subtitle">Tap the orb to reveal your destiny</p>
+            {/* Curved Title */}
+            <div className="crystal-ball-title-container">
+                <svg width="220" height="50" viewBox="0 0 220 50" className="curved-title-svg">
+                    <defs>
+                        <path id="curvePath" d="M10,50 Q110,0 210,50" />
+                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#FFD700" />
+                            <stop offset="50%" stopColor="#F0E68C" />
+                            <stop offset="100%" stopColor="#FFD700" />
+                        </linearGradient>
+                    </defs>
+                    <text>
+                        <textPath href="#curvePath" startOffset="50%" textAnchor="middle" className="curved-title-text">
+                            Daily Horoscope
+                        </textPath>
+                    </text>
+                </svg>
+            </div>
 
             <div className={`crystal-ball-wrapper ${isShaking ? 'shaking' : ''}`} onClick={handleReveal}>
                 <div className="crystal-ball-sphere">
@@ -73,8 +89,6 @@ const MagicCrystalBall = () => {
                             <p className="fortune-text">{fortune}</p>
                         ) : (
                             <div className="sphere-idle-content">
-                                {/* Icon Removed per user request */}
-                                <span className="tap-text">TAP TO REVEAL</span>
                             </div>
                         )}
                     </div>

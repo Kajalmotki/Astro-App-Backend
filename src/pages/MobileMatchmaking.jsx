@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import BirthDetailsForm from '../components/BirthDetailsForm';
 import './MobileHome.css'; // Reusing global mobile styles
+import './Matchmaking.css'; // Specific styles
 import { Heart, CheckCircle, AlertTriangle, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+import { motivationalQuotes } from '../data/motivationalQuotes';
 
 const MobileMatchmaking = () => {
     const navigate = useNavigate();
     const [step, setStep] = useState('boy_input'); // boy_input, girl_input, loading, result
     const [boyData, setBoyData] = useState(null);
     const [girlData, setGirlData] = useState(null);
+    const [quote, setQuote] = useState(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
+
+    const changeQuote = () => {
+        let newQuote;
+        do {
+            newQuote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+        } while (newQuote === quote);
+        setQuote(newQuote);
+    };
 
     const handleBoySubmit = (data) => {
         setBoyData(data);
@@ -23,11 +35,9 @@ const MobileMatchmaking = () => {
 
     return (
         <div className="mobile-page-container bg-cosmic">
-            <header className="page-header-simple">
-                <button onClick={() => step === 'boy_input' ? navigate('/mobile/reports') : setStep('boy_input')} className="back-btn">
-                    <ChevronLeft size={24} />
-                </button>
-                <span className="header-title">Vedic Matchmaking</span>
+            <header className="page-header-simple quote-header" onClick={changeQuote}>
+                <p className="motivational-quote">"{quote.text}"</p>
+                <span className="quote-author">- {quote.author}</span>
             </header>
 
             <main className="content-area">

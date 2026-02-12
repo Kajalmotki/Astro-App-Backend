@@ -278,9 +278,10 @@
 }
 
 /* --- CARD FRONT (Revealed) --- */
+/* Illustrated Card Front */
 .tarot-card-front {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    /* Maintain Dark/Mystic Front for contrast */
+    background: radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%);
+    /* Deep mystic background */
     border: 2px solid #FFD700;
     transform: rotateY(180deg);
     display: flex;
@@ -289,32 +290,41 @@
     justify-content: space-between;
     padding: 15px 10px;
     color: white;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Decorative corners for front */
-.tarot-card-front::before,
-.tarot-card-front::after {
+/* Background Pattern Overlay */
+.tarot-card-front::before {
     content: '';
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border: 1px solid rgba(255, 215, 0, 0.6);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 0;
     pointer-events: none;
 }
 
-.tarot-card-front::before {
+/* Decorative corners for front */
+/* Ornate Corner Accents */
+.tarot-card-front::after {
+    content: '';
+    position: absolute;
     top: 5px;
     left: 5px;
-    border-right: none;
-    border-bottom: none;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    z-index: 1;
+    pointer-events: none;
 }
 
-.tarot-card-front::after {
-    bottom: 5px;
-    right: 5px;
-    border-left: none;
-    border-top: none;
-}
+
 
 .card-numeral {
     font-family: 'Cinzel', serif;
@@ -325,9 +335,12 @@
 }
 
 .card-emoji {
-    font-size: 42px;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
-    animation: floatEmoji 3s ease-in-out infinite;
+    font-size: 80px;
+    /* Larger central illustration */
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+    animation: floatEmoji 4s ease-in-out infinite;
+    z-index: 2;
+    margin: 20px 0;
 }
 
 @keyframes floatEmoji {

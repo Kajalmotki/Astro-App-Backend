@@ -1,0 +1,233 @@
+/* Knowledge Workflow Styles */
+.knowledge-page {
+    min-height: 100vh;
+    padding-bottom: 50px;
+    color: #fff;
+}
+
+.bg-deep {
+    background: radial-gradient(circle at center, #0f0f1a 0%, #000 100%);
+}
+
+.header.glass {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 10, 20, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo.gold-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.nav a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: #FFD700;
+}
+
+/* Workflow Container */
+.workflow-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* Section Headers */
+.stage-title {
+    font-family: 'Cinzel', serif;
+    color: #F0E68C;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+}
+
+.stage-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #FFD700;
+    margin: 10px auto 0;
+}
+
+/* Stage 1: Sources Grid */
+.sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.source-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.source-card:hover {
+    background: rgba(255, 215, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: #FFD700;
+}
+
+.card-category {
+    font-size: 0.75rem;
+    color: #F0E68C;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.card-arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: #FFD700;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.source-card:hover .card-arrow {
+    opacity: 1;
+}
+
+/* Connectors */
+.workflow-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(255, 215, 0, 0.5);
+    margin: -10px 0;
+    z-index: 10;
+}
+
+.connector-line {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255, 215, 0, 0.2), #FFD700);
+}
+
+.connector-arrow {
+    margin-top: -5px;
+}
+
+/* Stage 2: Central Engine */
+.engine-container {
+    position: relative;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #FFD700;
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    animation: pulseGlow 4s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+    }
+
+    50% {
+        box-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
+    }
+}
+
+.engine-icon {
+    color: #FFD700;
+    margin-bottom: 10px;
+    animation: spinSlow 10s linear infinite;
+}
+
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Stage 3: Output */
+.output-card {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(0, 0, 0, 0.4));
+    border: 1px solid #FFD700;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+.output-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.output-desc {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sources-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .workflow-container {
+        padding: 0 15px;
+    }
+}
