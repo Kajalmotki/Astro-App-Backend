@@ -61,8 +61,16 @@ export const activateMembership = async (userId, paymentDetails = {}) => {
     }
 };
 
+export const IS_TEST_MODE = import.meta.env.VITE_PAYMENT_TEST_MODE === 'true';
+
 export const processDonation = (amount) => {
     return new Promise((resolve, reject) => {
+        if (IS_TEST_MODE) {
+            console.log('Skipping actual payment in Test Mode');
+            resolve({ razorpay_payment_id: 'test_donation_' + Date.now() });
+            return;
+        }
+
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY_ID,
             amount: amount * 100, // Razorpay works in paise

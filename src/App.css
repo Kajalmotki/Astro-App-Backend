@@ -19,10 +19,9 @@
   top: 24px;
   left: 50%;
   transform: translateX(-50%);
-  width: auto;
-  min-width: 1050px;
-  /* Significantly increased width to prevent overlap */
-  max-width: 98%;
+  width: 95%;
+  max-width: 1200px;
+  min-width: 320px;
   /* Use almost full width on large screens */
   display: grid;
   grid-template-columns: 1fr auto 1fr;

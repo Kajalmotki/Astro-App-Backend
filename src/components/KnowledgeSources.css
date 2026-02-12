@@ -9,7 +9,7 @@
     background: radial-gradient(circle at center, #0f0f1a 0%, #000 100%);
 }
 
-.header.glass {
+.ks-header.ks-glass {
     position: sticky;
     top: 0;
     z-index: 50;
@@ -22,7 +22,7 @@
     align-items: center;
 }
 
-.logo.gold-text {
+.ks-logo.gold-text {
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
     color: #FFD700;
@@ -30,14 +30,14 @@
     font-weight: 700;
 }
 
-.nav a {
+.ks-nav a {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.3s;
 }
 
-.nav a:hover {
+.ks-nav a:hover {
     color: #FFD700;
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { Volume2, VolumeX } from 'lucide-react';
 import { Capacitor } from '@capacitor/core';
 import Header from './components/Header';
 import AstroWorkflowChart from './components/AstroWorkflowChart';
@@ -103,6 +104,10 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
             Your browser does not support the video tag.
           </video>
           <div className="main-hero-video-overlay"></div>
+
+          <button className="video-mute-btn" onClick={toggleMute}>
+            {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+          </button>
 
           <div className="main-hero-text">
             <h1 className="main-hero-title">Ancient wisdom, Instant clarity</h1>
@@ -276,6 +281,10 @@ function AppContent() {
       <MembershipModal
         isOpen={isMembershipOpen}
         onClose={() => setIsMembershipOpen(false)}
+        onSuccess={() => {
+          setIsMembershipOpen(false);
+          setIsDashboardOpen(true);
+        }}
       />
       <PremiumDashboard
         isOpen={isDashboardOpen}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthModal';
-import { loadRazorpayButton, checkMembershipStatus } from '../services/razorpayService';
+import { loadRazorpayButton, checkMembershipStatus, activateMembership } from '../services/razorpayService';
 
-const MembershipModal = ({ isOpen, onClose }) => {
+const MembershipModal = ({ isOpen, onClose, onSuccess }) => {
     const { user } = useAuth();
     const [isPremium, setIsPremium] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -40,6 +40,15 @@ const MembershipModal = ({ isOpen, onClose }) => {
                         <div className="premium-badge">✨ PREMIUM MEMBER ✨</div>
                         <h2 className="gold-text">You're Already Premium!</h2>
                         <p>Enjoy unlimited access to all AstroRevo features.</p>
+                        {onSuccess && (
+                            <button
+                                className="cta-btn golden-highlight"
+                                style={{ marginTop: '20px', width: '100%' }}
+                                onClick={onSuccess}
+                            >
+                                Go to Dashboard
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -74,6 +83,22 @@ const MembershipModal = ({ isOpen, onClose }) => {
 
                     {/* Razorpay Payment Button Container */}
                     <div id="razorpay-button-container" style={{ marginTop: '20px' }}></div>
+
+                    {import.meta.env.VITE_PAYMENT_TEST_MODE === 'true' && (
+                        <button
+                            className="cta-btn golden-highlight"
+                            style={{ marginTop: '20px', width: '100%' }}
+                            onClick={async () => {
+                                const success = await activateMembership(user.uid);
+                                if (success) {
+                                    setIsPremium(true);
+                                    if (onSuccess) onSuccess();
+                                }
+                            }}
+                        >
+                            Test: Activate Premium Directly
+                        </button>
+                    )}
 
                     <p className="membership-note">
                         Optional - You can continue using AstroRevo for free

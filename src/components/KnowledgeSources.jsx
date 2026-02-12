@@ -53,9 +53,9 @@ const KnowledgeSources = () => {
     return (
         <div className="knowledge-page bg-deep">
             {/* Header */}
-            <header className="header glass">
-                <Link to="/" className="logo gold-text">AstroRevo</Link>
-                <nav className="nav">
+            <header className="ks-header ks-glass">
+                <Link to="/" className="ks-logo gold-text">AstroRevo</Link>
+                <nav className="ks-nav">
                     <Link to="/mobile/home">Back to Home</Link>
                 </nav>
             </header>

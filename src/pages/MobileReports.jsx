@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FileText, Map, Activity, Heart, Star, Compass, Lock, ChevronRight, ChevronDown } from 'lucide-react';
 import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroChart from '../components/AstroChart';
@@ -7,10 +7,21 @@ import { getLocalVedicChart } from '../services/vedicAstroApi';
 import ChakraYogaPage from '../components/pages/ChakraYogaPage';
 import MembershipModal from '../components/MembershipModal';
 import BCAAnalysis from '../components/BCAAnalysis';
+import { useAuth } from '../components/AuthModal';
+import { checkMembershipStatus } from '../services/razorpayService';
+import MobilePremiumDashboard from '../components/mobile/MobilePremiumDashboard';
 import './MobileReports.css';
 
 const MobileReports = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Check for navigation state to open premium automatically
+    useEffect(() => {
+        if (location.state?.openPremium) {
+            setActiveSection('premium');
+        }
+    }, [location.state]);
 
     // State for Accordion
     const [activeSection, setActiveSection] = useState(null); // 'birth-chart', 'astrorevo-chart', 'premium', 'yoga', 'bca'
@@ -25,6 +36,20 @@ const MobileReports = () => {
     const [selectedChakra, setSelectedChakra] = useState(null);
     const [isMembershipOpen, setIsMembershipOpen] = useState(false);
     const [isBCAOpen, setIsBCAOpen] = useState(false);
+
+    // Auth & Premium State
+    const { user } = useAuth();
+    const [isPremium, setIsPremium] = useState(false);
+
+    useEffect(() => {
+        const checkStatus = async () => {
+            if (user) {
+                const status = await checkMembershipStatus(user.uid);
+                setIsPremium(status);
+            }
+        };
+        checkStatus();
+    }, [user, isMembershipOpen]); // Re-check when membership modal closes (e.g. after purchase)
 
     const toggleSection = (section) => {
         setActiveSection(activeSection === section ? null : section);
@@ -156,31 +181,35 @@ const MobileReports = () => {
                         </div>
                         <div className="header-info">
                             <h3>Premium Access</h3>
-                            <span>Unlock Ultimate Clarity</span>
+                            <span>{isPremium ? 'Your Premium Dashboard' : 'Unlock Ultimate Clarity'}</span>
                         </div>
                         {activeSection === 'premium' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
                     {activeSection === 'premium' && (
                         <div className="accordion-content">
-                            <div className="premium-promo-card" onClick={() => setIsMembershipOpen(true)}>
-                                <div className="premium-bg-glow"></div>
-                                <div className="premium-content">
-                                    <div className="premium-badge">FULL VERSION</div>
-                                    <h3>Included with AstroRevo Chart</h3>
-                                    <p style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', textAlign: 'left' }}>
-                                        Get instant access to all premium features when you unlock your full <strong>AstroRevo Chart</strong>.
-                                    </p>
-                                    <ul style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', textAlign: 'left' }}>
-                                        <li>50+ Pages of Detailed Analysis</li>
-                                        <li>Vimshottari Dasha Predictions (5 Years)</li>
-                                        <li>Gemstone & Rudraksha Recommendations</li>
-                                        <li>Sadhesati & Mangal Dosha Remedies</li>
-                                    </ul>
-                                    <button className="premium-cta-btn" style={{ width: '100%', justifyContent: 'center' }} onClick={(e) => { e.stopPropagation(); setIsMembershipOpen(true); }}>
-                                        Unlock via AstroRevo Chart • ₹99
-                                    </button>
+                            {isPremium ? (
+                                <MobilePremiumDashboard user={user} />
+                            ) : (
+                                <div className="premium-promo-card" onClick={() => setIsMembershipOpen(true)}>
+                                    <div className="premium-bg-glow"></div>
+                                    <div className="premium-content">
+                                        <div className="premium-badge">FULL VERSION</div>
+                                        <h3>Included with AstroRevo Chart</h3>
+                                        <p style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', textAlign: 'left' }}>
+                                            Get instant access to all premium features when you unlock your full <strong>AstroRevo Chart</strong>.
+                                        </p>
+                                        <ul style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', textAlign: 'left' }}>
+                                            <li>50+ Pages of Detailed Analysis</li>
+                                            <li>Vimshottari Dasha Predictions (5 Years)</li>
+                                            <li>Gemstone & Rudraksha Recommendations</li>
+                                            <li>Sadhesati & Mangal Dosha Remedies</li>
+                                        </ul>
+                                        <button className="premium-cta-btn" style={{ width: '100%', justifyContent: 'center' }} onClick={(e) => { e.stopPropagation(); setIsMembershipOpen(true); }}>
+                                            Unlock via AstroRevo Chart • ₹99
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -266,6 +295,18 @@ const MobileReports = () => {
             <MembershipModal
                 isOpen={isMembershipOpen}
                 onClose={() => setIsMembershipOpen(false)}
+                onSuccess={() => {
+                    setIsMembershipOpen(false);
+                    setActiveSection('premium');
+                    // Force refresh premium status
+                    const checkStatus = async () => {
+                        if (user) {
+                            const status = await checkMembershipStatus(user.uid);
+                            setIsPremium(status);
+                        }
+                    };
+                    checkStatus();
+                }}
             />
 
             <BCAAnalysis

@@ -45,7 +45,10 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
 
                         {user ? (
                             <>
-                                <div className="menu-item highlight" onClick={() => { onMembershipClick(); setIsMenuOpen(false); }}>
+                                <div className="menu-item highlight" onClick={() => {
+                                    navigate('/mobile/reports', { state: { openPremium: true } });
+                                    setIsMenuOpen(false);
+                                }}>
                                     <Crown size={20} />
                                     <span>Premium Dashboard</span>
                                 </div>

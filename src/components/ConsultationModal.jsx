@@ -81,9 +81,12 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                                 </ul>
                             </div>
                             <div id="razorpay-consultation-container" style={{ marginTop: '20px' }}></div>
-                            <p className="membership-note" style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setStep('schedule')}>
-                                (Demo: Skip Payment)
-                            </p>
+
+                            {import.meta.env.VITE_PAYMENT_TEST_MODE === 'true' && (
+                                <p className="membership-note" style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setStep('schedule')}>
+                                    (Test Mode: Skip Payment)
+                                </p>
+                            )}
                         </>
                     )}
 

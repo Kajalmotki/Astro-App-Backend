@@ -1,0 +1,187 @@
+.mobile-premium-dashboard {
+    padding: 10px;
+    color: #fff;
+    background: transparent;
+}
+
+/* Tabs */
+.mobile-dash-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+    /* Hide scrollbar */
+}
+
+.mobile-dash-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.mobile-dash-tab {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+.mobile-dash-tab.active {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: #FFD700;
+    color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+}
+
+/* Cards */
+.mobile-dash-card {
+    background: rgba(10, 10, 20, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(5px);
+}
+
+.mobile-dash-card h3 {
+    font-family: 'Cinzel', serif;
+    color: #F0E68C;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+/* Astro Score */
+.mobile-score-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.mobile-score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 215, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+}
+
+.mobile-score-val {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FFD700;
+}
+
+.mobile-score-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Planetary Strengths */
+.mobile-strength-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.mobile-p-name {
+    width: 50px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mobile-p-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.mobile-p-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.mobile-p-val {
+    width: 40px;
+    text-align: right;
+    color: #F0E68C;
+}
+
+/* Transits */
+.mobile-transit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 13px;
+}
+
+.mobile-t-planet {
+    font-weight: 600;
+    color: #FFD700;
+    width: 70px;
+}
+
+.mobile-t-sign {
+    color: rgba(255, 255, 255, 0.7);
+    flex: 1;
+}
+
+.mobile-t-house {
+    color: #aaa;
+    font-size: 11px;
+}
+
+/* Dasha */
+.mobile-dasha-timeline {
+    position: relative;
+    padding-left: 20px;
+    border-left: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.mobile-dasha-event {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.mobile-dasha-event::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+.mobile-dasha-date {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2px;
+    display: block;
+}
+
+.mobile-dasha-title {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+}
