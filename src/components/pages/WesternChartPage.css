@@ -1,0 +1,257 @@
+/* Western Chart Page Styles */
+.western-chart-container {
+    background: #0f172a;
+    min-height: 100vh;
+    color: #e2e8f0;
+    padding-bottom: 80px;
+    font-family: 'Inter', sans-serif;
+}
+
+.western-header {
+    background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.western-back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.western-title h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+}
+
+.western-title span {
+    font-size: 11px;
+    color: #a855f7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* TABS */
+.western-tabs {
+    display: flex;
+    background: #1e293b;
+    padding: 5px;
+    margin: 15px 20px;
+    border-radius: 12px;
+    overflow-x: auto;
+    gap: 5px;
+}
+
+.western-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    color: #94a3b8;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.western-tab.active {
+    background: #a855f7;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(168, 85, 247, 0.3);
+}
+
+/* CONTENT AREAS */
+.western-content {
+    padding: 0 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* 1. CHART WHEEL TAB */
+.wheel-container {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: radial-gradient(circle, #0f172a 60%, #2e1065 100%);
+    border-radius: 50%;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+.wheel-svg {
+    width: 95%;
+    height: 95%;
+}
+
+.wheel-center-info {
+    position: absolute;
+    text-align: center;
+    z-index: 5;
+}
+
+.wheel-center-info h3 {
+    margin: 0;
+    color: #a855f7;
+    font-size: 14px;
+}
+
+.wheel-center-info span {
+    font-size: 10px;
+    color: #94a3b8;
+}
+
+/* 2. PLANETS TAB */
+.planets-table-container {
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pt-row {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.pt-row:last-child {
+    border-bottom: none;
+}
+
+.pt-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(168, 85, 247, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 15px;
+    color: #a855f7;
+}
+
+.pt-info {
+    flex: 1;
+}
+
+.pt-name {
+    display: block;
+    font-weight: 600;
+    color: white;
+    font-size: 14px;
+}
+
+.pt-sign {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+.pt-degree {
+    font-family: monospace;
+    font-size: 12px;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* 3. ASPECTS TAB */
+.aspects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.aspect-card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-left: 3px solid transparent;
+}
+
+.aspect-card.trine {
+    border-left-color: #4ade80;
+}
+
+/* Green */
+.aspect-card.square {
+    border-left-color: #f87171;
+}
+
+/* Red */
+.aspect-card.sextile {
+    border-left-color: #60a5fa;
+}
+
+/* Blue */
+.aspect-card.conjunction {
+    border-left-color: #fbbf24;
+}
+
+/* Yellow */
+
+.ac-glyph {
+    font-size: 20px;
+}
+
+.ac-info h4 {
+    margin: 0;
+    font-size: 13px;
+    color: white;
+}
+
+.ac-info span {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.ac-type {
+    margin-left: auto;
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

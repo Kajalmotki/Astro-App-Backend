@@ -1,19 +1,8 @@
-import React, { useState } from 'react';
-import FullCustomerChart from './FullCustomerChart';
+import React from 'react';
+import SampleReportView from './SampleReportView';
 import './SampleChart.css';
 
 const SampleChart = () => {
-    // Default to 'paid' view to show the chart immediately as a sample
-    const [view, setView] = useState('paid');
-
-    // Hardcoded sample data for demostration
-    const [userInfo, setUserInfo] = useState({
-        name: "Rahul Sharma",
-        place: "New Delhi, India",
-        date: "14/08/1995",
-        time: "10:30:00"
-    });
-
     return (
         <div className="sample-chart-page">
             {/* Custom Header for this flow */}
@@ -21,11 +10,8 @@ const SampleChart = () => {
                 <span className="header-title">AstroRevo Chart (Sample)</span>
             </header>
 
-            <main className="sample-content">
-                {/* Directly showing the result view as this is a sample/demo */}
-                <div className="result-view-container">
-                    <FullCustomerChart userInfo={userInfo} />
-                </div>
+            <main className="sample-content" style={{ padding: 0 }}>
+                <SampleReportView />
             </main>
         </div>
     );

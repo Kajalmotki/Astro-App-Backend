@@ -50,6 +50,7 @@ import HoroscopePage from './components/pages/HoroscopePage';
 import GemstonesPage from './components/pages/GemstonesPage';
 import KarmicReadingPage from './components/pages/KarmicReadingPage';
 import NumerologyPage from './components/pages/NumerologyPage';
+import WesternChartPage from './components/pages/WesternChartPage';
 import VirtualPooja from './components/VirtualPooja';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
@@ -240,6 +241,7 @@ function AppContent() {
             <Route path="gemstones" element={<div className="page-content" style={{ paddingTop: '60px' }}><GemstonesPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
             <Route path="karmic-reading" element={<div className="page-content" style={{ paddingTop: '60px' }}><KarmicReadingPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
             <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+            <Route path="western-chart" element={<div className="page-content" style={{ paddingTop: '0px' }}><WesternChartPage /></div>} />
             <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
 
             {/* Redirects/Placeholders */}

@@ -6,6 +6,7 @@ const MembershipModal = ({ isOpen, onClose, onSuccess }) => {
     const { user } = useAuth();
     const [isPremium, setIsPremium] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [activating, setActivating] = useState(false);
 
     useEffect(() => {
         const checkStatus = async () => {
@@ -38,7 +39,7 @@ const MembershipModal = ({ isOpen, onClose, onSuccess }) => {
                     <button onClick={onClose} className="auth-close">×</button>
                     <div className="membership-content">
                         <div className="premium-badge">✨ PREMIUM MEMBER ✨</div>
-                        <h2 className="gold-text">You're Already Premium!</h2>
+                        <h2 className="gold-text">Premium Activated!</h2>
                         <p>Enjoy unlimited access to all AstroRevo features.</p>
                         {onSuccess && (
                             <button
@@ -87,16 +88,44 @@ const MembershipModal = ({ isOpen, onClose, onSuccess }) => {
                     {import.meta.env.VITE_PAYMENT_TEST_MODE === 'true' && (
                         <button
                             className="cta-btn golden-highlight"
-                            style={{ marginTop: '20px', width: '100%' }}
+                            style={{
+                                marginTop: '20px',
+                                width: '100%',
+                                opacity: activating ? 0.7 : 1,
+                                cursor: activating ? 'wait' : 'pointer'
+                            }}
+                            disabled={activating}
                             onClick={async () => {
-                                const success = await activateMembership(user.uid);
-                                if (success) {
-                                    setIsPremium(true);
-                                    if (onSuccess) onSuccess();
+                                try {
+                                    setActivating(true);
+                                    // Add minimal delay for UX
+                                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                                    let success = false;
+                                    if (user) {
+                                        success = await activateMembership(user.uid);
+                                    } else {
+                                        // Guest mode / Not logged in - simulate success
+                                        console.warn("Guest mode activation (no user logged in) - This is for testing only.");
+                                        success = true;
+                                    }
+
+                                    if (success) {
+                                        setIsPremium(true);
+                                        // Immediately proceed to the dashboard or relevant view
+                                        if (onSuccess) onSuccess();
+                                    } else {
+                                        alert("Activation failed. Please check console.");
+                                    }
+                                } catch (err) {
+                                    console.error("Activation error:", err);
+                                    alert("Activation error occurred: " + err.message);
+                                } finally {
+                                    setActivating(false);
                                 }
                             }}
                         >
-                            Test: Activate Premium Directly
+                            {activating ? "Activating..." : "Test: Open Premium Dashboard"}
                         </button>
                     )}
 

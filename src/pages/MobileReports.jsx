@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FileText, Map, Activity, Heart, Star, Compass, Lock, ChevronRight, ChevronDown } from 'lucide-react';
+import { FileText, Map, Activity, Heart, Star, Compass, Lock, ChevronRight, ChevronDown, Globe } from 'lucide-react';
 import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroChart from '../components/AstroChart';
 import { getLocalVedicChart } from '../services/vedicAstroApi';
@@ -280,6 +280,34 @@ const MobileReports = () => {
                     )}
                 </div>
 
+                {/* 6. Western Zodiac Natal Chart Accordion */}
+                <div className={`accordion-item ${activeSection === 'western-chart' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('western-chart')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7' }}>
+                            <Globe size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Western Zodiac Natal Chart</h3>
+                            <span>Tropical Astrology Insights</span>
+                        </div>
+                        {activeSection === 'western-chart' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'western-chart' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/western-chart')} style={{ background: 'linear-gradient(135deg, #2e1065, #0f172a)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(168, 85, 247, 0.3)' }}>
+                                    <Globe size={24} color="#ffffff" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Western Birth Chart</h3>
+                                    <p>Explore your Sun, Moon, and Rising signs through the Western Tropical Zodiac system.</p>
+                                </div>
+                                <button className="bca-btn" style={{ background: '#a855f7' }}>View Western Chart</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
             </div>
 
             {/* Spacer for bottom nav */}
@@ -297,12 +325,16 @@ const MobileReports = () => {
                 onClose={() => setIsMembershipOpen(false)}
                 onSuccess={() => {
                     setIsMembershipOpen(false);
+                    // Immediately grant access (for Guest Mode & instant feedback)
+                    setIsPremium(true);
                     setActiveSection('premium');
-                    // Force refresh premium status
+
+                    // Verify with backend if user exists (to ensure persistence)
                     const checkStatus = async () => {
                         if (user) {
                             const status = await checkMembershipStatus(user.uid);
-                            setIsPremium(status);
+                            // Only update if verifiable status is returned
+                            if (status) setIsPremium(true);
                         }
                     };
                     checkStatus();
