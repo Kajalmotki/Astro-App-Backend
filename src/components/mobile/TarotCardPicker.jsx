@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import WhyAstroRevo from '../WhyAstroRevo';
-import './TarotCardPicker.css';
+import './TarotCardPicker.css?v=8';
 
 const majorArcana = [
     { name: 'The Fool', numeral: '0', meaning: 'New beginnings, spontaneity, and a free spirit. Trust the journey ahead.', emoji: '🌟' },
@@ -79,6 +79,20 @@ const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, o
             <div className="tarot-card-inner">
                 {/* Card Back */}
                 <div className="tarot-card-face tarot-card-back">
+                    {/* Video Overlay Background */}
+                    <div className="card-video-bg">
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="card-video-element"
+                        >
+                            <source src="/videos/night_sky_timelapse.mp4" type="video/mp4" />
+                        </video>
+                        <div className="card-video-overlay"></div>
+                    </div>
+
                     <div className="card-back-design">
                         <div className="card-back-border">
                             <div className="card-back-pattern">
@@ -125,13 +139,15 @@ const TarotCardPicker = () => {
         setFlippedIndex(null);
         setSelectedCard(null);
 
-        // Wait for "gather" animation, then swap cards and fan out
+        // Visual Shuffle Delay
         setTimeout(() => {
             setDisplayCards(getRandomCards());
+
+            // Stop shuffling after new cards are set
             setTimeout(() => {
                 setIsShuffling(false);
-            }, 100); // Slight delay to ensure DOM update before removing class
-        }, 600); // 600ms match CSS transition
+            }, 800); // Allow animation to play for a bit
+        }, 400);
     };
 
     return (

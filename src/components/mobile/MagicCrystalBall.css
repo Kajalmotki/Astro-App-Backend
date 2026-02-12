@@ -1,0 +1,338 @@
+/* Magic Crystal Ball Styles */
+.crystal-ball-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    /* Free standing */
+    margin: 40px auto 20px;
+    z-index: 10;
+}
+
+/* Allow clicking on the ball itself */
+.crystal-ball-wrapper {
+    pointer-events: auto;
+}
+
+.crystal-ball-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    /* Restore size */
+    background: linear-gradient(to right, #FFD700, #F0E68C, #FFD700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 5px 0;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    pointer-events: auto;
+}
+
+.crystal-ball-subtitle {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 20px 0;
+}
+
+.crystal-ball-wrapper {
+    position: relative;
+    width: 160px;
+    /* Medium size */
+    height: 160px;
+    cursor: pointer;
+    perspective: 1000px;
+    margin-bottom: 40px;
+    /* Space for stand */
+}
+
+/* Shaking Animation */
+.crystal-ball-wrapper.shaking {
+    animation: shakeBall 0.5s ease-in-out infinite;
+}
+
+@keyframes shakeBall {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-2px, 2px) rotate(-1deg);
+    }
+
+    50% {
+        transform: translate(2px, -1px) rotate(1deg);
+    }
+
+    75% {
+        transform: translate(-1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+.crystal-ball-sphere {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    /* Main Shadow/Glow */
+    box-shadow:
+        inset 0 0 50px rgba(0, 0, 0, 0.8),
+        /* Inner Depth */
+        inset 10px 10px 30px rgba(255, 255, 255, 0.2),
+        /* Upper Reflection */
+        0 0 30px rgba(255, 215, 0, 0.2),
+        /* Outer Glow */
+        0 15px 40px rgba(0, 0, 0, 0.6);
+    /* Drop Shadow */
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    background: #000;
+}
+
+/* Video Background */
+.sphere-video-container {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 1;
+    pointer-events: none;
+    animation: slowRotate 120s linear infinite;
+}
+
+@keyframes slowRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.sphere-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.sphere-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Purple/Blue tint for mystical feel */
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.1), rgba(0, 0, 0, 0.6));
+    z-index: 2;
+}
+
+/* Glass Effects */
+.sphere-reflection {
+    position: absolute;
+    top: 15px;
+    left: 30px;
+    width: 60px;
+    height: 40px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 60%);
+    border-radius: 50%;
+    transform: rotate(-45deg);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.sphere-inner-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1), transparent 50%);
+    z-index: 4;
+}
+
+/* Mist Effect */
+.sphere-mist {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 6;
+    mix-blend-mode: overlay;
+}
+
+.sphere-mist.active {
+    opacity: 1;
+    animation: mistPulse 1s infinite alternate;
+}
+
+@keyframes mistPulse {
+    from {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: scale(1.1);
+        opacity: 0.9;
+    }
+}
+
+/* Content */
+.sphere-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 8;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    transition: all 0.5s ease;
+    padding: 20px;
+    text-align: center;
+}
+
+.sphere-content.revealed {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.sphere-idle-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: floatIdle 3s ease-in-out infinite;
+}
+
+@keyframes floatIdle {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.sphere-icon {
+    font-size: 40px;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.tap-text {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #FFD700;
+    font-weight: 700;
+}
+
+.fortune-text {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    color: #fff;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
+    animation: fadeInText 1s ease forwards;
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Ornate Golden Stand */
+.crystal-ball-stand {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 60px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* The Base (Pedestal) */
+.crystal-ball-stand::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    height: 20px;
+    background: radial-gradient(ellipse at center, #B8860B 0%, #5e4305 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 5px 10px rgba(0, 0, 0, 0.8),
+        inset 0 2px 5px rgba(255, 255, 255, 0.3),
+        0 -2px 0 #FFD700;
+    /* Gold rim */
+    border: 1px solid #4a3306;
+}
+
+/* The Neck (Column) */
+.crystal-ball-stand::before {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 35px;
+    background: linear-gradient(90deg, #8B4513, #FFD700, #8B4513);
+    border-radius: 0 0 15px 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+/* decorative ring on neck */
+.crystal-ball-stand {
+    background: radial-gradient(circle, #FFD700 30%, transparent 31%);
+    background-size: 10px 10px;
+    background-position: center bottom 20px;
+    background-repeat: no-repeat;
+}
+
+.reset-ball-btn {
+    margin-top: 24px;
+    background: transparent;
+    border: 1px solid #FFD700;
+    color: #FFD700;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.reset-ball-btn:active {
+    background: rgba(255, 215, 0, 0.2);
+}

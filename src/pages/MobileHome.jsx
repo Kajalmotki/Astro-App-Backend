@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+    KundliIcon, MatchmakingIcon, PanchangIcon, PoojaIcon,
+    HoroscopeIcon, GemstoneIcon, KarmicIcon, NumerologyIcon
+} from '../components/icons/GoldIcons';
+import MagicCrystalBall from '../components/mobile/MagicCrystalBall';
 import TarotCardPicker from '../components/mobile/TarotCardPicker';
-import './MobileHome.css';
+import './MobileHome.css?v=9';
 
 const MobileHome = () => {
     const navigate = useNavigate();
     const userName = "Seeker"; // TODO: Get from auth context
 
-    // Services List from ScrollingTicker (Desktop)
+    // Services List with Custom Gold Icons
     const services = [
-        { name: "Chart", image: "/images/chart_symbol.png", action: () => navigate('/mobile/astro-chart') },
-        { name: "Matchmaking", image: "/images/matchmaking_symbol.png", action: () => navigate('/mobile/matchmaking') },
-        { name: "Panchang", image: "/images/panchang_symbol.png", action: () => navigate('/mobile/panchang') },
-        { name: "Virtual Pooja", image: "/images/virtual_pooja_symbol.png", action: () => navigate('/mobile/virtual-pooja') },
-        { name: "Horoscope", image: "/images/horoscope_symbol.png", action: () => navigate('/mobile/horoscope') },
-        { name: "Gemstones", image: "/images/gemstones_symbol.png", action: () => navigate('/mobile/gemstones') },
-        { name: "Karmic Reading", image: "/images/karma_symbol.png", action: () => navigate('/mobile/karmic-reading') },
-        { name: "Numerology", image: "/images/numerology_symbol.png", action: () => navigate('/mobile/numerology') }
+        { name: "Chart", icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
+        { name: "Matchmaking", icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
+        { name: "Panchang", icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
+        { name: "Virtual Pooja", icon: <PoojaIcon size={32} />, action: () => navigate('/mobile/virtual-pooja') },
+        { name: "Horoscope", icon: <HoroscopeIcon size={32} />, action: () => navigate('/mobile/horoscope') },
+        { name: "Gemstones", icon: <GemstoneIcon size={32} />, action: () => navigate('/mobile/gemstones') },
+        { name: "Karmic Reading", icon: <KarmicIcon size={32} />, action: () => navigate('/mobile/karmic-reading') },
+        { name: "Numerology", icon: <NumerologyIcon size={32} />, action: () => navigate('/mobile/numerology') }
     ];
 
     // Dummy data for planetary strengths
@@ -47,12 +52,8 @@ const MobileHome = () => {
                         {/* Static Grid Layout */}
                         {services.map((service, index) => (
                             <div key={`${service.name}-${index}`} className="ticker-item" onClick={service.action}>
-                                <div className="ticker-icon-box">
-                                    <img
-                                        src={service.image}
-                                        alt={service.name}
-                                        className="ticker-img-premium"
-                                    />
+                                <div className="ticker-icon-box-premium">
+                                    {service.icon}
                                 </div>
                                 <span>{service.name}</span>
                             </div>
@@ -60,6 +61,9 @@ const MobileHome = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Magic Crystal Ball (Daily Horoscope) */}
+            <MagicCrystalBall />
 
             {/* Tarot Card Picker - Above Cosmic Loop */}
             <TarotCardPicker />
