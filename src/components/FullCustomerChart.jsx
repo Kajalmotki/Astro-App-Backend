@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const questions = [
     { id: 1, category: 'Marriage', icon: '💍', text: 'When will I get married?' },
@@ -55,7 +55,7 @@ const questions = [
     { id: 52, category: 'Planets', icon: '🌟', text: 'Which planet is causing maximum trouble?' }
 ];
 
-const FullCustomerChart = ({ userInfo }) => {
+const FullCustomerChart = ({ userInfo = {} }) => {
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [showContent, setShowContent] = useState(false);
 

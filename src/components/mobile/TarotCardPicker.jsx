@@ -45,13 +45,15 @@ const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, o
 
         e.currentTarget.style.setProperty('--rotateX', `${rotateX}deg`);
         e.currentTarget.style.setProperty('--rotateY', `${rotateY}deg`);
-        e.currentTarget.style.setProperty('--scale', '1.1');
+        e.currentTarget.style.setProperty('--scale', '1.15');
+        e.currentTarget.style.setProperty('--hover-y', '-20px');
     };
 
     const handleMouseLeave = (e) => {
         e.currentTarget.style.setProperty('--rotateX', '0deg');
         e.currentTarget.style.setProperty('--rotateY', '0deg');
         e.currentTarget.style.setProperty('--scale', '1');
+        e.currentTarget.style.setProperty('--hover-y', '0px');
     };
 
     const middleIndex = Math.floor(totalCards / 2);

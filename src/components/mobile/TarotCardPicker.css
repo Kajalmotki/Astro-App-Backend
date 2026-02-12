@@ -58,7 +58,7 @@
     cursor: pointer;
     transform-origin: bottom center;
     transform:
-        translateX(var(--translateX)) translateY(var(--translateY)) rotate(var(--base-rotation)) perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg)) scale(var(--scale, 1));
+        translateX(var(--translateX)) translateY(calc(var(--translateY) + var(--hover-y, 0px))) rotate(var(--base-rotation)) perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg)) scale(var(--scale, 1));
     transition: transform 0.1s ease-out, opacity 0.5s ease;
     /* Fast transform for tilt, slow for fade */
     animation: cardFanIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
@@ -77,7 +77,8 @@
 
     to {
         opacity: 1;
-        transform: translateX(var(--translateX)) translateY(var(--translateY)) rotate(var(--base-rotation));
+        transform:
+            translateX(var(--translateX)) translateY(calc(var(--translateY) + var(--hover-y, 0px))) rotate(var(--base-rotation)) perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg)) scale(var(--scale, 1));
     }
 }
 

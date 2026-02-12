@@ -166,7 +166,10 @@ const MobileReports = () => {
                                 <div className="premium-bg-glow"></div>
                                 <div className="premium-content">
                                     <div className="premium-badge">FULL VERSION</div>
-                                    <h3>Complete Life Prediction</h3>
+                                    <h3>Included with AstroRevo Chart</h3>
+                                    <p style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', textAlign: 'left' }}>
+                                        Get instant access to all premium features when you unlock your full <strong>AstroRevo Chart</strong>.
+                                    </p>
                                     <ul style={{ color: '#e0e7ff', marginBottom: '20px', fontSize: '14px', lineHeight: '1.6', paddingLeft: '20px', textAlign: 'left' }}>
                                         <li>50+ Pages of Detailed Analysis</li>
                                         <li>Vimshottari Dasha Predictions (5 Years)</li>
@@ -174,7 +177,7 @@ const MobileReports = () => {
                                         <li>Sadhesati & Mangal Dosha Remedies</li>
                                     </ul>
                                     <button className="premium-cta-btn" style={{ width: '100%', justifyContent: 'center' }} onClick={(e) => { e.stopPropagation(); setIsMembershipOpen(true); }}>
-                                        Buy Full Report • ₹99
+                                        Unlock via AstroRevo Chart • ₹99
                                     </button>
                                 </div>
                             </div>
