@@ -95,22 +95,59 @@ const FullCustomerChart = ({ userInfo = {} }) => {
                     </div>
                 </div>
 
-                <div className="questions-grid-premium">
-                    {questions.map((q) => (
-                        <div key={q.id} className="premium-q-card glass-card">
-                            <div className="q-card-inner">
-                                <span className="p-icon">{q.icon}</span>
-                                <div className="p-content">
-                                    <span className="p-category">{q.category}</span>
-                                    <span className="p-text">{q.text}</span>
-                                </div>
-                                <div className="q-status-locked">
-                                    <span className="status-dot green"></span>
-                                    <span className="status-label">ANALYZED</span>
-                                </div>
-                            </div>
+                <div className="predictions-container">
+                    {/* 1. General Overview */}
+                    <div className="prediction-card glass-card">
+                        <div className="card-header-gold">
+                            <h3>General Overview</h3>
+                            <div className="decorative-line"></div>
                         </div>
-                    ))}
+                        <p className="prediction-text">
+                            You are a soul driven by <strong className="highlight-text">deep purpose and intuition</strong>. The planetary alignment at your birth suggests a life path focused on uncovering hidden truths and spiritual growth. Your <strong className="highlight-text">Sun in Leo</strong> gives you natural leadership qualities, while <strong className="highlight-text">Moon in Pisces</strong> bestows immense empathy. This year marks a significant transformation phase where old patterns will dissolve to make way for new opportunities.
+                        </p>
+                    </div>
+
+                    {/* 2. Career & Finance */}
+                    <div className="prediction-card glass-card">
+                        <div className="card-header-gold">
+                            <h3>Career & Finance</h3>
+                            <div className="decorative-line"></div>
+                        </div>
+                        <p className="prediction-text">
+                            A powerful <strong className="highlight-text">Dhana Yoga</strong> is forming in your chart, indicating potential for wealth accumulation through creative or intellectual pursuits. Mars in the 10th house fuels your ambition, but you must avoid impulsive decisions. Success is indicated in fields related to <strong className="highlight-text">technology, advisory roles, or creative arts</strong>. Financial stability strengthens post-October.
+                        </p>
+                    </div>
+
+                    {/* 3. Love & Relationships */}
+                    <div className="prediction-card glass-card">
+                        <div className="card-header-gold">
+                            <h3>Love & Relationships</h3>
+                            <div className="decorative-line"></div>
+                        </div>
+                        <p className="prediction-text">
+                            Venus gracing your 7th house suggests a partner who is not just a lover but a <strong className="highlight-text">soul companion</strong>. For singles, a meaningful connection is likely around mid-year. If committed, focus on communication to deepen your bond. Your aura naturally attracts harmony, but ensure you set healthy boundaries to protect your emotional well-being.
+                        </p>
+                    </div>
+
+                    {/* 4. Health & Yoga Remedies */}
+                    <div className="prediction-card glass-card yoga-section">
+                        <div className="card-header-gold">
+                            <h3>Health & Yoga Remedies</h3>
+                            <div className="decorative-line"></div>
+                        </div>
+                        <p className="prediction-text">
+                            Your energy centers (Chakras) show a need for grounding. The <strong className="highlight-text">Root Chakra</strong> requires attention to enhance stability and reduce anxiety.
+                        </p>
+
+                        {/* Yoga Image Placeholder */}
+                        <div className="yoga-image-placeholder">
+                            <span className="placeholder-text">Yoga Asana Visualization</span>
+                        </div>
+
+                        <p className="prediction-text" style={{ marginTop: '15px' }}>
+                            <strong>Recommended Asana:</strong> Vrikshasana (Tree Pose) for balance and focus. Practice daily for 10 minutes to align your solar energy.
+                        </p>
+                    </div>
                 </div>
             </div>
             {/* Removed old footer button as it's replaced by the initial unlock flow */}

@@ -33,6 +33,7 @@ import './components/HookedCTA.css';
 
 import WhyAstroRevo from './components/WhyAstroRevo';
 import InstallPrompt from './components/InstallPrompt';
+import SplashScreen from './components/SplashScreen';
 
 // Mobile Imports
 import MobileLayout from './components/mobile/MobileLayout';
@@ -175,6 +176,11 @@ function AppContent() {
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const { user } = useAuth();
   const [isNativeChecked, setIsNativeChecked] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
 
   const isNative = Capacitor.isNativePlatform();
   const isMobileRoute = location.pathname.startsWith('/mobile');
@@ -214,6 +220,7 @@ function AppContent() {
   if (isMobileRoute) {
     return (
       <div className="app-container mobile-app-container">
+        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
         <Routes>
           <Route path="/mobile" element={<MobileLayout />}>
             <Route index element={<Navigate to="home" replace />} />
@@ -247,6 +254,7 @@ function AppContent() {
   return (
     <div className="app-container">
       <StarfieldBackground />
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
       {!isChatPage && <ChakraEnergy />}
       {!isChatPage && (

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <radialGradient id="lotusGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(240,240,255);stop-opacity:1" />
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g filter="url(#glow)">
+    <!-- Central Petals -->
+    <path d="M250 150 C230 200, 230 300, 250 350 C270 300, 270 200, 250 150 Z" fill="url(#lotusGradient)" stroke="#E0E0E0" stroke-width="1"/>
+    
+    <!-- Left Inner Petal -->
+    <path d="M250 350 C220 320, 190 250, 210 180 C230 230, 240 290, 250 350 Z" fill="url(#lotusGradient)" stroke="#E0E0E0" stroke-width="1" transform="rotate(-15 250 350)"/>
+    
+    <!-- Right Inner Petal -->
+    <path d="M250 350 C280 320, 310 250, 290 180 C270 230, 260 290, 250 350 Z" fill="url(#lotusGradient)" stroke="#E0E0E0" stroke-width="1" transform="rotate(15 250 350)"/>
+    
+    <!-- Left Outer Petal -->
+    <path d="M250 350 C200 330, 150 260, 170 200 C200 250, 220 300, 250 350 Z" fill="url(#lotusGradient)" stroke="#E0E0E0" stroke-width="1" transform="rotate(-30 250 350)"/>
+    
+    <!-- Right Outer Petal -->
+    <path d="M250 350 C300 330, 350 260, 330 200 C300 250, 280 300, 250 350 Z" fill="url(#lotusGradient)" stroke="#E0E0E0" stroke-width="1" transform="rotate(30 250 350)"/>
+    
+    <!-- Bottom Leaves (Greenish tint but still white/lotus like) -->
+    <path d="M250 360 Q 150 380 100 340 Q 180 420 250 360" fill="none" stroke="#A0A0A0" stroke-width="2" opacity="0.3"/>
+    <path d="M250 360 Q 350 380 400 340 Q 320 420 250 360" fill="none" stroke="#A0A0A0" stroke-width="2" opacity="0.3"/>
+
+    <!-- Rain Ripples Logic handled in CSS or JS usually but let's add static ripple circles -->
+    <circle cx="250" cy="380" r="100" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+    <circle cx="250" cy="380" r="140" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  </g>
+</svg>

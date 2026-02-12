@@ -1,18 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './MagicCrystalBall.css';
 import { fortuneLines } from '../../data/fortunes';
+import { motivationalQuotes } from '../../data/motivationalQuotes';
 
 const MagicCrystalBall = () => {
     const [isRevealed, setIsRevealed] = useState(false);
     const [fortune, setFortune] = useState("");
     const [isShaking, setIsShaking] = useState(false);
     const [showMist, setShowMist] = useState(false);
+    const [quote, setQuote] = useState("");
 
     const videoRef = useRef(null);
 
-    // Initial random fortune
+    // Initial random fortune and quote
     useEffect(() => {
         setFortune(fortuneLines[Math.floor(Math.random() * fortuneLines.length)]);
+        setQuote(motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
     }, []);
 
     const handleReveal = () => {
@@ -79,6 +82,7 @@ const MagicCrystalBall = () => {
                     {/* Glass Effects */}
                     <div className="sphere-reflection"></div>
                     <div className="sphere-inner-glow"></div>
+                    <div className="sphere-shine-spark"></div>
 
                     {/* Mist Effect */}
                     <div className={`sphere-mist ${showMist ? 'active' : ''}`}></div>
@@ -95,6 +99,20 @@ const MagicCrystalBall = () => {
                 </div>
                 {/* Golden Stand/Base */}
                 <div className="crystal-ball-stand"></div>
+            </div>
+
+            {/* Curved Quote Section */}
+            <div className="crystal-ball-quote-container">
+                <svg width="280" height="60" viewBox="0 0 280 60" className="curved-quote-svg">
+                    <defs>
+                        <path id="quoteCurvePath" d="M10,10 Q140,60 270,10" />
+                    </defs>
+                    <text>
+                        <textPath href="#quoteCurvePath" startOffset="50%" textAnchor="middle" className="curved-quote-text">
+                            "{quote}"
+                        </textPath>
+                    </text>
+                </svg>
             </div>
 
             {isRevealed && (

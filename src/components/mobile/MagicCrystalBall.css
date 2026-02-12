@@ -327,3 +327,73 @@
 .reset-ball-btn:active {
     background: rgba(255, 215, 0, 0.2);
 }
+
+/* Shine Spark Effect */
+.sphere-shine-spark {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transform: skewX(-20deg);
+    z-index: 7;
+    pointer-events: none;
+    animation: shineSparkAnim 4s infinite;
+}
+
+@keyframes shineSparkAnim {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    40% {
+        left: 200%;
+        opacity: 0;
+    }
+
+    100% {
+        left: 200%;
+        opacity: 0;
+    }
+}
+
+/* Changing Quote Section */
+.crystal-ball-quote-container {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    z-index: 15;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeInQuote 1s ease forwards 0.5s;
+}
+
+@keyframes fadeInQuote {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.curved-quote-text {
+    font-family: 'Great Vibes', 'Dancing Script', cursive;
+    /* Cursive language as requested */
+    font-size: 13px;
+    /* Little small */
+    fill: #FFE5B4;
+    /* Soft Gold */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.5px;
+}
