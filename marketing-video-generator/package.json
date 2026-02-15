@@ -1,0 +1,14 @@
+{
+    "name": "astro-marketing-video",
+    "version": "1.0.0",
+    "description": "Generates a marketing video for AstroRevo",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "fluent-ffmpeg": "^2.1.2",
+        "@ffmpeg-installer/ffmpeg": "^1.1.0",
+        "puppeteer": "^22.0.0"
+    }
+}

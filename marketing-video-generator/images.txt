@@ -1,0 +1,34 @@
+file 'D:/astro app/marketing-video-generator/screenshots/01_home.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/02_horoscope.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/04_major_arcana.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/05_chat.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/06_reports.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/07_profile.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/01_home.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/01_home.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/02_horoscope.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/04_major_arcana.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/05_chat.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/06_reports.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/07_profile.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/01_home.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/01_home.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/02_horoscope.png'
+duration 2.5
+file 'D:/astro app/marketing-video-generator/screenshots/04_major_arcana.png'
+duration 5

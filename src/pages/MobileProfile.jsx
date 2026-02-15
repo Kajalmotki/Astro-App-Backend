@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     User, Settings, ChevronRight, Star,
     LogOut, CreditCard, FileText,
-    History, MessageSquare, HelpCircle, Globe, ShieldCheck
+    History, MessageSquare, HelpCircle, Globe, ShieldCheck, Music
 } from 'lucide-react';
 import { useAuth } from '../components/AuthModal';
 import './MobileProfile.css?v=2'; // Force reload
@@ -18,16 +18,17 @@ const MobileProfile = () => {
             title: "My Activity",
             items: [
                 { icon: <FileText size={20} />, label: 'My Reports', sub: 'Chart Analysis & Predictions', action: () => navigate('/mobile/reports') },
-                { icon: <History size={20} />, label: 'Order History', sub: 'Past Consultations & Purchases', action: () => { } },
-                { icon: <MessageSquare size={20} />, label: 'Chat History', sub: 'Conversations with Astrologers', action: () => { } },
+                { icon: <History size={20} />, label: 'Order History', sub: 'Past Consultations & Purchases', action: () => navigate('/mobile/order-history') },
+                { icon: <MessageSquare size={20} />, label: 'Chat History', sub: 'Conversations with Astrologers', action: () => navigate('/mobile/chat-history') },
             ]
         },
         {
             title: "App Settings",
             items: [
-                { icon: <Globe size={20} />, label: 'Language', sub: 'English (Default)', action: () => { } },
-                { icon: <ShieldCheck size={20} />, label: 'Privacy & Security', sub: 'Manage your data', action: () => { } },
-                { icon: <HelpCircle size={20} />, label: 'Help & Support', sub: 'FAQs & Contact Us', action: () => { } },
+                { icon: <Music size={20} />, label: 'Ambience & Music', sub: 'Om, Rain, Cosmic Sounds', action: () => navigate('/mobile/ambience') },
+                { icon: <Globe size={20} />, label: 'Language', sub: 'English (Default)', action: () => navigate('/mobile/settings/language') },
+                { icon: <ShieldCheck size={20} />, label: 'Privacy & Security', sub: 'Manage your data', action: () => navigate('/mobile/settings/privacy') },
+                { icon: <HelpCircle size={20} />, label: 'Help & Support', sub: 'FAQs & Contact Us', action: () => navigate('/mobile/help-support') },
             ]
         }
     ];

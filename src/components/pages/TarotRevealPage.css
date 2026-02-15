@@ -1,0 +1,357 @@
+/* TarotRevealPage.css */
+
+.tarot-reveal-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center bottom, #1a1a2e 0%, #000000 100%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+}
+
+.reveal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    z-index: 10;
+}
+
+.reveal-title {
+    font-size: 18px;
+    color: #FFD700;
+    letter-spacing: 2px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.spacer {
+    width: 40px;
+    /* Balance for back button */
+}
+
+.reveal-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    z-index: 5;
+    padding-bottom: 100px;
+    /* Space for fan */
+}
+
+/* Large Card Styles */
+.large-card-container {
+    width: 200px;
+    height: 320px;
+    perspective: 1000px;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
+}
+
+.large-card-container.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.large-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.large-card-container.revealed .large-card-inner {
+    transform: rotateY(180deg);
+}
+
+.large-card-front,
+.large-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid #FFD700;
+}
+
+.large-card-back {
+    background: #0f0f1a;
+    background-image:
+        linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.card-back-pattern {
+    width: 80%;
+    height: 90%;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back-symbol {
+    font-size: 48px;
+    color: #FFD700;
+    opacity: 0.8;
+}
+
+.large-card-front {
+    background: radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%);
+    transform: rotateY(180deg);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.large-card-numeral {
+    position: absolute;
+    top: 15px;
+    font-size: 16px;
+    color: rgba(255, 215, 0, 0.8);
+}
+
+.large-card-emoji {
+    font-size: 100px;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+    animation: floatEmoji 4s ease-in-out infinite;
+}
+
+.large-card-name {
+    position: absolute;
+    bottom: 20px;
+    font-size: 14px;
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    width: 90%;
+}
+
+/* Decoration */
+.corner-decor {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-style: solid;
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.corner-decor.top-left {
+    top: 8px;
+    left: 8px;
+    border-width: 1px 0 0 1px;
+}
+
+.corner-decor.top-right {
+    top: 8px;
+    right: 8px;
+    border-width: 1px 1px 0 0;
+}
+
+.corner-decor.bottom-left {
+    bottom: 8px;
+    left: 8px;
+    border-width: 0 0 1px 1px;
+}
+
+.corner-decor.bottom-right {
+    bottom: 8px;
+    right: 8px;
+    border-width: 0 1px 1px 0;
+}
+
+/* Text & Actions */
+.reveal-text-container {
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.6s;
+    max-width: 320px;
+}
+
+.reveal-text-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.revealed-card-name {
+    font-size: 28px;
+    color: #fff;
+    margin: 0 0 15px;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+    letter-spacing: 1px;
+}
+
+.card-attributes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.attribute-badge {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #FFD700;
+    font-size: 10px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.keywords-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.keyword-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divider-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
+    margin: 0 auto 20px;
+    opacity: 0.5;
+}
+
+.revealed-card-meaning {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.reveal-actions {
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease 0.8s;
+}
+
+.reveal-actions.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-btn.secondary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.action-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+    border: none;
+    color: #000;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.action-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Decorative Fan */
+.decorative-fan {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.fan-card {
+    width: 60px;
+    height: 100px;
+    background: #0f0f1a;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 6px;
+    position: absolute;
+    bottom: 0;
+    transform-origin: bottom center;
+    --spread: 120deg;
+    --angle: calc((var(--index) - var(--total) / 2) * (var(--spread) / var(--total)));
+    transform: translateX(0) rotate(var(--angle)) translateY(20px);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+}

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Menu, X, MessageCircle, BookOpen, Crown, LogOut } from 'lucide-react';
+import { Menu, X, MessageCircle, BookOpen, Crown, LogOut, Music } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
+import { useMusic } from '../../contexts/MusicContext';
 import './MobileHeader.css';
 
 const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user, logout } = useAuth();
+    const { isPlaying, togglePlay } = useMusic();
     const navigate = useNavigate();
 
     const toggleMenu = () => {
@@ -25,6 +27,8 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
                     <span className="logo-text">AstroRevo</span>
                 </div>
 
+
+
                 <button className="mobile-menu-trigger" onClick={toggleMenu}>
                     {isMenuOpen ? <X size={24} color="#ecf0f1" /> : <Menu size={24} color="#ecf0f1" />}
                 </button>
@@ -41,6 +45,10 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
                         <div className="menu-item" onClick={() => handleNavigation('/knowledge')}>
                             <BookOpen size={20} />
                             <span>Knowledge Source</span>
+                        </div>
+                        <div className="menu-item" onClick={() => handleNavigation('/mobile/ambience')}>
+                            <Music size={20} />
+                            <span>Ambience & Music</span>
                         </div>
 
                         {user ? (

@@ -1,69 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useMusic } from '../contexts/MusicContext'; // Import Context
 import '../App.css';
 
-const tracks = [
-    { id: 'om', name: 'Om Mantra', icon: '🕉️', src: '/audio/om-namah-shivay.mp3' },
-    { id: 'cosmic', name: 'Cosmic 432Hz', icon: '✨', src: '/om-432hz.mp3' },
-    { id: 'rain', name: 'Gentle Rain', icon: '🌧️', src: '/audio/rain.mp3' },
-    { id: 'ocean', name: 'Ocean Waves', icon: '🌊', src: '/audio/ocean.mp3' },
-    { id: 'bowl', name: 'Singing Bowl', icon: '🔔', src: '/audio/tibetan-bowl.mp3' },
-    { id: 'forest', name: 'Forest Birds', icon: '🐦', src: '/audio/forest.mp3' },
-    { id: 'night', name: 'Night Crickets', icon: '🦗', src: '/audio/night.mp3' },
-    { id: 'flute', name: 'Deep Flute', icon: '🎍', src: '/audio/flute.mp3' }
-];
-
 const CalmMusicPlayer = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTrack, setCurrentTrack] = useState(tracks[0]); // Default to Om Mantra (first track)
+    // Use Global Context
+    const { isPlaying, currentTrack, togglePlay, playTrack, tracks } = useMusic();
+
+    // Local state for menu visibility only
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const audioRef = useRef(null);
     const menuRef = useRef(null);
-
-    useEffect(() => {
-        audioRef.current = new Audio(currentTrack.src);
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.5;
-
-        // Handle error if file doesn't exist
-        audioRef.current.onerror = () => {
-            console.log(`Audio missing for ${currentTrack.name}, pausing.`);
-            setIsPlaying(false);
-            // Optional: Alert user or show UI state
-        };
-
-        return () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current = null;
-            }
-        };
-    }, []);
-
-    // Change track effect
-    useEffect(() => {
-        if (!audioRef.current) return;
-
-        const wasPlaying = isPlaying;
-        audioRef.current.pause();
-        audioRef.current.src = currentTrack.src;
-
-        if (wasPlaying) {
-            audioRef.current.play().catch(e => console.error(e));
-        }
-    }, [currentTrack]);
-
-    // Handle toggle play
-    const togglePlay = () => {
-        if (isPlaying) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play().catch(e => {
-                console.error("Play failed", e);
-                // Fallback logic could go here
-            });
-        }
-        setIsPlaying(!isPlaying);
-    };
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -77,17 +22,8 @@ const CalmMusicPlayer = () => {
     }, []);
 
     const handleChangeTrack = (track) => {
-        setCurrentTrack(track);
+        playTrack(track);
         setIsMenuOpen(false);
-        if (!isPlaying) {
-            // Optional: Auto-play on track change? Let's stick to manual for now or auto if user wants
-            // But usually better to just set track. User hits play.
-            // Actually, implies user wants to hear it. Let's auto-play if they select explicitly.
-            setIsPlaying(true);
-            setTimeout(() => { // slight delay to ensure src update
-                if (audioRef.current) audioRef.current.play().catch(e => console.error(e));
-            }, 50);
-        }
     };
 
     return (

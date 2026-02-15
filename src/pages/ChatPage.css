@@ -47,8 +47,10 @@
 .video-overlay-gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(5, 5, 8, 0.7) 0%, rgba(5, 5, 8, 0.4) 50%, rgba(5, 5, 8, 0.8) 100%);
+    background: linear-gradient(to bottom, rgba(5, 5, 8, 0.3) 0%, rgba(5, 5, 8, 0.5) 50%, rgba(5, 5, 8, 0.8) 100%);
     z-index: 1;
+    backdrop-filter: blur(0px);
+    /* Clear view of stars */
 }
 
 /* Sidebar Styling */
@@ -134,8 +136,7 @@
     flex-direction: column;
     min-width: 0;
     position: relative;
-    background: transparent;
-    /* Important for video visibility */
+    background: radial-gradient(circle at center, rgba(30, 30, 50, 0.2) 0%, var(--bg-dark) 100%);
 }
 
 /* Header */
@@ -311,26 +312,26 @@
 
 /* Chat Bubbles - Enhanced Glassmorphism */
 .chat-bubble {
-    padding: 16px 20px;
-    border-radius: 20px;
-    line-height: 1.5;
-    font-size: 0.95rem;
+    padding: 18px 24px;
+    border-radius: 24px;
+    line-height: 1.6;
+    font-size: 1rem;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     word-wrap: break-word;
+    letter-spacing: 0.3px;
 }
 
 /* Bot Bubble: More Transparent Glass */
 .chat-bubble.bot {
-    background: rgba(30, 30, 40, 0.6);
-    /* increased transparency */
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 30, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom-left-radius: 4px;
-    color: #e2e8f0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    color: #f0f0f5;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* User Bubble: Premium Gold Gradient */
@@ -402,23 +403,22 @@
     padding: 15px 20px 20px;
     display: flex;
     justify-content: center;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6) 50%, transparent);
-    /* More transparent gradient */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
     position: sticky;
     bottom: 0;
     z-index: 50;
+    padding-bottom: 25px;
     backdrop-filter: blur(5px);
 }
 
 .input-container-inner {
     width: 100%;
     max-width: 850px;
-    background: rgba(30, 30, 40, 0.5);
-    /* More transparent */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
+    background: rgba(40, 40, 60, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 50px;
     display: flex;
     align-items: center;
     padding: 6px 6px 6px 20px;

@@ -52,6 +52,17 @@ import KarmicReadingPage from './components/pages/KarmicReadingPage';
 import NumerologyPage from './components/pages/NumerologyPage';
 import WesternChartPage from './components/pages/WesternChartPage';
 import VirtualPooja from './components/VirtualPooja';
+import TarotRevealPage from './components/pages/TarotRevealPage';
+import MajorArcanaPage from './components/pages/MajorArcanaPage';
+
+// Profile Pages
+import OrderHistoryPage from './pages/profile/OrderHistoryPage';
+import ChatHistoryPage from './pages/profile/ChatHistoryPage';
+import LanguageSettingsPage from './pages/profile/LanguageSettingsPage';
+import PrivacySecurityPage from './pages/profile/PrivacySecurityPage';
+import HelpSupportPage from './pages/profile/HelpSupportPage';
+import AmbienceSelectionPage from './pages/profile/AmbienceSelectionPage';
+import { MusicProvider } from './contexts/MusicContext';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
@@ -243,6 +254,17 @@ function AppContent() {
             <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
             <Route path="western-chart" element={<div className="page-content" style={{ paddingTop: '0px' }}><WesternChartPage /></div>} />
             <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
+            <Route path="tarot-reveal" element={<div className="page-content" style={{ paddingTop: '0px' }}><TarotRevealPage /></div>} />
+            <Route path="major-arcana" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
+
+            {/* Profile Content Pages */}
+            <Route path="order-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><OrderHistoryPage /></div>} />
+            <Route path="chat-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><ChatHistoryPage /></div>} />
+            <Route path="settings/language" element={<div className="page-content" style={{ paddingTop: '0px' }}><LanguageSettingsPage /></div>} />
+            <Route path="settings/privacy" element={<div className="page-content" style={{ paddingTop: '0px' }}><PrivacySecurityPage /></div>} />
+
+            <Route path="help-support" element={<div className="page-content" style={{ paddingTop: '0px' }}><HelpSupportPage /></div>} />
+            <Route path="ambience" element={<div className="page-content" style={{ paddingTop: '0px' }}><AmbienceSelectionPage /></div>} />
 
             {/* Redirects/Placeholders */}
             <Route path="life-reports" element={<MobileReports />} />
@@ -306,11 +328,14 @@ function AppContent() {
   );
 }
 
+
 function App() {
   return (
     <Router>
-      <InstallPrompt />
-      <AppContent />
+      <MusicProvider>
+        <InstallPrompt />
+        <AppContent />
+      </MusicProvider>
     </Router>
   );
 }

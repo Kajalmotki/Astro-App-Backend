@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Play, X } from 'lucide-react';
 import {
     KundliIcon, MatchmakingIcon, PanchangIcon, PoojaIcon,
     HoroscopeIcon, GemstoneIcon, KarmicIcon, NumerologyIcon
@@ -10,6 +11,7 @@ import './MobileHome.css?v=9';
 
 const MobileHome = () => {
     const navigate = useNavigate();
+    const [showVideo, setShowVideo] = useState(false);
     const userName = "Seeker"; // TODO: Get from auth context
 
     // Services List with Custom Gold Icons
@@ -70,6 +72,32 @@ const MobileHome = () => {
 
             {/* Bottom spacer for nav bar */}
             <div style={{ height: '130px' }}></div>
+
+            {/* Video Play FAB */}
+            <button className="video-play-fab" onClick={() => setShowVideo(true)}>
+                <Play size={24} fill="currentColor" />
+            </button>
+
+            {/* Video Modal */}
+            {showVideo && (
+                <div className="video-modal-overlay">
+                    <button className="video-modal-close" onClick={() => setShowVideo(false)}>
+                        <X size={32} />
+                    </button>
+                    <div className="video-modal-content">
+                        <video
+                            controls
+                            autoPlay
+                            playsInline
+                            muted
+                            className="marketing-video-player"
+                        >
+                            <source src="/videos/marketing_video.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

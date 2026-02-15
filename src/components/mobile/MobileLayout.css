@@ -33,6 +33,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .mobile-video-overlay {
@@ -44,6 +46,8 @@
     background: rgba(0, 0, 0, 0.6);
     /* Slightly darker overlay for readability */
     z-index: 1;
+    backdrop-filter: blur(2px);
+    /* Slight blur helps mask video artifacts */
 }
 
 /* Updated Back Header for dark theme */
