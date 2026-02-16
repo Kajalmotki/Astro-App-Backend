@@ -50,8 +50,7 @@ const MobileHome = () => {
                 </div>
             </header>
 
-            {/* Why AstroRevo Button (Fixed Position handled inside component or CSS) */}
-            <WhyAstroRevo />
+
 
             {/* Mobile Ticker Track */}
             <section className="mobile-ticker-section">
@@ -72,6 +71,9 @@ const MobileHome = () => {
 
             {/* Magic Crystal Ball (Daily Horoscope) */}
             <MagicCrystalBall />
+
+            {/* Why AstroRevo Button (Fixed Position handled inside component or CSS) */}
+            <WhyAstroRevo />
 
             {/* Tarot Card Picker - Above Cosmic Loop */}
             <TarotCardPicker />
