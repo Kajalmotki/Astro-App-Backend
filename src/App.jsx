@@ -32,7 +32,7 @@ import './App.css';
 import './components/HookedCTA.css';
 
 import WhyAstroRevo from './components/WhyAstroRevo';
-import InstallPrompt from './components/InstallPrompt';
+
 import SplashScreen from './components/SplashScreen';
 
 // Mobile Imports
@@ -333,7 +333,7 @@ function App() {
   return (
     <Router>
       <MusicProvider>
-        <InstallPrompt />
+
         <AppContent />
       </MusicProvider>
     </Router>
