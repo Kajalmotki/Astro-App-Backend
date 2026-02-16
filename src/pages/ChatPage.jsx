@@ -25,8 +25,8 @@ const ChatPage = () => {
         {
             id: 1,
             type: 'bot',
-            text: "Namaste! I am your AstroRevo Guide. I've been waiting for our cosmic paths to cross. To begin your journey, I'll need to create your sacred birth chart. Shall we proceed?",
-            showFormLink: true
+            text: "Namaste! I am your AstroRevo Guide. I've been waiting for our cosmic paths to cross. To begin your journey, I'll need to create your sacred birth chart.",
+            showFormLink: false
         }
     ]);
     const [inputValue, setInputValue] = useState('');
@@ -51,6 +51,9 @@ const ChatPage = () => {
                                 showFormLink: false
                             }
                         ]);
+                    } else {
+                        // No saved data, show form immediately
+                        setShowBirthForm(true);
                     }
                 } catch (error) {
                     console.error("Failed to load birth data:", error);
@@ -183,6 +186,9 @@ const ChatPage = () => {
                                 <span className="user-status-tag"><span className="status-dot"></span> Online</span>
                             </div>
                         </div>
+                        <button className="header-tool-btn" onClick={() => setShowBirthForm(true)} title="New/Change Chart" style={{ marginRight: '10px' }}>
+                            <span style={{ fontSize: '1.2rem' }}>📝</span>
+                        </button>
                         <button className="header-tool-btn" onClick={() => navigate('/')} title="Exit Chat">✕</button>
                     </div>
                 </header>
@@ -197,11 +203,7 @@ const ChatPage = () => {
                                 <div className={`chat-bubble ${m.type} ${m.isPrediction ? 'prediction' : ''}`}>
                                     {m.text}
 
-                                    {m.showFormLink && (
-                                        <button className="chat-cta-btn" onClick={() => setShowBirthForm(true)}>
-                                            Begin Your Analysis
-                                        </button>
-                                    )}
+                                    {/* Removed 'Begin Your Analysis' button */}
 
                                     {m.showPayment && (
                                         <div className="chat-payment-card">
