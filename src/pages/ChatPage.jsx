@@ -4,7 +4,7 @@ import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroPremiumWorkflow from '../components/AstroPremiumWorkflow';
 import { useAuth } from '../components/AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
-import { fetchUserBirthData } from '../services/birthDataService';
+import { fetchUserBirthData, fetchSavedCharts, saveNewChart } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
 import { updateProfile } from 'firebase/auth';
 import CalmMusicPlayer from '../components/CalmMusicPlayer';
@@ -32,15 +32,22 @@ const ChatPage = () => {
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [showBirthForm, setShowBirthForm] = useState(false);
+    const [showSavedCharts, setShowSavedCharts] = useState(false);
+    const [savedCharts, setSavedCharts] = useState([]);
     const [userBirthData, setUserBirthData] = useState(null);
     const messagesEndRef = useRef(null);
 
     // Fetch saved birth data when user logs in
     useEffect(() => {
-        const loadBirthData = async () => {
+        const loadInitialData = async () => {
             if (user?.uid) {
                 try {
+                    // Load primary birth data
                     const savedData = await fetchUserBirthData(user.uid);
+                    // Load all saved charts
+                    const charts = await fetchSavedCharts(user.uid);
+                    setSavedCharts(charts);
+
                     if (savedData) {
                         setUserBirthData(savedData);
                         setMessages([
@@ -60,14 +67,14 @@ const ChatPage = () => {
                 }
             }
         };
-        loadBirthData();
+        loadInitialData();
     }, [user]);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    useEffect(scrollToBottom, [messages, isTyping, showBirthForm]);
+    useEffect(scrollToBottom, [messages, isTyping, showBirthForm, showSavedCharts]);
 
     useEffect(() => {
         if (location.state?.initialQuestion) {
@@ -113,13 +120,23 @@ const ChatPage = () => {
 
         if (user) {
             try {
-                if (data.name) await updateProfile(user, { displayName: data.name });
-                await saveBirthDataToFirestore(user.uid, {
-                    name: data.name,
-                    place: data.place,
-                    date: `${data.day}/${data.month}/${data.year}`,
-                    time: `${data.hour}:${data.min}:${data.sec}`
-                });
+                // Save as primary if it's the first time
+                if (!userBirthData) {
+                    if (data.name) await updateProfile(user, { displayName: data.name });
+                    await saveBirthDataToFirestore(user.uid, {
+                        name: data.name,
+                        place: data.place,
+                        date: `${data.day}/${data.month}/${data.year}`,
+                        time: `${data.hour}:${data.min}:${data.sec}`
+                    });
+                }
+
+                // Always save to savedCharts collection
+                await saveNewChart(user.uid, data);
+                // Refresh saved charts list
+                const charts = await fetchSavedCharts(user.uid);
+                setSavedCharts(charts);
+
             } catch (e) { console.error(e); }
         }
 
@@ -133,6 +150,27 @@ const ChatPage = () => {
             }]);
             setIsTyping(false);
         }, 1500);
+    };
+
+    const handleHeaderPlusClick = () => {
+        if (savedCharts.length > 0) {
+            setShowSavedCharts(true);
+            setShowBirthForm(false);
+        } else {
+            setShowBirthForm(true);
+            setShowSavedCharts(false);
+        }
+    };
+
+    const selectChart = (chart) => {
+        setUserBirthData(chart);
+        setShowSavedCharts(false);
+        setMessages(prev => [...prev, {
+            id: Date.now(),
+            type: 'bot',
+            text: ` switched context to ${chart.name}. Analyzing new coordinates...`,
+            isSystem: true
+        }]);
     };
 
     const handlePaymentSuccess = (data, messageId) => {
@@ -164,11 +202,23 @@ const ChatPage = () => {
                     </div>
                     <button
                         className="sidebar-add-chart-btn"
-                        onClick={() => setShowBirthForm(true)}
+                        onClick={handleHeaderPlusClick}
                     >
                         <span className="icon">+</span>
                         <span className="item-text">Birth Details</span>
                     </button>
+
+                    {savedCharts.length > 0 && (
+                        <div className="saved-charts-list-sidebar">
+                            <h4 className="sidebar-section-title">Saved Charts</h4>
+                            {savedCharts.map(chart => (
+                                <div key={chart.id} className="history-item" onClick={() => selectChart(chart)}>
+                                    <span className="icon">👤</span>
+                                    <div className="item-text">{chart.name}</div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </nav>
                 <div className="sidebar-footer">
                     <button className="back-btn" onClick={() => navigate('/')}>← Back Home</button>
@@ -186,8 +236,8 @@ const ChatPage = () => {
                                 <span className="user-status-tag"><span className="status-dot"></span> Online</span>
                             </div>
                         </div>
-                        <button className="header-tool-btn" onClick={() => setShowBirthForm(true)} title="New/Change Chart" style={{ marginRight: '10px' }}>
-                            <span style={{ fontSize: '1.2rem' }}>📝</span>
+                        <button className="header-tool-btn" onClick={handleHeaderPlusClick} title="New/Change Chart" style={{ marginRight: '10px' }}>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>+</span>
                         </button>
                         <button className="header-tool-btn" onClick={() => navigate('/')} title="Exit Chat">✕</button>
                     </div>
@@ -198,9 +248,9 @@ const ChatPage = () => {
                 <div className="messages-viewport">
                     <div className="messages-inner">
                         {messages.map((m) => (
-                            <div key={m.id} className={`chat-message-row ${m.type}`}>
+                            <div key={m.id} className={`chat-message-row ${m.type} ${m.isSystem ? 'system-msg' : ''}`}>
                                 {m.type === 'bot' && <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>}
-                                <div className={`chat-bubble ${m.type} ${m.isPrediction ? 'prediction' : ''}`}>
+                                <div className={`chat-bubble ${m.type} ${m.isPrediction ? 'prediction' : ''} ${m.isSystem ? 'system-bubble' : ''}`}>
                                     {m.text}
 
                                     {/* Removed 'Begin Your Analysis' button */}
@@ -238,12 +288,49 @@ const ChatPage = () => {
                                 </div>
                             </div>
                         ))}
+
+                        {showSavedCharts && (
+                            <div className="chat-message-row bot">
+                                <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
+                                <div className="chat-bubble bot form-bubble saved-charts-bubble">
+                                    <h3 className="gold-text">Select a Chart</h3>
+                                    <div className="saved-charts-grid">
+                                        {savedCharts.map(chart => (
+                                            <div key={chart.id} className="saved-chart-card" onClick={() => selectChart(chart)}>
+                                                <div className="chart-icon">👤</div>
+                                                <div className="chart-info">
+                                                    <span className="chart-name">{chart.name}</span>
+                                                    <span className="chart-details">{chart.place}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div className="saved-chart-card new-chart-card" onClick={() => { setShowSavedCharts(false); setShowBirthForm(true); }}>
+                                            <div className="chart-icon">+</div>
+                                            <div className="chart-info">
+                                                <span className="chart-name">Create New</span>
+                                                <span className="chart-details">Add new birth details</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="close-bubble-btn"
+                                        onClick={() => setShowSavedCharts(false)}
+                                        style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent', border: 'none', color: 'white', fontSize: '1.2rem', cursor: 'pointer' }}
+                                    >✕</button>
+                                </div>
+                            </div>
+                        )}
+
                         {showBirthForm && (
                             <div className="chat-message-row bot">
                                 <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>
                                 <div className="chat-bubble bot form-bubble">
-                                    <BirthDetailsForm onSubmit={handleBirthDetailsSubmit} compact={true} />
-                                    <button className="cancel-bubble-btn" onClick={() => setShowBirthForm(false)}>Cancel</button>
+                                    <BirthDetailsForm
+                                        onSubmit={handleBirthDetailsSubmit}
+                                        onClose={() => setShowBirthForm(false)}
+                                        compact={true}
+                                    />
+                                    {/* Removed old Cancel button as per request, now using onClose X in form */}
                                 </div>
                             </div>
                         )}

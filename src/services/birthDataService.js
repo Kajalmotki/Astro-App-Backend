@@ -39,6 +39,10 @@ export const fetchUserBirthData = async (userId) => {
 /**
  * Helper to parse date and time strings into component parts
  */
+
+/**
+ * Helper to parse date and time strings into component parts
+ */
 const parseDateAndTime = (dateStr, timeStr) => {
     const result = {};
 
@@ -63,4 +67,72 @@ const parseDateAndTime = (dateStr, timeStr) => {
     }
 
     return result;
+};
+
+/**
+ * Fetches all saved charts for a user
+ * @param {string} userId
+ * @returns {Promise<Array>} Array of chart objects
+ */
+export const fetchSavedCharts = async (userId) => {
+    try {
+        if (!userId) return [];
+        // Implementation for subcollection 'savedCharts'
+        const { collection, getDocs } = await import('firebase/firestore');
+        const chartsRef = collection(db, 'users', userId, 'savedCharts');
+        const snapshot = await getDocs(chartsRef);
+
+        return snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            ...parseDateAndTime(doc.data().birthdate, doc.data().birthtime)
+        }));
+    } catch (error) {
+        console.error('Error fetching saved charts:', error);
+        return [];
+    }
+};
+
+/**
+ * Saves a new chart to the user's savedCharts subcollection
+ * @param {string} userId
+ * @param {Object} chartData
+ * @returns {Promise<string>} The new chart ID
+ */
+export const saveNewChart = async (userId, chartData) => {
+    try {
+        if (!userId) throw new Error('No user ID');
+        const { collection, addDoc } = await import('firebase/firestore');
+
+        const chartToSave = {
+            name: chartData.name,
+            place: chartData.place,
+            birthdate: chartData.date || `${chartData.day}/${chartData.month}/${chartData.year}`,
+            birthtime: chartData.time || `${chartData.hour}:${chartData.min}:${chartData.sec}`,
+            sex: chartData.sex || 'Unknown',
+            createdAt: new Date().toISOString()
+        };
+
+        const docRef = await addDoc(collection(db, 'users', userId, 'savedCharts'), chartToSave);
+        return docRef.id;
+    } catch (error) {
+        console.error('Error saving new chart:', error);
+        throw error;
+    }
+};
+
+/**
+ * Deletes a saved chart
+ * @param {string} userId 
+ * @param {string} chartId 
+ */
+export const deleteSavedChart = async (userId, chartId) => {
+    try {
+        if (!userId || !chartId) return;
+        const { doc, deleteDoc } = await import('firebase/firestore');
+        await deleteDoc(doc(db, 'users', userId, 'savedCharts', chartId));
+    } catch (error) {
+        console.error('Error deleting chart:', error);
+        throw error;
+    }
 };

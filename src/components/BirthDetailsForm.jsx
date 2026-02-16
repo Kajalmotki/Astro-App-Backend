@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const BirthDetailsForm = ({ onSubmit, title = "Enter Your Birth Details", submitLabel = "GENERATE KUNDLI" }) => {
+const BirthDetailsForm = ({ onSubmit, onClose, title = "Enter Your Birth Details", submitLabel = "GENERATE KUNDLI" }) => {
     const [formData, setFormData] = useState({
         name: '',
         sex: 'Male',
@@ -85,7 +85,33 @@ const BirthDetailsForm = ({ onSubmit, title = "Enter Your Birth Details", submit
     };
 
     return (
-        <div className="birth-form-container glass-card">
+        <div className="birth-form-container glass-card" style={{ position: 'relative' }}>
+            {/* Close Button if onClose prop is provided */}
+            {onClose && (
+                <button
+                    type="button"
+                    onClick={onClose}
+                    style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        background: 'rgba(255,255,255,0.1)',
+                        border: 'none',
+                        color: '#fff',
+                        width: '30px',
+                        height: '30px',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.2rem'
+                    }}
+                >
+                    ✕
+                </button>
+            )}
+
             <h2 className="form-title gold-text">{title}</h2>
             <form onSubmit={handleSubmit} className="birth-form">
                 <div className="form-group">
