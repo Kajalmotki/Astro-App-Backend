@@ -106,14 +106,25 @@ const MagicCrystalBall = () => {
 
             {/* Curved Quote Section */}
             <div className="crystal-ball-quote-container">
-                <svg width="280" height="60" viewBox="0 0 280 60" className="curved-quote-svg">
+                <svg width="300" height="80" viewBox="0 0 300 80" className="curved-quote-svg">
                     <defs>
-                        <path id="quoteCurvePath" d="M10,10 Q140,60 270,10" />
+                        <path id="quoteCurvePath" d="M10,20 Q150,80 290,20" fill="none" />
                     </defs>
                     <text>
-                        <textPath href="#quoteCurvePath" startOffset="50%" textAnchor="middle" className="curved-quote-text">
-                            "{quote}"
-                        </textPath>
+                        {quote.length > 60 ? (
+                            <>
+                                <textPath href="#quoteCurvePath" startOffset="50%" textAnchor="middle" className="curved-quote-text" style={{ fontSize: '10px' }}>
+                                    <tspan dy="-5">{quote.substring(0, Math.ceil(quote.length / 2)).trim()}</tspan>
+                                </textPath>
+                                <textPath href="#quoteCurvePath" startOffset="50%" textAnchor="middle" className="curved-quote-text" style={{ fontSize: '10px' }}>
+                                    <tspan dy="12">{quote.substring(Math.ceil(quote.length / 2)).trim()}</tspan>
+                                </textPath>
+                            </>
+                        ) : (
+                            <textPath href="#quoteCurvePath" startOffset="50%" textAnchor="middle" className="curved-quote-text">
+                                "{quote}"
+                            </textPath>
+                        )}
                     </text>
                 </svg>
             </div>
