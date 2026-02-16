@@ -72,8 +72,10 @@ const MobileHome = () => {
             {/* Magic Crystal Ball (Daily Horoscope) */}
             <MagicCrystalBall />
 
-            {/* Why AstroRevo Button (Fixed Position handled inside component or CSS) */}
-            <WhyAstroRevo />
+            {/* Why AstroRevo Button - Centered */}
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
+                <WhyAstroRevo />
+            </div>
 
             {/* Tarot Card Picker - Above Cosmic Loop */}
             <TarotCardPicker />
