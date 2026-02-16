@@ -73,10 +73,7 @@ const MobileHome = () => {
             {/* Bottom spacer for nav bar */}
             <div style={{ height: '130px' }}></div>
 
-            {/* Video Play FAB */}
-            <button className="video-play-fab" onClick={() => setShowVideo(true)}>
-                <Play size={24} fill="currentColor" />
-            </button>
+
 
             {/* Video Modal */}
             {showVideo && (

@@ -7,7 +7,6 @@ const path = require('path');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Config
-// Config
 const BASE_URL = 'http://127.0.0.1:5173';
 const AUDIO_PATH = 'C:\\Users\\Siddharth\\Downloads\\SKORN_Ultra_Slowed.mp3';
 const OUTPUT_FILE = 'marketing_video.mp4';
@@ -38,25 +37,23 @@ const TIMESTAMPS = [
 const PAGES = [
     { url: '/mobile/home', name: '01_home' },
     { url: '/mobile/horoscope', name: '02_horoscope' },
-    // {
-    //     url: '/mobile/tarot-reveal', name: '03_tarot_reveal', setup: async (page) => {
-    //         // Navigate to home, scroll to tarot, click card
-    //         await page.goto(`${BASE_URL}/mobile/home`);
-    //         await page.waitForSelector('.tarot-card-wrapper');
-    //         await page.click('.tarot-card-wrapper'); // Click first card
-    //         await new Promise(r => setTimeout(r, 2000)); // Wait for transition
-    //     }
-    // },
+    { url: '/mobile/tarot-reveal', name: '03_tarot_reveal' },
     { url: '/mobile/major-arcana', name: '04_major_arcana' },
     { url: '/mobile/chat', name: '05_chat' },
     { url: '/mobile/reports', name: '06_reports' },
     { url: '/mobile/profile', name: '07_profile' },
+    { url: '/mobile/ambience', name: '00_ambience' },
     { url: '/mobile/order-history', name: '09_order_history' },
     { url: '/mobile/chat-history', name: '10_chat_history' },
     { url: '/mobile/settings/language', name: '11_language' },
     { url: '/mobile/help-support', name: '12_help_support' },
     { url: '/mobile/settings/privacy', name: '13_privacy' },
-    { url: '/mobile/compatibility', name: '08_compatibility' } // Fallback if exists? Or repeat home/hero
+    { url: '/mobile/astro-chart', name: '14_astro_chart' },
+    { url: '/mobile/panchang', name: '15_panchang' },
+    { url: '/mobile/virtual-pooja', name: '16_virtual_pooja' },
+    { url: '/mobile/gemstones', name: '17_gemstones' },
+    { url: '/mobile/karmic-reading', name: '18_karmic_reading' },
+    { url: '/mobile/numerology', name: '19_numerology' }
 ];
 
 // Ensure dir exists
@@ -74,6 +71,16 @@ async function captureScreenshots() {
     page.on('console', msg => console.log('PAGE LOG:', msg.text()));
     page.on('pageerror', err => console.log('PAGE ERROR:', err.toString()));
 
+    // Force hide overlays
+    await page.evaluateOnNewDocument(() => {
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `
+            .install-prompt-overlay, .splash-screen { display: none !important; }
+        `;
+        document.head.appendChild(style);
+    });
+
     console.log('Capturing screenshots...');
 
     // We will cycle through PAGES to fill the video length manually or loop them
@@ -86,10 +93,16 @@ async function captureScreenshots() {
             if (p.setup) {
                 await p.setup(page);
             } else {
-                await page.goto(`${BASE_URL}${p.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+                await page.goto(`${BASE_URL}${p.url}`, { waitUntil: 'networkidle0', timeout: 60000 });
             }
+
+            // Wait for specific elements based on page type if possible
+            if (p.url.includes('mobile')) {
+                await page.waitForSelector('.mobile-layout-container', { timeout: 5000 }).catch(() => { });
+            }
+
             // Wait a bit for animations (e.g. stars, fan) to settle or play a bit
-            await new Promise(r => setTimeout(r, 4000));
+            await new Promise(r => setTimeout(r, 5000));
 
             await page.screenshot({ path: path.join(SCREENSHOT_DIR, `${p.name}.png`) });
             console.log(`Saved ${p.name}.png`);
@@ -182,7 +195,7 @@ async function createVideo() {
 (async () => {
     try {
         await captureScreenshots();
-        await createVideo();
+        // await createVideo();
     } catch (e) {
         console.error(e);
     }
