@@ -63,6 +63,7 @@ import PrivacySecurityPage from './pages/profile/PrivacySecurityPage';
 import HelpSupportPage from './pages/profile/HelpSupportPage';
 import AmbienceSelectionPage from './pages/profile/AmbienceSelectionPage';
 import { MusicProvider } from './contexts/MusicContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
@@ -332,10 +333,12 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <MusicProvider>
+      <LanguageProvider>
+        <MusicProvider>
 
-        <AppContent />
-      </MusicProvider>
+          <AppContent />
+        </MusicProvider>
+      </LanguageProvider>
     </Router>
   );
 }

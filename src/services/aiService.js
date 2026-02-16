@@ -199,6 +199,60 @@ export const getAssistantResponse = async (userMessage, userId, userName = 'Seek
     }
 };
 
+export const generateTarotReading = async (userName, userQuestion, cardName, cardMeaning) => {
+    try {
+        console.log(`Generating Tarot Reading for ${userName}: ${cardName} - ${userQuestion}`);
+
+        const prompt = `You are a mystical and intuitive Tarot Reader.
+        
+        Querent Name: ${userName}
+        Question: "${userQuestion}"
+        Selected Card: ${cardName}
+        Traditional Meaning: ${cardMeaning}
+
+        Interpret this card specifically in the context of the user's question.
+        - Analyze the "emotion" behind the question.
+        - Determine if this card indicates a positive, negative, or neutral outcome for this specific query.
+        - Provide a clear "Yes", "No", or "Uncertain" verdict if applicable to the question.
+        - Provide a deep, descriptive reading that connects the card's symbolism to the user's situation.
+
+        Output MUST be a valid JSON object:
+        {
+            "reading": "A detailed, 3-4 sentence interpretation of the card for this specific question.",
+            "emotion_analysis": "Brief analysis of the question's emotion (e.g., 'Anxious longing', 'Hopeful career ambition').",
+            "outcome_orientation": "Positive / Negative / Neutral / Complex",
+            "yes_no_verdict": "Yes / No / Uncertain",
+            "key_advice": "One sentence of direct advice based on this reading."
+        }`;
+
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        console.log("Tarot AI Response:", text);
+
+        try {
+            const jsonMatch = text.match(/\{[\s\S]*\}/);
+            const jsonStr = jsonMatch ? jsonMatch[0] : text;
+            return JSON.parse(jsonStr);
+        } catch (e) {
+            console.warn("JSON Parse failed for Tarot reading, returning raw text", e);
+            return {
+                reading: text,
+                emotion_analysis: "Mysterious",
+                outcome_orientation: "Neutral",
+                yes_no_verdict: "Uncertain",
+                key_advice: "Trust your intuition."
+            };
+        }
+
+    } catch (error) {
+        console.error("Tarot AI Error:", error);
+        throw error;
+    }
+};
+
 export const saveBirthDataToFirestore = async (userId, birthData) => {
     try {
         console.log("saveBirthDataToFirestore called for:", userId, "with data:", birthData);

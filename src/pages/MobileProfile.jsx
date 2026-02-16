@@ -8,27 +8,30 @@ import {
 import { useAuth } from '../components/AuthModal';
 import './MobileProfile.css?v=2'; // Force reload
 
+import { useLanguage } from '../contexts/LanguageContext';
+
 const MobileProfile = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { language, getLanguageName, t } = useLanguage();
 
     // Grouped Menu Structure
     const menuGroups = [
         {
-            title: "My Activity",
+            title: t("My Activity"),
             items: [
-                { icon: <FileText size={20} />, label: 'My Reports', sub: 'Chart Analysis & Predictions', action: () => navigate('/mobile/reports') },
-                { icon: <History size={20} />, label: 'Order History', sub: 'Past Consultations & Purchases', action: () => navigate('/mobile/order-history') },
-                { icon: <MessageSquare size={20} />, label: 'Chat History', sub: 'Conversations with Astrologers', action: () => navigate('/mobile/chat-history') },
+                { icon: <FileText size={20} />, label: t('My Reports'), sub: t('Chart Analysis & Predictions'), action: () => navigate('/mobile/reports') },
+                { icon: <History size={20} />, label: t('Order History'), sub: t('Past Consultations & Purchases'), action: () => navigate('/mobile/order-history') },
+                { icon: <MessageSquare size={20} />, label: t('Chat History'), sub: t('Conversations with Astrologers'), action: () => navigate('/mobile/chat-history') },
             ]
         },
         {
-            title: "App Settings",
+            title: t("App Settings"),
             items: [
-                { icon: <Music size={20} />, label: 'Ambience & Music', sub: 'Om, Rain, Cosmic Sounds', action: () => navigate('/mobile/ambience') },
-                { icon: <Globe size={20} />, label: 'Language', sub: 'English (Default)', action: () => navigate('/mobile/settings/language') },
-                { icon: <ShieldCheck size={20} />, label: 'Privacy & Security', sub: 'Manage your data', action: () => navigate('/mobile/settings/privacy') },
-                { icon: <HelpCircle size={20} />, label: 'Help & Support', sub: 'FAQs & Contact Us', action: () => navigate('/mobile/help-support') },
+                { icon: <Music size={20} />, label: t('Ambience & Music'), sub: t('Om, Rain, Cosmic Sounds'), action: () => navigate('/mobile/ambience') },
+                { icon: <Globe size={20} />, label: t('Language'), sub: getLanguageName(language), action: () => navigate('/mobile/settings/language') },
+                { icon: <ShieldCheck size={20} />, label: t('Privacy & Security'), sub: t('Manage your data'), action: () => navigate('/mobile/settings/privacy') },
+                { icon: <HelpCircle size={20} />, label: t('Help & Support'), sub: t('FAQs & Contact Us'), action: () => navigate('/mobile/help-support') },
             ]
         }
     ];
@@ -50,9 +53,9 @@ const MobileProfile = () => {
                 <div className="profile-info">
                     <h2 className="profile-name">{user?.displayName || 'Cosmic Seeker'}</h2>
                     <span className="profile-badge">
-                        <Star size={12} fill="black" /> Premium Member
+                        <Star size={12} fill="black" /> {t('Premium Member')}
                     </span>
-                    <p className="profile-membership-expiry">Valid until: Dec 31, 2026</p>
+                    <p className="profile-membership-expiry">{t('Valid until')}: Dec 31, 2026</p>
                 </div>
             </header>
 
@@ -60,12 +63,12 @@ const MobileProfile = () => {
                 {/* Wallet / Credits Card - High Priority for Business */}
                 <section className="wallet-card">
                     <div className="wallet-info">
-                        <span className="wallet-label">Wallet Balance</span>
+                        <span className="wallet-label">{t('Wallet Balance')}</span>
                         <h3 className="wallet-amount">₹ 0.00</h3>
-                        <p className="wallet-sub">Use for calls & chats</p>
+                        <p className="wallet-sub">{t('Use for calls & chats')}</p>
                     </div>
                     <button className="add-money-btn">
-                        <CreditCard size={16} /> Add Money
+                        <CreditCard size={16} /> {t('Add Money')}
                     </button>
                 </section>
 
@@ -94,7 +97,7 @@ const MobileProfile = () => {
                         <div className="menu-item" onClick={() => { }}>
                             <div className="menu-icon-box logout-icon"><LogOut size={20} /></div>
                             <div className="menu-text">
-                                <span className="menu-label logout-text">Log Out</span>
+                                <span className="menu-label logout-text">{t('Log Out')}</span>
                             </div>
                         </div>
                     </div>

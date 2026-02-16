@@ -7,23 +7,28 @@ import {
 } from '../components/icons/GoldIcons';
 import MagicCrystalBall from '../components/mobile/MagicCrystalBall';
 import TarotCardPicker from '../components/mobile/TarotCardPicker';
+import WhyAstroRevo from '../components/WhyAstroRevo';
+import PlanetTransitTicker from '../components/mobile/PlanetTransitTicker';
 import './MobileHome.css?v=9';
+
+import { useLanguage } from '../contexts/LanguageContext';
 
 const MobileHome = () => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
     const [showVideo, setShowVideo] = useState(false);
     const userName = "Seeker"; // TODO: Get from auth context
 
     // Services List with Custom Gold Icons
     const services = [
-        { name: "Chart", icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
-        { name: "Matchmaking", icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
-        { name: "Panchang", icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
-        { name: "Virtual Pooja", icon: <PoojaIcon size={32} />, action: () => navigate('/mobile/virtual-pooja') },
-        { name: "Horoscope", icon: <HoroscopeIcon size={32} />, action: () => navigate('/mobile/horoscope') },
-        { name: "Gemstones", icon: <GemstoneIcon size={32} />, action: () => navigate('/mobile/gemstones') },
-        { name: "Karmic Reading", icon: <KarmicIcon size={32} />, action: () => navigate('/mobile/karmic-reading') },
-        { name: "Numerology", icon: <NumerologyIcon size={32} />, action: () => navigate('/mobile/numerology') }
+        { name: t("Chart"), icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
+        { name: t("Matchmaking"), icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
+        { name: t("Panchang"), icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
+        { name: t("Virtual Pooja"), icon: <PoojaIcon size={32} />, action: () => navigate('/mobile/virtual-pooja') },
+        { name: t("Horoscope"), icon: <HoroscopeIcon size={32} />, action: () => navigate('/mobile/horoscope') },
+        { name: t("Gemstones"), icon: <GemstoneIcon size={32} />, action: () => navigate('/mobile/gemstones') },
+        { name: t("Karmic Reading"), icon: <KarmicIcon size={32} />, action: () => navigate('/mobile/karmic-reading') },
+        { name: t("Numerology"), icon: <NumerologyIcon size={32} />, action: () => navigate('/mobile/numerology') }
     ];
 
     // Dummy data for planetary strengths
@@ -36,16 +41,17 @@ const MobileHome = () => {
     ];
 
     return (
-        <div className="mobile-home-container" style={{ position: 'relative', zIndex: 1, background: 'transparent', minHeight: '100vh' }}>
+        <div className="mobile-home-container" style={{ position: 'relative', zIndex: 1, background: 'transparent', minHeight: '100vh', paddingBottom: '100px' }}>
             {/* Header Section */}
             <header className="mobile-header">
                 <div className="greeting-container">
-                    <h1 className="greeting-text">Namaste, {userName}</h1>
-                    <p className="greeting-sub">The stars align for you today.</p>
+                    <h1 className="greeting-text">{t("Namaste")}, {userName}</h1>
+                    <p className="greeting-sub">{t("The stars align for you today.")}</p>
                 </div>
             </header>
 
-
+            {/* Why AstroRevo Button (Fixed Position handled inside component or CSS) */}
+            <WhyAstroRevo />
 
             {/* Mobile Ticker Track */}
             <section className="mobile-ticker-section">
@@ -70,10 +76,11 @@ const MobileHome = () => {
             {/* Tarot Card Picker - Above Cosmic Loop */}
             <TarotCardPicker />
 
-            {/* Bottom spacer for nav bar */}
-            <div style={{ height: '130px' }}></div>
+            {/* Bottom spacer for nav bar and ticker */}
+            <div style={{ height: '140px' }}></div>
 
-
+            {/* Planet Transit Ticker - Fixed at Bottom */}
+            <PlanetTransitTicker />
 
             {/* Video Modal */}
             {showVideo && (

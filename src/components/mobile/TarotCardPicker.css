@@ -47,6 +47,8 @@
     perspective: 1000px;
     width: 100%;
     max-width: 400px;
+    padding-bottom: 20px;
+    /* Added clearance for bottom nav */
 }
 
 /* Card Wrapper */

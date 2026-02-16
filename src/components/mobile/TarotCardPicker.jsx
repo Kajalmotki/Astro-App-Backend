@@ -31,10 +31,9 @@ const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, o
         e.currentTarget.style.setProperty('--hover-y', '0px');
     };
 
-    const middleIndex = Math.floor(totalCards / 2);
-    const offset = index - middleIndex;
-    const rotation = offset * 5; // Wider rotation to match the fanned reference
-    const translateX = offset * 5; // Tight overlap at the base
+    const offset = index - (totalCards - 1) / 2;
+    const rotation = offset * 3.5; // Tighter rotation
+    const translateX = offset * 3.5; // More overlap for compression
     const translateY = (Math.abs(offset) * 2); // Natural lift for the fan shape
 
     return (
@@ -129,11 +128,6 @@ const TarotCardPicker = () => {
 
     return (
         <section className="tarot-picker-section">
-            {/* Replaced Subtitle with Why AstroRevo Button */}
-            <div className="tarot-picker-action-area">
-                <WhyAstroRevo />
-            </div>
-
             <div className="tarot-fan-container">
                 {displayCards.map((card, index) => (
                     <TiltCard

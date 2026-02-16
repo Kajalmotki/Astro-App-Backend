@@ -3,7 +3,10 @@ import './MagicCrystalBall.css';
 import { fortuneLines } from '../../data/fortunes';
 import { motivationalQuotes } from '../../data/motivationalQuotes';
 
+import { useLanguage } from '../../contexts/LanguageContext';
+
 const MagicCrystalBall = () => {
+    const { t } = useLanguage();
     const [isRevealed, setIsRevealed] = useState(false);
     const [fortune, setFortune] = useState("");
     const [isShaking, setIsShaking] = useState(false);
@@ -56,7 +59,7 @@ const MagicCrystalBall = () => {
                     </defs>
                     <text>
                         <textPath href="#curvePath" startOffset="50%" textAnchor="middle" className="curved-title-text">
-                            Daily Horoscope
+                            {t("Magic Crystal Ball")}
                         </textPath>
                     </text>
                 </svg>
@@ -117,7 +120,7 @@ const MagicCrystalBall = () => {
 
             {isRevealed && (
                 <button className="reset-ball-btn" onClick={handleReveal}>
-                    Ask Again
+                    {t("Ask Again")}
                 </button>
             )}
         </div>
