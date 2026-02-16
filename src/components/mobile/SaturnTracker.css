@@ -1,0 +1,354 @@
+/* SaturnTracker.css */
+
+.saturn-page-container {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1a1a2e 0%, #000 100%);
+    color: #e0e0e0;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    animation: fadeIn 0.5s ease-out;
+    padding-bottom: 80px;
+    /* Space for footer */
+}
+
+/* Header */
+.saturn-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.header-titles {
+    text-align: center;
+}
+
+.page-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #C0C0C0;
+    /* Silver for Saturn */
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 0.75rem;
+    color: #666;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.karma-badge {
+    background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+    border-radius: 12px;
+    padding: 5px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.karma-value {
+    font-weight: 800;
+    color: #000;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.karma-label {
+    font-size: 0.6rem;
+    color: #000;
+    font-weight: 700;
+}
+
+/* Stats Row */
+.stats-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: #888;
+}
+
+/* Tracker Grid */
+.tracker-container {
+    background: rgba(20, 20, 30, 0.8);
+    border-radius: 16px;
+    padding: 15px;
+    border: 1px solid rgba(192, 192, 192, 0.1);
+    /* Subtle silver border */
+    overflow-x: auto;
+    /* Allow scrolling if needed on tiny screens */
+}
+
+.week-header {
+    display: grid;
+    grid-template-columns: 2fr repeat(7, 1fr) 1.5fr;
+    gap: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 10px;
+}
+
+.col-habit {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.col-day {
+    font-size: 0.7rem;
+    color: #666;
+    text-align: center;
+}
+
+.col-progress {
+    font-size: 0.7rem;
+    color: #888;
+    text-align: center;
+}
+
+/* Habits List */
+.habits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.habit-row {
+    display: grid;
+    grid-template-columns: 2fr repeat(7, 1fr) 1.5fr;
+    gap: 5px;
+    align-items: center;
+}
+
+.habit-name-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-right: 5px;
+}
+
+.habit-name {
+    font-size: 0.8rem;
+    color: #ddd;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    color: #ff4d4d;
+}
+
+/* Checkbox Styling */
+.checkbox-cell {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.custom-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.custom-checkbox input:checked~.checkmark {
+    background-color: #FFD700;
+    border-color: #FFD700;
+    color: #000;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.custom-checkbox:hover .checkmark {
+    border-color: #aaa;
+}
+
+/* Progress Cell */
+.progress-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.65rem;
+    color: #aaa;
+}
+
+/* Add Habit */
+.add-habit-section {
+    margin-top: 25px;
+}
+
+.add-habit-btn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    color: #aaa;
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.add-habit-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-style: solid;
+}
+
+.add-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.habit-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.confirm-add-btn {
+    background: #4CAF50;
+    border: none;
+    border-radius: 10px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.cancel-add-btn {
+    background: #ef4444;
+    border: none;
+    border-radius: 10px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Footer Quote */
+.saturn-footer-quote {
+    text-align: center;
+    margin-top: 40px;
+    font-style: italic;
+    color: #888;
+    font-size: 0.9rem;
+    padding: 0 20px;
+}
+
+.author {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #FFD700;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

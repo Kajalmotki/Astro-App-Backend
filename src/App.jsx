@@ -64,6 +64,16 @@ import HelpSupportPage from './pages/profile/HelpSupportPage';
 import AmbienceSelectionPage from './pages/profile/AmbienceSelectionPage';
 import BlogsPage from './pages/BlogsPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
+import SaturnTracker from './components/mobile/SaturnTracker';
+import PlanetaryStrengthening from './components/mobile/PlanetaryStrengthening';
+import MarsTracker from './components/mobile/trackers/MarsTracker';
+import SunTracker from './components/mobile/trackers/SunTracker';
+import MoonTracker from './components/mobile/trackers/MoonTracker';
+import MercuryTracker from './components/mobile/trackers/MercuryTracker';
+import JupiterTracker from './components/mobile/trackers/JupiterTracker';
+import VenusTracker from './components/mobile/trackers/VenusTracker';
+import RahuTracker from './components/mobile/trackers/RahuTracker';
+import KetuTracker from './components/mobile/trackers/KetuTracker';
 import { MusicProvider } from './contexts/MusicContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 
@@ -259,6 +269,18 @@ function AppContent() {
             <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
             <Route path="tarot-reveal" element={<div className="page-content" style={{ paddingTop: '0px' }}><TarotRevealPage /></div>} />
             <Route path="major-arcana" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
+
+            {/* New Tracker Route */}
+            <Route path="saturn-tracker" element={<div className="page-content" style={{ paddingTop: '0px' }}><SaturnTracker /></div>} />
+            <Route path="planetary-strengthening" element={<div className="page-content" style={{ paddingTop: '0px' }}><PlanetaryStrengthening /></div>} />
+            <Route path="tracker/mars" element={<div className="page-content" style={{ paddingTop: '0px' }}><MarsTracker /></div>} />
+            <Route path="tracker/sun" element={<div className="page-content" style={{ paddingTop: '0px' }}><SunTracker /></div>} />
+            <Route path="tracker/moon" element={<div className="page-content" style={{ paddingTop: '0px' }}><MoonTracker /></div>} />
+            <Route path="tracker/mercury" element={<div className="page-content" style={{ paddingTop: '0px' }}><MercuryTracker /></div>} />
+            <Route path="tracker/jupiter" element={<div className="page-content" style={{ paddingTop: '0px' }}><JupiterTracker /></div>} />
+            <Route path="tracker/venus" element={<div className="page-content" style={{ paddingTop: '0px' }}><VenusTracker /></div>} />
+            <Route path="tracker/rahu" element={<div className="page-content" style={{ paddingTop: '0px' }}><RahuTracker /></div>} />
+            <Route path="tracker/ketu" element={<div className="page-content" style={{ paddingTop: '0px' }}><KetuTracker /></div>} />
 
             {/* Profile Content Pages */}
             <Route path="order-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><OrderHistoryPage /></div>} />
