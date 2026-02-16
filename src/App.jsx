@@ -62,6 +62,8 @@ import LanguageSettingsPage from './pages/profile/LanguageSettingsPage';
 import PrivacySecurityPage from './pages/profile/PrivacySecurityPage';
 import HelpSupportPage from './pages/profile/HelpSupportPage';
 import AmbienceSelectionPage from './pages/profile/AmbienceSelectionPage';
+import BlogsPage from './pages/BlogsPage';
+import CaseStudiesPage from './pages/CaseStudiesPage';
 import { MusicProvider } from './contexts/MusicContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 
@@ -266,6 +268,9 @@ function AppContent() {
 
             <Route path="help-support" element={<div className="page-content" style={{ paddingTop: '0px' }}><HelpSupportPage /></div>} />
             <Route path="ambience" element={<div className="page-content" style={{ paddingTop: '0px' }}><AmbienceSelectionPage /></div>} />
+
+            <Route path="blogs" element={<div className="page-content" style={{ paddingTop: '0px' }}><BlogsPage /></div>} />
+            <Route path="case-studies" element={<div className="page-content" style={{ paddingTop: '0px' }}><CaseStudiesPage /></div>} />
 
             {/* Redirects/Placeholders */}
             <Route path="life-reports" element={<MobileReports />} />

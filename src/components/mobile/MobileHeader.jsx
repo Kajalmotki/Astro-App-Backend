@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, MessageCircle, BookOpen, Crown, LogOut, Music } from 'lucide-react';
+import { Menu, X, MessageCircle, BookOpen, Crown, LogOut, Music, Feather, PieChart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
 import { useMusic } from '../../contexts/MusicContext';
@@ -49,6 +49,14 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
                         <div className="menu-item" onClick={() => handleNavigation('/mobile/ambience')}>
                             <Music size={20} />
                             <span>Ambience & Music</span>
+                        </div>
+                        <div className="menu-item" onClick={() => handleNavigation('/mobile/blogs')}>
+                            <Feather size={20} />
+                            <span>Astrological Blogs</span>
+                        </div>
+                        <div className="menu-item" onClick={() => handleNavigation('/mobile/case-studies')}>
+                            <PieChart size={20} />
+                            <span>Case Studies</span>
                         </div>
 
                         {user ? (

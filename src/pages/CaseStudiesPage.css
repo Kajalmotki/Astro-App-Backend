@@ -1,0 +1,36 @@
+/* CaseStudiesPage.css */
+
+.case-studies-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.studies-grid {
+    padding-bottom: 40px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal animation */
+.modal-overlay {
+    animation: fadeOverlay 0.3s ease-out;
+}
+
+@keyframes fadeOverlay {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
