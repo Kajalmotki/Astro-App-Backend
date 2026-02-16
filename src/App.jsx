@@ -211,7 +211,7 @@ function AppContent() {
     const isMobile = isMobileDevice();
 
     // Redirect to mobile home if native app or mobile device and on root or desktop route
-    if ((isNative || isMobile) && (location.pathname === '/' || (!location.pathname.startsWith('/mobile') && !location.pathname.startsWith('/chat')))) {
+    if ((isNative || isMobile) && (location.pathname === '/' || (!location.pathname.startsWith('/mobile') && !location.pathname.startsWith('/chat') && !location.pathname.startsWith('/knowledge')))) {
       console.log("Detected mobile device, redirecting to mobile home");
       navigate('/mobile/home');
     }
