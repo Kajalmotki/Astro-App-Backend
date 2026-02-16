@@ -286,14 +286,14 @@ function AppContent() {
       <StarfieldBackground />
       {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
-      {!isChatPage && <ChakraEnergy />}
-      {!isChatPage && (
+      {!isChatPage && !location.pathname.includes('/knowledge') && <ChakraEnergy />}
+      {!isChatPage && !location.pathname.includes('/knowledge') && (
         <Header
           onLoginClick={() => setIsAuthOpen(true)}
           onMembershipClick={() => setIsDashboardOpen(true)}
         />
       )}
-      {!isChatPage && <UserOnboarding />}
+      {!isChatPage && !location.pathname.includes('/knowledge') && <UserOnboarding />}
 
       <Routes>
         <Route path="/" element={
@@ -329,7 +329,7 @@ function AppContent() {
         onClose={() => setIsDashboardOpen(false)}
         user={user}
       />
-      {!isChatPage && <Footer />}
+      {!isChatPage && !location.pathname.includes('/knowledge') && <Footer />}
     </div>
   );
 }
