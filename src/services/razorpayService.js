@@ -98,3 +98,42 @@ export const processDonation = (amount) => {
         rzp.open();
     });
 };
+
+export const processPayment = (amount, description = "AstroRevo Premium Purchase") => {
+    return new Promise((resolve, reject) => {
+        if (IS_TEST_MODE) {
+            console.log('Skipping actual payment in Test Mode');
+            resolve({ razorpay_payment_id: 'test_pay_' + Date.now() });
+            return;
+        }
+
+        const options = {
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+            amount: amount * 100,
+            currency: "INR",
+            name: "AstroRevo",
+            description: description,
+            image: "https://firebasestorage.googleapis.com/v0/b/astrorevo-ff.appspot.com/o/logo.png?alt=media",
+            handler: function (response) {
+                resolve(response);
+            },
+            prefill: {
+                name: "",
+                email: "",
+                contact: ""
+            },
+            theme: {
+                color: "#6a0dad"
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+            reject(response.error);
+        });
+        rzp.open();
+    });
+};
+
+// Alias for backward compatibility if needed, or update calls
+export const processCreditPurchase = processPayment;

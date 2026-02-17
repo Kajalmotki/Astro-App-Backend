@@ -1,81 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Volume2, VolumeX } from 'lucide-react';
 import { Capacitor } from '@capacitor/core';
 import Header from './components/Header';
-import AstroWorkflowChart from './components/AstroWorkflowChart';
-import ChatInterface from './components/ChatInterface';
-import AstroAssistant from './components/AstroAssistant';
-import MarketingMatrix from './components/MarketingMatrix';
-import ChatPage from './pages/ChatPage';
-import KnowledgeSources from './components/KnowledgeSources';
-import SampleChart from './components/SampleChart';
-import UserOnboarding from './components/UserOnboarding';
-import AuthModal from './components/AuthModal';
-import MembershipModal from './components/MembershipModal';
-
-import ScrollingTicker from './components/ScrollingTicker';
-
-
-import ChakraEnergy from './components/ChakraEnergy';
-import BCAAnalysis from './components/BCAAnalysis';
-import Footer from './components/Footer';
-import Testimonials from './components/Testimonials';
-import DonationSection from './components/DonationSection';
-import PremiumDashboard from './components/PremiumDashboard';
 import { useAuth } from './components/AuthModal';
-import WorkflowCanvas from './components/workflow/WorkflowCanvas';
-import VedicInfoSection from './components/VedicInfoSection';
-import StarfieldBackground from './components/StarfieldBackground';
-import ThemeToggle from './components/ThemeToggle';
-import './App.css';
-import './components/HookedCTA.css';
-
-import WhyAstroRevo from './components/WhyAstroRevo';
-
-import SplashScreen from './components/SplashScreen';
-
-// Mobile Imports
-import MobileLayout from './components/mobile/MobileLayout';
-import MobileHome from './pages/MobileHome';
-import MobileReports from './pages/MobileReports';
-import MobileProfile from './pages/MobileProfile';
-import MobileKundli from './pages/MobileKundli';
-import MobileMatchmaking from './pages/MobileMatchmaking';
-
-// Feature Pages for Mobile Routes
-import AstroChartPage from './components/pages/AstroChartPage';
-import PanchangPage from './components/pages/PanchangPage';
-import HoroscopePage from './components/pages/HoroscopePage';
-import GemstonesPage from './components/pages/GemstonesPage';
-import KarmicReadingPage from './components/pages/KarmicReadingPage';
-import NumerologyPage from './components/pages/NumerologyPage';
-import WesternChartPage from './components/pages/WesternChartPage';
-import VirtualPooja from './components/VirtualPooja';
-import TarotRevealPage from './components/pages/TarotRevealPage';
-import MajorArcanaPage from './components/pages/MajorArcanaPage';
-
-// Profile Pages
-import OrderHistoryPage from './pages/profile/OrderHistoryPage';
-import ChatHistoryPage from './pages/profile/ChatHistoryPage';
-import LanguageSettingsPage from './pages/profile/LanguageSettingsPage';
-import PrivacySecurityPage from './pages/profile/PrivacySecurityPage';
-import HelpSupportPage from './pages/profile/HelpSupportPage';
-import AmbienceSelectionPage from './pages/profile/AmbienceSelectionPage';
-import BlogsPage from './pages/BlogsPage';
-import CaseStudiesPage from './pages/CaseStudiesPage';
-import SaturnTracker from './components/mobile/SaturnTracker';
-import PlanetaryStrengthening from './components/mobile/PlanetaryStrengthening';
-import MarsTracker from './components/mobile/trackers/MarsTracker';
-import SunTracker from './components/mobile/trackers/SunTracker';
-import MoonTracker from './components/mobile/trackers/MoonTracker';
-import MercuryTracker from './components/mobile/trackers/MercuryTracker';
-import JupiterTracker from './components/mobile/trackers/JupiterTracker';
-import VenusTracker from './components/mobile/trackers/VenusTracker';
-import RahuTracker from './components/mobile/trackers/RahuTracker';
-import KetuTracker from './components/mobile/trackers/KetuTracker';
 import { MusicProvider } from './contexts/MusicContext';
 import { LanguageProvider } from './contexts/LanguageContext';
+
+// Lazy loading components
+const AstroWorkflowChart = lazy(() => import('./components/AstroWorkflowChart'));
+const ChatInterface = lazy(() => import('./components/ChatInterface'));
+const AstroAssistant = lazy(() => import('./components/AstroAssistant'));
+const MarketingMatrix = lazy(() => import('./components/MarketingMatrix'));
+const ChatPage = lazy(() => import('./pages/ChatPage'));
+const KnowledgeSources = lazy(() => import('./components/KnowledgeSources'));
+const SampleChart = lazy(() => import('./components/SampleChart'));
+const UserOnboarding = lazy(() => import('./components/UserOnboarding'));
+const AuthModal = lazy(() => import('./components/AuthModal'));
+const MembershipModal = lazy(() => import('./components/MembershipModal'));
+const ScrollingTicker = lazy(() => import('./components/ScrollingTicker'));
+const ChakraEnergy = lazy(() => import('./components/ChakraEnergy'));
+const BCAAnalysis = lazy(() => import('./components/BCAAnalysis'));
+const Footer = lazy(() => import('./components/Footer'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const DonationSection = lazy(() => import('./components/DonationSection'));
+const PremiumDashboard = lazy(() => import('./components/PremiumDashboard'));
+const WorkflowCanvas = lazy(() => import('./components/workflow/WorkflowCanvas'));
+const VedicInfoSection = lazy(() => import('./components/VedicInfoSection'));
+const StarfieldBackground = lazy(() => import('./components/StarfieldBackground'));
+const SplashScreen = lazy(() => import('./components/SplashScreen'));
+const WhyAstroRevo = lazy(() => import('./components/WhyAstroRevo'));
+
+// Mobile Lazy Loads
+const MobileLayout = lazy(() => import('./components/mobile/MobileLayout'));
+const MobileHome = lazy(() => import('./pages/MobileHome'));
+const MobileReports = lazy(() => import('./pages/MobileReports'));
+const MobileProfile = lazy(() => import('./pages/MobileProfile'));
+const MobileKundli = lazy(() => import('./pages/MobileKundli'));
+const MobileMatchmaking = lazy(() => import('./pages/MobileMatchmaking'));
+
+// Feature Pages for Mobile Routes
+const AstroChartPage = lazy(() => import('./components/pages/AstroChartPage'));
+const PanchangPage = lazy(() => import('./components/pages/PanchangPage'));
+const HoroscopePage = lazy(() => import('./components/pages/HoroscopePage'));
+const GemstonesPage = lazy(() => import('./components/pages/GemstonesPage'));
+const KarmicReadingPage = lazy(() => import('./components/pages/KarmicReadingPage'));
+const NumerologyPage = lazy(() => import('./components/pages/NumerologyPage'));
+const WesternChartPage = lazy(() => import('./components/pages/WesternChartPage'));
+const VirtualPooja = lazy(() => import('./components/VirtualPooja'));
+const TarotRevealPage = lazy(() => import('./components/pages/TarotRevealPage'));
+const MajorArcanaPage = lazy(() => import('./components/pages/MajorArcanaPage'));
+
+// Profile Pages
+const OrderHistoryPage = lazy(() => import('./pages/profile/OrderHistoryPage'));
+const ChatHistoryPage = lazy(() => import('./pages/profile/ChatHistoryPage'));
+const LanguageSettingsPage = lazy(() => import('./pages/profile/LanguageSettingsPage'));
+const PrivacySecurityPage = lazy(() => import('./pages/profile/PrivacySecurityPage'));
+const HelpSupportPage = lazy(() => import('./pages/profile/HelpSupportPage'));
+const AmbienceSelectionPage = lazy(() => import('./pages/profile/AmbienceSelectionPage'));
+const BlogsPage = lazy(() => import('./pages/BlogsPage'));
+const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
+
+// Trackers
+const SaturnTracker = lazy(() => import('./components/mobile/SaturnTracker'));
+const PlanetaryStrengthening = lazy(() => import('./components/mobile/PlanetaryStrengthening'));
+const MarsTracker = lazy(() => import('./components/mobile/trackers/MarsTracker'));
+const SunTracker = lazy(() => import('./components/mobile/trackers/SunTracker'));
+const MoonTracker = lazy(() => import('./components/mobile/trackers/MoonTracker'));
+const MercuryTracker = lazy(() => import('./components/mobile/trackers/MercuryTracker'));
+const JupiterTracker = lazy(() => import('./components/mobile/trackers/JupiterTracker'));
+const VenusTracker = lazy(() => import('./components/mobile/trackers/VenusTracker'));
+const RahuTracker = lazy(() => import('./components/mobile/trackers/RahuTracker'));
+const KetuTracker = lazy(() => import('./components/mobile/trackers/KetuTracker'));
+
+// Loading Screen Component
+const PageLoading = () => (
+  <div style={{
+    height: '100vh',
+    width: '100%',
+    background: '#000',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#FFD700',
+    fontFamily: 'serif'
+  }}>
+    <div style={{ textAlign: 'center' }}>
+      <div className="pulse-glow" style={{ fontSize: '1.2rem', padding: '20px' }}>Alignment in Progress...</div>
+    </div>
+  </div >
+);
 
 const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => {
   const location = useLocation();
@@ -122,7 +136,9 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
   return (
     <main className="content">
-      <WhyAstroRevo isHidden={isScrolledPastHero} />
+      <Suspense fallback={<div className="loading-placeholder" />}>
+        <WhyAstroRevo isHidden={isScrolledPastHero} />
+      </Suspense>
       <section className="hero-section">
         <div className="main-hero-video">
           <video ref={videoRef} className="main-hero-video-media" autoPlay loop playsInline muted preload="auto">
@@ -143,13 +159,19 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
 
 
       <section style={{ margin: '6rem 0' }}>
-        <ScrollingTicker />
+        <Suspense fallback={null}>
+          <ScrollingTicker />
+        </Suspense>
       </section>
 
-      <VedicInfoSection />
+      <Suspense fallback={null}>
+        <VedicInfoSection />
+      </Suspense>
 
       <section className="marketing-section">
-        <MarketingMatrix />
+        <Suspense fallback={null}>
+          <MarketingMatrix />
+        </Suspense>
         <div className="hero-layout">
           <div className="workflow-section">
             <div className="hooked-cta-container">
@@ -163,9 +185,15 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
         </div>
       </section>
 
-      <Testimonials />
+      <Suspense fallback={null}>
+        <Testimonials />
+      </Suspense>
 
-      {!location.pathname.includes('/chat') && <DonationSection />}
+      {!location.pathname.includes('/chat') && (
+        <Suspense fallback={null}>
+          <DonationSection />
+        </Suspense>
+      )}
 
       <section id="chat-window" className="assistant-showcase-section">
         <div className="assistant-layout-container">
@@ -184,7 +212,9 @@ const LandingPage = ({ handleQuestionSelect, activeQuestion, onLoginClick }) => 
           </div>
 
           <div className="assistant-rectangle-wrapper">
-            <AstroAssistant onLoginClick={onLoginClick} />
+            <Suspense fallback={<div className="loading-card" />}>
+              <AstroAssistant onLoginClick={onLoginClick} />
+            </Suspense>
           </div>
         </div>
       </section>
@@ -240,119 +270,130 @@ function AppContent() {
     navigate('/chat', { state: { initialQuestion: question } });
   };
 
-  // If in mobile mode/route, we don't render the desktop header/footer wrappers
-  // The MobileLayout handles its own structure.
-  if (isMobileRoute) {
+  const renderContent = () => {
+    if (isMobileRoute) {
+      return (
+        <div className="app-container mobile-app-container">
+          <Suspense fallback={<PageLoading />}>
+            {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+            <Routes>
+              <Route path="/mobile" element={<MobileLayout />}>
+                <Route index element={<Navigate to="home" replace />} />
+                <Route path="home" element={<MobileHome />} />
+                <Route path="chat" element={<ChatPage />} />
+                <Route path="reports" element={<MobileReports />} />
+                <Route path="profile" element={<MobileProfile />} />
+                <Route path="full-kundli" element={<MobileKundli />} />
+                <Route path="matchmaking" element={<MobileMatchmaking />} />
+                <Route path="bca" element={<div className="page-content" style={{ paddingTop: '60px' }}><BCAAnalysis isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+
+                {/* Feature Routes mapped for Mobile Ticker */}
+                <Route path="astro-chart" element={<div className="page-content" style={{ paddingTop: '60px' }}><AstroChartPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="panchang" element={<div className="page-content" style={{ paddingTop: '60px' }}><PanchangPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="virtual-pooja" element={<div className="page-content" style={{ paddingTop: '60px' }}><VirtualPooja isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="horoscope" element={<div className="page-content" style={{ paddingTop: '60px' }}><HoroscopePage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="gemstones" element={<div className="page-content" style={{ paddingTop: '60px' }}><GemstonesPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="karmic-reading" element={<div className="page-content" style={{ paddingTop: '60px' }}><KarmicReadingPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+                <Route path="western-chart" element={<div className="page-content" style={{ paddingTop: '0px' }}><WesternChartPage /></div>} />
+                <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
+                <Route path="tarot-reveal" element={<div className="page-content" style={{ paddingTop: '0px' }}><TarotRevealPage /></div>} />
+                <Route path="major-arcana" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
+
+                {/* New Tracker Route */}
+                <Route path="saturn-tracker" element={<div className="page-content" style={{ paddingTop: '0px' }}><SaturnTracker /></div>} />
+                <Route path="planetary-strengthening" element={<div className="page-content" style={{ paddingTop: '0px' }}><PlanetaryStrengthening /></div>} />
+                <Route path="tracker/mars" element={<div className="page-content" style={{ paddingTop: '0px' }}><MarsTracker /></div>} />
+                <Route path="tracker/sun" element={<div className="page-content" style={{ paddingTop: '0px' }}><SunTracker /></div>} />
+                <Route path="tracker/moon" element={<div className="page-content" style={{ paddingTop: '0px' }}><MoonTracker /></div>} />
+                <Route path="tracker/mercury" element={<div className="page-content" style={{ paddingTop: '0px' }}><MercuryTracker /></div>} />
+                <Route path="tracker/jupiter" element={<div className="page-content" style={{ paddingTop: '0px' }}><JupiterTracker /></div>} />
+                <Route path="tracker/venus" element={<div className="page-content" style={{ paddingTop: '0px' }}><VenusTracker /></div>} />
+                <Route path="tracker/rahu" element={<div className="page-content" style={{ paddingTop: '0px' }}><RahuTracker /></div>} />
+                <Route path="tracker/ketu" element={<div className="page-content" style={{ paddingTop: '0px' }}><KetuTracker /></div>} />
+
+                {/* Profile Content Pages */}
+                <Route path="order-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><OrderHistoryPage /></div>} />
+                <Route path="chat-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><ChatHistoryPage /></div>} />
+                <Route path="settings/language" element={<div className="page-content" style={{ paddingTop: '0px' }}><LanguageSettingsPage /></div>} />
+                <Route path="settings/privacy" element={<div className="page-content" style={{ paddingTop: '0px' }}><PrivacySecurityPage /></div>} />
+
+                <Route path="help-support" element={<div className="page-content" style={{ paddingTop: '0px' }}><HelpSupportPage /></div>} />
+                <Route path="ambience" element={<div className="page-content" style={{ paddingTop: '0px' }}><AmbienceSelectionPage /></div>} />
+
+                <Route path="blogs" element={<div className="page-content" style={{ paddingTop: '0px' }}><BlogsPage /></div>} />
+                <Route path="case-studies" element={<div className="page-content" style={{ paddingTop: '0px' }}><CaseStudiesPage /></div>} />
+
+                {/* Redirects/Placeholders */}
+                <Route path="life-reports" element={<MobileReports />} />
+                <Route path="gemstone" element={<MobileReports />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </div>
+      )
+    }
+
     return (
-      <div className="app-container mobile-app-container">
-        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-        <Routes>
-          <Route path="/mobile" element={<MobileLayout />}>
-            <Route index element={<Navigate to="home" replace />} />
-            <Route path="home" element={<MobileHome />} />
-            <Route path="chat" element={<ChatPage />} />
-            <Route path="reports" element={<MobileReports />} />
-            <Route path="profile" element={<MobileProfile />} />
-            <Route path="full-kundli" element={<MobileKundli />} />
-            <Route path="matchmaking" element={<MobileMatchmaking />} />
-            <Route path="bca" element={<div className="page-content" style={{ paddingTop: '60px' }}><BCAAnalysis isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
+      <div className="app-container">
+        <Suspense fallback={<PageLoading />}>
+          <StarfieldBackground />
+          {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
 
-            {/* Feature Routes mapped for Mobile Ticker */}
-            <Route path="astro-chart" element={<div className="page-content" style={{ paddingTop: '60px' }}><AstroChartPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="panchang" element={<div className="page-content" style={{ paddingTop: '60px' }}><PanchangPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="virtual-pooja" element={<div className="page-content" style={{ paddingTop: '60px' }}><VirtualPooja isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="horoscope" element={<div className="page-content" style={{ paddingTop: '60px' }}><HoroscopePage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="gemstones" element={<div className="page-content" style={{ paddingTop: '60px' }}><GemstonesPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="karmic-reading" element={<div className="page-content" style={{ paddingTop: '60px' }}><KarmicReadingPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="numerology" element={<div className="page-content" style={{ paddingTop: '60px' }}><NumerologyPage isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
-            <Route path="western-chart" element={<div className="page-content" style={{ paddingTop: '0px' }}><WesternChartPage /></div>} />
-            <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
-            <Route path="tarot-reveal" element={<div className="page-content" style={{ paddingTop: '0px' }}><TarotRevealPage /></div>} />
-            <Route path="major-arcana" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
+          {!isChatPage && !location.pathname.includes('/knowledge') && <ChakraEnergy />}
+          {!isChatPage && !location.pathname.includes('/knowledge') && (
+            <Header
+              onLoginClick={() => setIsAuthOpen(true)}
+              onMembershipClick={() => setIsDashboardOpen(true)}
+            />
+          )}
+          {!isChatPage && !location.pathname.includes('/knowledge') && <UserOnboarding />}
 
-            {/* New Tracker Route */}
-            <Route path="saturn-tracker" element={<div className="page-content" style={{ paddingTop: '0px' }}><SaturnTracker /></div>} />
-            <Route path="planetary-strengthening" element={<div className="page-content" style={{ paddingTop: '0px' }}><PlanetaryStrengthening /></div>} />
-            <Route path="tracker/mars" element={<div className="page-content" style={{ paddingTop: '0px' }}><MarsTracker /></div>} />
-            <Route path="tracker/sun" element={<div className="page-content" style={{ paddingTop: '0px' }}><SunTracker /></div>} />
-            <Route path="tracker/moon" element={<div className="page-content" style={{ paddingTop: '0px' }}><MoonTracker /></div>} />
-            <Route path="tracker/mercury" element={<div className="page-content" style={{ paddingTop: '0px' }}><MercuryTracker /></div>} />
-            <Route path="tracker/jupiter" element={<div className="page-content" style={{ paddingTop: '0px' }}><JupiterTracker /></div>} />
-            <Route path="tracker/venus" element={<div className="page-content" style={{ paddingTop: '0px' }}><VenusTracker /></div>} />
-            <Route path="tracker/rahu" element={<div className="page-content" style={{ paddingTop: '0px' }}><RahuTracker /></div>} />
-            <Route path="tracker/ketu" element={<div className="page-content" style={{ paddingTop: '0px' }}><KetuTracker /></div>} />
-
-            {/* Profile Content Pages */}
-            <Route path="order-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><OrderHistoryPage /></div>} />
-            <Route path="chat-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><ChatHistoryPage /></div>} />
-            <Route path="settings/language" element={<div className="page-content" style={{ paddingTop: '0px' }}><LanguageSettingsPage /></div>} />
-            <Route path="settings/privacy" element={<div className="page-content" style={{ paddingTop: '0px' }}><PrivacySecurityPage /></div>} />
-
-            <Route path="help-support" element={<div className="page-content" style={{ paddingTop: '0px' }}><HelpSupportPage /></div>} />
-            <Route path="ambience" element={<div className="page-content" style={{ paddingTop: '0px' }}><AmbienceSelectionPage /></div>} />
-
-            <Route path="blogs" element={<div className="page-content" style={{ paddingTop: '0px' }}><BlogsPage /></div>} />
-            <Route path="case-studies" element={<div className="page-content" style={{ paddingTop: '0px' }}><CaseStudiesPage /></div>} />
-
-            {/* Redirects/Placeholders */}
-            <Route path="life-reports" element={<MobileReports />} />
-            <Route path="gemstone" element={<MobileReports />} />
-          </Route>
-        </Routes>
+          <Routes>
+            <Route path="/" element={
+              <LandingPage
+                handleQuestionSelect={handleQuestionSelect}
+                activeQuestion={activeQuestion}
+                onLoginClick={() => setIsAuthOpen(true)}
+              />
+            } />
+            <Route path="/mobile" element={<Navigate to="/mobile/home" replace />} />
+            <Route path="/knowledge" element={<KnowledgeSources />} />
+            <Route path="/sample" element={<SampleChart />} />
+            <Route path="/chat" element={<ChatPage />} />
+            <Route path="/workflow" element={<WorkflowCanvas />} />
+          </Routes>
+          {!isChatPage && !location.pathname.includes('/knowledge') && <Footer />}
+        </Suspense>
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="app-container">
-      <StarfieldBackground />
-      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-
-      {!isChatPage && !location.pathname.includes('/knowledge') && <ChakraEnergy />}
-      {!isChatPage && !location.pathname.includes('/knowledge') && (
-        <Header
-          onLoginClick={() => setIsAuthOpen(true)}
-          onMembershipClick={() => setIsDashboardOpen(true)}
+    <>
+      {renderContent()}
+      <Suspense fallback={null}>
+        <AuthModal
+          isOpen={isAuthOpen}
+          onClose={() => setIsAuthOpen(false)}
+          onAuthSuccess={() => console.log('Auth success')}
+          onMembershipPrompt={() => setIsDashboardOpen(true)}
         />
-      )}
-      {!isChatPage && !location.pathname.includes('/knowledge') && <UserOnboarding />}
-
-      <Routes>
-        <Route path="/" element={
-          <LandingPage
-            handleQuestionSelect={handleQuestionSelect}
-            activeQuestion={activeQuestion}
-            onLoginClick={() => setIsAuthOpen(true)}
-          />
-        } />
-        <Route path="/mobile" element={<Navigate to="/mobile/home" replace />} />
-        <Route path="/knowledge" element={<KnowledgeSources />} />
-        <Route path="/sample" element={<SampleChart />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/workflow" element={<WorkflowCanvas />} />
-      </Routes>
-
-      <AuthModal
-        isOpen={isAuthOpen}
-        onClose={() => setIsAuthOpen(false)}
-        onAuthSuccess={() => console.log('Auth success')}
-        onMembershipPrompt={() => setIsDashboardOpen(true)}
-      />
-      <MembershipModal
-        isOpen={isMembershipOpen}
-        onClose={() => setIsMembershipOpen(false)}
-        onSuccess={() => {
-          setIsMembershipOpen(false);
-          setIsDashboardOpen(true);
-        }}
-      />
-      <PremiumDashboard
-        isOpen={isDashboardOpen}
-        onClose={() => setIsDashboardOpen(false)}
-        user={user}
-      />
-      {!isChatPage && !location.pathname.includes('/knowledge') && <Footer />}
-    </div>
+        <MembershipModal
+          isOpen={isMembershipOpen}
+          onClose={() => setIsMembershipOpen(false)}
+          onSuccess={() => {
+            setIsMembershipOpen(false);
+            setIsDashboardOpen(true);
+          }}
+        />
+        <PremiumDashboard
+          isOpen={isDashboardOpen}
+          onClose={() => setIsDashboardOpen(false)}
+          user={user}
+        />
+      </Suspense>
+    </>
   );
 }
 

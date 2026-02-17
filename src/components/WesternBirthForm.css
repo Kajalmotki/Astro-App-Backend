@@ -32,10 +32,10 @@
 .western-form-card {
     background: linear-gradient(135deg, rgba(46, 16, 101, 0.8), rgba(15, 23, 42, 0.9));
     border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 24px;
-    padding: 30px;
-    width: 100%;
-    max-width: 350px;
+    border-radius: 20px;
+    padding: 24px;
+    width: 95%;
+    max-width: 340px;
     position: relative;
     box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
     overflow: hidden;

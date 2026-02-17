@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, Plus, Trash2, Check, Award, Flame, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './SaturnTracker.css';
+import { useAuth } from '../AuthModal';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -14,12 +17,55 @@ const DEFAULT_HABITS = [
 ];
 
 const SaturnTracker = () => {
-    const navigate = useNavigate();
+    const { user } = useAuth();
     const [habits, setHabits] = useState(DEFAULT_HABITS);
     const [karmaPoints, setKarmaPoints] = useState(0);
     const [streak, setStreak] = useState(12); // Mock streak for demo
     const [newHabitName, setNewHabitName] = useState("");
     const [isAdding, setIsAdding] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    // Load Data
+    useEffect(() => {
+        const loadTrackers = async () => {
+            if (!user) {
+                setLoading(false);
+                return;
+            }
+            try {
+                const docRef = doc(db, 'users', user.uid, 'trackers', 'saturn');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setHabits(docSnap.data().habits || DEFAULT_HABITS);
+                }
+            } catch (e) {
+                console.error("Error loading tracker:", e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadTrackers();
+    }, [user]);
+
+    // Save Data (Auto-save on change)
+    useEffect(() => {
+        if (!user || loading) return;
+
+        const saveData = async () => {
+            try {
+                const docRef = doc(db, 'users', user.uid, 'trackers', 'saturn');
+                await setDoc(docRef, {
+                    habits,
+                    lastUpdated: new Date().toISOString()
+                }, { merge: true });
+            } catch (e) {
+                console.error("Error saving tracker", e);
+            }
+        };
+
+        const timeoutId = setTimeout(saveData, 1000); // Debounce 1s
+        return () => clearTimeout(timeoutId);
+    }, [habits, user, loading]);
 
     // Calculate totals
     useEffect(() => {

@@ -46,8 +46,10 @@
     background: rgba(0, 0, 0, 0.6);
     /* Slightly darker overlay for readability */
     z-index: 1;
-    backdrop-filter: blur(2px);
-    /* Slight blur helps mask video artifacts */
+    backdrop-filter: blur(1px);
+    /* Reduced blur for mobile performance */
+    -webkit-backdrop-filter: blur(1px);
+    will-change: opacity;
 }
 
 /* Updated Back Header for dark theme */
@@ -57,7 +59,8 @@
     align-items: center;
     padding: 0 16px;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--mobile-border);
     z-index: 100;
     position: sticky;

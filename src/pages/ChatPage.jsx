@@ -5,8 +5,12 @@ import AstroPremiumWorkflow from '../components/AstroPremiumWorkflow';
 import { useAuth } from '../components/AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
 import { fetchUserBirthData, fetchSavedCharts, saveNewChart } from '../services/birthDataService';
-import { loadRazorpayButton } from '../services/razorpayService';
+
+import { loadRazorpayButton, processPayment } from '../services/razorpayService';
 import { updateProfile } from 'firebase/auth';
+import { doc, getDoc, updateDoc, increment, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { Wallet } from 'lucide-react';
 import CalmMusicPlayer from '../components/CalmMusicPlayer';
 import './ChatPage.css';
 
@@ -35,6 +39,9 @@ const ChatPage = () => {
     const [showSavedCharts, setShowSavedCharts] = useState(false);
     const [savedCharts, setSavedCharts] = useState([]);
     const [userBirthData, setUserBirthData] = useState(null);
+    const [credits, setCredits] = useState(0);
+    const [freeQuestionUsed, setFreeQuestionUsed] = useState(false);
+    const [showWalletModal, setShowWalletModal] = useState(false);
     const messagesEndRef = useRef(null);
 
     // Fetch saved birth data when user logs in
@@ -70,6 +77,26 @@ const ChatPage = () => {
         loadInitialData();
     }, [user]);
 
+    // Fetch Wallet Data
+    useEffect(() => {
+        const fetchWallet = async () => {
+            if (user?.uid) {
+                try {
+                    const userRef = doc(db, 'users', user.uid);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        const data = userSnap.data();
+                        setCredits(data.wallet?.credits || 0);
+                        setFreeQuestionUsed(data.wallet?.freeQuestionUsed || false);
+                    }
+                } catch (err) {
+                    console.error("Error loading wallet:", err);
+                }
+            }
+        };
+        fetchWallet();
+    }, [user]);
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -82,9 +109,66 @@ const ChatPage = () => {
         }
     }, [location.state]);
 
+    const handleAddCredits = async (amount, creditsToAdd, description) => {
+        try {
+            const response = await processCreditPurchase(amount, description);
+            if (response.razorpay_payment_id) {
+                // Payment Success - Update Firestore
+                const userRef = doc(db, 'users', user.uid);
+                await setDoc(userRef, {
+                    wallet: {
+                        credits: increment(creditsToAdd),
+                        updatedAt: new Date().toISOString()
+                    }
+                }, { merge: true });
+
+                // Update Local State
+                setCredits(prev => prev + creditsToAdd);
+                setShowWalletModal(false);
+
+                setMessages(prev => [...prev, {
+                    id: Date.now(),
+                    type: 'system',
+                    text: `Payment successful! ${creditsToAdd} Cosmic Credits added to your wallet.`,
+                    isSystem: true
+                }]);
+            }
+        } catch (error) {
+            console.error("Payment failed", error);
+            alert("Payment failed. Please try again.");
+        }
+    };
+
     const handleSend = async (text = inputValue) => {
         const messageText = typeof text === 'string' ? text : inputValue;
         if (!messageText.trim()) return;
+
+        // Check Credits/Free Question Logic
+        if (!freeQuestionUsed) {
+            // Allow Free Question
+            setFreeQuestionUsed(true);
+            if (user?.uid) {
+                const userRef = doc(db, 'users', user.uid);
+                setDoc(userRef, { wallet: { freeQuestionUsed: true } }, { merge: true });
+            }
+        } else if (credits > 0) {
+            // Use Credit
+            setCredits(prev => prev - 1);
+            if (user?.uid) {
+                const userRef = doc(db, 'users', user.uid);
+                updateDoc(userRef, { "wallet.credits": increment(-1) });
+            }
+        } else {
+            // No Credits Left
+            setMessages(prev => [...prev, {
+                id: Date.now(),
+                type: 'bot',
+                text: "Your free cosmic question has been fulfilled. To continue diving deeper into your destiny, please recharge your wallet.",
+                isSystem: true
+            }]);
+            setShowWalletModal(true);
+            return;
+        }
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: messageText }]);
         setInputValue('');
@@ -173,20 +257,36 @@ const ChatPage = () => {
         }]);
     };
 
-    const handlePaymentSuccess = (data, messageId) => {
-        setMessages(prev => prev.map(m => m.id === messageId ? { ...m, showPayment: false } : m));
-        setIsTyping(true);
+    const handleChartPurchase = async (kundliData, messageId) => {
+        try {
+            const response = await processPayment(99, 'AstroRevo Chart Unlock');
+            if (response.razorpay_payment_id) {
+                // Update Firestore
+                if (user?.uid) {
+                    const userRef = doc(db, 'users', user.uid);
+                    await setDoc(userRef, {
+                        purchases: { chart: true, updatedAt: new Date().toISOString() }
+                    }, { merge: true });
+                }
 
-        setTimeout(() => {
-            setMessages(prev => [...prev, {
-                id: Date.now(),
-                type: 'bot',
-                text: "Divine energy received. Here is your personalized AstroRevo Decision Workflow.",
-                isKundli: true,
-                kundliData: data
-            }]);
-            setIsTyping(false);
-        }, 2000);
+                setMessages(prev => prev.map(m => m.id === messageId ? { ...m, showPayment: false } : m));
+                setIsTyping(true);
+
+                setTimeout(() => {
+                    setMessages(prev => [...prev, {
+                        id: Date.now(),
+                        type: 'bot',
+                        text: "Divine energy received. Here is your personalized AstroRevo Decision Workflow.",
+                        isKundli: true,
+                        kundliData: kundliData
+                    }]);
+                    setIsTyping(false);
+                }, 2000);
+            }
+        } catch (error) {
+            console.error("Payment failed", error);
+            alert("Payment failed. Please try again.");
+        }
     };
 
     return (
@@ -227,6 +327,16 @@ const ChatPage = () => {
 
             <main className="chat-main-area">
                 <header className="chat-page-header">
+                    <div className="header-left">
+                        <button
+                            className="wallet-btn-header"
+                            onClick={() => setShowWalletModal(true)}
+                            title="Cosmic Wallet"
+                        >
+                            <Wallet size={20} color="#FFD700" />
+                            <span className="wallet-credits">{credits > 0 ? credits : (freeQuestionUsed ? '0' : '1 Free')}</span>
+                        </button>
+                    </div>
                     <div className="header-center">
                     </div>
                     <div className="header-right">
@@ -261,8 +371,8 @@ const ChatPage = () => {
                                             <p>Unlock Your Full D1 Lagna Chart & Premium Workflow</p>
                                             <div id={`razorpay-container-${m.id}`} className="razorpay-box"></div>
                                             <PaymentButtonLoader containerId={`razorpay-container-${m.id}`} />
-                                            <button className="sim-btn" onClick={() => handlePaymentSuccess(m.kundliData, m.id)}>
-                                                (Simulate Payment)
+                                            <button className="sim-btn" onClick={() => handleChartPurchase(m.kundliData, m.id)}>
+                                                Unlock Chart (₹99)
                                             </button>
                                         </div>
                                     )}
@@ -360,6 +470,52 @@ const ChatPage = () => {
                         </button>
                     </div>
                 </footer>
+
+                {showWalletModal && (
+                    <div className="wallet-modal-overlay">
+                        <div className="wallet-modal glass-card">
+                            <button className="close-modal-btn" onClick={() => setShowWalletModal(false)}>✕</button>
+                            <h2 className="gold-text">Cosmic Credits</h2>
+
+                            <div className="wallet-balance-section">
+                                <span className="label">Your Balance</span>
+                                <div className="balance-display">
+                                    <Wallet size={32} color="#ffd700" />
+                                    <span className="amount">{credits} Questions</span>
+                                </div>
+                            </div>
+
+                            <div className="credit-packages">
+                                {[
+                                    { credits: 5, price: 199, label: 'Standard Pack', tag: 'Starter' },
+                                    { credits: 10, price: 399, label: 'Premium Pack', tag: 'Recommended' },
+                                    { credits: 20, price: 699, label: 'Cosmic Value', tag: 'Best Value' }
+                                ].map((pkg, idx) => (
+                                    <div key={idx} className="package-card active">
+                                        <div className="package-header">
+                                            <h3>{pkg.label}</h3>
+                                            {pkg.tag && <span className="tag">{pkg.tag}</span>}
+                                        </div>
+                                        <div className="package-details">
+                                            <p className="questions">{pkg.credits} Questions</p>
+                                            <p className="price">₹{pkg.price}</p>
+                                        </div>
+                                        <button
+                                            className="buy-btn"
+                                            onClick={() => handleAddCredits(pkg.price, pkg.credits, `Purchase ${pkg.credits} Question Credits`)}
+                                        >
+                                            Recharge Now
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <p className="wallet-note">
+                                Credits are used for in-depth AI astrological clarifications.
+                            </p>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );

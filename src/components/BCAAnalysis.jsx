@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useAuth } from './AuthModal';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { processPayment } from '../services/razorpayService';
 import './BCAAnalysis.css';
 
 const BCAAnalysis = ({ isOpen, onClose }) => {
+    const { user } = useAuth();
+    const [hasAccess, setHasAccess] = useState(false);
     const [step, setStep] = useState('INTRO'); // INTRO, FORM, RESULT, JOURNEY
     const [formData, setFormData] = useState({
         age: '',
@@ -27,12 +33,47 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     const [notificationTime, setNotificationTime] = useState('07:00');
     const [isNotifActive, setIsNotifActive] = useState(false);
 
-    // Reset to INTRO when opened
+    // Reset to INTRO when opened, check access
     useEffect(() => {
         if (isOpen) {
             setStep('INTRO');
+            checkAccess();
         }
-    }, [isOpen]);
+    }, [isOpen, user]);
+
+    const checkAccess = async () => {
+        if (!user) return;
+        try {
+            const userRef = doc(db, 'users', user.uid);
+            const snap = await getDoc(userRef);
+            if (snap.exists()) {
+                const data = snap.data();
+                if (data.purchases?.bca || data.purchases?.bundle) {
+                    setHasAccess(true);
+                }
+            }
+        } catch (e) {
+            console.error("Error checking BCA access", e);
+        }
+    };
+
+    const handleUnlock = async () => {
+        try {
+            const response = await processPayment(99, 'Unlock Body Composition Plan');
+            if (response.razorpay_payment_id) {
+                if (user?.uid) {
+                    await setDoc(doc(db, 'users', user.uid), {
+                        purchases: { bca: true, updatedAt: new Date().toISOString() }
+                    }, { merge: true });
+                    setHasAccess(true);
+                    alert("Plan Unlocked! Analyzing your energy...");
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Payment failed.");
+        }
+    };
 
     // --- ROUTINE PLAYER STATE (Moved to Top) ---
     const [activeRoutine, setActiveRoutine] = useState(null);
@@ -786,6 +827,29 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
                             ))}
                         </div>
                     </div>
+
+                    {!hasAccess && (
+                        <div className="glass-card" style={{
+                            position: 'absolute',
+                            top: 0, left: 0, width: '100%', height: '100%',
+                            background: 'rgba(0,0,0,0.85)',
+                            backdropFilter: 'blur(10px)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 100
+                        }}>
+                            <span style={{ fontSize: '3rem', marginBottom: '10px' }}>🔒</span>
+                            <h2 className="gold-text">Unlock Your Blueprint</h2>
+                            <p style={{ marginBottom: '20px', color: '#ccc', textAlign: 'center', padding: '0 20px' }}>
+                                Get your 21-Day Transformation Plan, detailed Chakra scores, and corrective Yoga prescription.
+                            </p>
+                            <button className="buy-btn" style={{ width: '200px' }} onClick={handleUnlock}>
+                                Unlock Full Plan (₹99)
+                            </button>
+                        </div>
+                    )}
 
 
                     <div style={{ marginTop: '30px' }}>

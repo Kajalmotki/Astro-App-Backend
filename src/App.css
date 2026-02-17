@@ -453,6 +453,23 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    padding: 8px 16px;
+    top: 12px;
+    width: 98%;
+  }
+
+  .logo-text {
+    font-size: 1.4rem;
+    margin: 0 40px;
+    letter-spacing: 3px;
+  }
+
+  .header-logo {
+    height: 45px;
+    width: 45px;
+  }
+
   .main-hero-video {
     height: 100vh;
     padding-bottom: 0;
@@ -472,63 +489,22 @@
   }
 
   .main-hero-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     line-height: 1.2;
+    margin-bottom: 8px;
   }
 
   .main-hero-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.4;
   }
 
-  .cta-square-btn {
-    width: 140px;
-    height: 140px;
-    padding: 16px;
-    font-size: 0.85rem;
-  }
-
-  .circle-node {
-    width: 140px !important;
-    height: 140px !important;
-    padding: 15px !important;
-  }
-
-  .circle-node.large-node {
-    width: 140px !important;
-    height: 140px !important;
-    padding: 15px !important;
-  }
-
-  .circle-node.large-node::before {
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-  }
-
-  .node-content h4,
-  .circle-node.large-node h4 {
-    font-size: 0.65rem !important;
-    margin: 4px 0 3px;
-  }
-
-  .node-icon {
-    font-size: 1.2rem !important;
-  }
-
-  .node-desc,
-  .circle-node.large-node .node-desc {
-    font-size: 0.55rem !important;
-    line-height: 1.2;
-  }
-
   .video-mute-btn {
-    bottom: 160px;
-    /* Above the chart button (80px + height) */
-    right: 20px;
-    width: 40px;
-    height: 40px;
+    bottom: 120px;
+    /* Adjusted for better spacing */
+    right: 15px;
+    width: 36px;
+    height: 36px;
   }
 }
 
