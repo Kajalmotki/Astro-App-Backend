@@ -143,32 +143,32 @@ const ChatPage = () => {
         const messageText = typeof text === 'string' ? text : inputValue;
         if (!messageText.trim()) return;
 
-        // Check Credits/Free Question Logic
-        if (!freeQuestionUsed) {
-            // Allow Free Question
-            setFreeQuestionUsed(true);
-            if (user?.uid) {
-                const userRef = doc(db, 'users', user.uid);
-                setDoc(userRef, { wallet: { freeQuestionUsed: true } }, { merge: true });
-            }
-        } else if (credits > 0) {
-            // Use Credit
-            setCredits(prev => prev - 1);
-            if (user?.uid) {
-                const userRef = doc(db, 'users', user.uid);
-                updateDoc(userRef, { "wallet.credits": increment(-1) });
-            }
-        } else {
-            // No Credits Left
-            setMessages(prev => [...prev, {
-                id: Date.now(),
-                type: 'bot',
-                text: "Your free cosmic question has been fulfilled. To continue diving deeper into your destiny, please recharge your wallet.",
-                isSystem: true
-            }]);
-            setShowWalletModal(true);
-            return;
-        }
+        // Check Credits/Free Question Logic (Disabled for testing)
+        // if (!freeQuestionUsed) {
+        //     // Allow Free Question
+        //     setFreeQuestionUsed(true);
+        //     if (user?.uid) {
+        //         const userRef = doc(db, 'users', user.uid);
+        //         setDoc(userRef, { wallet: { freeQuestionUsed: true } }, { merge: true });
+        //     }
+        // } else if (credits > 0) {
+        //     // Use Credit
+        //     setCredits(prev => prev - 1);
+        //     if (user?.uid) {
+        //         const userRef = doc(db, 'users', user.uid);
+        //         updateDoc(userRef, { "wallet.credits": increment(-1) });
+        //     }
+        // } else {
+        //     // No Credits Left
+        //     setMessages(prev => [...prev, {
+        //         id: Date.now(),
+        //         type: 'bot',
+        //         text: "Your free cosmic question has been fulfilled. To continue diving deeper into your destiny, please recharge your wallet.",
+        //         isSystem: true
+        //     }]);
+        //     setShowWalletModal(true);
+        //     return;
+        // }
 
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: messageText }]);
         setInputValue('');
@@ -186,6 +186,7 @@ const ChatPage = () => {
                 isPrediction: true
             }]);
         } catch (error) {
+            console.error("AI Response Error in ChatPage:", error);
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',

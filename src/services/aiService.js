@@ -1,48 +1,33 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-
-// Use environment variable for the API key for better security
-// You can get a Gemini API Key from https://aistudio.google.com/
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDeROxeSW1DiT1NRGAck1VS-1BxD38k370';
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export const getAIResponse = async (userMessage, userId, userBirthData = null, userName = 'Seeker') => {
     try {
         console.log('Fetching AI Response for:', userMessage);
 
-        // Debug API Key (do not log full key in production)
-        if (!GEMINI_API_KEY) console.error("CRITICAL: No Gemini API Key found!");
-        else console.log("API Key loaded:", GEMINI_API_KEY.substring(0, 5) + "..." + GEMINI_API_KEY.substring(GEMINI_API_KEY.length - 4));
-
-        // LIST AVAILABLE MODELS (Debug Step)
-        try {
-            const modelList = await genAI.getGenerativeModel({ model: "gemini-pro" }).apiKey; // Hacky check doesn't list models directly in client SDK mostly.
-            // Client SDK doesn't expose listModels easily in v0.x
-            // We will rely on the 404 message from the loop if it fails.
-        } catch (e) {
-            console.log("Model check skipped");
-        }
-
         let birthDataText = '';
         let userContext = `User Name: ${userName}`;
 
         // 1. Try to fetch from Firestore (users/uid/...)
-        if (userId) {
-            const userDocRef = doc(db, 'users', userId);
-            const userDoc = await getDoc(userDocRef);
+        if (userId && userId !== 'guest') {
+            try {
+                const userDocRef = doc(db, 'users', userId);
+                const userDoc = await getDoc(userDocRef);
 
-            if (userDoc.exists()) {
-                const data = userDoc.data();
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
 
-                // Fetch stored name from Firestore if available
-                if (data.name || data.username) {
-                    userName = data.name || data.username;
+                    // Fetch stored name from Firestore if available
+                    if (data.name || data.username) {
+                        userName = data.name || data.username;
+                    }
+
+                    if (data.birthdate && data.birthtime && data.birthplace) {
+                        birthDataText = `Born on ${data.birthdate} at ${data.birthtime} in ${data.birthplace}.`;
+                    }
                 }
-
-                if (data.birthdate && data.birthtime && data.birthplace) {
-                    birthDataText = `Born on ${data.birthdate} at ${data.birthtime} in ${data.birthplace}.`;
-                }
+            } catch (firestoreError) {
+                console.warn('Failed to fetch user data from Firestore:', firestoreError);
             }
         }
 
@@ -84,37 +69,43 @@ Required JSON Structure:
   "mantra": "A relevant Sanskrit mantra in English transliteration."
 }`;
 
-        // EXCLUSIVE: Using ONLY gemini-2.5-flash as requested
-        const modelsToTry = ["gemini-3-flash-preview"];
+        const OPENROUTER_API_KEY = "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";
         let responseText = null;
 
-        for (const modelName of modelsToTry) {
-            try {
-                console.log(`Attempting to generate with model: ${modelName}`);
-                const model = genAI.getGenerativeModel({ model: modelName });
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                responseText = response.text();
+        try {
+            console.log(`Attempting to generate with OpenRouter (google/gemini-2.5-flash)...`);
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "google/gemini-2.5-flash",
+                    max_tokens: 1000,
+                    messages: [
+                        { role: "user", content: prompt }
+                    ]
+                })
+            });
 
-                if (responseText) {
-                    console.log(`Success with ${modelName}`);
-                    break; // Success!
-                }
-            } catch (modelError) {
-                // Log detailed error info
-                console.warn(`Failed with ${modelName}:`);
-                if (modelError.response) {
-                    console.warn(`Status: ${modelError.response.status}`);
-                    console.warn(`Body: ${JSON.stringify(modelError.response.data || await modelError.response.text())}`);
-                } else {
-                    console.warn(modelError.message || modelError);
-                }
-                // Continue to next model
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(`OpenRouter API error: ${response.status} ${errorData}`);
             }
+
+            const data = await response.json();
+            responseText = data.choices && data.choices[0] && data.choices[0].message.content;
+
+            if (responseText) {
+                console.log(`Success with OpenRouter`);
+            }
+        } catch (modelError) {
+            console.warn(`Failed with OpenRouter:`, modelError);
         }
 
         if (!responseText) {
-            throw new Error("All Gemini models failed to generate a response. Check console logs for details.");
+            throw new Error("OpenRouter failed to generate a response. Check console logs for details.");
         }
 
         console.log('Gemini Raw Response:', responseText);
@@ -167,20 +158,33 @@ export const getAssistantResponse = async (userMessage, userId, userName = 'Seek
           "suggestedActions": ["Action 1", "Action 2"]
         }`;
 
-        // Attempting multiple models for better reliability, same as chat
-        const modelsToTry = ["gemini-1.5-flash", "gemini-pro"];
+        const OPENROUTER_API_KEY = "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";
         let responseText = null;
 
-        for (const modelName of modelsToTry) {
-            try {
-                const model = genAI.getGenerativeModel({ model: modelName });
-                const result = await model.generateContent(prompt);
-                const response = await result.response;
-                responseText = response.text();
-                if (responseText) break;
-            } catch (err) {
-                console.warn(`Query Assistant failed with ${modelName}`, err);
+        try {
+            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "google/gemini-2.5-flash",
+                    max_tokens: 1000,
+                    messages: [
+                        { role: "user", content: prompt }
+                    ]
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                responseText = data.choices && data.choices[0] && data.choices[0].message.content;
+            } else {
+                console.warn(`Query Assistant OpenRouter Error: ${response.status}`);
             }
+        } catch (err) {
+            console.warn(`Query Assistant failed with OpenRouter`, err);
         }
 
         if (!responseText) throw new Error("Assistant engines exhausted");
@@ -225,10 +229,34 @@ export const generateTarotReading = async (userName, userQuestion, cardName, car
             "key_advice": "One sentence of direct advice based on this reading."
         }`;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const OPENROUTER_API_KEY = "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";
+        let text = null;
+
+        try {
+            const result = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "google/gemini-2.5-flash",
+                    max_tokens: 1000,
+                    messages: [
+                        { role: "user", content: prompt }
+                    ]
+                })
+            });
+
+            if (result.ok) {
+                const data = await result.json();
+                text = data.choices && data.choices[0] && data.choices[0].message.content;
+            } else {
+                throw new Error("Failed to fetch from OpenRouter");
+            }
+        } catch (e) {
+            throw new Error(`Tarot reading failed: ${e.message}`);
+        }
 
         console.log("Tarot AI Response:", text);
 
