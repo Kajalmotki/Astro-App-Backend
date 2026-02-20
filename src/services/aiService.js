@@ -58,15 +58,17 @@ User's Query: "${userMessage}"
 Instructions:
 0. If the user's query is not related to astrology, respond with a general Vedic wisdom. but first greet them with their name and ask what they need help with if they says hii or hello.
 1. Analyze the query based on the user's birth details (if available) or provide general Vedic wisdom.
-2. Tone: Spiritual, empathetic, professional, and mysterious.
-3. Address the user by name if appropriate.
-4. Output MUST be a valid JSON object. Do not include markdown code blocks or additional text.
+2. Tone: Spiritual and empathetic, but strictly short and precise.
+3. CRITICAL: Provide only short and precise answers. Answer strictly what is asked and do not hallucinate extra information or over-explain. Keep the prediction under 2-3 short sentences.
+4. Address the user by name if appropriate.
+5. Do NOT provide a mantra unless the user explicitly asks for one. If not requested, leave the mantra field as an empty string "".
+6. Output MUST be a valid JSON object. Do not include markdown code blocks or additional text.
 
 Required JSON Structure:
 {
-  "prediction": "Your personalized astrological insight (2-3 sentences).",
+  "prediction": "Your personalized astrological insight (2-3 sentences max).",
   "remedy": "A specific practical remedy (e.g., 'Feed birds on Wednesday' or 'Wear silver').",
-  "mantra": "A relevant Sanskrit mantra in English transliteration."
+  "mantra": "A relevant Sanskrit mantra ONLY IF specifically requested by the user, otherwise empty string ''."
 }`;
 
         const OPENROUTER_API_KEY = "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";
