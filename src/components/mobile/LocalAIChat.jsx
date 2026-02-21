@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
 import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
+import { getYogaRemedies } from '../../services/yogaRemediesEngine';
 import LocalAIBirthPortal from './LocalAIBirthPortal';
 import BeautifulD1Chart from './BeautifulD1Chart';
+import YogaRemediesCard from './YogaRemediesCard';
 import './LocalAIChat.css';
 
 const LOADING_MESSAGES = [
@@ -130,7 +132,7 @@ const LocalAIChat = () => {
                     ...(question ? {} : { followUpHint: true })
                 }]);
             }
-        } catch (error) {
+        } catch {
             setMessages(prev => [...prev, {
                 id: Date.now(), type: 'bot', isRawData: false, isError: true,
                 text: '⚠ Calculation engine error. Please try again.'
@@ -144,6 +146,16 @@ const LocalAIChat = () => {
         setMessages(prev => prev.map(m => ({ ...m, showQuickGenerate: false })));
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: 'Generate D1 Kundli Chart' }]);
         generateChart();
+    };
+
+    const handleYogaRemedies = () => {
+        if (!chartContext || !chartContext.chakras) return;
+        const remedies = getYogaRemedies(chartContext.chakras);
+        setMessages(prev => [
+            ...prev,
+            { id: Date.now(), type: 'user', text: '🌿 Show me Yoga Remedies for my chart' },
+            { id: Date.now() + 1, type: 'bot', isYogaData: true, yogaData: remedies }
+        ]);
     };
 
     const handleSend = async () => {
@@ -253,6 +265,8 @@ const LocalAIChat = () => {
                     <div key={m.id} className={`message-wrapper ${m.type}`}>
                         {m.isChartData && m.chartData ? (
                             <BeautifulD1Chart data={m.chartData} />
+                        ) : m.isYogaData && m.yogaData ? (
+                            <YogaRemediesCard remedies={m.yogaData} />
                         ) : (
                             <div className={`message ${m.type === 'bot' ? (m.isRawData ? 'raw-data-card' : 'system-msg') : 'user-bg'} ${m.isError ? 'error-msg' : ''}`}>
                                 {m.isRawData ? (
@@ -264,6 +278,20 @@ const LocalAIChat = () => {
                                 {m.showQuickGenerate && (
                                     <button onClick={handleQuickGenerate} className="quick-gen-btn">
                                         ✨ Generate Accurate D1 Chart Now
+                                    </button>
+                                )}
+
+                                {m.followUpHint && chartContext && chartContext.chakras && (
+                                    <button
+                                        onClick={handleYogaRemedies}
+                                        className="quick-gen-btn"
+                                        style={{
+                                            marginTop: '10px',
+                                            background: 'linear-gradient(135deg, #16a34a, #15803d)',
+                                            boxShadow: '0 4px 14px rgba(34, 197, 94, 0.35)'
+                                        }}
+                                    >
+                                        🌿 Yoga Remedies for My Chart
                                     </button>
                                 )}
                             </div>
