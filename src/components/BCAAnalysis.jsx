@@ -781,29 +781,49 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
                     {/* PAYWALL LOGIC: Hide if user has access OR if they opted to use their Birth Chart (as per user request) */}
                     {!(hasAccess || useSavedChart) && (
-                        <div className="glass-card" style={{
+                        <div className="glass-card premium-paywall-overlay" style={{
                             position: 'absolute',
                             top: 0, left: 0, width: '100%', height: '100%',
-                            background: 'rgba(0,0,0,0.85)',
-                            backdropFilter: 'blur(10px)',
+                            background: 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 100%)',
+                            backdropFilter: 'blur(15px) saturate(180%)',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            zIndex: 100
+                            zIndex: 100,
+                            borderRadius: '20px'
                         }}>
-                            <span style={{ fontSize: '3rem', marginBottom: '10px' }}>🔒</span>
-                            <h2 className="gold-text">Unlock Your Blueprint</h2>
-                            <p style={{ marginBottom: '20px', color: '#ccc', textAlign: 'center', padding: '0 20px' }}>
+                            <div className="cosmic-lock-icon" style={{
+                                fontSize: '4rem',
+                                marginBottom: '20px',
+                                textShadow: '0 0 20px rgba(212, 175, 55, 0.5)'
+                            }}>🔒</div>
+                            <h2 className="gold-text" style={{ fontSize: '1.8rem', marginBottom: '10px' }}>Unlock Your Blueprint</h2>
+                            <p style={{
+                                marginBottom: '30px',
+                                color: '#E2E8F0',
+                                textAlign: 'center',
+                                padding: '0 30px',
+                                lineHeight: '1.5',
+                                fontSize: '0.95rem'
+                            }}>
                                 Get your 21-Day Transformation Plan, detailed Chakra scores, and corrective Yoga prescription.
                             </p>
-                            <button className="buy-btn" style={{ width: '200px' }} onClick={() => {
-                                // Defaulting bypass behaviour for testing - the system should skip payment when test mode is active, but here we just manually bypass it if it fails or if the user clicks it.
+                            <button className="buy-btn golden-action-btn" style={{
+                                width: '220px',
+                                padding: '15px 30px',
+                                fontSize: '1rem',
+                                fontWeight: 'bold'
+                            }} onClick={() => {
+                                // Defaulting bypass behaviour for testing - the system should skip payment when test mode is active
                                 setHasAccess(true);
                                 handleUnlock();
                             }}>
                                 Unlock Full Plan (₹99)
                             </button>
+                            <p style={{ marginTop: '20px', fontSize: '0.8rem', color: '#718096' }}>
+                                Secure payment via Razorpay
+                            </p>
                         </div>
                     )}
 
