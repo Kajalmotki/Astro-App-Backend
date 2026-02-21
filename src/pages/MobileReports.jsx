@@ -602,6 +602,8 @@ const MobileReports = () => {
                 )}
             </div>
 
+
+
             <BCAAnalysis
                 isOpen={isBCAOpen}
                 onClose={() => setIsBCAOpen(false)}

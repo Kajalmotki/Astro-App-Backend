@@ -15,20 +15,33 @@
 }
 
 .mobile-logo {
-    font-family: 'Cinzel', serif;
-    font-size: 22px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    cursor: pointer;
-    letter-spacing: 1px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
     width: auto;
+    cursor: pointer;
+    z-index: 2;
+    /* Ensure it's above other elements */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-logo-text {
+    font-family: 'Michroma', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* Hide color for fallback */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
 }
 
 .mobile-menu-trigger {

@@ -24,7 +24,7 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
         <>
             <header className="mobile-main-header glass">
                 <div className="mobile-logo" onClick={() => handleNavigation('/mobile/home')}>
-                    <span className="logo-text">AstroRevo</span>
+                    <span className="mobile-logo-text">AstroRevo</span>
                 </div>
 
 

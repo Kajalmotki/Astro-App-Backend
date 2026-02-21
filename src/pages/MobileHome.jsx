@@ -5,6 +5,7 @@ import {
     KundliIcon, MatchmakingIcon, PanchangIcon, PoojaIcon,
     HoroscopeIcon, GemstoneIcon, KarmicIcon, NumerologyIcon
 } from '../components/icons/GoldIcons';
+import { Sparkles } from 'lucide-react'; // Added for Local AI icon
 import MagicCrystalBall from '../components/mobile/MagicCrystalBall';
 import TarotCardPicker from '../components/mobile/TarotCardPicker';
 import WhyAstroRevo from '../components/WhyAstroRevo';
@@ -19,8 +20,8 @@ const MobileHome = () => {
     const [showVideo, setShowVideo] = useState(false);
     const userName = "Seeker"; // TODO: Get from auth context
 
-    // Services List with Custom Gold Icons
     const services = [
+        { name: "Local AI (New)", icon: <Sparkles size={32} color="#FFD700" />, action: () => navigate('/mobile/local-ai') },
         { name: t("Chart"), icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
         { name: t("Matchmaking"), icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
         { name: t("Panchang"), icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },

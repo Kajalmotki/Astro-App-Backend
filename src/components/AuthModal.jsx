@@ -76,6 +76,8 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess, onMembershipPrompt }) => {
         }
     };
 
+
+
     if (!isOpen) return null;
 
     return (
@@ -121,6 +123,8 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess, onMembershipPrompt }) => {
                     </svg>
                     Continue with Google
                 </button>
+
+
 
                 <div className="auth-toggle">
                     {isLogin ? "Don't have an account? " : "Already have an account? "}
