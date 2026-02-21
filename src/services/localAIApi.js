@@ -157,9 +157,10 @@ Answer strictly based on the planetary placements in the chart above. Use BPHS a
 Be precise, engaging, and direct. 
 CRITICAL RULES FOR YOUR RESPONSE:
 1. Provide a concise, high-level answer.
-2. Do NOT list out all the house lords, detailed placements, or step-by-step astrological workings. Keep your internal calculations hidden.
-3. Just give the final synthesized insight and precise timing based on the current Dasha.
-4. Do not hallucinate planetary positions.`;
+2. If discussing remedies, wellness, struggles, or yoga, PROACTIVELY TELL THEM: "Your exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."
+3. Do NOT list out all the house lords, detailed placements, or step-by-step astrological workings. Keep your internal calculations hidden.
+4. Just give the final synthesized insight and precise timing based on the current Dasha.
+5. Do not hallucinate planetary positions.`;
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
