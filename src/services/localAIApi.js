@@ -1,5 +1,6 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
-
+import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
+import { calculateChakraStrengths } from "./strengthEngine.js";
 const OPENROUTER_API_KEY = "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";
 
 // Standard Vedic Signs in order (for whole-sign house calculation)
@@ -92,7 +93,14 @@ const precalculateChartData = (birthData) => {
             generatedRawText += `${p.name.padEnd(8)} | ${p.sign.padEnd(11)} ${p.deg} | House ${p.house}\n`;
         });
 
-        return { dayOfWeek, rawText: generatedRawText, ascSign: ascSignStr, planets: planetList };
+        const moonLong = bodies.moon.ChartPosition.Ecliptic.DecimalDegrees;
+        const dashaTree = getCurrentDashas(jsDate, moonLong, new Date());
+        const dashaString = getDashaString(dashaTree);
+
+        // Calculate Planetary Strengths & Chakras
+        const chakraData = calculateChakraStrengths(planetList);
+
+        return { dayOfWeek, rawText: generatedRawText, ascSign: ascSignStr, planets: planetList, dashaString, chakras: chakraData };
     } catch (err) {
         console.error("Math Engine Error during chart calculation:", err);
         return null;
@@ -114,32 +122,24 @@ Male/Female: ${birthData.gender}
 ${mathData.rawText}
 
 YOUR TASK:
-Output the D1 chart using EXACTLY this precalculated data in a beautiful ASCII box format.
-Then, quickly analyze the Yogas and current Mahadasha based on these placements.
+Analyze the provided exact data and return a STRICT JSON object representing the chart evaluation.
+DO NOT use markdown backticks around the JSON. DO NOT include any introductory or supplementary text.
+JUST pure, unescaped JSON matching this EXACT structure:
 
-OUTPUT FORMAT (No intro, no fluff, just this EXACT box structure):
-
-╔══════════════════════════════════╗
-║     D1 KUNDLI — STRICT VEDIC     ║
-╚══════════════════════════════════╝
-
-Day of Birth: ${mathData.dayOfWeek}
-Lagna: ${mathData.ascSign} (House 1)
-
-═══ PLANET POSITIONS ═══
-(Fill this in using the exact data provided above)
-☉ Sun      │ [Sign] [Deg] │ House [X]
-☽ Moon     │ [Sign] [Deg] │ House [X]
-... etc for all 9 planets ...
-
-═══ YOGAS ═══
-[Analyze the provided data to list any strong yogas (e.g. Gajakesari, Ruchaka) or write: None detected]
-
-═══ CURRENT DASHA ═══
-Mahadasha: [Calculate Mahadasha planet based on Moon degree] ([start year] – [end year])
-
----
-Chart generated. You can ask me about any house, planet, or life area.`;
+{
+  "lagna": "${mathData.ascSign}",
+  "dayOfBirth": "${mathData.dayOfWeek}",
+  "planets": [
+    { "name": "Sun", "sign": "[Sign]", "degree": "[Deg]", "house": 1 },
+    ... etc for all 9 planets using the exact data above
+  ],
+  "yogas": [
+    { "name": "Yoga Name", "description": "Brief description of the yoga and its meaning" }
+  ],
+  "chakras": ${JSON.stringify(mathData.chakras)},
+  "dashaTimeline": ${JSON.stringify(mathData.dashaString)},
+  "dashaInsight": "Provide a short 2-3 sentence interpretation of the current Antardasha phase based ONLY on the calculated values above."
+}`;
 };
 
 /**
@@ -154,7 +154,12 @@ ${previousChart}
 The user now asks: "${question}"
 
 Answer strictly based on the planetary placements in the chart above. Use BPHS and Saravali rules.
-Be precise, engaging, and direct. Do not hallucinate planetary positions.`;
+Be precise, engaging, and direct. 
+CRITICAL RULES FOR YOUR RESPONSE:
+1. Provide a concise, high-level answer.
+2. Do NOT list out all the house lords, detailed placements, or step-by-step astrological workings. Keep your internal calculations hidden.
+3. Just give the final synthesized insight and precise timing based on the current Dasha.
+4. Do not hallucinate planetary positions.`;
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
@@ -193,6 +198,21 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
         const data = await response.json();
         const responseText = data.choices?.[0]?.message?.content;
         if (!responseText) throw new Error("No response from AI.");
+
+        // If it's the initial chart generation, parse the JSON
+        if (!previousChart) {
+            try {
+                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+                const jsonStr = jsonMatch ? jsonMatch[0] : responseText;
+                const parsedChart = JSON.parse(jsonStr);
+                return { isChartData: true, data: parsedChart };
+            } catch (err) {
+                console.error("Failed to parse AI JSON chart response:", err, responseText);
+                return { isChartData: true, error: true, data: responseText };
+            }
+        }
+
+        // Otherwise return normal text string for followups
         return responseText;
     } catch (error) {
         console.error("Local AI Error:", error);

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
 import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
 import LocalAIBirthPortal from './LocalAIBirthPortal';
+import BeautifulD1Chart from './BeautifulD1Chart';
 import './LocalAIChat.css';
 
 const LOADING_MESSAGES = [
@@ -71,9 +72,9 @@ const LocalAIChat = () => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
     };
 
-    const saveChart = (chartText) => {
+    const saveChart = (chartObj) => {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        saved.savedChart = chartText;
+        saved.savedChart = chartObj;
         saved.savedAt = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
     };
@@ -96,31 +97,36 @@ const LocalAIChat = () => {
         setIsTyping(true);
         try {
             const userName = currentProfile.name || user?.displayName || 'Seeker';
-            // If question asked and chart exists, pass chart as context
-            const responseText = await getLocalAIAstrologerResponse(
+            // If question asked and chart exists, pass chart as context (stringify if it's an object)
+            const contextArg = question && chartContext ?
+                (typeof chartContext === 'object' ? JSON.stringify(chartContext) : chartContext)
+                : null;
+
+            const response = await getLocalAIAstrologerResponse(
                 question || 'GENERATE_FULL_D1',
                 userName,
                 currentProfile,
-                question ? chartContext : null  // Only pass context for follow-up questions
+                contextArg
             );
-            // Store chart for future follow-up questions
-            if (!question) {
-                setChartContext(responseText);
-                saveChart(responseText);
-                // Show a save prompt message after chart is generated
+
+            // Initial Chart Generation (Returns Object {isChartData: true, data: {...}})
+            if (!question && response.isChartData) {
+                setChartContext(response.data);
+                saveChart(response.data);
+
                 setMessages(prev => [...prev,
                 {
-                    id: Date.now(), type: 'bot', isRawData: !question, text: responseText,
-                    ...(question ? {} : { followUpHint: true })
+                    id: Date.now(), type: 'bot', isChartData: true, chartData: response.data
                 },
                 {
-                    id: Date.now() + 2, type: 'bot', isRawData: false,
-                    text: '✅ Chart generated and auto-saved to your profile!\n\n💾 Where to find it: This chart stays saved on this device. Next time you open Local AI, tap ✨ Generate D1 Chart Now to instantly reload it without re-entering details.\n\n📌 You can now ask me specific questions like:\n• \'What does my 7th house say?\'\n• \'Tell me about my Moon placement\'\n• \'Which planets aspect my Lagna?\''
+                    id: Date.now() + 2, type: 'bot', isRawData: false, followUpHint: true,
+                    text: '✅ Chart generated and auto-saved to your profile!\n\n💾 Where to find it: This chart stays saved on this device. Next time you open Local AI, tap ✨ Use This Profile to instantly reload it without re-entering details.\n\n📌 You can now ask me specific questions like:\n• \'What does my 7th house say?\'\n• \'Tell me about my Moon placement\'\n• \'Which planets aspect my Lagna?\''
                 }
                 ]);
             } else {
+                // Follow up QA
                 setMessages(prev => [...prev, {
-                    id: Date.now(), type: 'bot', isRawData: !question, text: responseText,
+                    id: Date.now(), type: 'bot', isRawData: false, isChartData: false, text: response,
                     ...(question ? {} : { followUpHint: true })
                 }]);
             }
@@ -245,19 +251,23 @@ const LocalAIChat = () => {
             <div className="chat-messages-scroll-area">
                 {messages.map((m) => (
                     <div key={m.id} className={`message-wrapper ${m.type}`}>
-                        <div className={`message ${m.type === 'bot' ? (m.isRawData ? 'raw-data-card' : 'system-msg') : 'user-bg'} ${m.isError ? 'error-msg' : ''}`}>
-                            {m.isRawData ? (
-                                <pre className="raw-response-text">{m.text}</pre>
-                            ) : (
-                                <p style={{ whiteSpace: 'pre-wrap' }}>{m.text}</p>
-                            )}
+                        {m.isChartData && m.chartData ? (
+                            <BeautifulD1Chart data={m.chartData} />
+                        ) : (
+                            <div className={`message ${m.type === 'bot' ? (m.isRawData ? 'raw-data-card' : 'system-msg') : 'user-bg'} ${m.isError ? 'error-msg' : ''}`}>
+                                {m.isRawData ? (
+                                    <pre className="raw-response-text">{m.text}</pre>
+                                ) : (
+                                    <p style={{ whiteSpace: 'pre-wrap' }}>{m.text}</p>
+                                )}
 
-                            {m.showQuickGenerate && (
-                                <button onClick={handleQuickGenerate} className="quick-gen-btn">
-                                    ✨ Generate Accurate D1 Chart Now
-                                </button>
-                            )}
-                        </div>
+                                {m.showQuickGenerate && (
+                                    <button onClick={handleQuickGenerate} className="quick-gen-btn">
+                                        ✨ Generate Accurate D1 Chart Now
+                                    </button>
+                                )}
+                            </div>
+                        )}
                     </div>
                 ))}
 

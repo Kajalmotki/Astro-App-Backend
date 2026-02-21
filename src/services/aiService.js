@@ -1,5 +1,7 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
+import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
 
 export const getAIResponse = async (userMessage, userId, userBirthData = null, userName = 'Seeker') => {
     try {
@@ -41,17 +43,63 @@ export const getAIResponse = async (userMessage, userId, userBirthData = null, u
             }
         }
 
-        if (!birthDataText) {
-            birthDataText = 'Birth data not available. General inquiry.';
+        let dashaContext = "";
+        try {
+            let dateToParse, timeToParse, latToParse = 0, lngToParse = 0;
+
+            if (userBirthData && userBirthData.day && userBirthData.year) {
+                dateToParse = `${userBirthData.day}/${userBirthData.month}/${userBirthData.year}`;
+                timeToParse = `${userBirthData.hour}:${userBirthData.min}`;
+                latToParse = parseFloat(userBirthData.lat || 0);
+                lngToParse = parseFloat(userBirthData.lng || 0);
+            } else if (userBirthData && userBirthData.date) {
+                dateToParse = userBirthData.date;
+                timeToParse = userBirthData.time;
+                latToParse = parseFloat(userBirthData.lat || 0);
+                lngToParse = parseFloat(userBirthData.lng || 0);
+            } else if (birthDataText && birthDataText.includes('Born on')) {
+                // Example: Born on 01/04/1991 at 09:45 in Ahmedabad.
+                const match = birthDataText.match(/Born on (\d{2}\/\d{2}\/\d{4}) at (\d{1,2}:\d{2})/);
+                if (match) {
+                    dateToParse = match[1];
+                    timeToParse = match[2];
+                }
+            }
+
+            if (dateToParse && timeToParse) {
+                const [day, month, year] = dateToParse.split(/[-/]/).map(Number);
+                const [hour, minute] = timeToParse.split(':').map(Number);
+                const origin = new Origin({
+                    year, month: month - 1, date: day,
+                    hour, minute,
+                    latitude: latToParse, longitude: lngToParse
+                });
+                const horoscope = new Horoscope({
+                    origin,
+                    houseSystem: "placidus",
+                    zodiac: "sidereal",
+                    aspectPoints: ["bodies"],
+                    aspectWithPoints: ["bodies"],
+                    aspectTypes: [],
+                    customOrbs: {},
+                    language: "en"
+                });
+                const moonLong = horoscope.CelestialBodies.moon.ChartPosition.Ecliptic.DecimalDegrees;
+                const jsDate = new Date(year, month - 1, day, hour, minute);
+                const dashaTree = getCurrentDashas(jsDate, moonLong, new Date());
+                dashaContext = `\n- Current Active Dasha (Mathematically Calculated, use this as absolute truth):\n${getDashaString(dashaTree)}`;
+            }
+        } catch (e) {
+            console.warn("Could not calculate background dasha:", e);
         }
 
-        console.log('AI Context:', birthDataText);
+        console.log('AI Context:', birthDataText, dashaContext);
 
         const prompt = `You are AstroAI, an enlightened and personalized Vedic astrology engine.
 
 User Profile:
 - Name: ${userName}
-- Natal Details: ${birthDataText}
+- Natal Details: ${birthDataText}${dashaContext}
 
 User's Query: "${userMessage}"
 
@@ -59,7 +107,7 @@ Instructions:
 0. If the user's query is not related to astrology, respond with a general Vedic wisdom. but first greet them with their name and ask what they need help with if they says hii or hello.
 1. Analyze the query based on the user's birth details (if available) or provide general Vedic wisdom.
 2. Tone: Spiritual and empathetic, but strictly short and precise.
-3. CRITICAL: Provide only short and precise answers. Answer strictly what is asked and do not hallucinate extra information or over-explain. Keep the prediction under 2-3 short sentences.
+3. CRITICAL: Provide only short and precise answers. Answer strictly what is asked and do not hallucinate extra information or over-explain. If the user asks about their Dasha, refer to the mathematical Current Active Dasha provided in the profile. Keep the prediction under 2-3 short sentences.
 4. Address the user by name if appropriate.
 5. Do NOT provide a mantra unless the user explicitly asks for one. If not requested, leave the mantra field as an empty string "".
 6. Output MUST be a valid JSON object. Do not include markdown code blocks or additional text.

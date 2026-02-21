@@ -1,0 +1,459 @@
+.beautiful-d1-container {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(16, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 215, 0, 0.1);
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.beautiful-d1-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #ffd700, #f59e0b, transparent);
+    opacity: 0.8;
+}
+
+.d1-header {
+    text-align: center;
+    padding: 24px 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    background: radial-gradient(circle at top, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
+}
+
+.d1-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+    color: #ffd700;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.d1-header-sub {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.lagna-badge {
+    background: rgba(255, 215, 0, 0.15);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    color: #ffd700;
+    font-weight: 600;
+}
+
+.d1-section {
+    padding: 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.d1-section-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #94a3b8;
+    margin: 0 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.d1-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.planet-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.9rem;
+}
+
+.planet-table th {
+    text-align: left;
+    padding: 8px 12px;
+    color: #94a3b8;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.planet-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.planet-table tr:last-child td {
+    border-bottom: none;
+}
+
+.planet-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+
+.planet-icon {
+    color: #ffd700;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.house-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+}
+
+.yogas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.yoga-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid #ffd700;
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+}
+
+.yoga-name {
+    margin: 0 0 4px 0;
+    color: #ffd700;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.yoga-desc {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+.dasha-stepper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 15px;
+}
+
+.dasha-step {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 28px;
+}
+
+.dasha-step:last-child {
+    padding-bottom: 0;
+}
+
+.dasha-step::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    /* node is 12px, half is 6, adjust line */
+    top: 14px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.dasha-step:last-child::before {
+    display: none;
+}
+
+.dasha-step-node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    position: relative;
+    z-index: 2;
+    margin-top: 6px;
+}
+
+.dasha-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 14px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dasha-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    padding-bottom: 8px;
+}
+
+.dasha-level {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.dasha-planet {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffd700;
+}
+
+.dasha-dates {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.dasha-insight {
+    margin: 20px 0 0 0;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #f8fafc;
+    line-height: 1.6;
+    box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.05);
+}
+
+.dasha-insight::before {
+    content: '✨ AI Insight: ';
+    display: block;
+    color: #ffd700;
+    font-weight: 800;
+    font-style: normal;
+    margin-bottom: 8px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+}
+
+/* --- Chakra & Strength Section --- */
+
+.chakra-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chakra-card {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chakra-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--chakra-color);
+}
+
+.chakra-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.chakra-title-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.chakra-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--chakra-color);
+    margin: 0 0 4px 0;
+    font-family: 'Cinzel', serif;
+}
+
+.chakra-theme {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin: 0;
+    font-style: italic;
+}
+
+.chakra-planet-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chakra-progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chakra-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.chakra-dignity-label {
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.chakra-percent-label {
+    color: var(--chakra-color);
+    font-weight: 700;
+}
+
+.chakra-progress-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.chakra-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, var(--chakra-color) 10%);
+    border-radius: 6px;
+    transition: width 1s ease-out;
+}
+
+/* --- Dasha Stepper UI --- */
+.dasha-stepper {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.dasha-step {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 28px;
+}
+
+.dasha-step:last-child {
+    padding-bottom: 0;
+}
+
+.dasha-step::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    /* node is 12px, half is 6, adjust line */
+    top: 14px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+.dasha-step:last-child::before {
+    display: none;
+}
+
+.dasha-step-node {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    position: relative;
+    z-index: 2;
+    margin-top: 6px;
+}
+
+.dasha-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 14px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dasha-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    padding-bottom: 8px;
+}
+
+.dasha-level {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dasha-planet {
+    font-weight: 600;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+}
+
+.dasha-dates {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -46,24 +46,6 @@ const MagicCrystalBall = () => {
 
     return (
         <div className="crystal-ball-container">
-            {/* Curved Title */}
-            <div className="crystal-ball-title-container">
-                <svg width="220" height="50" viewBox="0 0 220 50" className="curved-title-svg">
-                    <defs>
-                        <path id="curvePath" d="M10,50 Q110,0 210,50" />
-                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#FFD700" />
-                            <stop offset="50%" stopColor="#F0E68C" />
-                            <stop offset="100%" stopColor="#FFD700" />
-                        </linearGradient>
-                    </defs>
-                    <text>
-                        <textPath href="#curvePath" startOffset="50%" textAnchor="middle" className="curved-title-text">
-                            {t("Magic Crystal Ball")}
-                        </textPath>
-                    </text>
-                </svg>
-            </div>
 
             <div className={`crystal-ball-wrapper ${isShaking ? 'shaking' : ''}`} onClick={handleReveal}>
                 <div className="crystal-ball-sphere">
