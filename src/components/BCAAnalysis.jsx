@@ -4,6 +4,9 @@ import { useAuth } from './AuthModal';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { processPayment } from '../services/razorpayService';
+import { getYogaRemedies } from '../services/yogaRemediesEngine';
+import { generateYogaPlan } from '../services/yogaPlanEngine';
+import YogaPlanModal from './mobile/YogaPlanModal';
 import './BCAAnalysis.css';
 
 const BCAAnalysis = ({ isOpen, onClose }) => {
@@ -109,72 +112,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         });
     };
 
-    const generate21DayPlan = (profile) => {
-        const plan = [];
-        const { cidShape, yogaPrescription, chakras } = profile;
-
-        // Loop 21 days
-        for (let i = 1; i <= 21; i++) {
-            let focus = "";
-            let routine = [];
-
-            // --- PHASES ---
-            if (i <= 7) {
-                // Phase 1: Cleansing & Foundation (Root/Sacral)
-                focus = "Detox & Foundation";
-                const asana = i % 2 !== 0 ? "Surya Namaskar (Sun Salutation)" : (yogaPrescription[0]?.name || "Balasana");
-
-                routine = [
-                    { time: "5 min", activity: "Joint Release (Pawanmuktasana Series)", type: "warmup" },
-                    { time: "5 min", activity: "Cat-Cow & Child's Pose Flow", type: "yoga" },
-                    { time: "8 min", activity: `${asana} - 5 Rounds Slow`, type: "yoga" },
-                    { time: "7 min", activity: cidShape === 'C' ? "Brisk Walk / Spot Jogging" : "Malasana (Squat) & Lunges", type: "workout" },
-                    { time: "5 min", activity: "Pranayama (Kapalbhati - Skull Shining)", type: "mind" }
-                ];
-
-            } else if (i <= 14) {
-                // Phase 2: Fire & Strength (Solar/Heart)
-                focus = "Igniting the Fire";
-                const asana = yogaPrescription[1]?.name || "Warrior II";
-
-                routine = [
-                    { time: "5 min", activity: "Active Warmup (Jumping Jacks/High Knees)", type: "warmup" },
-                    { time: "5 min", activity: "Boat Pose (Navasana) Intervals", type: "yoga" },
-                    { time: "8 min", activity: `${asana} & Reverse Warrior Flow`, type: "yoga" },
-                    { time: "7 min", activity: cidShape === 'D' ? "Pushups & Plank Holds" : "Burpees (Modified) & Climbers", type: "workout" },
-                    { time: "5 min", activity: "Breath of Fire (Bhastrika)", type: "mind" }
-                ];
-
-            } else {
-                // Phase 3: Flow & Expansion (Throat/Third Eye/Crown)
-                focus = "Flow & Integration";
-                const asana = yogaPrescription[2]?.name || "Tree Pose";
-
-                routine = [
-                    { time: "5 min", activity: "Neck & Shoulder Opening", type: "warmup" },
-                    { time: "5 min", activity: "Tree Pose (Vrikshasana) Balance", type: "yoga" },
-                    { time: "10 min", activity: `Vinyasa Flow focusing on ${asana}`, type: "yoga" },
-                    { time: "5 min", activity: "Inversion Prep (Bridge/Shoulder Stand)", type: "workout" },
-                    { time: "5 min", activity: "Nadi Shodhana (Alt Nostril Breathing)", type: "mind" }
-                ];
-            }
-
-            // Rest Days (Day 4, 11, 18)
-            if (i === 4 || i === 11 || i === 18) {
-                focus = "Restoration";
-                routine = [
-                    { time: "5 min", activity: "Gentle Spinal Twists", type: "warmup" },
-                    { time: "10 min", activity: "Legs Up The Wall (Viparita Karani)", type: "yoga" },
-                    { time: "5 min", activity: "Supta Baddha Konasana (Reclined Bound Angle)", type: "yoga" },
-                    { time: "5 min", activity: "Deep Belly Breathing", type: "mind" },
-                    { time: "5 min", activity: "Gratitude Journaling", type: "mind" }
-                ];
-            }
-
-            plan.push({ day: i, focus, routine });
-        }
-        return plan;
-    };
+    // Removing old fitness-based generate21DayPlan
 
 
     const calculateBCA = () => {
@@ -344,8 +282,25 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         ));
 
 
-        // --- 6. GENERATE 21-DAY PLAN ---
-        const plan21Day = generate21DayPlan({ cidShape, yogaPrescription, chakras });
+        // --- 6. GENERATE 21-DAY ASTRO-YOGA PLAN FROM PHYSICAL CHAKRAS ---
+        // Map physical chakras to planetary equivalents for the Yoga Engine
+        const chakraPlanetMap = {
+            "Root": "Mars",
+            "Sacral": "Jupiter",
+            "Solar Plexus": "Venus",
+            "Heart": "Mercury",
+            "Throat": "Saturn",
+            "Third Eye": "Sun",
+            "Crown": "Moon"
+        };
+
+        const mappedChakras = chakras.map(c => ({
+            planet: chakraPlanetMap[c.name],
+            strengthPercent: c.score
+        }));
+
+        const remedies = getYogaRemedies(mappedChakras);
+        const plan21Day = generateYogaPlan(remedies);
 
         // Macros
         const bmr = 10 * weightKg + 6.25 * heightCm - 5 * formData.age + (formData.gender === 'male' ? 5 : -161);
@@ -567,70 +522,8 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         const plan = result?.plan21Day || [];
 
         return (
-            <div className="bca-journey-view full-page" style={{ zIndex: 2147483647 }}>
-                {renderRoutinePlayer()}
-                {selectedDay && renderDayDetail(selectedDay)}
-
-                <div className="journey-container">
-                    <div className="journey-header">
-                        <h2 className="journey-title">21-Day Transformation</h2>
-                        <p className="journey-sub">Consistent action creates cellular memory. Tap a day to begin.</p>
-                        <button className="bca-close-btn" onClick={onClose} style={{ top: 20, right: 20 }}>&times;</button>
-                    </div>
-
-                    {/* NOTIFICATION (Premium Glass) */}
-                    <div className="notification-bar glass-panel">
-                        <div className="notif-content">
-                            <div className="notif-icon-box">
-                                <span className="bell-icon">🔔</span>
-                            </div>
-                            <div className="notif-text-group">
-                                <p className="notif-title">Daily Reminder</p>
-                                <p className="notif-subtitle">Commit to your practice.</p>
-                            </div>
-                        </div>
-
-                        <div className="notif-actions">
-                            <div className="time-input-wrapper">
-                                <input
-                                    type="time"
-                                    className="notif-time-input"
-                                    value={notificationTime}
-                                    onChange={(e) => setNotificationTime(e.target.value)}
-                                />
-                            </div>
-                            <button
-                                className={`notif-btn ${isNotifActive ? 'active' : ''}`}
-                                onClick={toggleNotification}
-                            >
-                                {isNotifActive ? 'ON' : 'SET'}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* CALENDAR GRID */}
-                    <div className="calendar-grid">
-                        {plan.map((day) => {
-                            const isRest = day.focus.includes("Restoration");
-                            const isMilestone = day.day % 7 === 0;
-                            // Helper for quick status visualization
-                            let statusClass = "normal";
-                            if (isRest) statusClass = "rest-day";
-                            if (isMilestone) statusClass = "milestone-day";
-
-                            return (
-                                <button
-                                    key={day.day}
-                                    className={`cal-day-btn ${statusClass}`}
-                                    onClick={() => setSelectedDay(day)}
-                                >
-                                    <span className="cal-day-num">{day.day}</span>
-                                    {isMilestone && <span className="cal-badge">★</span>}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
+            <div style={{ position: 'fixed', inset: 0, zIndex: 2147483647 }}>
+                <YogaPlanModal plan={plan} onClose={() => setStep('RESULT')} />
             </div>
         );
     };

@@ -110,23 +110,23 @@ const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
 };
 
 const buildExtracts = (remedy) => {
-    const r = remedy.remedies;
+    const r = remedy.remedies || {};
     if (remedy.isWeak) {
         const asana = r.asanas?.[0] || { name: 'Shavasana', description: 'Complete rest' };
         const pranayamaItem = r.pranayama?.[0] || { name: 'Nadi Shodhana', description: '10 rounds' };
         return {
-            weeklyPlanAsanas: `${asana.name}`,
-            pranayama: pranayamaItem.name,
+            weeklyPlanAsanas: `${asana.name || 'Shavasana'}`,
+            pranayama: pranayamaItem.name || 'Nadi Shodhana',
             mudra: r.mudra?.name || 'Jnana Mudra',
-            meditation: r.meditation?.name || `Bija Mantra — ${remedy.bijaMantra}`
+            meditation: r.meditation?.name || `Bija Mantra — ${remedy.bijaMantra || 'OM'}`
         };
     } else {
-        const asanas = r.asanas || ['Shavasana', 'Nadi Shodhana'];
+        const asanas = r.asanas || ['Shavasana'];
         return {
             weeklyPlanAsanas: asanas[0] || 'Shavasana',
             pranayama: r.pranayama || 'Nadi Shodhana',
             mudra: 'Dhyana Mudra',
-            meditation: `Bija Chant — ${remedy.bijaMantra} (21 rounds)`
+            meditation: `Bija Chant — ${remedy.bijaMantra || 'OM'} (21 rounds)`
         };
     }
 };

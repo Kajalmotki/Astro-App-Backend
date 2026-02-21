@@ -354,10 +354,10 @@ export const getYogaRemedies = (chakras) => {
                 element: db.element,
                 bijaMantra: db.bijaMantra,
                 color: db.color,
-                theme: c.theme,
+                theme: c.theme || 'Physical Alignment',
                 strengthPercent: c.strengthPercent,
-                state: c.state,
-                dignityLabel: c.dignityLabel,
+                state: c.state || (isStrong ? 'Strong' : 'Weak'),
+                dignityLabel: c.dignityLabel || 'Bio-Feedback Score',
                 isWeak,
                 isStrong,
                 remedies: isWeak ? db.weakRemedies : db.strongRemedies
