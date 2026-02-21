@@ -9,18 +9,21 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1200,
-    reportCompressedSize: false, // Speed up build
+    reportCompressedSize: false,
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-utils': ['lucide-react', 'downloadjs', 'html-to-image'],
           'vendor-firebase': ['firebase/app', 'firebase/firestore', 'firebase/auth'],
-          'vendor-charts': ['circular-natal-horoscope-js'],
+          'vendor-charts': ['circular-natal-horoscope-js/dist/index.js'],
         }
       }
     },
-    minify: 'esbuild', // Ensure esbuild is used for speed
-    sourcemap: false // Disable sourcemaps for production build speed
+    minify: 'esbuild',
+    sourcemap: false
+  },
+  optimizeDeps: {
+    include: ['circular-natal-horoscope-js/dist/index.js']
   }
 })
