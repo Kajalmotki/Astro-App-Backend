@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './YogaRemediesCard.css';
 
+// ⚙ Set to false and configure Razorpay when ready to go live
+const TEST_MODE = true;
+
 const PLANET_ICONS = {
     Sun: '☉', Moon: '☽', Mars: '♂', Mercury: '☿',
     Jupiter: '♃', Venus: '♀', Saturn: '♄'
@@ -134,8 +137,25 @@ const PlanetRemedyCard = ({ remedy }) => {
     );
 };
 
-const YogaRemediesCard = ({ remedies }) => {
+const YogaRemediesCard = ({ remedies, onUnlockPlan }) => {
     if (!remedies || remedies.length === 0) return null;
+    const [showPaywall, setShowPaywall] = useState(false);
+
+    const handleUnlockClick = () => {
+        if (TEST_MODE) {
+            // Skip payment in test mode
+            onUnlockPlan && onUnlockPlan();
+        } else {
+            setShowPaywall(true);
+        }
+    };
+
+    const handlePayment = () => {
+        // TODO: Integrate Razorpay here for ₹199 charge
+        // For now just proceed
+        setShowPaywall(false);
+        onUnlockPlan && onUnlockPlan();
+    };
 
     const weakCount = remedies.filter(r => r.isWeak).length;
     const strongCount = remedies.filter(r => r.isStrong).length;
@@ -181,11 +201,41 @@ const YogaRemediesCard = ({ remedies }) => {
                 ))}
             </div>
 
+            {/* Paywall Popup */}
+            {showPaywall && (
+                <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.9)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                    <div style={{ width: '100%', maxWidth: 440, background: '#0a0d14', borderRadius: '22px 22px 0 0', padding: '28px 24px 48px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '3rem', marginBottom: 12 }}>🌿</div>
+                        <h3 style={{ fontFamily: 'Cinzel, serif', color: '#ffd700', margin: '0 0 8px', fontSize: '1.3rem' }}>21-Day Yoga Transformation</h3>
+                        <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 20 }}>Your personalised plan based on your exact Kundli. 3 phases, 21 days, curated from classical texts.</p>
+                        <div style={{ fontSize: '2.8rem', fontWeight: 900, color: '#f1f5f9', fontFamily: 'Cinzel, serif', marginBottom: 4 }}>₹199</div>
+                        <p style={{ color: '#475569', fontSize: '0.75rem', marginBottom: 24 }}>one-time · instant access · offline</p>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', textAlign: 'left' }}>
+                            {['✓ Personalised for your exact birth chart', '✓ Asanas, pranayamas and bija mantras per day', '✓ 3-phase transformation programme', '✓ Based on 4 classical yoga texts'].map((b, i) => (
+                                <li key={i} style={{ padding: '7px 0', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#cbd5e1', fontSize: '0.85rem' }}>{b}</li>
+                            ))}
+                        </ul>
+                        <button onClick={handlePayment} style={{ width: '100%', padding: 16, background: 'linear-gradient(135deg, #d97706, #b45309)', border: 'none', borderRadius: 14, color: '#fff', fontSize: '1rem', fontWeight: 700, fontFamily: 'Cinzel, serif', cursor: 'pointer', boxShadow: '0 8px 24px rgba(217,119,6,0.4)', marginBottom: 12 }}>Unlock for ₹199</button>
+                        <button onClick={() => setShowPaywall(false)} style={{ background: 'none', border: 'none', color: '#475569', fontSize: '0.85rem', cursor: 'pointer' }}>Maybe later</button>
+                    </div>
+                </div>
+            )}
+
             {/* Footer note */}
             <p className="yrc-footer-note">
                 Practice these remedies consistently for 40 days (Mandala Kala) for lasting transformation.
                 Consult a qualified yoga teacher for advanced practices like Sirshasana and Khechari Mudra.
             </p>
+
+            {/* Unlock 21-Day Plan Button */}
+            <button className="yrc-unlock-btn" onClick={handleUnlockClick}>
+                <span className="yrc-unlock-icon">🗓</span>
+                <div className="yrc-unlock-text">
+                    <span className="yrc-unlock-title">Unlock Your 21-Day Yoga Plan</span>
+                    <span className="yrc-unlock-sub">{TEST_MODE ? 'Free (Test Mode)' : '₹199 · Personalised for your Kundli'}</span>
+                </div>
+                <span className="yrc-unlock-arrow">›</span>
+            </button>
         </div>
     );
 };

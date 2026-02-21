@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
 import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
 import { getYogaRemedies } from '../../services/yogaRemediesEngine';
+import { generateYogaPlan } from '../../services/yogaPlanEngine';
 import LocalAIBirthPortal from './LocalAIBirthPortal';
 import BeautifulD1Chart from './BeautifulD1Chart';
 import YogaRemediesCard from './YogaRemediesCard';
+import YogaPlanModal from './YogaPlanModal';
 import './LocalAIChat.css';
 
 const LOADING_MESSAGES = [
@@ -35,6 +37,7 @@ const LocalAIChat = () => {
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
+    const [yogaPlan, setYogaPlan] = useState(null);
 
     // Rotate loading messages while typing
     useEffect(() => {
@@ -158,6 +161,13 @@ const LocalAIChat = () => {
         ]);
     };
 
+    const handleUnlockPlan = () => {
+        if (!chartContext || !chartContext.chakras) return;
+        const remedies = getYogaRemedies(chartContext.chakras);
+        const plan = generateYogaPlan(remedies);
+        setYogaPlan(plan);
+    };
+
     const handleSend = async () => {
         if (!inputValue.trim()) return;
         const q = inputValue.trim();
@@ -266,7 +276,10 @@ const LocalAIChat = () => {
                         {m.isChartData && m.chartData ? (
                             <BeautifulD1Chart data={m.chartData} />
                         ) : m.isYogaData && m.yogaData ? (
-                            <YogaRemediesCard remedies={m.yogaData} />
+                            <YogaRemediesCard
+                                remedies={m.yogaData}
+                                onUnlockPlan={handleUnlockPlan}
+                            />
                         ) : (
                             <div className={`message ${m.type === 'bot' ? (m.isRawData ? 'raw-data-card' : 'system-msg') : 'user-bg'} ${m.isError ? 'error-msg' : ''}`}>
                                 {m.isRawData ? (
@@ -324,6 +337,12 @@ const LocalAIChat = () => {
                     ➤
                 </button>
             </div>
+            {yogaPlan && (
+                <YogaPlanModal
+                    plan={yogaPlan}
+                    onClose={() => setYogaPlan(null)}
+                />
+            )}
         </div>
     );
 };

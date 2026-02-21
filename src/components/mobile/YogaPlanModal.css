@@ -1,0 +1,615 @@
+/* YogaPlanModal.css — 21-Day Transformation Calendar UI */
+
+/* ============ FULL-SCREEN OVERLAY ============ */
+.ydp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 0 0 80px 0;
+    overscroll-behavior: contain;
+}
+
+.ydp-container {
+    width: 100%;
+    max-width: 440px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0a0d14 0%, #060810 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============ HEADER ============ */
+.ydp-header {
+    position: relative;
+    padding: 20px 18px 16px;
+    background: linear-gradient(135deg, rgba(253, 186, 116, 0.12), rgba(0, 0, 0, 0.6));
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    overflow: hidden;
+}
+
+.ydp-header-glow {
+    position: absolute;
+    top: -60px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.12), transparent 70%);
+    pointer-events: none;
+}
+
+.ydp-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    color: #94a3b8;
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.ydp-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.ydp-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+}
+
+.ydp-title {
+    margin: 0 0 4px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 1px;
+}
+
+.ydp-subtitle {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+/* Progress */
+.ydp-progress-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.ydp-progress-pct {
+    color: #ffd700;
+    font-weight: 700;
+}
+
+.ydp-progress-bg {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.ydp-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #16a34a, #ffd700);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* Meta tags */
+.ydp-meta-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ydp-meta-tag {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    color: #64748b;
+}
+
+/* ============ PHASE TABS ============ */
+.ydp-phase-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+}
+
+.ydp-phase-tab {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.ydp-tab-active {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #fff;
+}
+
+/* ============ 21-DAY GRID ============ */
+.ydp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 16px 14px;
+}
+
+.ydp-day-tile {
+    position: relative;
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+    padding: 8px 4px;
+    overflow: hidden;
+}
+
+.ydp-day-tile:active {
+    transform: scale(0.95);
+}
+
+.ydp-day-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.ydp-day-tile:hover::before {
+    border-color: var(--tile-clr, #ffd700);
+}
+
+/* Phase-specific subtle tints */
+.ydp-phase-1 {
+    background: rgba(22, 163, 74, 0.06);
+}
+
+.ydp-phase-2 {
+    background: rgba(37, 99, 235, 0.06);
+}
+
+.ydp-phase-3 {
+    background: rgba(217, 119, 6, 0.08);
+}
+
+.ydp-done {
+    background: rgba(255, 215, 0, 0.12) !important;
+    border-color: rgba(255, 215, 0, 0.4) !important;
+}
+
+/* Day number */
+.ydp-tile-num {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1;
+}
+
+.ydp-done .ydp-tile-num {
+    color: #ffd700;
+}
+
+/* Planet icon */
+.ydp-tile-planet {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Phase dot — bottom right */
+.ydp-tile-phase-dot {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* Done dot — top left */
+.ydp-done-dot {
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    font-size: 0.65rem;
+    color: #475569;
+    cursor: pointer;
+    z-index: 2;
+    line-height: 1;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ydp-dot-filled {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+/* ============ LEGEND ============ */
+.ydp-legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+}
+
+.ydp-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+.ydp-legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* ============ FOOTER ============ */
+.ydp-footer {
+    text-align: center;
+    padding: 12px 16px 20px;
+    font-size: 0.75rem;
+    color: #475569;
+}
+
+/* ============ DAY DETAIL OVERLAY ============ */
+.ydp-detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.ydp-detail-panel {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: linear-gradient(180deg, #0f1319 0%, #0a0d14 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 22px 22px 0 0;
+    padding: 16px 18px 40px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.ydp-detail-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #64748b;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ydp-detail-header {
+    border-left: 4px solid #ffd700;
+    padding-left: 12px;
+    margin-bottom: 16px;
+}
+
+.ydp-detail-day-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.ydp-detail-title {
+    margin: 0 0 2px;
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    color: #f1f5f9;
+}
+
+.ydp-detail-phase {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+/* Planet row */
+.ydp-detail-planet-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.ydp-planet-orb-lg {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.ydp-detail-planet-name {
+    margin: 0 0 2px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    font-family: 'Cinzel', serif;
+}
+
+.ydp-detail-chakra {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.ydp-detail-theme-text {
+    margin: 2px 0 0;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.ydp-detail-duration {
+    margin-left: auto;
+    padding: 4px 10px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    color: #ffd700;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Mantra highlight */
+.ydp-mantra-highlight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-left-width: 3px;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+}
+
+.ydp-mantra-label {
+    font-size: 0.72rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.ydp-mantra-val {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 6px;
+}
+
+/* Practice rows */
+.ydp-detail-practices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.ydp-practice-row {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    align-items: flex-start;
+}
+
+.ydp-practice-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ydp-practice-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #64748b;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.ydp-practice-val {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    line-height: 1.4;
+}
+
+.ydp-detail-note {
+    margin: 0;
+    font-size: 0.72rem;
+    color: #475569;
+    text-align: center;
+    line-height: 1.5;
+    padding: 10px 14px;
+    background: rgba(255, 215, 0, 0.04);
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 215, 0, 0.1);
+}
+
+/* ============ PAYWALL SCREEN ============ */
+.ydp-paywall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    gap: 16px;
+    min-height: 70vh;
+}
+
+.ydp-paywall-icon {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+}
+
+.ydp-paywall-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #ffd700;
+    margin: 0;
+}
+
+.ydp-paywall-sub {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.ydp-paywall-price {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #f1f5f9;
+    font-family: 'Cinzel', serif;
+}
+
+.ydp-paywall-price span {
+    font-size: 1rem;
+    color: #94a3b8;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+
+.ydp-paywall-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    max-width: 280px;
+}
+
+.ydp-paywall-benefits li {
+    padding: 8px 0;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ydp-pay-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 16px;
+    background: linear-gradient(135deg, #d97706, #b45309);
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
+    letter-spacing: 0.5px;
+}
+
+.ydp-test-badge {
+    padding: 5px 14px;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 20px;
+    color: #4ade80;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
