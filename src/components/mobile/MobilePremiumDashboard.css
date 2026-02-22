@@ -599,3 +599,40 @@
     font-weight: bold;
     font-size: 12px;
 }
+
+/* Paywall Overlay */
+.premium-paywall-overlay {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.cosmic-lock-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    animation: float 3s ease-in-out infinite;
+}
+
+.golden-action-btn {
+    background: linear-gradient(135deg, #ffd700, #f59e0b);
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

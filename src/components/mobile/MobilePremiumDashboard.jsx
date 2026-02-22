@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { processPayment } from '../../services/razorpayService';
+import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
+import LocalAIBirthPortal from './LocalAIBirthPortal';
 import './MobilePremiumDashboard.css';
 
 const MobilePremiumDashboard = ({ user }) => {
+    const [step, setStep] = useState('HOME'); // HOME, PORTAL, LOADING, DASHBOARD
     const [activeTab, setActiveTab] = useState('overview');
+    const [savedChart, setSavedChart] = useState(null);
+    const [hasAccess, setHasAccess] = useState(false);
+    const [chartData, setChartData] = useState(null);
 
     const tabs = [
         { id: 'overview', label: 'Overview' },
@@ -13,8 +22,140 @@ const MobilePremiumDashboard = ({ user }) => {
         { id: 'compatibility', label: 'Compatibility', premium: true },
     ];
 
+    useEffect(() => {
+        checkAccess();
+        // Load saved AI Birth Profile
+        const stored = localStorage.getItem('localai_birth_profile');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed && parsed.savedChart) {
+                    setSavedChart(parsed);
+                }
+            } catch (e) { console.error("Could not parse saved chart", e); }
+        }
+    }, [user]);
+
+    const checkAccess = async () => {
+        if (!user) return;
+        try {
+            const userRef = doc(db, 'users', user.uid);
+            const snap = await getDoc(userRef);
+            if (snap.exists()) {
+                const data = snap.data();
+                if (data.purchases?.premiumDashboard || data.purchases?.bundle) {
+                    setHasAccess(true);
+                }
+            }
+        } catch (e) {
+            console.error("Error checking Premium access", e);
+        }
+    };
+
+    const handleUnlock = async () => {
+        try {
+            const response = await processPayment(299, 'Unlock Full Premium Dashboard');
+            if (response.razorpay_payment_id) {
+                if (user?.uid) {
+                    await setDoc(doc(db, 'users', user.uid), {
+                        purchases: { premiumDashboard: true, updatedAt: new Date().toISOString() }
+                    }, { merge: true });
+                    setHasAccess(true);
+                    alert("Premium Dashboard Unlocked!");
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Payment failed.");
+        }
+    };
+
+    const handleSavedProfile = () => {
+        if (savedChart && savedChart.savedChart) {
+            setChartData(savedChart.savedChart);
+            setStep('DASHBOARD');
+        } else {
+            alert("No chart data found in saved profile.");
+        }
+    };
+
+    const handleBirthSubmit = async (data) => {
+        setStep('LOADING');
+        try {
+            const response = await getLocalAIAstrologerResponse('GENERATE_FULL_D1', data.name, data, null);
+            if (response.isChartData) {
+                const saved = { ...data, savedChart: response.data, savedAt: new Date().toLocaleDateString() };
+                localStorage.setItem('localai_birth_profile', JSON.stringify(saved));
+                setSavedChart(saved);
+                setChartData(response.data);
+                setStep('DASHBOARD');
+            } else {
+                alert("Failed to calculate chart from birth details.");
+                setStep('HOME');
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error generating chart.");
+            setStep('HOME');
+        }
+    };
+
+    // --- RENDERERS ---
+
+    if (step === 'HOME') {
+        return (
+            <div className="mobile-premium-dashboard" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', minHeight: '600px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                    <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
+                    <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>Choose a Chart</h2>
+                    <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>Select a birth profile to unlock the Premium Dashboard.</p>
+                </div>
+
+                {savedChart && (
+                    <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
+                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile</p>
+                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {savedChart.name} ({savedChart.gender})</p>
+                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {savedChart.date} · {savedChart.time}</p>
+                        <button
+                            onClick={handleSavedProfile}
+                            style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
+                        >
+                            ✨ Use This Profile
+                        </button>
+                    </div>
+                )}
+
+                <button
+                    onClick={() => setStep('PORTAL')}
+                    style={{ width: '100%', maxWidth: '400px', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
+                >
+                    ＋ Create New Chart
+                </button>
+            </div>
+        );
+    }
+
+    if (step === 'PORTAL') {
+        return (
+            <div className="mobile-premium-dashboard" style={{ padding: 0, minHeight: '600px' }}>
+                <LocalAIBirthPortal onSubmit={handleBirthSubmit} />
+            </div>
+        );
+    }
+
+    if (step === 'LOADING') {
+        return (
+            <div className="mobile-premium-dashboard" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '600px', gap: '20px' }}>
+                <div style={{ color: '#ffd700', fontSize: '3rem', animation: 'spin 4s linear infinite' }}>✨</div>
+                <h3 style={{ color: '#fff', margin: 0 }}>Aligning with the cosmic grid...</h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Calculating Dashas and Shodashvarga...</p>
+            </div>
+        );
+    }
+
+    // DASHBOARD VIEW
     return (
-        <div className="mobile-premium-dashboard">
+        <div className="mobile-premium-dashboard" style={{ position: 'relative' }}>
             {/* Tab Nav */}
             <div className="mobile-dash-tabs-scroll">
                 {tabs.map(tab => (
@@ -29,6 +170,63 @@ const MobilePremiumDashboard = ({ user }) => {
                 ))}
             </div>
 
+            {/* PAYWALL OVERLAY */}
+            {!hasAccess && (
+                <div className="glass-card premium-paywall-overlay" style={{
+                    position: 'absolute',
+                    top: '60px', left: 0, width: '100%', height: 'calc(100% - 60px)',
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.95) 100%)',
+                    backdropFilter: 'blur(15px) saturate(180%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 100,
+                    borderRadius: '0 0 20px 20px'
+                }}>
+                    <div className="cosmic-lock-icon" style={{
+                        fontSize: '4rem',
+                        marginBottom: '20px',
+                        textShadow: '0 0 20px rgba(212, 175, 55, 0.5)'
+                    }}>🔒</div>
+                    <h2 className="gold-text" style={{ fontSize: '1.8rem', marginBottom: '10px' }}>Unlock Premium Access</h2>
+                    <p style={{
+                        marginBottom: '30px',
+                        color: '#E2E8F0',
+                        textAlign: 'center',
+                        padding: '0 30px',
+                        lineHeight: '1.5',
+                        fontSize: '0.95rem'
+                    }}>
+                        Get detailed Predictions, all 16 Divisional Charts (Shodashvarga), and deep compatibility matching for your saved profile.
+                    </p>
+                    <button className="buy-btn golden-action-btn" style={{
+                        width: '220px',
+                        padding: '15px 30px',
+                        fontSize: '1rem',
+                        fontWeight: 'bold'
+                    }} onClick={() => handleUnlock()}>
+                        Unlock Dashboard (₹299)
+                    </button>
+                    <button className="buy-btn" style={{
+                        width: '220px',
+                        padding: '10px 30px',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold',
+                        background: 'transparent',
+                        border: '1px solid #D4AF37',
+                        color: '#D4AF37',
+                        marginTop: '15px',
+                        borderRadius: '30px'
+                    }} onClick={() => setHasAccess(true)}>
+                        Free Testing (Skip)
+                    </button>
+                    <p style={{ marginTop: '20px', fontSize: '0.8rem', color: '#718096' }}>
+                        Secure payment via Razorpay
+                    </p>
+                </div>
+            )}
+
             {/* Content Area */}
             <div className="mobile-dash-content">
 
@@ -36,7 +234,7 @@ const MobilePremiumDashboard = ({ user }) => {
                 {activeTab === 'overview' && (
                     <>
                         <div className="mobile-dash-card">
-                            <h3>AstroScore Live</h3>
+                            <h3>AstroScore Live for {savedChart?.name || 'You'}</h3>
                             <div className="mobile-score-display">
                                 <div className="mobile-score-circle">
                                     <span className="mobile-score-val">96.5</span>
