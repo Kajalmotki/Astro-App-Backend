@@ -46,6 +46,10 @@ const MobileHeader = ({ onLoginClick, onMembershipClick }) => {
                             <BookOpen size={20} />
                             <span>Knowledge Source</span>
                         </div>
+                        <div className="menu-item" onClick={() => handleNavigation('/mobile/about')}>
+                            <Feather size={20} />
+                            <span>About AstroRevo</span>
+                        </div>
                         <div className="menu-item" onClick={() => handleNavigation('/mobile/ambience')}>
                             <Music size={20} />
                             <span>Ambience & Music</span>

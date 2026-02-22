@@ -39,6 +39,7 @@ const MobileProfile = lazy(() => import('./pages/MobileProfile'));
 const MobileKundli = lazy(() => import('./pages/MobileKundli'));
 const MobileMatchmaking = lazy(() => import('./pages/MobileMatchmaking'));
 const LocalAIChat = lazy(() => import('./components/mobile/LocalAIChat'));
+const AboutUsPage = lazy(() => import('./components/mobile/AboutUsPage'));
 
 // Feature Pages for Mobile Routes
 const AstroChartPage = lazy(() => import('./components/pages/AstroChartPage'));
@@ -286,6 +287,7 @@ function AppContent() {
                 <Route path="profile" element={<MobileProfile />} />
                 <Route path="full-kundli" element={<MobileKundli />} />
                 <Route path="matchmaking" element={<MobileMatchmaking />} />
+                <Route path="about" element={<div className="page-content" style={{ paddingTop: '0px' }}><AboutUsPage /></div>} />
                 <Route path="local-ai" element={<div className="page-content" style={{ paddingTop: '0px' }}><LocalAIChat /></div>} />
                 <Route path="bca" element={<div className="page-content" style={{ paddingTop: '60px' }}><BCAAnalysis isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
 
