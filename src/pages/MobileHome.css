@@ -258,13 +258,16 @@
 
 /* 3x3 grid for 9 service items */
 .ticker-track-mobile {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 16px 8px;
-    width: 100%;
-    animation: none;
-    justify-items: center;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(3, auto) !important;
+    gap: 20px 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    animation: none !important;
+    justify-items: center !important;
+    align-items: start !important;
+    padding: 0 5px !important;
 }
 
 .ticker-item {

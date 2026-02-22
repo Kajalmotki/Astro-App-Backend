@@ -35,11 +35,14 @@
 }
 
 .karma-type-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 30, 0.6) !important;
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
     border-radius: 20px;
     padding: 30px;
     text-align: center;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     transition: all 0.4s;
     animation: fadeInUp 0.5s ease forwards;
     animation-delay: var(--delay);
@@ -280,10 +283,13 @@
 }
 
 .lesson-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 30, 0.6) !important;
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
     border-radius: 15px;
     padding: 25px;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s;
 }
 
@@ -325,11 +331,14 @@
 }
 
 .remedy-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 30, 0.6) !important;
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
     border-radius: 15px;
     padding: 25px;
     text-align: center;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s;
 }
 

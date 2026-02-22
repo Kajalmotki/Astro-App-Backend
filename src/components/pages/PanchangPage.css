@@ -46,11 +46,12 @@
     align-items: center;
     margin-bottom: 25px;
     padding: 18px 25px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(20, 20, 30, 0.6) !important;
     border-radius: 16px;
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
 }
 
 .info-pill {
@@ -121,12 +122,13 @@
 
 /* Glass Table */
 .choghadiya-table {
-    background: rgba(15, 15, 20, 0.4);
+    background: rgba(20, 20, 30, 0.6) !important;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.15) !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .table-header {
