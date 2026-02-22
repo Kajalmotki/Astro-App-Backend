@@ -134,21 +134,25 @@ const BeautifulD1Chart = ({ data }) => {
                 <div className="d1-section" style={{ borderBottom: 'none' }}>
                     <h4 className="d1-section-title">Current Dasha Sequence</h4>
                     {data.dashaTimeline && (
-                        <div className="dasha-stepper">
+                        <div className="dasha-hierarchy">
                             {parseDashaString(data.dashaTimeline).map((d, i) => (
-                                <div key={i} className="dasha-step" style={{ marginLeft: `${i * 12}px` }}>
-                                    <div className="dasha-step-node"></div>
-                                    <div className="dasha-step-content">
-                                        <div className="dasha-step-header">
-                                            <span className="dasha-level">{d.level}</span>
+                                <div key={i} className={`dasha-row dasha-level-${i}`}>
+                                    {i > 0 && (
+                                        <div className="dasha-connector">
+                                            ↓
+                                        </div>
+                                    )}
+                                    <div className="dasha-row-card" style={{ '--depth': i }}>
+                                        <div className="dasha-row-left">
+                                            <span className="dasha-level-label">{d.level}</span>
                                             {d.planet && (
-                                                <span className="dasha-planet">
-                                                    <span className="planet-icon" style={{ color: '#ffd700' }}>{ICONS[d.planet]}</span>
+                                                <span className="dasha-planet-pill">
+                                                    <span className="planet-icon" style={{ color: '#ffd700', marginRight: '4px' }}>{ICONS[d.planet]}</span>
                                                     {d.planet}
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="dasha-dates">{d.dateRange || d.raw}</div>
+                                        <span className="dasha-date-range">{d.dateRange || d.raw}</span>
                                     </div>
                                 </div>
                             ))}

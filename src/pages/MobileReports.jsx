@@ -16,10 +16,15 @@ const MobileReports = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Check for navigation state to open premium automatically
+    // Check for navigation state to open specific sections automatically
     useEffect(() => {
         if (location.state?.openPremium) {
             setActiveSection('premium');
+        }
+        if (location.state?.openBCA) {
+            setActiveSection('bca');
+            // Wait a tiny bit for the accordion to animate open, then reveal the modal
+            setTimeout(() => setIsBCAOpen(true), 150);
         }
     }, [location.state]);
 

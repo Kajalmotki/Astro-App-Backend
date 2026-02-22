@@ -155,95 +155,94 @@
     line-height: 1.4;
 }
 
-.dasha-stepper {
+/* ============================================
+   Dasha Hierarchy Tree — downward indented design
+   ============================================ */
+.dasha-hierarchy {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    margin-top: 15px;
+    gap: 6px;
+    padding: 4px 0 12px;
 }
 
-.dasha-step {
-    display: flex;
-    gap: 20px;
-    position: relative;
-    padding-bottom: 28px;
-}
-
-.dasha-step:last-child {
-    padding-bottom: 0;
-}
-
-.dasha-step::before {
-    content: '';
-    position: absolute;
-    left: 5px;
-    /* node is 12px, half is 6, adjust line */
-    top: 14px;
-    bottom: 0;
-    width: 2px;
-    background: rgba(255, 215, 0, 0.2);
-}
-
-.dasha-step:last-child::before {
-    display: none;
-}
-
-.dasha-step-node {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ffd700;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-    position: relative;
-    z-index: 2;
-    margin-top: 6px;
-}
-
-.dasha-step-content {
+.dasha-row {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    border-radius: 14px;
-    padding: 16px;
+    align-items: center;
     width: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.dasha-step-header {
+.dasha-connector {
+    font-size: 1.2rem;
+    color: rgba(255, 215, 0, 0.4);
+    line-height: 1;
+    user-select: none;
+    margin: 4px 0;
     display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* dasha-row-card: centered, no indentation */
+.dasha-row-card {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, calc(0.35 - var(--depth, 0) * 0.05));
+    border-left: 3px solid rgba(255, 215, 0, calc(0.9 - var(--depth, 0) * 0.12));
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
-    padding-bottom: 8px;
+    gap: 8px;
+    transition: background 0.2s;
 }
 
-.dasha-level {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
+.dasha-row-card:hover {
+    background: rgba(255, 215, 0, 0.04);
 }
 
-.dasha-planet {
+.dasha-row-left {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #ffd700;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.dasha-dates {
-    font-size: 0.85rem;
+.dasha-level-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
     color: #94a3b8;
+    white-space: nowrap;
+}
+
+.dasha-planet-pill {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffd700;
+    white-space: nowrap;
+}
+
+.dasha-date-range {
+    font-size: 0.70rem;
+    color: #64748b;
     font-style: italic;
+    white-space: nowrap;
+    text-align: right;
+    margin-left: auto;
 }
 
 .dasha-insight {
-    margin: 20px 0 0 0;
+    margin: 16px 0 0 0;
     padding: 16px 20px;
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(245, 158, 11, 0.05));
     border: 1px solid rgba(255, 215, 0, 0.3);
@@ -369,91 +368,4 @@
     transition: width 1s ease-out;
 }
 
-/* --- Dasha Stepper UI --- */
-.dasha-stepper {
-    display: flex;
-    flex-direction: column;
-    padding: 10px 0;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.dasha-step {
-    display: flex;
-    gap: 20px;
-    position: relative;
-    padding-bottom: 28px;
-}
-
-.dasha-step:last-child {
-    padding-bottom: 0;
-}
-
-.dasha-step::before {
-    content: '';
-    position: absolute;
-    left: 5px;
-    /* node is 12px, half is 6, adjust line */
-    top: 14px;
-    bottom: 0;
-    width: 2px;
-    background: rgba(255, 215, 0, 0.2);
-}
-
-.dasha-step:last-child::before {
-    display: none;
-}
-
-.dasha-step-node {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ffd700;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-    position: relative;
-    z-index: 2;
-    margin-top: 6px;
-}
-
-.dasha-step-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    border-radius: 14px;
-    padding: 16px;
-    width: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.dasha-step-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
-    padding-bottom: 8px;
-}
-
-.dasha-level {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #cbd5e1;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.dasha-planet {
-    font-weight: 600;
-    color: #f8fafc;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.95rem;
-}
-
-.dasha-dates {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    font-family: 'Courier New', Courier, monospace;
-}
+/* (dasha-stepper duplicate removed) */

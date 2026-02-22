@@ -71,23 +71,44 @@ const precalculateChartData = (birthData) => {
 
         let generatedRawText = `Day of Birth: ${dayOfWeek}\nLagna (Ascendant): ${ascSignStr} ${formatDeg(ascDeg)}\n\n`;
 
+        // Helper to find a body from either CelestialBodies or CelestialPoints,
+        // trying multiple common key casings used by circular-natal-horoscope-js
+        const findBody = (key) => {
+            // Try direct key in bodies first
+            if (bodies[key]) return bodies[key];
+            // For northnode, try multiple casings in points (library version may differ)
+            if (key === 'northnode') {
+                return points['northnode'] || points['northNode'] || points['NorthNode'] || points['north_node'] || null;
+            }
+            return points[key] || null;
+        };
+
         const planetList = planetsToExtract.map(key => {
-            const body = bodies[key] || points[key]; // Note: northnode is in CelestialPoints
+            const body = findBody(key);
+            if (!body || !body.Sign) {
+                console.warn(`Planet body not found for key: ${key}`, { bodiesKeys: Object.keys(bodies), pointsKeys: Object.keys(points) });
+                return null; // Will be filtered below
+            }
             const sign = body.Sign.label;
             const deg = body.ChartPosition.Ecliptic.DecimalDegrees % 30;
             const house = getWholeSignHouse(sign);
             return { name: planetMap[key], sign, deg: formatDeg(deg), house };
-        });
+        }).filter(p => p !== null);
 
         // Add Ketu (always opposite Rahu)
         const rahu = planetList.find(p => p.name === 'Rahu');
-        const ketuSignIndex = (VEDIC_SIGNS.findIndex(s => s.toLowerCase() === rahu.sign.toLowerCase()) + 6) % 12;
-        planetList.push({
-            name: 'Ketu',
-            sign: VEDIC_SIGNS[ketuSignIndex],
-            deg: rahu.deg,
-            house: (rahu.house + 6 - 1) % 12 + 1
-        });
+        if (!rahu) {
+            console.warn('Rahu not found in planet list — skipping Ketu calculation. Points keys:', Object.keys(points));
+        }
+        const ketuSignIndex = rahu ? (VEDIC_SIGNS.findIndex(s => s.toLowerCase() === rahu.sign.toLowerCase()) + 6) % 12 : -1;
+        if (rahu && ketuSignIndex !== -1) {
+            planetList.push({
+                name: 'Ketu',
+                sign: VEDIC_SIGNS[ketuSignIndex],
+                deg: rahu.deg,
+                house: (rahu.house + 6 - 1) % 12 + 1
+            });
+        }
 
         planetList.forEach(p => {
             generatedRawText += `${p.name.padEnd(8)} | ${p.sign.padEnd(11)} ${p.deg} | House ${p.house}\n`;
@@ -185,7 +206,7 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "google/gemini-2.5-flash",
+                model: "google/gemini-2.0-flash-001",
                 max_tokens: previousChart ? 800 : 1500,
                 messages: [{ role: "user", content: prompt }]
             })

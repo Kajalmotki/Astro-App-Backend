@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './YogaRemediesCard.css';
 
 const PLANET_ICONS = {
@@ -135,6 +136,8 @@ const PlanetRemedyCard = ({ remedy }) => {
 };
 
 const YogaRemediesCard = ({ remedies }) => {
+    const navigate = useNavigate();
+
     if (!remedies || remedies.length === 0) return null;
 
     const weakCount = remedies.filter(r => r.isWeak).length;
@@ -181,11 +184,16 @@ const YogaRemediesCard = ({ remedies }) => {
                 ))}
             </div>
 
-            {/* Footer note */}
-            <p className="yrc-footer-note">
-                Practice these remedies consistently for 40 days (Mandala Kala) for lasting transformation.
-                Consult a qualified yoga teacher for advanced practices like Sirshasana and Khechari Mudra.
-            </p>
+            {/* Footer CTA */}
+            <div className="yrc-footer-section">
+                <div className="yrc-cta-box" onClick={() => navigate('/mobile/reports', { state: { openBCA: true } })}>
+                    <div className="yrc-cta-icon">✨</div>
+                    <div className="yrc-cta-text">
+                        <span className="yrc-cta-title">Want a full schedule?</span>
+                        <span className="yrc-cta-sub">Reveal your personalized 21-Day Yoga Plan in Body Composition →</span>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

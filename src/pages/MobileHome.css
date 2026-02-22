@@ -253,15 +253,16 @@
 
 .ticker-scroll-container {
     width: 100%;
-    padding: 10px 0;
+    padding: 8px 0;
 }
 
+/* 3x3 grid for 9 service items */
 .ticker-track-mobile {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px 12px;
+    grid-template-rows: repeat(3, auto);
+    gap: 16px 8px;
     width: 100%;
-    /* Remove animation */
     animation: none;
     justify-items: center;
 }

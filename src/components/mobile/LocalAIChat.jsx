@@ -132,10 +132,15 @@ const LocalAIChat = () => {
                     ...(question ? {} : { followUpHint: true })
                 }]);
             }
-        } catch {
+        } catch (err) {
+            console.error('Chart generation error:', err);
+            const errMsg = err?.message || '';
+            const isNetworkErr = errMsg.includes('OpenRouter') || errMsg.includes('fetch') || errMsg.includes('network');
             setMessages(prev => [...prev, {
                 id: Date.now(), type: 'bot', isRawData: false, isError: true,
-                text: '⚠ Calculation engine error. Please try again.'
+                text: isNetworkErr
+                    ? '⚠ AI connection error. Check your internet and try again.'
+                    : '⚠ Calculation engine error. Please try again.'
             }]);
         } finally {
             setIsTyping(false);
@@ -238,7 +243,7 @@ const LocalAIChat = () => {
             <div className="local-ai-chat-container">
                 <header className="local-ai-header">
                     <button onClick={() => navigate(-1)} className="back-btn">← Back</button>
-                    <h2>Local AI — Birth Portal</h2>
+                    <div className="header-center"><h2>Local AI — Birth Portal</h2></div>
                 </header>
                 <div className="chat-messages-scroll-area" style={{ padding: 0 }}>
                     <LocalAIBirthPortal onSubmit={handleBirthSubmit} />
@@ -263,6 +268,9 @@ const LocalAIChat = () => {
             <div className="chat-messages-scroll-area">
                 {messages.map((m) => (
                     <div key={m.id} className={`message-wrapper ${m.type}`}>
+                        {m.type === 'bot' && (
+                            <div className="bot-avatar-local">ॐ</div>
+                        )}
                         {m.isChartData && m.chartData ? (
                             <BeautifulD1Chart data={m.chartData} />
                         ) : m.isYogaData && m.yogaData ? (
@@ -301,6 +309,7 @@ const LocalAIChat = () => {
 
                 {isTyping && (
                     <div className="message-wrapper bot">
+                        <div className="bot-avatar-local">ॐ</div>
                         <div className="message system-msg">
                             <div className="computing-indicator">
                                 <span></span><span></span><span></span>
@@ -313,16 +322,20 @@ const LocalAIChat = () => {
             </div>
 
             <div className="chat-input-area">
-                <input
-                    type="text"
-                    value={inputValue}
-                    onChange={e => setInputValue(e.target.value)}
-                    placeholder="Ask about a specific house or planet..."
-                    onKeyPress={e => e.key === 'Enter' && handleSend()}
-                />
-                <button onClick={handleSend} className="send-btn" disabled={isTyping || !inputValue.trim()}>
-                    ➤
-                </button>
+                <div className="chat-input-pill">
+                    <input
+                        type="text"
+                        value={inputValue}
+                        onChange={e => setInputValue(e.target.value)}
+                        placeholder="Ask about a specific house or planet..."
+                        onKeyPress={e => e.key === 'Enter' && handleSend()}
+                    />
+                    <button onClick={handleSend} className="send-btn" disabled={isTyping || !inputValue.trim()}>
+                        <svg viewBox="0 0 24 24" style={{ width: '20px', height: '20px', fill: 'currentColor', transform: 'translateX(1px)' }}>
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     );
