@@ -1,122 +1,96 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, ChevronLeft, ChevronRight, CheckCircle, Activity, Info, BookOpen, X, Volume2, VolumeX } from 'lucide-react';
+import React, { useState } from 'react';
+import { Play, Pause, Activity, Info, X, Music, CheckCircle } from 'lucide-react';
+import { useMusic } from '../../contexts/MusicContext';
 import './AsanaPlayWindow.css';
 
+const getGeneratedImageForAsana = (name) => {
+    if (!name) return null;
+    const map = {
+        'Pavanamuktasana': 'muladhara_pavanamuktasana.png',
+        'Vajrasana': 'muladhara_vajrasana.png',
+        'Malasana': 'muladhara_malasana.png',
+        'Tadasana': 'muladhara_tadasana.png',
+        'Janu Sirshasana': 'muladhara_janusirsasana.png',
+        'Baddha Konasana': 'svadhisthana_baddhakonasana.png',
+        'Bharadvajasana': 'svadhisthana_bharadvajasana.png',
+        'Bhujangasana': 'anahata_bhujangasana.png', // Reused
+        'Trikonasana': 'svadhisthana_trikonasana.png',
+        'Viparita Karani': 'svadhisthana_viparitakarani.png',
+        'Upavistha Konasana': 'svadhisthana_upavisthakonasana.png',
+        'Eka Pada Rajakapotasana': 'svadhisthana_ekapadarajakapotasana.png',
+        'Navasana': 'manipura_navasana.png',
+        'Dhanurasana': 'manipura_dhanurasana.png',
+        'Ardha Matsyendrasana': 'manipura_ardhamatsyendrasana.png',
+        'Paschimottanasana': 'manipura_paschimottanasana.png',
+        'Surya Namaskar': 'manipura_suryanamaskar.png',
+        'Sun Salutation (12 steps)': 'manipura_suryanamaskar.png',
+        'Ustrasana': 'anahata_ustrasana.png',
+        'Matsyasana': 'vishuddha_matsyasana.png', // Reused
+        'Gomukhasana': 'anahata_gomukhasana.png',
+        'Setu Bandhasana': 'anahata_setubandhasana.png',
+        'Garudasana': 'ajna_garudasana.png', // Reused
+        'Chakrasana': 'anahata_chakrasana.png',
+        'Sarvangasana': 'vishuddha_sarvangasana.png',
+        'Halasana': 'vishuddha_halasana.png',
+        'Ujjayi Pranayama (as Asana)': 'sahasrara_padmasana.png', // Reused seated
+        'Marjariasana': 'vishuddha_marjariasana.png',
+        'Balasana': 'ajna_balasana.png',
+        'Shashankasana': 'ajna_balasana.png', // Reused
+        'Padmasana': 'sahasrara_padmasana.png',
+        'Siddhasana': 'sahasrara_padmasana.png', // Reused
+        'Sirshasana': 'sahasrara_sirsasana.png',
+        'Trataka (as Asana-Meditation)': 'ajna_trataka.png',
+        'Prasarita Padottanasana': 'ajna_prasarita.png',
+        'Nadi Shodhana Flow': 'ajna_nadishodhana.png',
+        'Savasana': 'sahasrara_savasana.png',
+        'Shavasana (Extended)': 'sahasrara_savasana.png',
+        'Shavasana with Moonlight Meditation': 'sahasrara_savasana.png',
+        'Yoga Nidra (lying)': 'sahasrara_savasana.png',
+        'Yoga Nidra': 'sahasrara_savasana.png'
+    };
+    for (const key in map) {
+        if (name.includes(key)) return map[key];
+    }
+    return null;
+};
+
 const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
-    const [currentStep, setCurrentStep] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
-    const [viewMode, setViewMode] = useState('steps'); // 'steps' or 'benefits'
+    const [viewMode, setViewMode] = useState('practice'); // 'practice' or 'details'
+    const [showAmbienceTray, setShowAmbienceTray] = useState(false);
 
-    // Abstract premium placeholder based on chakra color
-    const abstractBg = `radial-gradient(circle at 50% 30%, ${color}40 0%, #000000 70%)`;
+    // Connect to global Music Context for ambience
+    const { isPlaying: isMusicPlaying, togglePlay: toggleMusic, currentTrack, playTrack, tracks } = useMusic();
 
-    useEffect(() => {
-        // Cleanup speech on unmount
-        return () => window.speechSynthesis.cancel();
-    }, []);
-
-    const speak = (text) => {
-        if (!window.speechSynthesis || isMuted) return;
-        window.speechSynthesis.cancel(); // Stop current
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 0.85; // Calming, slow pace
-        utterance.pitch = 0.9;
-
-        // Try to find a calming female or smooth voice if available
-        const voices = window.speechSynthesis.getVoices();
-        const preferred = voices.find(v => v.name.includes('Google UK English Female') || v.name.includes('Samantha'));
-        if (preferred) utterance.voice = preferred;
-
-        utterance.onend = () => setIsPlaying(false);
-        window.speechSynthesis.speak(utterance);
-        setIsPlaying(true);
-    };
-
-    const handlePlayPause = () => {
-        if (isPlaying) {
-            window.speechSynthesis.pause();
-            setIsPlaying(false);
-        } else {
-            if (window.speechSynthesis.paused) {
-                window.speechSynthesis.resume();
-            } else {
-                // If starting fresh, speak the current step
-                if (asana.steps && asana.steps[currentStep]) {
-                    speak(asana.steps[currentStep]);
-                } else if (asana.description) {
-                    speak(asana.description);
-                }
-            }
-            setIsPlaying(true);
-        }
-    };
-
-    const toggleMute = () => {
-        if (!isMuted && isPlaying) {
-            window.speechSynthesis.cancel();
-            setIsPlaying(false);
-        }
-        setIsMuted(!isMuted);
-    };
-
-    const handleNext = () => {
-        if (asana.steps && currentStep < asana.steps.length - 1) {
-            const nextStep = currentStep + 1;
-            setCurrentStep(nextStep);
-            if (!isMuted) speak(asana.steps[nextStep]);
-        }
-    };
-
-    const handlePrev = () => {
-        if (currentStep > 0) {
-            const prevStep = currentStep - 1;
-            setCurrentStep(prevStep);
-            if (!isMuted) speak(asana.steps[prevStep]);
-        }
-    };
+    // Premium background gradient fallback
+    const abstractBg = `radial-gradient(circle at 40% 30%, ${color}40 0%, #000000 80%)`;
 
     const handleComplete = () => {
-        window.speechSynthesis.cancel();
+        if (isMusicPlaying) toggleMusic(); // Stop ambience when exiting
         if (onComplete) onComplete();
         onClose();
     };
 
-    // If asana is just a string (legacy fallback)
-    if (typeof asana === 'string') {
-        return (
-            <div className="apw-overlay">
-                <div className="apw-modal" style={{ background: abstractBg }}>
-                    <button className="apw-close" onClick={onClose}><X size={24} /></button>
-                    <div className="apw-content apw-legacy">
-                        <h2>{asana}</h2>
-                        <p>Follow your standard practice for this pose.</p>
-                        <button className="apw-complete-btn" onClick={handleComplete}>
-                            <CheckCircle size={20} /> Mark Complete
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    const stepsLen = asana.steps?.length || 0;
-    const progressPct = stepsLen > 1 ? (currentStep / (stepsLen - 1)) * 100 : 100;
+    const hasImage = getGeneratedImageForAsana(asana.name);
 
     return (
         <div className="apw-overlay">
             <div className="apw-modal" style={{ '--theme-color': color }}>
                 {/* Header Actions */}
                 <div className="apw-top-bars">
-                    <button className="apw-icon-btn" onClick={toggleMute}>
-                        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                    </button>
+                    <div /> {/* Empty spacer */}
                     <button className="apw-close" onClick={handleComplete}><X size={24} /></button>
                 </div>
 
                 {/* Hero Top Section */}
-                <div className="apw-hero" style={{ background: abstractBg }}>
-                    <div className="apw-hero-icon">{asana.emoji || '🧘'}</div>
+                <div
+                    className="apw-hero"
+                    style={{
+                        backgroundImage: hasImage ? `url(/images/yoga/${hasImage})` : abstractBg,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center 20%'
+                    }}
+                >
+                    {!hasImage && <div className="apw-hero-icon">{asana.emoji || '🧘'}</div>}
                     <div className="apw-hero-text">
                         <span className="apw-category-badge">{asana.category || 'practice'}</span>
                         <h2 className="apw-title">{asana.name}</h2>
@@ -125,32 +99,94 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
                     {/* View Toggle */}
                     <div className="apw-view-toggles">
                         <button
-                            className={`apw-toggle-btn ${viewMode === 'steps' ? 'active' : ''}`}
-                            onClick={() => setViewMode('steps')}
+                            className={`apw-toggle-btn ${viewMode === 'practice' ? 'active' : ''}`}
+                            onClick={() => setViewMode('practice')}
                         >
-                            <Play size={14} /> Practice
+                            <Activity size={14} /> Practice
                         </button>
                         <button
-                            className={`apw-toggle-btn ${viewMode === 'benefits' ? 'active' : ''}`}
-                            onClick={() => setViewMode('benefits')}
+                            className={`apw-toggle-btn ${viewMode === 'details' ? 'active' : ''}`}
+                            onClick={() => setViewMode('details')}
                         >
-                            <Activity size={14} /> Uplift
+                            <Info size={14} /> Details
                         </button>
                     </div>
                 </div>
 
                 {/* Body Content */}
                 <div className="apw-body">
-                    {viewMode === 'benefits' ? (
-                        <div className="apw-benefits-view animate-fade-in">
-                            <div className="apw-info-card">
-                                <h4><Info size={16} /> Cosmic Connection</h4>
-                                <p>{asana.why || asana.description}</p>
+                    {viewMode === 'practice' ? (
+                        <div className="apw-steps-view animate-fade-in">
+                            <div className="apw-step-display" style={{ marginTop: '16px' }}>
+                                <h3 className="apw-step-counter" style={{ color: color, margin: 0 }}>
+                                    Cosmic Focus
+                                </h3>
+                                <p className="apw-benefit-focus">
+                                    {asana.why || asana.description}
+                                </p>
                             </div>
 
+                            {/* Ambience Controls */}
+                            <div className="apw-ambience-container">
+                                {showAmbienceTray ? (
+                                    <div className="apw-ambience-tray animate-pop">
+                                        <div className="apw-tray-header">
+                                            <span>Select Ambience</span>
+                                            <button onClick={() => setShowAmbienceTray(false)}><X size={16} /></button>
+                                        </div>
+                                        <div className="apw-tray-grid">
+                                            {tracks && tracks.map(t => (
+                                                <button
+                                                    key={t.id}
+                                                    className={`apw-tray-btn ${currentTrack?.id === t.id && isMusicPlaying ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        playTrack(t);
+                                                        setShowAmbienceTray(false);
+                                                    }}
+                                                    style={{ '--theme-color': color }}
+                                                >
+                                                    <span className="tray-icon">{t.icon}</span>
+                                                    <span className="tray-name">{t.name}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <button
+                                        className={`apw-ambience-toggle ${isMusicPlaying ? 'playing' : ''}`}
+                                        onClick={() => {
+                                            if (!isMusicPlaying) {
+                                                toggleMusic();
+                                            } else {
+                                                setShowAmbienceTray(true);
+                                            }
+                                        }}
+                                        style={{ '--btn-color': color }}
+                                    >
+                                        <div className="apw-ambience-icon">
+                                            {isMusicPlaying ? <Music size={24} color="#000" /> : <Play size={24} color="#fff" style={{ marginLeft: '4px' }} />}
+                                        </div>
+                                        <span>{isMusicPlaying ? `Playing: ${currentTrack?.name}` : 'Ambience Music'}</span>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="apw-benefits-view animate-fade-in">
+                            {asana.steps && (
+                                <div className="apw-info-card">
+                                    <h4><Activity size={16} /> Steps</h4>
+                                    <ul className="apw-compact-steps">
+                                        {asana.steps.map((s, i) => (
+                                            <li key={i}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
                             {asana.healthBenefits && (
-                                <div className="apw-health-list">
-                                    <h4><Activity size={16} /> Health Uplift</h4>
+                                <div className="apw-health-list" style={{ marginTop: '16px' }}>
+                                    <h4><Info size={16} /> Health Uplift</h4>
                                     <ul>
                                         {asana.healthBenefits.map((b, i) => (
                                             <li key={i}>{b}</li>
@@ -158,70 +194,12 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
                                     </ul>
                                 </div>
                             )}
-
-                            {asana.source && (
-                                <div className="apw-source-box">
-                                    <BookOpen size={16} color={color} />
-                                    <span>{asana.source}</span>
-                                </div>
-                            )}
-
-                            {asana.contraindications && (
-                                <p className="apw-warning">⚠ {asana.contraindications}</p>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="apw-steps-view animate-fade-in">
-                            {/* Step Text */}
-                            <div className="apw-step-display">
-                                <span className="apw-step-counter" style={{ color: color }}>
-                                    Step {currentStep + 1} of {stepsLen}
-                                </span>
-                                <h3 className="apw-step-text">
-                                    {asana.steps ? asana.steps[currentStep] : asana.description}
-                                </h3>
-                            </div>
-
-                            {/* Audio Controls */}
-                            <div className="apw-audio-controls">
-                                <button
-                                    className="apw-ctrl-btn"
-                                    onClick={handlePrev}
-                                    disabled={currentStep === 0}
-                                >
-                                    <ChevronLeft size={24} />
-                                </button>
-
-                                <button
-                                    className="apw-play-large"
-                                    style={{ background: color }}
-                                    onClick={handlePlayPause}
-                                >
-                                    {isPlaying ? <Pause size={28} color="#000" /> : <Play size={28} color="#000" style={{ marginLeft: '4px' }} />}
-                                </button>
-
-                                <button
-                                    className="apw-ctrl-btn"
-                                    onClick={handleNext}
-                                    disabled={currentStep === stepsLen - 1}
-                                >
-                                    <ChevronRight size={24} />
-                                </button>
-                            </div>
-
-                            {/* Progress Bar */}
-                            <div className="apw-progress-bar">
-                                <div className="apw-progress-fill" style={{ width: `${progressPct}%`, background: color }} />
-                            </div>
-
-                            {/* Mark Done */}
-                            {currentStep === stepsLen - 1 && (
-                                <button className="apw-complete-btn animate-pop" onClick={handleComplete}>
-                                    <CheckCircle size={20} /> Complete Practice
-                                </button>
-                            )}
                         </div>
                     )}
+
+                    <button className="apw-complete-btn animate-pop" onClick={handleComplete} style={{ alignSelf: 'center', marginTop: '16px' }}>
+                        <CheckCircle size={20} /> Complete Practice
+                    </button>
                 </div>
             </div>
         </div>

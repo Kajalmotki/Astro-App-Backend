@@ -73,7 +73,7 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             yogaPoses: [
                 { name: 'Sarvangasana', english: 'Shoulder Stand', desc: 'Stimulates the thyroid and throat area.', duration: 'Hold for 1-3 minutes', image: 'vishuddha_sarvangasana.png' },
                 { name: 'Matsyasana', english: 'Fish Pose', desc: 'Opens the throat for clear communication.', duration: 'Hold for 30-60 seconds (counter-pose)', image: 'vishuddha_matsyasana.png' },
-                { name: 'Halasana', english: 'Plow Pose', desc: 'Releases tension in the neck and shoulders.', duration: 'Hold for 1-2 minutes', image: 'vishuddha-1.png' }
+                { name: 'Halasana', english: 'Plow Pose', desc: 'Releases tension in the neck and shoulders.', duration: 'Hold for 1-2 minutes', image: 'vishuddha_halasana.png' }
             ],
             color: '#3498DB',
             mantra: 'HAM'
@@ -84,9 +84,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '852 Hz',
             frequencyName: 'Returning to Spiritual Order',
             yogaPoses: [
-                { name: 'Balasana', english: 'Child\'s Pose', desc: 'Connects the third eye to the earth, calming the mind.', duration: 'Hold for 3-5 minutes (resting)', image: 'ajna-3.png' },
-                { name: 'Garudasana', english: 'Eagle Pose', desc: 'Requires intense focus and single-pointed concentration.', duration: 'Hold for 30-60 seconds per side', image: 'ajna-3.png' },
-                { name: 'Padmasana', english: 'Lotus Pose', desc: 'The ultimate pose for meditation and inner vision.', duration: 'Sit for 5-10 minutes (meditation)', image: 'ajna-3.png' }
+                { name: 'Balasana', english: 'Child\'s Pose', desc: 'Connects the third eye to the earth, calming the mind.', duration: 'Hold for 3-5 minutes (resting)', image: 'ajna_balasana.png' },
+                { name: 'Garudasana', english: 'Eagle Pose', desc: 'Requires intense focus and single-pointed concentration.', duration: 'Hold for 30-60 seconds per side', image: 'ajna_garudasana.png' },
+                { name: 'Padmasana', english: 'Lotus Pose', desc: 'The ultimate pose for meditation and inner vision.', duration: 'Sit for 5-10 minutes (meditation)', image: 'ajna_padmasana.png' }
             ],
             color: '#6C5CE7',
             mantra: 'OM'
@@ -97,9 +97,9 @@ const ChakraYogaPage = ({ isOpen, onClose, chakra }) => {
             frequency: '963 Hz',
             frequencyName: 'Awakening Perfect State',
             yogaPoses: [
-                { name: 'Sirsasana', english: 'Headstand', desc: 'Directs energy to the crown, reversing gravity\'s flow.', duration: 'Hold for 1-5 minutes (advanced)', image: 'ajna-3.png' },
-                { name: 'Savasana', english: 'Corpse Pose', desc: 'Total surrender to the divine and cosmic consciousness.', duration: 'Rest for 5-10 minutes', image: 'ajna-3.png' },
-                { name: 'Padmasana', english: 'Lotus Pose', desc: 'Meditation for enlightenment and connection.', duration: 'Sit for 10-20 minutes (silent focus)', image: 'ajna-3.png' }
+                { name: 'Sirsasana', english: 'Headstand', desc: 'Directs energy to the crown, reversing gravity\'s flow.', duration: 'Hold for 1-5 minutes (advanced)', image: 'sahasrara_sirsasana.png' },
+                { name: 'Savasana', english: 'Corpse Pose', desc: 'Total surrender to the divine and cosmic consciousness.', duration: 'Rest for 5-10 minutes', image: 'sahasrara_savasana.png' },
+                { name: 'Padmasana', english: 'Lotus Pose', desc: 'Meditation for enlightenment and connection.', duration: 'Sit for 10-20 minutes (silent focus)', image: 'sahasrara_padmasana.png' }
             ],
             color: '#9B59B6',
             mantra: 'OM' // Or Silence

@@ -49,36 +49,103 @@ const DayDetailPanel = ({ day, onClose, onPlayAsana }) => (
 
             {/* Practice breakdown */}
             <div className="ydp-detail-practices">
-                <div className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana(day.asanaObj, day.color)}>
-                    <span className="ydp-practice-icon">🧘</span>
+                {(day.allAsanasData || [day.asanaObj]).map((asanaItem, idx) => (
+                    <div key={idx} className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana(asanaItem, day.color)}>
+                        <span className="ydp-practice-icon">{asanaItem.emoji || '🧘'}</span>
+                        <div style={{ flex: 1 }}>
+                            <span className="ydp-practice-label">Asana (Tap to Play) • {asanaItem.duration || '2-3 min'}</span>
+                            <p className="ydp-practice-val">{asanaItem.name}</p>
+                        </div>
+                        <button className="ydp-play-asana-btn" style={{ background: day.color }}>
+                            <Play size={16} color="#000" />
+                        </button>
+                    </div>
+                ))}
+                <div className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana({
+                    name: day.pranayama,
+                    emoji: '🌬',
+                    sanskrit: 'Breath Control',
+                    category: 'Pranayama',
+                    why: `Pranayama balances the vital life force. It prepares the mind for deep meditation and synchronizes the ${day.planet} energy.`,
+                    steps: [
+                        'Sit in a comfortable crossed-leg position with a straight spine',
+                        'Close your eyes and breathe naturally for a few moments',
+                        `Begin practicing ${day.pranayama}`,
+                        'Keep your focus on the rhythm and depth of the breath',
+                        'Continue steadily for 5 to 10 minutes',
+                        'When finished, return to normal breathing and observe the stillness'
+                    ],
+                    healthBenefits: [
+                        `Calms the nervous system, channeling ${day.planet} energy`,
+                        'Increases oxygen flow and clears energetic blockages (nadis)',
+                        'Enhances mental clarity and deepens concentration'
+                    ]
+                }, day.color)}>
+                    <span className="ydp-practice-icon">🌬</span>
                     <div style={{ flex: 1 }}>
-                        <span className="ydp-practice-label">Asana (Tap to Play)</span>
-                        <p className="ydp-practice-val">{day.asana}</p>
+                        <span className="ydp-practice-label">Pranayama (Tap to Play) • 5-10 min</span>
+                        <p className="ydp-practice-val">{day.pranayama}</p>
                     </div>
                     <button className="ydp-play-asana-btn" style={{ background: day.color }}>
                         <Play size={16} color="#000" />
                     </button>
                 </div>
-                <div className="ydp-practice-row">
-                    <span className="ydp-practice-icon">🌬</span>
-                    <div>
-                        <span className="ydp-practice-label">Pranayama</span>
-                        <p className="ydp-practice-val">{day.pranayama}</p>
-                    </div>
-                </div>
-                <div className="ydp-practice-row">
+                <div className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana({
+                    name: day.mudra,
+                    emoji: '🤲',
+                    sanskrit: 'Energy Seal',
+                    category: 'Mudra',
+                    why: `Mudras are ancient seals of energy that direct the flow of prana. This mudra is beneficial for grounding the energy of ${day.planet} into the physical body.`,
+                    steps: [
+                        'Find a steady seated posture or combine with your chosen meditation',
+                        `Form ${day.mudra} with your hands accurately`,
+                        'Rest your hands comfortably on your lap or knees',
+                        'Apply gentle, consistent pressure to the fingertips/seal',
+                        'Hold the mudra for at least 5 minutes while breathing deeply'
+                    ],
+                    healthBenefits: [
+                        `Directly channels and seals the cosmic energy of ${day.planet} within the body`,
+                        'Stimulates specific reflex zones in the hands connected to the brain',
+                        'Deepens the meditative state and locks in practice benefits'
+                    ]
+                }, day.color)}>
                     <span className="ydp-practice-icon">🤲</span>
-                    <div>
-                        <span className="ydp-practice-label">Mudra</span>
+                    <div style={{ flex: 1 }}>
+                        <span className="ydp-practice-label">Mudra (Tap to Play) • 5 min</span>
                         <p className="ydp-practice-val">{day.mudra}</p>
                     </div>
+                    <button className="ydp-play-asana-btn" style={{ background: day.color }}>
+                        <Play size={16} color="#000" />
+                    </button>
                 </div>
-                <div className="ydp-practice-row">
+                <div className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana({
+                    name: 'Meditation',
+                    emoji: '🕉',
+                    sanskrit: 'Deep Focus',
+                    category: 'Meditation',
+                    why: `Meditation integrates the entire practice. ${day.meditation} reprograms cellular memory and brings the chaotic mind to one-pointed stillness, unlocking the highest expression of ${day.planet}.`,
+                    steps: [
+                        'Ensure your spine is erect and your body is completely still',
+                        'Bring your awareness inward, letting go of the external environment',
+                        `Mentally or verbally chant the Bija Mantra: ${day.bijaMantra}`,
+                        'If the mind wanders, gently guide it back to the sound of the mantra',
+                        'Allow yourself to merge completely with the vibration',
+                        'Sit in absolute silence for a few minutes after the chanting is complete'
+                    ],
+                    healthBenefits: [
+                        `Awakens and purifies the ${day.chakra} chakra associated with ${day.planet}`,
+                        'Reprograms negative cellular memory and habitual patterns',
+                        'Connects the physical nervous system to pure cosmic consciousness'
+                    ]
+                }, day.color)}>
                     <span className="ydp-practice-icon">🕉</span>
-                    <div>
-                        <span className="ydp-practice-label">Meditation</span>
+                    <div style={{ flex: 1 }}>
+                        <span className="ydp-practice-label">Meditation (Tap to Play) • 10-15 min</span>
                         <p className="ydp-practice-val">{day.meditation}</p>
                     </div>
+                    <button className="ydp-play-asana-btn" style={{ background: day.color }}>
+                        <Play size={16} color="#000" />
+                    </button>
                 </div>
             </div>
 

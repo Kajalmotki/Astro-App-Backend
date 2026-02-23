@@ -29,10 +29,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 92vh;
+    height: 100%;
     background: #111111;
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -85,12 +83,12 @@
 
 /* Hero Section */
 .apw-hero {
-    height: 45vh;
+    height: 56vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 24px;
+    justify-content: flex-end;
+    padding: 24px 24px 15px 24px;
     text-align: center;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -102,8 +100,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 40%;
-    background: linear-gradient(to top, #111111, transparent);
+    height: 80%;
+    background: linear-gradient(to top, #111111 15%, rgba(17, 17, 17, 0.8) 40%, transparent 100%);
+    z-index: 1;
 }
 
 .apw-hero-icon {
@@ -115,15 +114,20 @@
 
 .apw-hero-text {
     z-index: 2;
+    position: relative;
+    width: 100%;
 }
 
 .apw-category-badge {
     display: inline-block;
     padding: 4px 12px;
     border-radius: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    /* Barely visible background */
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(226, 232, 240, 0.2);
+    /* Very transparent text */
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -131,12 +135,15 @@
 }
 
 .apw-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.2);
+    /* Very transparent text */
     margin: 0 0 4px 0;
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.5px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    /* very soft shadow */
 }
 
 .apw-sanskrit {
@@ -144,7 +151,9 @@
     color: var(--theme-color);
     margin: 0;
     font-style: italic;
-    opacity: 0.9;
+    opacity: 0.25;
+    /* Very transparent */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* View Toggles */
@@ -224,79 +233,145 @@
     margin-bottom: 24px;
 }
 
-.apw-step-counter {
-    font-size: 0.9rem;
+/* Details View Adjustments & Steps */
+.apw-benefit-focus {
+    color: #cbd5e1;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-top: 24px;
+}
+
+.apw-compact-steps {
+    list-style-type: decimal;
+    padding-left: 16px;
+    margin: 0;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Ambience Tray */
+.apw-ambience-container {
+    margin-top: auto;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.apw-ambience-toggle {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 8px 24px 8px 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.apw-ambience-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.apw-ambience-toggle.playing {
+    background: var(--btn-color);
+    color: #000;
+    border-color: var(--btn-color);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+.apw-ambience-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.apw-ambience-toggle.playing .apw-ambience-icon {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.apw-ambience-tray {
+    background: #1e1e28;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.apw-tray-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 16px;
+    letter-spacing: 1px;
 }
 
-.apw-step-text {
-    font-size: 1.5rem;
-    line-height: 1.4;
-    color: #f8fafc;
-    font-weight: 400;
-    margin: 0;
-}
-
-.apw-audio-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    margin-bottom: 32px;
-}
-
-.apw-ctrl-btn {
-    background: transparent;
+.apw-tray-header button {
+    background: rgba(255, 255, 255, 0.05);
     border: none;
     color: #cbd5e1;
-    cursor: pointer;
-    padding: 12px;
-    transition: all 0.2s;
-}
-
-.apw-ctrl-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.apw-ctrl-btn:not(:disabled):hover {
-    color: var(--theme-color);
-    transform: scale(1.1);
-}
-
-.apw-play-large {
-    width: 72px;
-    height: 72px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.apw-play-large:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 30px var(--theme-color);
+.apw-tray-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
-/* Progress bar */
-.apw-progress-bar {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 16px;
+.apw-tray-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 12px 14px;
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
 }
 
-.apw-progress-fill {
-    height: 100%;
-    transition: width 0.3s ease-out;
+.apw-tray-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.apw-tray-btn.active {
+    background: var(--theme-color);
+    color: #000;
+    font-weight: 600;
+    border-color: transparent;
+}
+
+.tray-icon {
+    font-size: 1.3rem;
 }
 
 /* Benefits View */

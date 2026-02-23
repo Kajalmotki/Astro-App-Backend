@@ -85,7 +85,7 @@ const ADVANCED_PRACTICES = [
  * Builds a single day's yoga practice from a planet remedy
  */
 const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
-    const { weeklyPlanAsanas, asanaObj, pranayama, mudra, meditation } = buildExtracts(remedy);
+    const { weeklyPlanAsanas, asanaObj, allAsanasData, pranayama, mudra, meditation } = buildExtracts(remedy);
 
     return {
         day: dayNum,
@@ -103,6 +103,7 @@ const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
         isWeak: remedy.isWeak,
         asana: weeklyPlanAsanas,
         asanaObj: asanaObj,
+        allAsanasData: allAsanasData || [],
         pranayama: pranayama,
         mudra: mudra,
         meditation: meditation,
@@ -114,21 +115,24 @@ const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
 const buildExtracts = (remedy) => {
     const r = remedy.remedies || {};
     if (remedy.isWeak) {
-        const asana = r.asanas?.[0] || { name: 'Shavasana', description: 'Complete rest' };
+        const asanaDataArr = (r.asanas || [{ name: 'Shavasana', description: 'Complete rest' }]).map(a => typeof a === 'object' ? a : { name: a });
+        const asana = asanaDataArr[0];
         const pranayamaItem = r.pranayama?.[0] || { name: 'Nadi Shodhana', description: '10 rounds' };
         return {
             weeklyPlanAsanas: `${asana.name || 'Shavasana'}`,
             asanaObj: asana,
+            allAsanasData: asanaDataArr,
             pranayama: pranayamaItem.name || 'Nadi Shodhana',
             mudra: r.mudra?.name || 'Jnana Mudra',
             meditation: r.meditation?.name || `Bija Mantra — ${remedy.bijaMantra || 'OM'}`
         };
     } else {
-        const asanas = r.richAsanas || r.asanas || [{ name: 'Shavasana' }];
-        const asanaObj = typeof asanas[0] === 'object' ? asanas[0] : { name: asanas[0] };
+        const asanaDataArr = (r.richAsanas || r.asanas || [{ name: 'Shavasana' }]).map(a => typeof a === 'object' ? a : { name: a });
+        const asanaObj = asanaDataArr[0];
         return {
             weeklyPlanAsanas: asanaObj.name || 'Shavasana',
             asanaObj: asanaObj,
+            allAsanasData: asanaDataArr,
             pranayama: r.pranayama || 'Nadi Shodhana',
             mudra: 'Dhyana Mudra',
             meditation: `Bija Chant — ${remedy.bijaMantra || 'OM'} (21 rounds)`
