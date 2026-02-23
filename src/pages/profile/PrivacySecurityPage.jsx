@@ -18,7 +18,7 @@ const PrivacySecurityPage = () => {
             <div className="profile-card">
                 <div className="profile-list-item" onClick={() => { }}>
                     <div className="item-info" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Key size={20} color="#94a3b8" />
+                        <Key size={20} color="var(--text-muted, #94a3b8)" />
                         <div>
                             <h4>Change Password</h4>
                             <p>Update your account password</p>
@@ -29,7 +29,7 @@ const PrivacySecurityPage = () => {
 
                 <div className="profile-list-item" onClick={() => { }}>
                     <div className="item-info" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Smartphone size={20} color="#94a3b8" />
+                        <Smartphone size={20} color="var(--text-muted, #94a3b8)" />
                         <div>
                             <h4>Two-Factor Authentication</h4>
                             <p>Add an extra layer of security</p>
@@ -42,7 +42,7 @@ const PrivacySecurityPage = () => {
             <div className="profile-card">
                 <div className="profile-list-item" onClick={() => { }}>
                     <div className="item-info" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Shield size={20} color="#94a3b8" />
+                        <Shield size={20} color="var(--text-muted, #94a3b8)" />
                         <div>
                             <h4>Data Privacy</h4>
                             <p>Manage how we use your data</p>

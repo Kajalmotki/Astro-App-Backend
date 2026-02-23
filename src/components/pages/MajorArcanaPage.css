@@ -6,12 +6,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0f0f1a;
+    background: var(--bg, #0f0f1a);
     z-index: 2000;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    color: #fff;
+    color: var(--text-primary, #fff);
     font-family: 'Cinzel', serif;
     /* Hide scrollbar for clean look */
     scrollbar-width: none;
@@ -26,17 +26,17 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background: rgba(15, 15, 26, 0.95);
+    background: var(--nav-bg, rgba(15, 15, 26, 0.95));
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    border-bottom: 1px solid var(--border, rgba(255, 215, 0, 0.1));
 }
 
 .arcana-title {
     font-size: 18px;
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     letter-spacing: 2px;
     margin: 0;
     text-transform: uppercase;
@@ -50,8 +50,8 @@
 }
 
 .arcana-card-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    background: var(--surface2, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.1));
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -61,7 +61,7 @@
 
 .arcana-card-item:hover {
     transform: translateY(-5px);
-    border-color: rgba(255, 215, 0, 0.4);
+    border-color: var(--theme-accent, rgba(255, 215, 0, 0.4));
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -70,8 +70,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, rgba(42, 42, 64, 0.5) 0%, rgba(15, 15, 26, 0.5) 100%);
-    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    background: var(--surface, radial-gradient(circle at center, rgba(42, 42, 64, 0.5) 0%, rgba(15, 15, 26, 0.5) 100%));
+    border-bottom: 1px solid var(--border, rgba(255, 215, 0, 0.1));
 }
 
 .arcana-emoji {
@@ -86,7 +86,7 @@
 
 .arcana-numeral {
     font-size: 10px;
-    color: rgba(255, 215, 0, 0.6);
+    color: var(--theme-accent, rgba(255, 215, 0, 0.6));
     letter-spacing: 1px;
     display: block;
     margin-bottom: 4px;
@@ -94,7 +94,7 @@
 
 .arcana-name {
     font-size: 14px;
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     margin: 0 0 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -103,7 +103,7 @@
 .arcana-meaning {
     font-family: 'Inter', sans-serif;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary-new, rgba(255, 255, 255, 0.6));
     line-height: 1.4;
     margin: 0;
     display: -webkit-box;

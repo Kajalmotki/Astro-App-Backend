@@ -1,6 +1,6 @@
 .about-us-container {
     padding: 24px;
-    color: #ecf0f1;
+    color: var(--text-primary, #ecf0f1);
     min-height: 100vh;
     padding-top: 20px;
     padding-bottom: 80px;
@@ -14,28 +14,28 @@
 
 .about-title {
     font-size: 2.2rem;
-    color: #ffd700;
+    color: var(--theme-accent, #ffd700);
     margin-bottom: 8px;
     font-family: 'Cinzel', serif;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    text-shadow: 0 0 15px var(--card-shadow, rgba(255, 215, 0, 0.4));
 }
 
 .about-subtitle {
     font-size: 1rem;
-    color: #94a3b8;
+    color: var(--text-muted, #94a3b8);
     font-style: italic;
     letter-spacing: 1px;
 }
 
 .about-section-card {
-    background: rgba(20, 20, 30, 0.6);
-    border: 1px solid rgba(255, 215, 0, 0.15);
+    background: var(--surface2, rgba(20, 20, 30, 0.6));
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.15));
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px var(--card-shadow, rgba(0, 0, 0, 0.3));
     position: relative;
     overflow: hidden;
 }
@@ -56,10 +56,10 @@
     align-items: center;
     gap: 12px;
     font-size: 1.4rem;
-    color: #ffd700;
+    color: var(--theme-accent, #ffd700);
     margin-bottom: 16px;
     font-family: 'Cinzel', serif;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    border-bottom: 1px solid var(--border, rgba(255, 215, 0, 0.2));
     padding-bottom: 10px;
 }
 
@@ -70,13 +70,13 @@
 .about-section-text {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: #cbd5e1;
+    color: var(--text-secondary-new, #cbd5e1);
 }
 
 /* Founder Specific Styles */
 .founder-card {
-    border-left: 3px solid #ffd700;
-    background: linear-gradient(145deg, rgba(255, 215, 0, 0.08) 0%, rgba(20, 20, 30, 0.7) 100%);
+    border-left: 3px solid var(--theme-accent, #ffd700);
+    background: var(--surface2, linear-gradient(145deg, rgba(255, 215, 0, 0.08) 0%, rgba(20, 20, 30, 0.7) 100%));
 }
 
 .founder-profile {
@@ -102,14 +102,14 @@
 
 .founder-name {
     font-size: 1.3rem;
-    color: #fff;
+    color: var(--text-primary, #fff);
     font-weight: bold;
     margin: 0;
 }
 
 .founder-role {
     font-size: 0.85rem;
-    color: #ffd700;
+    color: var(--theme-accent, #ffd700);
     text-transform: uppercase;
     letter-spacing: 1px;
     margin: 0;
@@ -119,8 +119,8 @@
 .founder-quote {
     font-style: italic;
     font-size: 1.05rem;
-    color: #f8fafc;
-    border-left: 2px solid rgba(255, 215, 0, 0.5);
+    color: var(--text-primary, #f8fafc);
+    border-left: 2px solid var(--border, rgba(255, 215, 0, 0.5));
     padding-left: 15px;
     margin: 15px 0;
     line-height: 1.5;
@@ -129,7 +129,7 @@
 .founder-signature {
     text-align: right;
     font-family: 'Cinzel', serif;
-    color: #ffd700;
+    color: var(--theme-accent, #ffd700);
     font-size: 1.1rem;
     margin-top: 10px;
 }

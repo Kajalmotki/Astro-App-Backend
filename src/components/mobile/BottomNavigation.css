@@ -6,19 +6,16 @@
     left: 0;
     width: 100%;
     height: 70px;
-    background: rgba(10, 10, 20, 0.8);
-    /* Dark Glass */
+    background: var(--nav-bg, rgba(10, 10, 20, 0.8));
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     display: flex;
     justify-content: space-around;
-    /* Distribute evenly */
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     z-index: 1000;
     padding: 0 10px 8px 10px;
-    /* Safe area padding */
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -5px 20px var(--card-shadow, rgba(0, 0, 0, 0.3));
     box-sizing: border-box;
 }
 
@@ -29,7 +26,7 @@
     justify-content: center;
     gap: 4px;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
     /* Inactive Text */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -68,7 +65,7 @@
 
 /* Active State */
 .nav-item.active {
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     /* Gold Active Text */
 }
 
@@ -79,13 +76,13 @@
 }
 
 .nav-item.active .nav-label {
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     font-weight: 600;
 }
 
 /* Optional: Active Background Highlight */
 .nav-item.active {
-    background: rgba(255, 215, 0, 0.05);
+    background: var(--icon-bg, rgba(255, 215, 0, 0.05));
     /* Very subtle gold tint */
 }
 
@@ -101,8 +98,8 @@
     left: 50%;
     transform: translateX(-50%);
 
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(255, 215, 0, 0.5);
+    background: var(--surface2, linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)));
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.5));
     padding: 12px 28px;
     border-radius: 50px;
     display: flex;
@@ -150,7 +147,7 @@
 .play-icon-circle {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    background: linear-gradient(135deg, var(--theme-accent, #FFD700) 0%, color-mix(in srgb, var(--theme-accent) 80%, black) 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -173,7 +170,7 @@
 .btn-text {
     font-size: 14px;
     font-weight: 700;
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     /* Gold text */
     letter-spacing: 1px;
     text-transform: uppercase;

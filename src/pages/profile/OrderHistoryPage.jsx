@@ -24,7 +24,7 @@ const OrderHistoryPage = () => {
             <div className="profile-card">
                 {orders.map((order, index) => (
                     <div key={index} className="profile-list-item">
-                        <div className="item-icon" style={{ marginRight: '16px', color: '#FFD700' }}>
+                        <div className="item-icon" style={{ marginRight: '16px', color: 'var(--theme-accent, #FFD700)' }}>
                             <Package size={24} />
                         </div>
                         <div className="item-info">
@@ -39,7 +39,7 @@ const OrderHistoryPage = () => {
                 ))}
             </div>
 
-            <p style={{ textAlign: 'center', color: '#64748b', fontSize: '13px', marginTop: '20px' }}>
+            <p style={{ textAlign: 'center', color: 'var(--text-muted, #64748b)', fontSize: '13px', marginTop: '20px' }}>
                 Showing last 3 months
             </p>
         </div>

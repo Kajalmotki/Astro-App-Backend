@@ -12,12 +12,24 @@
   /* Dark glass */
   --glass-border: rgba(45, 80, 22, 0.15);
   --glass-card-bg: linear-gradient(135deg, rgba(45, 80, 22, 0.06), rgba(184, 149, 111, 0.04));
-
   --primary-glow: rgba(45, 80, 22, 0.2);
   --bg-deep: #0a0a0a;
   /* Deep dark for contrast elements */
   --bg-gradient: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1a2d 100%);
   /* Starfield gradient */
+
+  /* Global AstroRevo Day/Night Tokens (Night Default) */
+  --bg: #09090f;
+  --surface: #12121e;
+  --surface2: #1c1c2e;
+  --theme-accent: #f5c518;
+  --text-primary: #f0ead6;
+  --text-secondary-new: #9b8fa8;
+  --text-muted: #5a5070;
+  --nav-bg: #0d0d1a;
+  --border: rgba(255, 210, 60, 0.12);
+  --card-shadow: rgba(0, 0, 0, 0.5);
+  --icon-bg: rgba(245, 197, 24, 0.10);
 
   /* Font System */
   --font-header: 'GT Ultra', 'Playfair Display', serif;
@@ -26,7 +38,7 @@
 }
 
 [data-theme='light'] {
-  /* Vantara Inspired Theme (Day Mode) */
+  /* Vantara Inspired Theme & AstroRevo Day Mode */
   --bg-main: #F9F6F0;
   /* Soft Beige/Off-white */
   --text-main: #1A3C34;
@@ -42,12 +54,24 @@
   /* Frosted white glass */
   --glass-border: rgba(26, 60, 52, 0.15);
   --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(249, 246, 240, 0.9));
-
   --primary-glow: rgba(212, 175, 55, 0.2);
   --bg-deep: #E8EDE7;
   /* Pale Sage for contrast elements */
-  --bg-gradient: #F9F6F0;
-  /* Solid beige for day mode (no starfield) */
+  --bg-gradient: #f5f0e8;
+  /* Solid beige for day mode */
+
+  /* Global AstroRevo Day Tokens */
+  --bg: #f5f0e8;
+  --surface: #fffdf7;
+  --surface2: #f0ebe0;
+  --theme-accent: #b87333;
+  --text-primary: #2c2010;
+  --text-secondary-new: #7a6040;
+  --text-muted: #b0956a;
+  --nav-bg: #ede8dd;
+  --border: rgba(180, 140, 80, 0.18);
+  --card-shadow: rgba(160, 120, 60, 0.10);
+  --icon-bg: rgba(184, 115, 51, 0.10);
 }
 
 * {

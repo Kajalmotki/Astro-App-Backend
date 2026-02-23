@@ -61,11 +61,11 @@
 
 /* Glass Card Global Style */
 .glass-card {
-  background: rgba(11, 19, 43, 0.6);
+  background: var(--surface, rgba(11, 19, 43, 0.6));
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 4px 30px var(--card-shadow, rgba(0, 0, 0, 0.1));
   border-radius: 16px;
 }
 
@@ -571,17 +571,17 @@
 
 .birth-form input,
 .birth-form select {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
+  background: var(--surface2, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--border, var(--glass-border));
   padding: 12px 15px;
   border-radius: 12px;
-  color: var(--text-light);
+  color: var(--text-primary, var(--text-light));
   outline: none;
   transition: border-color 0.3s;
 }
 
 .birth-form input:focus {
-  border-color: var(--primary);
+  border-color: var(--theme-accent, var(--primary));
 }
 
 .date-inputs,
@@ -596,7 +596,7 @@
 }
 
 .submit-btn {
-  background: #FFD700;
+  background: var(--theme-accent, #FFD700);
   color: #000000;
   border: none;
   padding: 18px;
@@ -608,8 +608,12 @@
   transition: background 0.3s;
 }
 
+[data-theme='light'] .submit-btn {
+  color: #ffffff;
+}
+
 .submit-btn:hover {
-  background: #FFE55C;
+  background: var(--theme-accent, #FFE55C);
   color: #000000;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }

@@ -40,7 +40,7 @@ const LanguageSettingsPage = () => {
                             onClick={() => setTempLang(lang.code)}
                         >
                             <div className="item-info">
-                                <h4 style={{ color: tempLang === lang.code ? '#FFD700' : 'white' }}>{lang.name}</h4>
+                                <h4 style={{ color: tempLang === lang.code ? 'var(--theme-accent, #FFD700)' : 'var(--text-primary, white)' }}>{lang.name}</h4>
                                 <p>{lang.native}</p>
                             </div>
                             <div className="radio-circle"></div>
@@ -49,7 +49,7 @@ const LanguageSettingsPage = () => {
                 </div>
             </div>
 
-            <div className="profile-footer-action" style={{ padding: '20px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', marginTop: 'auto' }}>
+            <div className="profile-footer-action" style={{ padding: '20px', background: 'var(--surface, rgba(0,0,0,0.5))', backdropFilter: 'blur(10px)', marginTop: 'auto' }}>
                 <button
                     className="save-profile-btn"
                     onClick={handleConfirm}

@@ -124,3 +124,38 @@
         padding-top: 90px;
     }
 }
+
+/* --- Full Bleed Overrides --- */
+.fs-full-bleed {
+    padding: 0 !important;
+}
+
+.fs-modal-full {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.fs-content-full {
+    padding: 0 !important;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.fs-close-full {
+    top: 15px !important;
+    right: 15px !important;
+    width: 35px !important;
+    height: 35px !important;
+    font-size: 1.5rem !important;
+    /* Make it less obtrusive on full-bleed screens but still visible */
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.fs-close-full:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: #fff !important;
+}

@@ -1,66 +1,87 @@
-/* Numerology Page Styles */
+/* Premium Numerology Page Styles */
 .numerology-container {
     width: 100%;
     max-width: 900px;
-    color: #fff;
+    color: var(--text-primary, #f8fafc);
     position: relative;
     z-index: 1;
+    margin: 0 auto;
+    padding-bottom: 50px;
 }
 
 .num-intro {
     text-align: center;
     max-width: 700px;
     margin: 0 auto 40px;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.8;
-    color: #ccc;
+    color: var(--text-secondary-new, #cbd5e1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 300;
 }
 
 /* Form Styles */
 .num-form {
-    max-width: 450px;
+    max-width: 480px;
     margin: 0 auto;
-    background: rgba(20, 20, 30, 0.6) !important;
-    border: 1px solid rgba(255, 215, 0, 0.15) !important;
-    border-radius: 20px;
-    padding: 40px;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: var(--surface2, linear-gradient(145deg, rgba(20, 20, 30, 0.7) 0%, rgba(10, 10, 20, 0.5) 100%)) !important;
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.2)) !important;
+    border-radius: 24px;
+    padding: 45px 40px;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 15px 40px var(--card-shadow, rgba(0, 0, 0, 0.4)), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.num-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
+    opacity: 0.8;
 }
 
 .num-form .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .num-form label {
     display: block;
-    color: #FFD700;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
+    color: var(--theme-accent, #FFD700);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .num-form input {
     width: 100%;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #fff;
-    font-size: 1rem;
-    transition: all 0.3s;
+    padding: 16px 20px;
+    background: var(--surface, rgba(0, 0, 0, 0.4));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.15));
+    border-radius: 12px;
+    color: var(--text-primary, #fff);
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .num-form input:focus {
     outline: none;
     border-color: #FFD700;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 215, 0, 0.2);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .num-form input::placeholder {
-    color: #666;
+    color: var(--text-muted, #64748b);
 }
 
 /* Calculating View */
@@ -71,29 +92,55 @@
 
 .number-spinner {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
     margin: 0 auto 40px;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+}
+
+.number-spinner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    animation: pulseCore 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCore {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
 }
 
 .spin-number {
     position: absolute;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #FFD700;
-    animation: spinAround 3s linear infinite;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--theme-accent, #FFD700);
+    animation: spinAround 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     animation-delay: calc(var(--i) * 0.33s);
     opacity: 0;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    font-family: 'Cinzel', serif;
 }
 
 @keyframes spinAround {
     0% {
-        transform: rotate(0deg) translateX(60px) rotate(0deg);
+        transform: rotate(0deg) translateX(75px) rotate(0deg);
         opacity: 0;
     }
 
     10% {
         opacity: 1;
+        filter: drop-shadow(0 0 10px #FFD700);
     }
 
     90% {
@@ -101,30 +148,34 @@
     }
 
     100% {
-        transform: rotate(360deg) translateX(60px) rotate(-360deg);
+        transform: rotate(360deg) translateX(75px) rotate(-360deg);
         opacity: 0;
     }
 }
 
 .calculating-view h3 {
-    color: #FFD700;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    color: var(--theme-accent, #FFD700);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 2px;
 }
 
 .calculating-view p {
-    color: #888;
+    color: var(--text-secondary-new, #cbd5e1);
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
 /* Results View */
 .results-view {
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
     to {
@@ -135,31 +186,33 @@
 
 .results-for {
     text-align: center;
-    color: #fff;
-    font-size: 1.8rem;
-    font-family: 'Playfair Display', serif;
-    margin-bottom: 40px;
+    color: var(--text-primary, #fff);
+    font-size: 2.2rem;
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    margin-bottom: 50px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
 }
 
 /* Numbers Grid */
 .numbers-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    margin-bottom: 40px;
+    gap: 30px;
+    margin-bottom: 50px;
 }
 
 .number-card {
-    background: rgba(20, 20, 30, 0.6) !important;
-    border: 1px solid rgba(255, 215, 0, 0.15) !important;
-    border-radius: 20px;
-    padding: 30px;
+    background: var(--surface, linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)) !important;
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.08)) !important;
+    border-radius: 24px;
+    padding: 35px 30px;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 10px 30px var(--card-shadow, rgba(0, 0, 0, 0.2)), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .number-card::before {
@@ -169,88 +222,132 @@
     left: 0;
     width: 4px;
     height: 100%;
-    background: var(--num-color);
+    background: linear-gradient(180deg, var(--num-color) 0%, transparent 100%);
+    opacity: 0.8;
+}
+
+.number-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, color-mix(in srgb, var(--num-color) 10%, transparent), transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 .number-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--num-color);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
-        0 0 30px color-mix(in srgb, var(--num-color) 20%, transparent);
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--num-color) 40%, transparent) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px color-mix(in srgb, var(--num-color) 15%, transparent);
+}
+
+.number-card:hover::after {
+    opacity: 1;
 }
 
 .number-card.main-card {
     grid-column: span 2;
-    background: linear-gradient(135deg, color-mix(in srgb, var(--num-color) 10%, transparent), transparent);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--num-color) 8%, transparent), transparent) !important;
+    border-color: color-mix(in srgb, var(--num-color) 20%, transparent) !important;
 }
 
 .number-circle {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--num-color), color-mix(in srgb, var(--num-color) 70%, black));
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, var(--num-color), color-mix(in srgb, var(--num-color) 50%, black));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 3rem;
+    font-weight: 800;
     color: #fff;
-    margin-bottom: 20px;
-    box-shadow: 0 10px 30px color-mix(in srgb, var(--num-color) 40%, transparent);
-    animation: pulseNumber 2s ease-in-out infinite;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--num-color) 40%, transparent), inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-family: 'Cinzel', serif;
+    position: relative;
 }
 
-@keyframes pulseNumber {
+.number-circle::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    border: 1px dashed color-mix(in srgb, var(--num-color) 50%, transparent);
+    animation: rotateDash 10s linear infinite;
+}
 
-    0%,
-    100% {
-        transform: scale(1);
+@keyframes rotateDash {
+    0% {
+        transform: rotate(0deg);
     }
 
-    50% {
-        transform: scale(1.05);
+    100% {
+        transform: rotate(360deg);
     }
 }
 
 .number-info {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .number-type {
     display: block;
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.85rem;
+    color: var(--text-muted, #94a3b8);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    font-weight: 600;
 }
 
 .number-trait {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--num-color);
     font-family: 'Playfair Display', serif;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .number-desc {
-    color: #ccc;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0 0 15px;
+    color: var(--text-secondary-new, #e2e8f0);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0 0 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .number-note {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: var(--text-muted, #94a3b8);
     font-style: italic;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 2;
 }
 
 /* Gold Button Override */
 .numerology-container .gold-btn {
     display: block;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     margin: 0 auto;
+    font-size: 1.15rem;
+    padding: 16px 30px;
+    letter-spacing: 1.5px;
 }
 
 /* Responsive */
@@ -264,6 +361,10 @@
     }
 
     .num-form {
-        padding: 25px;
+        padding: 30px 20px;
+    }
+
+    .results-for {
+        font-size: 1.8rem;
     }
 }

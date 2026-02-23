@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import CosmicBackground from './CosmicBackground';
 import './FullScreenOverlay.css';
 
-const FullScreenOverlay = ({ isOpen, onClose, title, children, variant = 'default' }) => {
+const FullScreenOverlay = ({ isOpen, onClose, title, children, variant = 'default', fullBleed = false }) => {
     // Close on escape key
     useEffect(() => {
         const handleEscape = (e) => {
@@ -23,15 +23,15 @@ const FullScreenOverlay = ({ isOpen, onClose, title, children, variant = 'defaul
     if (!isOpen) return null;
 
     return ReactDOM.createPortal(
-        <div className="fs-overlay">
-            <div className="fs-modal">
+        <div className={`fs-overlay ${fullBleed ? 'fs-full-bleed' : ''}`}>
+            <div className={`fs-modal ${fullBleed ? 'fs-modal-full' : ''}`}>
                 {/* Cosmic animated background */}
                 <CosmicBackground variant={variant} />
 
-                <button className="fs-close-btn" onClick={onClose}>×</button>
-                <h2 className="fs-title">{title}</h2>
+                <button className={`fs-close-btn ${fullBleed ? 'fs-close-full' : ''}`} onClick={onClose}>×</button>
+                {!fullBleed && <h2 className="fs-title">{title}</h2>}
 
-                <div className="fs-content">
+                <div className={`fs-content ${fullBleed ? 'fs-content-full' : ''}`}>
                     {children}
                 </div>
             </div>

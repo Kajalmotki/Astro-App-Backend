@@ -25,7 +25,7 @@ const ChatHistoryPage = () => {
                     <div key={index} className="profile-list-item">
                         <div className="item-icon" style={{
                             width: '40px', height: '40px', borderRadius: '50%',
-                            background: 'rgba(255,255,255,0.1)', display: 'flex',
+                            background: 'var(--surface, rgba(255,255,255,0.1))', display: 'flex',
                             alignItems: 'center', justifyContent: 'center', marginRight: '12px'
                         }}>
                             <User size={20} />
@@ -43,8 +43,8 @@ const ChatHistoryPage = () => {
             </div>
 
             <div className="profile-card" style={{ marginTop: '20px', textAlign: 'center', padding: '30px' }}>
-                <MessageSquare size={48} color="#64748b" style={{ marginBottom: '10px' }} />
-                <p style={{ color: '#94a3b8' }}>Start a new chat to gain more clarity.</p>
+                <MessageSquare size={48} color="var(--text-muted, #64748b)" style={{ marginBottom: '10px' }} />
+                <p style={{ color: 'var(--text-muted, #94a3b8)' }}>Start a new chat to gain more clarity.</p>
                 <button className="add-money-btn" style={{ margin: '10px auto', width: 'auto' }} onClick={() => navigate('/mobile/chat')}>
                     Talk to Astrologer
                 </button>

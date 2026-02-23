@@ -29,7 +29,7 @@
 
 .tarot-picker-subtitle {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary-new, rgba(255, 255, 255, 0.7));
     margin: 0 0 30px;
     font-weight: 300;
     letter-spacing: 0.5px;
@@ -287,7 +287,7 @@
 /* --- CARD FRONT (Revealed) --- */
 /* Illustrated Card Front */
 .tarot-card-front {
-    background: radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%);
+    background: var(--surface, radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%));
     /* Deep mystic background */
     border: 2px solid #FFD700;
     transform: rotateY(180deg);
@@ -296,7 +296,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 15px 10px;
-    color: white;
+    color: var(--text-primary, white);
     position: relative;
     overflow: hidden;
 }
@@ -375,7 +375,7 @@
 
 /* Reading Reveal Section */
 .tarot-reading-reveal {
-    background: rgba(20, 20, 30, 0.6);
+    background: var(--surface2, rgba(20, 20, 30, 0.6));
     /* Darker backdrop for text readability */
     backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 215, 0, 0.3);
@@ -546,12 +546,10 @@
     pointer-events: none;
 }
 
-/* Dark starry background */
 .tarot-reveal-bg {
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 40%, rgba(60, 0, 120, 0.85) 0%, rgba(5, 0, 20, 0.97) 70%);
+    background: var(--bg, radial-gradient(ellipse at 50% 40%, rgba(60, 0, 120, 0.85) 0%, rgba(5, 0, 20, 0.97) 70%));
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -601,7 +599,7 @@
     height: 256px;
     border-radius: 16px;
     border: 2px solid #FFD700;
-    background: radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%);
+    background: var(--surface, radial-gradient(circle at center, #2a2a40 0%, #0f0f1a 100%));
     box-shadow:
         0 0 60px rgba(255, 215, 0, 0.5),
         0 0 20px rgba(255, 215, 0, 0.3),

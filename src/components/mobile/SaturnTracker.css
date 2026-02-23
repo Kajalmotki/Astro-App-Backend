@@ -2,8 +2,8 @@
 
 .saturn-page-container {
     min-height: 100vh;
-    background: radial-gradient(circle at top, #1a1a2e 0%, #000 100%);
-    color: #e0e0e0;
+    background: var(--bg, radial-gradient(circle at top, #1a1a2e 0%, #000 100%));
+    color: var(--text-primary, #e0e0e0);
     padding: 20px;
     font-family: 'Inter', sans-serif;
     animation: fadeIn 0.5s ease-out;
@@ -18,7 +18,7 @@
     justify-content: space-between;
     margin-bottom: 25px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.1));
 }
 
 .back-btn {
@@ -42,7 +42,7 @@
 
 .page-subtitle {
     font-size: 0.75rem;
-    color: #666;
+    color: var(--text-muted, #666);
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -59,14 +59,14 @@
 
 .karma-value {
     font-weight: 800;
-    color: #000;
+    color: var(--text-primary, #000);
     font-size: 1rem;
     line-height: 1;
 }
 
 .karma-label {
     font-size: 0.6rem;
-    color: #000;
+    color: var(--text-primary, #000);
     font-weight: 700;
 }
 
@@ -79,8 +79,8 @@
 
 .stat-card {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface2, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     border-radius: 16px;
     padding: 15px;
     display: flex;
@@ -107,20 +107,20 @@
 .stat-value {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary, #fff);
 }
 
 .stat-label {
     font-size: 0.7rem;
-    color: #888;
+    color: var(--text-muted, #888);
 }
 
 /* Tracker Grid */
 .tracker-container {
-    background: rgba(20, 20, 30, 0.8);
+    background: var(--surface2, rgba(20, 20, 30, 0.8));
     border-radius: 16px;
     padding: 15px;
-    border: 1px solid rgba(192, 192, 192, 0.1);
+    border: 1px solid var(--border, rgba(192, 192, 192, 0.1));
     /* Subtle silver border */
     overflow-x: auto;
     /* Allow scrolling if needed on tiny screens */
@@ -131,14 +131,14 @@
     grid-template-columns: minmax(100px, 2.5fr) repeat(7, minmax(28px, 1fr)) minmax(50px, 1.2fr);
     gap: 4px;
     margin-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.05));
     padding-bottom: 10px;
     align-items: center;
 }
 
 .col-habit {
     font-size: 0.75rem;
-    color: #888;
+    color: var(--text-muted, #888);
     text-transform: uppercase;
     font-weight: 600;
     padding-left: 5px;
@@ -146,13 +146,13 @@
 
 .col-day {
     font-size: 0.65rem;
-    color: #666;
+    color: var(--text-muted, #666);
     text-align: center;
 }
 
 .col-progress {
     font-size: 0.7rem;
-    color: #888;
+    color: var(--text-muted, #888);
     text-align: center;
 }
 
@@ -168,7 +168,7 @@
     grid-template-columns: minmax(100px, 2.5fr) repeat(7, minmax(28px, 1fr)) minmax(50px, 1.2fr);
     gap: 4px;
     align-items: center;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--surface, rgba(255, 255, 255, 0.02));
     padding: 8px 0;
     border-radius: 8px;
 }
@@ -185,7 +185,7 @@
 
 .habit-name {
     font-size: 0.8rem;
-    color: #ddd;
+    color: var(--text-primary, #ddd);
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
@@ -231,8 +231,8 @@
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: var(--surface, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.2));
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -274,7 +274,7 @@
 
 .progress-text {
     font-size: 0.65rem;
-    color: #aaa;
+    color: var(--text-muted, #aaa);
 }
 
 /* Add Habit */
@@ -284,9 +284,9 @@
 
 .add-habit-btn {
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed rgba(255, 255, 255, 0.3);
-    color: #aaa;
+    background: var(--surface, rgba(255, 255, 255, 0.05));
+    border: 1px dashed var(--border, rgba(255, 255, 255, 0.3));
+    color: var(--text-muted, #aaa);
     padding: 12px;
     border-radius: 12px;
     display: flex;
@@ -298,8 +298,8 @@
 }
 
 .add-habit-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--surface2, rgba(255, 255, 255, 0.1));
+    color: var(--text-primary, #fff);
     border-style: solid;
 }
 
@@ -310,9 +310,9 @@
 
 .habit-input {
     flex: 1;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
+    background: var(--surface, rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.2));
+    color: var(--text-primary, #fff);
     padding: 10px 15px;
     border-radius: 10px;
     outline: none;
@@ -347,7 +347,7 @@
     text-align: center;
     margin-top: 40px;
     font-style: italic;
-    color: #888;
+    color: var(--text-muted, #888);
     font-size: 0.9rem;
     padding: 0 20px;
 }

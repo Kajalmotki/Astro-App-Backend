@@ -1,4 +1,4 @@
-/* Virtual Pooja Full Screen Styles */
+/* Premium Virtual Pooja Full Screen Styles */
 
 .virtual-pooja-overlay {
     position: fixed;
@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
@@ -37,18 +37,20 @@
     border-radius: 0;
     padding: 0;
     overflow: hidden;
-    animation: modalSlideIn 0.5s ease;
+    animation: modalSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes modalSlideIn {
     from {
         opacity: 0;
         transform: scale(1.05);
+        filter: blur(10px);
     }
 
     to {
         opacity: 1;
         transform: scale(1);
+        filter: blur(0);
     }
 }
 
@@ -56,9 +58,9 @@
     position: fixed;
     top: 25px;
     right: 25px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 2px solid rgba(255, 215, 0, 0.5);
-    color: #FFD700;
+    background: var(--surface, linear-gradient(145deg, rgba(20, 20, 30, 0.6) 0%, rgba(10, 10, 20, 0.4) 100%));
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.3));
+    color: var(--theme-accent, #FFD700);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -67,15 +69,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 100;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .pooja-close-btn:hover {
-    background: rgba(255, 50, 50, 0.5);
-    border-color: #fff;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(220, 38, 38, 0.3));
+    border-color: #fca5a5;
+    color: #fca5a5;
     transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
 }
 
 .pooja-title {
@@ -84,15 +90,17 @@
     left: 50%;
     transform: translateX(-50%);
     color: #FFD700;
-    font-size: 2.5rem;
-    font-family: 'Playfair Display', serif;
-    text-shadow:
-        0 0 20px rgba(0, 0, 0, 0.8),
-        0 0 40px rgba(255, 215, 0, 0.4),
-        0 4px 15px rgba(0, 0, 0, 0.9);
+    background: linear-gradient(135deg, #FFD700 0%, #fff 50%, #FFD700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.8rem;
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
     z-index: 50;
     margin: 0;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
+    font-weight: 700;
 }
 
 /* God Selection Dropdown - Top Left */
@@ -102,26 +110,29 @@
     left: 30px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     z-index: 50;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 12px 20px;
+    background: var(--surface, linear-gradient(145deg, rgba(20, 20, 30, 0.6) 0%, rgba(10, 10, 20, 0.4) 100%));
+    padding: 12px 24px;
     border-radius: 30px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.2));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .god-selection label {
-    color: #FFD700;
-    font-size: 1rem;
+    color: var(--theme-accent, #FFD700);
+    font-size: 1.05rem;
     font-weight: 600;
+    letter-spacing: 1px;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .god-select {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 215, 0, 0.5);
-    color: #fff;
+    background: var(--surface2, rgba(0, 0, 0, 0.4));
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.4));
+    color: var(--text-primary, #fff);
     padding: 10px 20px;
     border-radius: 20px;
     font-size: 1rem;
@@ -129,17 +140,19 @@
     outline: none;
     min-width: 160px;
     transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
 }
 
 .god-select:hover,
 .god-select:focus {
     border-color: #FFD700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .god-select option {
-    background: #1a1a2e;
-    color: #fff;
+    background: var(--bg, #1a1a2e);
+    color: var(--text-primary, #fff);
     padding: 10px;
 }
 
@@ -176,11 +189,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg,
-            rgba(100, 200, 255, 0.2) 0%,
-            transparent 50%,
-            rgba(100, 200, 255, 0.1) 100%);
-    animation: waterGlow 1s ease-in-out infinite;
+    background: linear-gradient(180deg, rgba(100, 200, 255, 0.2) 0%, transparent 50%, rgba(100, 200, 255, 0.1) 100%);
+    animation: waterGlow 1.5s ease-in-out infinite;
     pointer-events: none;
 }
 
@@ -188,7 +198,7 @@
 
     0%,
     100% {
-        opacity: 0.5;
+        opacity: 0.4;
     }
 
     50% {
@@ -201,12 +211,12 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.85);
-    transition: filter 0.5s ease;
+    filter: brightness(0.85) contrast(1.1);
+    transition: filter 0.8s ease;
 }
 
 .deity-image-wrapper.abhishek-active .deity-image {
-    filter: brightness(1) saturate(1.1);
+    filter: brightness(1) saturate(1.2) contrast(1.15);
 }
 
 .deity-name {
@@ -230,31 +240,25 @@
     top: -50px;
     left: 50%;
     transform: translateX(-50%);
-    width: 20px;
+    width: 25px;
     height: 0;
-    background: linear-gradient(180deg,
-            transparent 0%,
-            rgba(100, 200, 255, 0.7) 20%,
-            rgba(150, 220, 255, 0.9) 50%,
-            rgba(100, 200, 255, 0.5) 100%);
-    border-radius: 10px;
+    background: linear-gradient(180deg, transparent 0%, rgba(100, 200, 255, 0.8) 20%, rgba(150, 220, 255, 0.95) 50%, rgba(100, 200, 255, 0.6) 100%);
+    border-radius: 12px;
     animation: waterPour 3s ease-in-out forwards;
     filter: blur(2px);
-    box-shadow:
-        0 0 30px rgba(100, 200, 255, 0.6),
-        0 0 60px rgba(100, 200, 255, 0.3);
+    box-shadow: 0 0 40px rgba(100, 200, 255, 0.7), 0 0 80px rgba(100, 200, 255, 0.4);
 }
 
 .water-stream.delay-1 {
     left: 45%;
     animation-delay: 0.3s;
-    width: 15px;
+    width: 18px;
 }
 
 .water-stream.delay-2 {
     left: 55%;
     animation-delay: 0.6s;
-    width: 15px;
+    width: 18px;
 }
 
 @keyframes waterPour {
@@ -284,9 +288,9 @@
     bottom: 30%;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 40px;
-    background: radial-gradient(ellipse, rgba(100, 200, 255, 0.5) 0%, transparent 70%);
+    width: 120px;
+    height: 50px;
+    background: radial-gradient(ellipse, rgba(100, 200, 255, 0.6) 0%, transparent 70%);
     border-radius: 50%;
     animation: splash 3s ease-in-out forwards;
     opacity: 0;
@@ -297,29 +301,30 @@
     0%,
     20% {
         opacity: 0;
-        width: 50px;
+        width: 60px;
     }
 
     40% {
         opacity: 1;
-        width: 150px;
+        width: 180px;
+        box-shadow: 0 0 30px rgba(100, 200, 255, 0.5);
     }
 
     100% {
         opacity: 0;
-        width: 250px;
+        width: 300px;
     }
 }
 
 /* Flower Offering Effect - Full Screen */
 .flower-offering {
     position: fixed;
-    top: -50px;
-    font-size: 3rem;
-    animation: flowerFall 3s ease-in forwards;
+    top: -60px;
+    font-size: 3.5rem;
+    animation: flowerFall 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     pointer-events: none;
     z-index: 30;
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
 }
 
 @keyframes flowerFall {
@@ -355,11 +360,11 @@
 /* Pooja Action Buttons - Bottom Center */
 .pooja-actions {
     position: fixed;
-    bottom: 40px;
+    bottom: 45px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 20px;
+    gap: 25px;
     z-index: 50;
 }
 
@@ -368,20 +373,41 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 18px 28px;
-    min-width: 140px;
+    background: var(--surface, linear-gradient(145deg, rgba(20, 20, 30, 0.7) 0%, rgba(10, 10, 20, 0.5) 100%));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.15));
+    border-radius: 24px;
+    padding: 22px 32px;
+    min-width: 150px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    color: #fff;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--text-primary, #f8fafc);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.pooja-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    opacity: 0.3;
+    transition: opacity 0.3s;
 }
 
 .pooja-btn:hover {
     transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.pooja-btn:hover::before {
+    opacity: 0.8;
 }
 
 .pooja-btn:active {
@@ -389,182 +415,207 @@
 }
 
 .pooja-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
 
 .btn-icon {
-    font-size: 2.5rem;
-    margin-bottom: 8px;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+    transition: transform 0.3s;
+}
+
+.pooja-btn:hover .btn-icon {
+    transform: scale(1.1);
 }
 
 .btn-label {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    margin-bottom: 4px;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
 }
 
 .btn-sublabel {
-    font-size: 0.75rem;
-    color: #aaa;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* Abhishek Button */
 .abhishek-btn {
-    border-color: rgba(100, 200, 255, 0.5);
-    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2) 0%, rgba(50, 150, 200, 0.1) 100%);
+    border-color: rgba(100, 200, 255, 0.3);
+}
+
+.abhishek-btn::before {
+    background: linear-gradient(90deg, transparent, #64c8ff, transparent);
 }
 
 .abhishek-btn:hover {
-    border-color: rgba(100, 200, 255, 0.9);
-    box-shadow:
-        0 0 30px rgba(100, 200, 255, 0.4),
-        0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(100, 200, 255, 0.7);
+    box-shadow: 0 0 35px rgba(100, 200, 255, 0.3), 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 .abhishek-btn.active {
-    animation: pulse 0.5s ease infinite;
+    animation: pulseWater 1.5s ease-in-out infinite;
     border-color: #64C8FF;
-    box-shadow: 0 0 50px rgba(100, 200, 255, 0.6);
+    background: linear-gradient(145deg, rgba(100, 200, 255, 0.2) 0%, rgba(10, 10, 20, 0.6) 100%);
+    box-shadow: 0 0 50px rgba(100, 200, 255, 0.4);
+}
+
+@keyframes pulseWater {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(100, 200, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 60px rgba(100, 200, 255, 0.6);
+    }
 }
 
 /* Flowers Button */
 .flowers-btn {
-    border-color: rgba(255, 150, 200, 0.5);
-    background: linear-gradient(135deg, rgba(255, 150, 200, 0.2) 0%, rgba(255, 100, 150, 0.1) 100%);
+    border-color: rgba(255, 150, 200, 0.3);
+}
+
+.flowers-btn::before {
+    background: linear-gradient(90deg, transparent, #ff96c8, transparent);
 }
 
 .flowers-btn:hover {
-    border-color: rgba(255, 150, 200, 0.9);
-    box-shadow:
-        0 0 30px rgba(255, 150, 200, 0.4),
-        0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 150, 200, 0.7);
+    box-shadow: 0 0 35px rgba(255, 150, 200, 0.3), 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 /* Mantra Button */
 .mantra-btn {
-    border-color: rgba(255, 215, 0, 0.5);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 180, 0, 0.1) 100%);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.mantra-btn::before {
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
 }
 
 .mantra-btn:hover {
-    border-color: rgba(255, 215, 0, 0.9);
-    box-shadow:
-        0 0 30px rgba(255, 215, 0, 0.4),
-        0 15px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.7);
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.3), 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 .mantra-btn.playing {
-    animation: glowPulse 1s ease infinite;
+    animation: pulseGold 2s ease-in-out infinite;
     border-color: #FFD700;
+    background: linear-gradient(145deg, rgba(255, 215, 0, 0.15) 0%, rgba(10, 10, 20, 0.6) 100%);
 }
 
-@keyframes pulse {
+@keyframes pulseGold {
 
     0%,
     100% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         transform: scale(1);
     }
 
     50% {
-        transform: scale(1.08);
-    }
-}
-
-@keyframes glowPulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-    }
-
-    50% {
-        box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+        transform: scale(1.05);
     }
 }
 
 /* Blessing Message - Bottom */
 .blessing-message {
     position: fixed;
-    bottom: 150px;
+    bottom: 160px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    padding: 15px 30px;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    padding: 18px 35px;
+    background: var(--surface, linear-gradient(145deg, rgba(20, 20, 30, 0.7) 0%, rgba(10, 10, 20, 0.5) 100%));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: 30px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.3));
     z-index: 40;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .blessing-message p {
     color: #FFD700;
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin: 0;
     font-style: italic;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Playfair Display', serif;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
     white-space: nowrap;
+    letter-spacing: 1px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .pooja-title {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         top: 20px;
     }
 
     .god-selection {
-        top: 80px;
+        top: 85px;
         left: 50%;
         transform: translateX(-50%);
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
+        width: 85%;
+        max-width: 300px;
+        padding: 15px;
     }
 
     .pooja-actions {
         flex-wrap: wrap;
-        gap: 12px;
-        bottom: 20px;
+        gap: 15px;
+        bottom: 25px;
         max-width: 95%;
+        justify-content: center;
     }
 
     .pooja-btn {
-        min-width: 100px;
-        padding: 12px 18px;
+        min-width: 110px;
+        padding: 15px 20px;
+        border-radius: 20px;
     }
 
     .btn-icon {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
     }
 
     .btn-label {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
 
     .blessing-message {
-        bottom: 130px;
-        padding: 10px 20px;
+        bottom: 150px;
+        padding: 12px 24px;
+        width: 85%;
     }
 
     .blessing-message p {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         white-space: normal;
+        line-height: 1.4;
     }
 
     .flower-offering {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
     .pooja-close-btn {
         top: 15px;
         right: 15px;
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.6rem;
     }
 }

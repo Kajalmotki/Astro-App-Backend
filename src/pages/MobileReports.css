@@ -3,7 +3,8 @@
 .mobile-reports-container {
     padding: 24px 20px;
     min-height: 100vh;
-    color: #f1f5f9;
+    background: var(--bg, transparent);
+    color: var(--text-primary, #f1f5f9);
     font-family: 'Inter', sans-serif;
     padding-bottom: 100px;
 }
@@ -16,13 +17,17 @@
     font-size: 24px;
     margin: 0;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary, #ffffff);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='light'] .page-header h2 {
+    text-shadow: none;
 }
 
 .page-header p {
     margin: 6px 0 0;
-    color: #cbd5e1;
+    color: var(--text-secondary-new, #cbd5e1);
     font-size: 14px;
 }
 
@@ -34,17 +39,18 @@
 }
 
 .accordion-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface, rgba(255, 255, 255, 0.05));
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     border-radius: 20px;
     overflow: hidden;
     transition: background 0.2s, border-color 0.2s;
+    box-shadow: 0 4px 15px var(--card-shadow, rgba(0, 0, 0, 0.15));
 }
 
 .accordion-item.active {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--surface2, rgba(255, 255, 255, 0.08));
+    border-color: var(--theme-accent, rgba(255, 255, 255, 0.2));
 }
 
 .accordion-header {
@@ -77,13 +83,13 @@
 .header-info h3 {
     margin: 0;
     font-size: 16px;
-    color: #f1f5f9;
+    color: var(--text-primary, #f1f5f9);
     font-weight: 600;
 }
 
 .header-info span {
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--text-muted, #94a3b8);
     display: block;
     margin-top: 2px;
 }
@@ -116,10 +122,9 @@
 
 /* Existing Content Styles (Reused) */
 .glass-panel {
-    background: rgba(0, 0, 0, 0.2);
-    /* Darker inside accordion */
+    background: var(--surface2, rgba(0, 0, 0, 0.2));
     border-radius: 16px;
-    border: none;
+    border: 1px solid var(--border, transparent);
 }
 
 /* Birth Chart Section */
@@ -151,18 +156,18 @@
     align-items: center;
     margin-bottom: 16px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.1));
 }
 
 .chart-header-mini h4 {
     margin: 0;
-    color: #e2e8f0;
+    color: var(--text-primary, #e2e8f0);
 }
 
 .reset-btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--icon-bg, rgba(255, 255, 255, 0.1));
     border: none;
-    color: #cbd5e1;
+    color: var(--text-secondary-new, #cbd5e1);
     padding: 4px 10px;
     border-radius: 8px;
     font-size: 12px;
@@ -178,8 +183,8 @@
 .chart-summary-mini {
     margin-top: 16px;
     font-size: 13px;
-    color: #94a3b8;
-    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-muted, #94a3b8);
+    background: var(--surface2, rgba(0, 0, 0, 0.2));
     padding: 10px;
     border-radius: 10px;
 }
@@ -341,23 +346,23 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface2, rgba(255, 255, 255, 0.05));
     padding: 10px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.05));
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .chakra-item-card:active {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--surface, rgba(255, 255, 255, 0.1));
 }
 
 .chakra-symbol-box {
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    border: 1px solid;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -369,16 +374,16 @@
 .chakra-info h4 {
     margin: 0;
     font-size: 14px;
-    color: #f1f5f9;
+    color: var(--text-primary, #f1f5f9);
 }
 
 .chakra-info span {
     font-size: 11px;
-    color: #94a3b8;
+    color: var(--text-muted, #94a3b8);
 }
 
 .arrow-icon {
-    color: #475569;
+    color: var(--text-muted, #475569);
 }
 
 /* BCA Section */
@@ -432,23 +437,23 @@
 
 /* Sample Chart / Razorpay Button Styles (Shared from MobileHome) */
 .sample-chart-container {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface2, rgba(255, 255, 255, 0.05));
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    border: 1px solid var(--theme-accent, rgba(255, 215, 0, 0.2));
     border-radius: 20px;
     padding: 16px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px var(--card-shadow, rgba(0, 0, 0, 0.3));
 }
 
 .sample-chart-preview-btn {
     display: flex;
     align-items: center;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--surface, rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     border-radius: 12px;
     padding: 12px;
     width: 100%;
@@ -459,19 +464,19 @@
 }
 
 .sample-chart-preview-btn:active {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--surface2, rgba(255, 255, 255, 0.1));
 }
 
 .preview-icon {
     width: 40px;
     height: 40px;
-    background: rgba(255, 215, 0, 0.1);
+    background: var(--icon-bg, rgba(255, 215, 0, 0.1));
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 12px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    border: 1px solid var(--border, rgba(255, 215, 0, 0.2));
 }
 
 .preview-text {
@@ -482,23 +487,23 @@
 }
 
 .preview-title {
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     font-size: 14px;
     font-weight: 600;
 }
 
 .preview-subtitle {
-    color: #cbd5e1;
+    color: var(--text-secondary-new, #cbd5e1);
     font-size: 11px;
 }
 
 .preview-arrow {
-    color: #FFD700;
+    color: var(--theme-accent, #FFD700);
     font-weight: bold;
 }
 
 .razorpay-buy-btn {
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    background: var(--theme-accent, linear-gradient(135deg, #FFD700 0%, #FFA500 100%));
     border: none;
     border-radius: 12px;
     padding: 14px;
@@ -509,8 +514,12 @@
     font-weight: 700;
     color: #000;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+    box-shadow: 0 4px 12px var(--card-shadow, rgba(255, 165, 0, 0.3));
     transition: transform 0.2s;
+}
+
+[data-theme='light'] .razorpay-buy-btn {
+    color: #ffffff;
 }
 
 .razorpay-buy-btn:active {

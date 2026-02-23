@@ -10,20 +10,22 @@ import MagicCrystalBall from '../components/mobile/MagicCrystalBall';
 import TarotCardPicker from '../components/mobile/TarotCardPicker';
 import WhyAstroRevo from '../components/WhyAstroRevo';
 import PlanetTransitTicker from '../components/mobile/PlanetTransitTicker';
-import './MobileHome.css?v=12';
+import { useTheme } from '../contexts/ThemeContext';
+import './MobileHome.css';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
 const MobileHome = () => {
     const navigate = useNavigate();
     const { t } = useLanguage();
+    const { isDarkMode } = useTheme();
     const [showVideo, setShowVideo] = useState(false);
     const [showTarotModal, setShowTarotModal] = useState(false);
     const userName = "Seeker";
     const tarotPickerRef = useRef(null);
 
     const services = [
-        { name: "Local AI (New)", icon: <Sparkles size={32} color="#FFD700" />, action: () => navigate('/mobile/local-ai') },
+        { name: "Local AI (New)", icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/local-ai') },
         { name: t("Chart"), icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
         { name: t("Matchmaking"), icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
         { name: t("Panchang"), icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
@@ -59,11 +61,15 @@ const MobileHome = () => {
 
     return (
         <div className="mobile-home-container" style={{ position: 'relative', zIndex: 1, background: 'transparent', minHeight: '100vh', paddingBottom: '100px' }}>
+            {!isDarkMode && <div className="day-mode-radial-sun"></div>}
+
             {/* Header Section */}
             <header className="mobile-header">
                 <div className="greeting-container">
                     <h1 className="greeting-text">{t("Namaste")}, {userName}</h1>
-                    <p className="greeting-sub">{t("The stars align for you today.")}</p>
+                    <p className="greeting-sub">
+                        {isDarkMode ? t("The stars align for you tonight.") : t("Cosmic clarity awaits you today.")}
+                    </p>
                 </div>
             </header>
 
@@ -122,22 +128,22 @@ const MobileHome = () => {
                             <button className="tarot-action-btn tarot-action-shuffle" onClick={handleShuffle}>
                                 <Shuffle size={22} />
                                 <div className="tarot-action-text">
-                                    <span className="tarot-action-title">Shuffle the Deck</span>
-                                    <span className="tarot-action-desc">Reveal a new spread</span>
+                                    <div className="tarot-action-title">Shuffle the Deck</div>
+                                    <div className="tarot-action-desc">Reveal a new spread</div>
                                 </div>
                             </button>
                             <button className="tarot-action-btn tarot-action-reveal" onClick={handleReveal}>
                                 <Eye size={22} />
                                 <div className="tarot-action-text">
-                                    <span className="tarot-action-title">Reveal My Card</span>
-                                    <span className="tarot-action-desc">Let fate choose for you</span>
+                                    <div className="tarot-action-title">Reveal My Card</div>
+                                    <div className="tarot-action-desc">Let fate choose for you</div>
                                 </div>
                             </button>
                             <button className="tarot-action-btn tarot-action-learn" onClick={handleLearnTarot}>
                                 <BookOpen size={22} />
                                 <div className="tarot-action-text">
-                                    <span className="tarot-action-title">Learn Tarot</span>
-                                    <span className="tarot-action-desc">Understand the arcana</span>
+                                    <div className="tarot-action-title">Learn Tarot</div>
+                                    <div className="tarot-action-desc">Understand the arcana</div>
                                 </div>
                             </button>
                         </div>

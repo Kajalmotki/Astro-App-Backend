@@ -20,15 +20,32 @@
     font-size: 24px;
     font-weight: 700;
     margin: 0;
-    color: #ffffff;
+    color: var(--text-primary, #ffffff);
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .greeting-sub {
     font-size: 13px;
-    color: #cbd5e1;
+    color: var(--text-secondary-new, #cbd5e1);
     margin-top: 4px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='light'] .greeting-text,
+[data-theme='light'] .greeting-sub {
+    text-shadow: none;
+}
+
+.day-mode-radial-sun {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255, 200, 80, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Daily Insight Card - Glassmorphism */
@@ -261,22 +278,25 @@
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
     grid-template-rows: repeat(3, auto) !important;
-    gap: 20px 10px !important;
+    gap: 24px 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     animation: none !important;
     justify-items: center !important;
     align-items: start !important;
-    padding: 0 5px !important;
+    padding: 16px 20px !important;
 }
 
 .ticker-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     gap: 8px;
     cursor: pointer;
     width: 100%;
+    min-width: 80px;
+    min-height: 90px;
 }
 
 /* New Premium Icon Styles */
@@ -285,34 +305,32 @@
 /* Premium Icon Box (Lucide) */
 /* Premium Icon Box (Custom Images) */
 .ticker-icon-box-premium {
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    /* Removed background to let image shine */
+    background: none;
     border: none;
-    /* Remove border if image has it, or keep: 1px solid rgba(255, 215, 0, 0.2) */
     box-shadow: none;
-    transition: all 0.2s ease;
     padding: 0;
-    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .ticker-img-premium {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    /* Ensure entire icon is visible */
     border-radius: 18px;
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
 }
 
+[data-theme='light'] .ticker-img-premium {
+    filter: drop-shadow(0 2px 4px rgba(180, 140, 80, 0.2));
+}
+
 .ticker-icon-box-premium:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 0, 0, 0.3));
+    transform: scale(0.9);
 }
 
 .ticker-img-premium:active {
@@ -331,19 +349,23 @@
 
 .ticker-item:active .ticker-icon-box {
     transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: var(--surface2, rgba(255, 255, 255, 0.15));
+    box-shadow: 0 2px 8px var(--card-shadow, rgba(0, 0, 0, 0.2));
 }
 
 .ticker-item span {
     font-size: 11px;
-    color: #e2e8f0;
+    color: var(--text-primary, #e2e8f0);
     font-weight: 600;
     white-space: normal;
     text-align: center;
-    max-width: 68px;
-    line-height: 1.05;
+    max-width: 80px;
+    line-height: 1.2;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='light'] .ticker-item span {
+    text-shadow: none;
 }
 
 /* Remove unused keyframes to clean up */
@@ -419,26 +441,20 @@
     width: 92px;
     height: 92px;
     border-radius: 50%;
-    border: none;
-    background: radial-gradient(circle at 32% 28%,
-            rgba(200, 180, 255, 0.9) 0%,
-            rgba(100, 60, 180, 0.85) 30%,
-            rgba(30, 10, 80, 0.95) 65%,
-            rgba(8, 2, 30, 1) 100%);
+    border: 1.5px dashed rgba(255, 215, 0, 0.5);
+    background: transparent;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 3px;
     box-shadow:
-        0 0 0 3px rgba(179, 130, 255, 0.35),
-        0 0 0 7px rgba(150, 80, 255, 0.12),
-        0 16px 40px rgba(0, 0, 0, 0.7),
-        inset 0 0 22px rgba(180, 130, 255, 0.2),
-        inset -3px -3px 10px rgba(0, 0, 0, 0.4),
-        inset 3px 3px 10px rgba(255, 255, 255, 0.08);
+        0 0 0 6px rgba(255, 215, 0, 0.05),
+        0 8px 24px rgba(0, 0, 0, 0.25);
     cursor: pointer;
-    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     position: relative;
     z-index: 65;
     animation: orbPulse 3.5s ease-in-out infinite;
@@ -476,7 +492,7 @@
     left: 20%;
     width: 35%;
     height: 22%;
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.55) 0%, transparent 80%);
+    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.15) 0%, transparent 80%);
     border-radius: 50%;
     pointer-events: none;
 }
@@ -484,13 +500,8 @@
 .tarot-select-btn:hover {
     transform: translateY(-5px) scale(1.07);
     animation: none;
-    box-shadow:
-        0 0 0 5px rgba(255, 215, 0, 0.5),
-        0 0 0 14px rgba(200, 130, 255, 0.18),
-        0 22px 50px rgba(0, 0, 0, 0.75),
-        inset 0 0 30px rgba(220, 180, 255, 0.35),
-        inset -3px -3px 10px rgba(0, 0, 0, 0.4),
-        inset 3px 3px 10px rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 215, 0, 0.95);
+    box-shadow: 0 0 0 12px rgba(255, 215, 0, 0.1), 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 .tarot-select-btn:active {
@@ -506,20 +517,20 @@
     display: block;
     font-size: 20px;
     color: rgba(255, 220, 100, 0.9);
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
     line-height: 1;
 }
 
 .tarot-select-text {
     display: block;
     font-size: 9px;
-    color: rgba(220, 200, 255, 0.85);
+    color: rgba(255, 215, 0, 0.75);
     font-weight: 500;
     font-style: italic;
     font-family: 'Georgia', 'Garamond', serif;
     letter-spacing: 0.5px;
     text-align: center;
-    text-shadow: 0 0 6px rgba(180, 130, 255, 0.7);
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
 }
 
 /* ===================== TAROT ACTION MODAL ===================== */
@@ -600,15 +611,18 @@
 }
 
 .tarot-action-btn {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 15px 18px;
-    border: none;
-    border-radius: 16px;
-    cursor: pointer;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    padding: 15px 18px !important;
+    border: none !important;
+    border-radius: 16px !important;
+    cursor: pointer !important;
     transition: transform 0.18s ease, box-shadow 0.18s ease;
-    text-align: left;
+    text-align: left !important;
+    width: 100% !important;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(160, 100, 255, 0.18);
 }
@@ -648,9 +662,11 @@
 }
 
 .tarot-action-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 2px !important;
 }
 
 .tarot-action-title {
