@@ -303,6 +303,7 @@ function AppContent() {
                 <Route path="sample" element={<div className="page-content" style={{ paddingTop: '0px' }}><SampleChart /></div>} />
                 <Route path="tarot-reveal" element={<div className="page-content" style={{ paddingTop: '0px' }}><TarotRevealPage /></div>} />
                 <Route path="major-arcana" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
+                <Route path="tarot-guide" element={<div className="page-content" style={{ paddingTop: '0px' }}><MajorArcanaPage /></div>} />
 
                 {/* New Tracker Route */}
                 <Route path="saturn-tracker" element={<div className="page-content" style={{ paddingTop: '0px' }}><SaturnTracker /></div>} />

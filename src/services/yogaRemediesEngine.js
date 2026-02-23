@@ -1,21 +1,20 @@
 /**
  * AstroRevo Yoga Remedies Engine
  *
- * Curated remedies from 4 classical yoga texts:
+ * Curated remedies from 5 classical yoga texts:
  * - Hatha Yoga Pradipika (HYP) by Swami Muktibodhananda
  * - Gheranda Samhita (GS) — 32 Asanas, Mudras, Shatkarmas
  * - Siva Samhita (SS) — Pranayama, Kundalini, Energy
  * - Sat Chakra Nirupana (SCN) — Chakra bija mantras, meditation, activation
+ * - Asana Pranayama Mudra Bandha (APMB) — Swami Satyananda Saraswati [NEW]
  *
- * Planet → Chakra mapping (from strengthEngine.js):
- *   Mars   → Muladhara (Root)
- *   Jupiter → Swadhisthana (Sacral)
- *   Venus  → Manipura (Solar Plexus)
- *   Mercury → Anahata (Heart)
- *   Saturn → Vishuddha (Throat)
- *   Sun    → Ajna (Third Eye)
- *   Moon   → Sahasrara (Crown)
+ * Planet → Chakra mapping:
+ *   Mars    → Muladhara (Root)     | Jupiter → Svadhisthana (Sacral)
+ *   Venus   → Manipura (Solar)     | Mercury → Anahata (Heart)
+ *   Saturn  → Vishuddha (Throat)   | Sun     → Ajna (Third Eye)
+ *   Moon    → Sahasrara (Crown)
  */
+import { ASANA_DB } from '../data/asanaDatabase';
 
 const YOGA_REMEDIES_DB = {
     Mars: {
@@ -348,6 +347,10 @@ export const getYogaRemedies = (chakras) => {
             const isWeak = c.strengthPercent < 50;
             const isStrong = c.strengthPercent >= 70;
 
+            const enrichedRemedies = isWeak
+                ? { ...db.weakRemedies, asanas: ASANA_DB[c.planet] || db.weakRemedies.asanas }
+                : { ...db.strongRemedies, richAsanas: ASANA_DB[c.planet] || [] };
+
             return {
                 planet: c.planet,
                 chakra: db.chakra,
@@ -360,9 +363,9 @@ export const getYogaRemedies = (chakras) => {
                 dignityLabel: c.dignityLabel || 'Bio-Feedback Score',
                 isWeak,
                 isStrong,
-                remedies: isWeak ? db.weakRemedies : db.strongRemedies
+                remedies: enrichedRemedies
             };
         })
         .filter(Boolean)
-        .sort((a, b) => a.strengthPercent - b.strengthPercent); // Weakest planets first
+        .sort((a, b) => a.strengthPercent - b.strengthPercent);
 };

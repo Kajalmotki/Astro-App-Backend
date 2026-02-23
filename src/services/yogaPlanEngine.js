@@ -85,7 +85,7 @@ const ADVANCED_PRACTICES = [
  * Builds a single day's yoga practice from a planet remedy
  */
 const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
-    const { weeklyPlanAsanas, pranayama, mudra, meditation } = buildExtracts(remedy);
+    const { weeklyPlanAsanas, asanaObj, pranayama, mudra, meditation } = buildExtracts(remedy);
 
     return {
         day: dayNum,
@@ -94,6 +94,7 @@ const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
         phaseName: PHASE_NAMES[phaseNum].name,
         phaseEmoji: PHASE_NAMES[phaseNum].emoji,
         planet: remedy.planet,
+        planetName: remedy.planet.toUpperCase(),
         chakra: remedy.chakra,
         color: remedy.color,
         bijaMantra: remedy.bijaMantra,
@@ -101,6 +102,7 @@ const buildDayFromRemedy = (remedy, dayNum, phaseNum) => {
         strengthPercent: remedy.strengthPercent,
         isWeak: remedy.isWeak,
         asana: weeklyPlanAsanas,
+        asanaObj: asanaObj,
         pranayama: pranayama,
         mudra: mudra,
         meditation: meditation,
@@ -116,14 +118,17 @@ const buildExtracts = (remedy) => {
         const pranayamaItem = r.pranayama?.[0] || { name: 'Nadi Shodhana', description: '10 rounds' };
         return {
             weeklyPlanAsanas: `${asana.name || 'Shavasana'}`,
+            asanaObj: asana,
             pranayama: pranayamaItem.name || 'Nadi Shodhana',
             mudra: r.mudra?.name || 'Jnana Mudra',
             meditation: r.meditation?.name || `Bija Mantra — ${remedy.bijaMantra || 'OM'}`
         };
     } else {
-        const asanas = r.asanas || ['Shavasana'];
+        const asanas = r.richAsanas || r.asanas || [{ name: 'Shavasana' }];
+        const asanaObj = typeof asanas[0] === 'object' ? asanas[0] : { name: asanas[0] };
         return {
-            weeklyPlanAsanas: asanas[0] || 'Shavasana',
+            weeklyPlanAsanas: asanaObj.name || 'Shavasana',
+            asanaObj: asanaObj,
             pranayama: r.pranayama || 'Nadi Shodhana',
             mudra: 'Dhyana Mudra',
             meditation: `Bija Chant — ${remedy.bijaMantra || 'OM'} (21 rounds)`

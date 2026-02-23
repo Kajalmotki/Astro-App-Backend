@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Play } from 'lucide-react';
+import AsanaPlayWindow from './AsanaPlayWindow';
 import './YogaPlanModal.css';
 
 const PLANET_ICONS = {
@@ -12,7 +14,7 @@ const PHASE_COLORS = {
     3: { from: '#d97706', to: '#b45309', label: 'Transformation' }
 };
 
-const DayDetailPanel = ({ day, onClose }) => (
+const DayDetailPanel = ({ day, onClose, onPlayAsana }) => (
     <div className="ydp-detail-overlay" onClick={onClose}>
         <div className="ydp-detail-panel" onClick={e => e.stopPropagation()}>
             <button className="ydp-detail-close" onClick={onClose}>✕</button>
@@ -47,12 +49,15 @@ const DayDetailPanel = ({ day, onClose }) => (
 
             {/* Practice breakdown */}
             <div className="ydp-detail-practices">
-                <div className="ydp-practice-row">
+                <div className="ydp-practice-row ydp-asana-row" onClick={() => onPlayAsana(day.asanaObj, day.color)}>
                     <span className="ydp-practice-icon">🧘</span>
-                    <div>
-                        <span className="ydp-practice-label">Asana</span>
+                    <div style={{ flex: 1 }}>
+                        <span className="ydp-practice-label">Asana (Tap to Play)</span>
                         <p className="ydp-practice-val">{day.asana}</p>
                     </div>
+                    <button className="ydp-play-asana-btn" style={{ background: day.color }}>
+                        <Play size={16} color="#000" />
+                    </button>
                 </div>
                 <div className="ydp-practice-row">
                     <span className="ydp-practice-icon">🌬</span>
@@ -87,6 +92,8 @@ const DayDetailPanel = ({ day, onClose }) => (
 
 const YogaPlanModal = ({ plan, onClose }) => {
     const [selectedDay, setSelectedDay] = useState(null);
+    const [playingAsana, setPlayingAsana] = useState(null);
+    const [playingColor, setPlayingColor] = useState('#10b981');
     const [completedDays, setCompletedDays] = useState(new Set());
     const [activePhase, setActivePhase] = useState(null); // null = all phases
 
@@ -191,10 +198,10 @@ const YogaPlanModal = ({ plan, onClose }) => {
                                 {/* Day number */}
                                 <span className="ydp-tile-num">{day.day}</span>
 
-                                {/* Planet icon */}
-                                <span className="ydp-tile-planet"
-                                    style={{ color: day.color }}>
-                                    {PLANET_ICONS[day.planet] || '✦'}
+                                {/* Planet Name instead of symbol */}
+                                <span className="ydp-tile-planet-name"
+                                    style={{ color: day.color, fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '1px', marginTop: '6px' }}>
+                                    {day.planetName || day.planet.toUpperCase()}
                                 </span>
 
                                 {/* Phase dot */}
@@ -221,10 +228,28 @@ const YogaPlanModal = ({ plan, onClose }) => {
             </div>
 
             {/* Day Detail Popup */}
-            {selectedDay && (
+            {selectedDay && !playingAsana && (
                 <DayDetailPanel
                     day={selectedDay}
                     onClose={() => setSelectedDay(null)}
+                    onPlayAsana={(asanaObj, color) => {
+                        setPlayingAsana(asanaObj);
+                        setPlayingColor(color);
+                    }}
+                />
+            )}
+
+            {/* Asana Playback Window */}
+            {playingAsana && (
+                <AsanaPlayWindow
+                    asana={playingAsana}
+                    color={playingColor}
+                    onClose={() => setPlayingAsana(null)}
+                    onComplete={() => {
+                        if (selectedDay) {
+                            toggleComplete(selectedDay.day, { stopPropagation: () => { } });
+                        }
+                    }}
                 />
             )}
         </div>

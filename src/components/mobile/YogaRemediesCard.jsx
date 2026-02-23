@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Play } from 'lucide-react';
+import AsanaPlayWindow from './AsanaPlayWindow';
 import './YogaRemediesCard.css';
 
 const PLANET_ICONS = {
@@ -15,7 +17,7 @@ const STRENGTH_BADGE = (percent) => {
     return { label: 'Very Weak', cls: 'badge-vweak' };
 };
 
-const PlanetRemedyCard = ({ remedy }) => {
+const PlanetRemedyCard = ({ remedy, onPlayAsana }) => {
     const [expanded, setExpanded] = useState(remedy.isWeak); // auto-expand weak planets
     const badge = STRENGTH_BADGE(remedy.strengthPercent);
     const isWeak = remedy.isWeak;
@@ -62,10 +64,24 @@ const PlanetRemedyCard = ({ remedy }) => {
                                 <div className="yrc-section">
                                     <h5 className="yrc-section-title">🧘 Asanas (Postures)</h5>
                                     {remedy.remedies.asanas.map((a, i) => (
-                                        <div key={i} className="yrc-practice-item">
-                                            <p className="yrc-practice-name">{a.name}</p>
-                                            <p className="yrc-practice-desc">{a.description}</p>
-                                            <p className="yrc-source">📖 {a.source}</p>
+                                        <div key={i} className="yrc-practice-item yrc-playable" onClick={() => onPlayAsana(a, remedy.color)} style={{ position: 'relative', cursor: 'pointer' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                                <div>
+                                                    <p className="yrc-practice-name">{a.name}</p>
+                                                    <p className="yrc-practice-desc">{a.description || a.why}</p>
+                                                </div>
+                                                <button className="yrc-play-btn" style={{ background: remedy.color, border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+                                                    <Play size={16} color="#000" style={{ marginLeft: '2px' }} />
+                                                </button>
+                                            </div>
+                                            {a.healthBenefits && (
+                                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px', marginBottom: '4px' }}>
+                                                    {a.healthBenefits.slice(0, 2).map((hb, ib) => (
+                                                        <span key={ib} style={{ background: 'rgba(255,255,255,0.1)', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '12px', color: '#cbd5e1' }}>✨ {hb.substring(0, 30)}...</span>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            <p className="yrc-source" style={{ marginTop: '8px' }}>📖 {a.source}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -137,6 +153,8 @@ const PlanetRemedyCard = ({ remedy }) => {
 
 const YogaRemediesCard = ({ remedies }) => {
     const navigate = useNavigate();
+    const [playingAsana, setPlayingAsana] = useState(null);
+    const [playingColor, setPlayingColor] = useState('#10b981');
 
     if (!remedies || remedies.length === 0) return null;
 
@@ -173,14 +191,21 @@ const YogaRemediesCard = ({ remedies }) => {
             <div className="yrc-sources-banner">
                 <span className="yrc-sources-label">Sources:</span>
                 <span className="yrc-sources-text">
-                    Hatha Yoga Pradipika · Gheranda Samhita · Siva Samhita · Sat Chakra Nirupana
+                    Asana Pranayama Mudra Bandha · Hatha Yoga Pradipika · Gheranda Samhita · Siva Samhita · Sat Chakra Nirupana
                 </span>
             </div>
 
             {/* Planet Cards */}
             <div className="yrc-cards-list">
                 {remedies.map((remedy, i) => (
-                    <PlanetRemedyCard key={i} remedy={remedy} />
+                    <PlanetRemedyCard
+                        key={i}
+                        remedy={remedy}
+                        onPlayAsana={(asana, color) => {
+                            setPlayingAsana(asana);
+                            setPlayingColor(color);
+                        }}
+                    />
                 ))}
             </div>
 
@@ -194,6 +219,15 @@ const YogaRemediesCard = ({ remedies }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Asana Playback Window Override */}
+            {playingAsana && (
+                <AsanaPlayWindow
+                    asana={playingAsana}
+                    color={playingColor}
+                    onClose={() => setPlayingAsana(null)}
+                />
+            )}
         </div>
     );
 };

@@ -57,9 +57,18 @@ const ScrollingTicker = () => {
         }
     ];
 
-    // Create a quadrupled list to ensure smooth infinite scrolling on ultra-wide screens
-    // and to allow the CSS animation to have enough buffer
-    const displayServices = [...services, ...services, ...services, ...services];
+    // Ensure we show exactly 9 slots in a 3x3 grid.
+    // If there are fewer services, duplicate from the start until length === 9.
+    const gridServices = (() => {
+        const target = 9;
+        const out = [];
+        let i = 0;
+        while (out.length < target) {
+            out.push(services[i % services.length]);
+            i += 1;
+        }
+        return out;
+    })();
 
     const handleCardClick = (service) => {
         if (service.action) {
@@ -73,8 +82,8 @@ const ScrollingTicker = () => {
         <>
             <h2 className="ticker-title">Our Free Services</h2>
             <div className="ticker-container">
-                <div className="ticker-track">
-                    {displayServices.map((service, index) => (
+                <div className="ticker-grid">
+                    {gridServices.map((service, index) => (
                         <div
                             key={`${service.name}-${index}`}
                             className="ticker-card"

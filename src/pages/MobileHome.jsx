@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play, X } from 'lucide-react';
+import { X, Shuffle, Eye, BookOpen } from 'lucide-react';
 import {
     KundliIcon, MatchmakingIcon, PanchangIcon, PoojaIcon,
     HoroscopeIcon, GemstoneIcon, KarmicIcon, NumerologyIcon
 } from '../components/icons/GoldIcons';
-import { Sparkles } from 'lucide-react'; // Added for Local AI icon
+import { Sparkles } from 'lucide-react';
 import MagicCrystalBall from '../components/mobile/MagicCrystalBall';
 import TarotCardPicker from '../components/mobile/TarotCardPicker';
 import WhyAstroRevo from '../components/WhyAstroRevo';
 import PlanetTransitTicker from '../components/mobile/PlanetTransitTicker';
-import './MobileHome.css?v=9';
+import './MobileHome.css?v=12';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -18,7 +18,9 @@ const MobileHome = () => {
     const navigate = useNavigate();
     const { t } = useLanguage();
     const [showVideo, setShowVideo] = useState(false);
-    const userName = "Seeker"; // TODO: Get from auth context
+    const [showTarotModal, setShowTarotModal] = useState(false);
+    const userName = "Seeker";
+    const tarotPickerRef = useRef(null);
 
     const services = [
         { name: "Local AI (New)", icon: <Sparkles size={32} color="#FFD700" />, action: () => navigate('/mobile/local-ai') },
@@ -32,14 +34,28 @@ const MobileHome = () => {
         { name: t("Numerology"), icon: <NumerologyIcon size={32} />, action: () => navigate('/mobile/numerology') }
     ];
 
-    // Dummy data for planetary strengths
-    const planetaryStrengths = [
-        { name: 'Sun', level: 85.0, color: '#FFD700', status: 'STRONG' },
-        { name: 'Moon', level: 92.5, color: '#C0C0C0', status: 'Exalted' },
-        { name: 'Mars', level: 45.2, color: '#FF4500', status: 'Weak' },
-        { name: 'Jupiter', level: 78.4, color: '#FF8C00', status: 'Moderate' },
-        { name: 'Venus', level: 65.0, color: '#FF69B4', status: 'Neutral' }
-    ];
+    const handleOrbClick = () => {
+        setShowTarotModal(true);
+    };
+
+    const handleShuffle = () => {
+        setShowTarotModal(false);
+        if (tarotPickerRef.current && tarotPickerRef.current.shuffle) {
+            tarotPickerRef.current.shuffle();
+        }
+    };
+
+    const handleReveal = () => {
+        setShowTarotModal(false);
+        if (tarotPickerRef.current && tarotPickerRef.current.revealRandom) {
+            tarotPickerRef.current.revealRandom();
+        }
+    };
+
+    const handleLearnTarot = () => {
+        setShowTarotModal(false);
+        navigate('/mobile/tarot-guide');
+    };
 
     return (
         <div className="mobile-home-container" style={{ position: 'relative', zIndex: 1, background: 'transparent', minHeight: '100vh', paddingBottom: '100px' }}>
@@ -51,13 +67,10 @@ const MobileHome = () => {
                 </div>
             </header>
 
-
-
             {/* Mobile Ticker Track */}
             <section className="mobile-ticker-section">
                 <div className="ticker-scroll-container">
                     <div className="ticker-track-mobile">
-                        {/* Static Grid Layout */}
                         {services.map((service, index) => (
                             <div key={`${service.name}-${index}`} className="ticker-item" onClick={service.action}>
                                 <div className="ticker-icon-box-premium">
@@ -78,11 +91,65 @@ const MobileHome = () => {
                 <WhyAstroRevo />
             </div>
 
-            {/* Tarot Card Picker - Above Cosmic Loop */}
-            <TarotCardPicker />
+            {/* Tarot Card Picker */}
+            <div id="tarot-section">
+                <TarotCardPicker ref={tarotPickerRef} />
+            </div>
+
+            {/* Mystic Orb - below tarot cards */}
+            <div className="tarot-select-wrapper">
+                <button
+                    className="tarot-select-btn"
+                    onClick={handleOrbClick}
+                    aria-label="Open tarot options"
+                    type="button"
+                >
+                    <span className="tarot-orb-symbol">✦</span>
+                    <span className="tarot-select-text">read cards</span>
+                </button>
+            </div>
+
+            {/* Tarot Action Modal */}
+            {showTarotModal && (
+                <div className="tarot-modal-backdrop" onClick={() => setShowTarotModal(false)}>
+                    <div className="tarot-modal-sheet" onClick={e => e.stopPropagation()}>
+                        <div className="tarot-modal-handle" />
+                        <div className="tarot-modal-header">
+                            <span className="tarot-modal-title">✦ Your Cosmic Reading ✦</span>
+                            <p className="tarot-modal-sub">What does the universe hold for you?</p>
+                        </div>
+                        <div className="tarot-modal-actions">
+                            <button className="tarot-action-btn tarot-action-shuffle" onClick={handleShuffle}>
+                                <Shuffle size={22} />
+                                <div className="tarot-action-text">
+                                    <span className="tarot-action-title">Shuffle the Deck</span>
+                                    <span className="tarot-action-desc">Reveal a new spread</span>
+                                </div>
+                            </button>
+                            <button className="tarot-action-btn tarot-action-reveal" onClick={handleReveal}>
+                                <Eye size={22} />
+                                <div className="tarot-action-text">
+                                    <span className="tarot-action-title">Reveal My Card</span>
+                                    <span className="tarot-action-desc">Let fate choose for you</span>
+                                </div>
+                            </button>
+                            <button className="tarot-action-btn tarot-action-learn" onClick={handleLearnTarot}>
+                                <BookOpen size={22} />
+                                <div className="tarot-action-text">
+                                    <span className="tarot-action-title">Learn Tarot</span>
+                                    <span className="tarot-action-desc">Understand the arcana</span>
+                                </div>
+                            </button>
+                        </div>
+                        <button className="tarot-modal-close" onClick={() => setShowTarotModal(false)}>
+                            <X size={20} />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Bottom spacer for nav bar and ticker */}
-            <div style={{ height: '140px' }}></div>
+            <div style={{ height: '90px' }}></div>
 
             {/* Planet Transit Ticker - Fixed at Bottom */}
             <PlanetTransitTicker />

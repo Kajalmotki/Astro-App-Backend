@@ -65,50 +65,15 @@
     padding: 0 40px;
 }
 
-/* Track holding the card sets */
-.ticker-track {
-    display: flex;
-    gap: 3rem;
-    width: max-content;
-    /* Allow track to be as wide as needed */
-    animation: scroll 40s linear infinite;
-    /* Adjust speed here */
-    padding: 0 1rem;
-
-    /* Ensure hardware acceleration for smoothness */
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
-}
-
-/* Pause on hover for interaction */
-.ticker-container:hover .ticker-track {
-    animation-play-state: paused;
-}
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        /* Move left by 50% because we duplicated the items */
-        /* But wait, we need to know the width of one set of items. 
-           In a generic CSS infinite scroll, usually we move -50% if the sets are identical 
-           and the total width is exactly 2x. 
-           However, 'gap' complicates the 50% calculation if not careful.
-           A safer way for React mapped lists is usually to rely on JS for exact width or 
-           ensure the animation moves exactly the width of one full set (including gaps).
-           
-           Assumption: The lists are identical.
-           If we use translateX(-50%) on a container that is exactly 200% width, it works.
-           But here width is auto.
-           
-           Let's use the 'transform: translateX(-50%)' approach on the track 
-           which contains TWO identical sets of items.
-           When it reaches -50%, it snaps back to 0.
-        */
-        transform: translateX(-50%);
-    }
+/* Grid layout for 3x3 menu */
+.ticker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem 2rem;
+    width: 100%;
+    padding: 20px 10px;
+    align-items: center;
+    justify-items: center;
 }
 
 .ticker-card {
@@ -116,18 +81,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    /* Increased width and height */
-    width: 360px;
-    height: 420px;
+    gap: 10px;
+    width: 100%;
+    max-width: 220px;
     background: transparent;
     cursor: pointer;
-    transition: all 0.4s ease;
-
-    /* Ensure consistent sizing */
-    flex-shrink: 0;
+    transition: all 0.25s ease;
     position: relative;
-    padding-top: 20px;
+    padding: 8px 4px 16px;
 }
 
 .ticker-card:hover {
@@ -136,23 +97,20 @@
 }
 
 .ticker-icon-wrapper {
-    /* Increased by ~2cm (~75-80px). Old: 220px. New: 300px. */
-    width: 300px;
-    height: 300px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    /* Deep cosmic button look */
     background: radial-gradient(circle at 30% 30%,
             rgba(40, 50, 80, 0.8),
             rgba(10, 15, 30, 0.95));
     border: 1px solid rgba(255, 215, 0, 0.3);
     box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.5),
-        inset 0 0 15px rgba(255, 215, 0, 0.1);
-
+        0 8px 18px rgba(0, 0, 0, 0.45),
+        inset 0 0 10px rgba(255, 215, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s ease;
     position: relative;
     overflow: hidden;
 }
@@ -169,11 +127,11 @@
 }
 
 .ticker-icon-image {
-    width: 75%;
-    height: 75%;
+    width: 70%;
+    height: 70%;
     object-fit: contain;
-    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.5));
-    transition: transform 0.5s ease;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+    transition: transform 0.25s ease;
 }
 
 .ticker-card:hover .ticker-icon-image {
@@ -183,7 +141,7 @@
 
 .ticker-label {
     font-family: var(--font-header, 'Cinzel'), serif;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: #e0d8c0;
     text-transform: uppercase;
@@ -200,26 +158,46 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .ticker-container {
-        height: 260px;
+        max-width: 1000px;
+        padding: 10px 20px;
     }
 
-    .ticker-track {
-        gap: 1.5rem;
+    .ticker-grid {
+        gap: 1rem;
     }
 
     .ticker-card {
-        width: 180px;
-        height: 220px;
+        max-width: 180px;
     }
 
     .ticker-icon-wrapper {
-        width: 140px;
-        height: 140px;
+        width: 100px;
+        height: 100px;
     }
 
     .ticker-label {
-        font-size: 0.9rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ticker-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .ticker-card {
+        max-width: 120px;
+    }
+
+    .ticker-icon-wrapper {
+        width: 68px;
+        height: 68px;
+    }
+
+    .ticker-label {
+        font-size: 0.8rem;
     }
 }
