@@ -1,145 +1,487 @@
-/* Premium Cosmic Panchang Styles */
+/* ═══════════════════════════════════════════════
+   Panchang Page — Calm, Transparent Glass Design
+   Matching Premium Dashboard Aesthetic
+   ═══════════════════════════════════════════════ */
 
 .panchang-cosmic-container {
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     margin: 0;
     display: flex;
     flex-direction: column;
-    background: var(--bg, linear-gradient(135deg, #0A0A1A 0%, #150a21 50%, #110522 100%));
+    background: transparent;
     position: relative;
-    padding: 60px 15px 30px;
-    font-family: 'Poppins', sans-serif;
-    color: var(--text-primary, #fff);
+    padding: 20px 16px 80px;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    color: #e2e8f0;
     z-index: 1;
 }
 
-/* Cosmic Watermark */
-.cosmic-bg-watermark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 150%;
-    height: 150%;
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* Header */
+/* ── Header ── */
 .panchang-header-card {
     position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 25px;
-    padding-top: 15px;
+    margin-bottom: 24px;
+    padding-top: 20px;
 }
 
 .panchang-main-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-family: 'Cinzel', serif;
-    color: #FFD700;
-    font-weight: 700;
-    margin: 0 0 20px 0;
+    color: #d4af37;
+    font-weight: 600;
+    margin: 0 0 4px 0;
     text-align: center;
     letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.panchang-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    font-style: italic;
+    text-align: center;
 }
 
 .panchang-top-info-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    background: var(--surface2, rgba(0, 0, 0, 0.4));
-    padding: 15px 25px;
-    border-radius: 20px;
-    border: 1px solid var(--border, rgba(255, 215, 0, 0.2));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 10px 25px var(--card-shadow, rgba(0, 0, 0, 0.5));
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 14px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
 }
 
 @media (min-width: 768px) {
     .panchang-top-info-box {
         flex-direction: row;
         justify-content: center;
-        gap: 30px;
+        gap: 24px;
     }
 }
 
 .sun-pill {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: linear-gradient(90deg, rgba(249, 115, 22, 0.2) 0%, rgba(234, 179, 8, 0.1) 100%);
-    padding: 8px 20px;
-    border-radius: 30px;
-    border: 1px solid rgba(249, 115, 22, 0.3);
+    gap: 8px;
+    background: rgba(255, 215, 0, 0.04);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
 }
 
 .sun-icon {
-    font-size: 1.4rem;
-    filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.8));
+    font-size: 1.2rem;
 }
 
 .sun-text {
-    color: #FFD700;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    color: #d4af37;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
 }
 
 .header-date {
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     text-align: center;
+    color: #cbd5e1;
 }
 
-/* Day/Night Toggle Pill */
+/* ── Main Tabs (Overview / Choghadiya) ── */
+.panchang-main-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    z-index: 10;
+}
+
+.main-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 12px 24px;
+    color: #64748b;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.main-tab-btn:hover {
+    color: #94a3b8;
+}
+
+.main-tab-btn.active {
+    color: #d4af37;
+    border-bottom-color: #d4af37;
+}
+
+/* ── Section Titles ── */
+.panchang-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.panchang-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+
+/* ── Panch Tatva Grid ── */
+.tatva-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.tatva-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.tatva-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.tatva-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.tatva-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #cbd5e1;
+    margin-bottom: 2px;
+}
+
+.tatva-value {
+    font-size: 0.7rem;
+    color: #64748b;
+    font-style: italic;
+}
+
+
+/* ── Info Grid (Core Panchang) ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+    .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.info-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Very subtle left borders */
+.info-card:nth-child(1) {
+    border-left-color: rgba(212, 175, 55, 0.4);
+}
+
+.info-card:nth-child(2) {
+    border-left-color: rgba(167, 139, 250, 0.4);
+}
+
+.info-card:nth-child(3) {
+    border-left-color: rgba(52, 211, 153, 0.4);
+}
+
+.info-card:nth-child(4) {
+    border-left-color: rgba(251, 146, 60, 0.4);
+}
+
+.info-card:nth-child(5) {
+    border-left-color: rgba(248, 113, 113, 0.4);
+}
+
+.info-card:nth-child(6) {
+    border-left-color: rgba(96, 165, 250, 0.4);
+}
+
+.card-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+.card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    display: inline-block;
+    opacity: 0.9;
+}
+
+.card-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 2px;
+}
+
+.card-sub {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.card-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: #cbd5e1;
+    text-transform: uppercase;
+}
+
+
+/* ── Nakshatra Detail ── */
+.nakshatra-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    border-left: 3px solid rgba(167, 139, 250, 0.5);
+}
+
+.nakshatra-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.nakshatra-info {
+    flex: 1;
+}
+
+.nakshatra-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.nakshatra-name {
+    font-size: 1.4rem;
+    color: #e2e8f0;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.nakshatra-pada {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.nakshatra-pct {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.nakshatra-bar-bg {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.nakshatra-bar-fill {
+    height: 100%;
+    background: rgba(167, 139, 250, 0.6);
+    border-radius: 4px;
+}
+
+
+/* ── Moon Phase ── */
+.moon-phase-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.moon-big {
+    font-size: 3rem;
+    opacity: 0.9;
+}
+
+
+/* ── Timings Strips ── */
+.timing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.timing-strip {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 3px solid transparent;
+}
+
+.timing-strip.auspicious {
+    border-left-color: rgba(52, 211, 153, 0.5);
+    background: rgba(52, 211, 153, 0.02);
+}
+
+.timing-strip.inauspicious {
+    border-left-color: rgba(244, 63, 94, 0.5);
+    background: rgba(244, 63, 94, 0.02);
+}
+
+.timing-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.timing-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.timing-value {
+    font-size: 1.1rem;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.timing-sub {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+.timing-icon {
+    font-size: 1.8rem;
+    opacity: 0.7;
+}
+
+
+/* ── Choghadiya Tab Specific Styles ── */
 .day-night-toggle {
     position: relative;
     z-index: 10;
     display: flex;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .toggle-pill-container {
     display: flex;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 6px;
-    border-radius: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .toggle-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #9ca3af;
+    gap: 6px;
+    padding: 9px 22px;
+    border-radius: 26px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #64748b;
     background: transparent;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
 }
 
 .toggle-btn:hover {
-    color: #fff;
+    color: #94a3b8;
 }
 
 .toggle-icon {
@@ -148,53 +490,42 @@
 }
 
 .active-day {
-    background: linear-gradient(90deg, #eab308 0%, #f97316 100%);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+    background: rgba(255, 215, 0, 0.08);
+    color: #d4af37;
+    border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 .active-day .toggle-icon {
     opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
 
 .active-night {
-    background: linear-gradient(90deg, #6366f1 0%, #9333ea 100%);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+    background: rgba(139, 92, 246, 0.08);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .active-night .toggle-icon {
     opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
 
-/* Glass Header Row */
+/* Table Header */
 .table-header-glass {
-    position: relative;
-    z-index: 10;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
-    padding: 12px 24px;
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(249, 115, 22, 0.05) 50%, transparent 100%);
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-    margin-bottom: 15px;
-    border-radius: 12px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 12px;
+    border-radius: 10px;
 }
 
 .th-col {
-    color: #FFD700;
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    font-weight: 700;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-@media (min-width: 768px) {
-    .th-col {
-        font-size: 0.95rem;
-    }
+    letter-spacing: 1.5px;
 }
 
 .th-left {
@@ -209,117 +540,72 @@
     text-align: right;
 }
 
+/* Table Body */
 .table-body-glass {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+    margin-bottom: 20px;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 215, 0, 0.3);
-    border-radius: 4px;
-}
-
-/* Muhurat Row Glass Cards */
+/* Muhurat Row Cards */
 .choghadiya-glass-row {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr;
     align-items: center;
-    background: var(--surface, rgba(255, 255, 255, 0.05));
-    border: 1px solid var(--border, rgba(255, 255, 255, 0.05));
-    border-radius: 16px;
-    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 14px 16px;
     position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 10px 20px var(--card-shadow, rgba(0, 0, 0, 0.3));
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
 }
 
-.row-accent-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #4A5568;
-    /* Fallback neutral */
+.choghadiya-glass-row.good {
+    border-left-color: rgba(16, 185, 129, 0.3);
 }
 
-/* Quality Modifiers for Rows */
-.choghadiya-glass-row.good .row-accent-bar {
-    background: #10B981;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+.choghadiya-glass-row.bad {
+    border-left-color: rgba(244, 63, 94, 0.3);
 }
 
-.choghadiya-glass-row.bad .row-accent-bar {
-    background: #F43F5E;
-    box-shadow: 0 0 10px rgba(244, 63, 94, 0.8);
-}
-
-.choghadiya-glass-row.neutral .row-accent-bar {
-    background: #3B82F6;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+.choghadiya-glass-row.neutral {
+    border-left-color: rgba(245, 158, 11, 0.3);
 }
 
 .choghadiya-glass-row.is-active {
-    background: linear-gradient(90deg, rgba(250, 204, 21, 0.1) 0%, transparent 100%);
-    border: 2px solid rgba(250, 204, 21, 0.5);
-    transform: scale(1.02);
-    animation: activeMuhuratPulse 2s infinite alternate;
-}
-
-@keyframes activeMuhuratPulse {
-    0% {
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 10px rgba(250, 204, 21, 0.1);
-    }
-
-    100% {
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(250, 204, 21, 0.4);
-    }
+    background: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-left: 3px solid rgba(212, 175, 55, 0.5);
 }
 
 /* Row Columns */
 .ch-time-col {
     display: flex;
     flex-direction: column;
-    padding-left: 10px;
+    padding-left: 4px;
 }
 
 .ch-time-text {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-primary, #fff);
-    line-height: 1.4;
-    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    line-height: 1.5;
 }
 
 .ch-current-badge {
-    font-size: 0.65rem;
-    color: #FFD700;
-    font-weight: 700;
+    font-size: 0.6rem;
+    color: #d4af37;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 1px solid rgba(255, 215, 0, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 2px 6px;
     border-radius: 4px;
-    margin-top: 6px;
+    margin-top: 5px;
     width: fit-content;
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+    background: rgba(212, 175, 55, 0.05);
 }
 
 .ch-name-col {
@@ -330,18 +616,16 @@
 }
 
 .ch-muhurat-name {
-    color: var(--theme-accent, #FFD700);
-    font-size: 1.25rem;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    color: #e2e8f0;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .ch-muhurat-meaning {
-    color: var(--text-secondary-new, #9CA3AF);
-    font-size: 0.8rem;
+    color: #64748b;
+    font-size: 0.75rem;
     font-style: italic;
-    margin-top: 4px;
+    margin-top: 3px;
 }
 
 .ch-quality-col {
@@ -350,118 +634,141 @@
 }
 
 .ch-quality-pill {
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1px solid transparent;
+    letter-spacing: 0.8px;
 }
 
 .choghadiya-glass-row.good .ch-quality-pill {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 78, 59, 0.4) 100%);
-    border-color: rgba(16, 185, 129, 0.5);
-    color: #34D399;
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.08);
+    color: #6ee7b7;
 }
 
 .choghadiya-glass-row.bad .ch-quality-pill {
-    background: linear-gradient(135deg, rgba(244, 63, 94, 0.2) 0%, rgba(136, 19, 55, 0.4) 100%);
-    border-color: rgba(244, 63, 94, 0.5);
-    color: #FB7185;
-    box-shadow: 0 0 15px rgba(244, 63, 94, 0.2);
+    background: rgba(244, 63, 94, 0.08);
+    color: #fda4af;
 }
 
 .choghadiya-glass-row.neutral .ch-quality-pill {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(30, 58, 138, 0.4) 100%);
-    border-color: rgba(59, 130, 246, 0.5);
-    color: #60A5FA;
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    background: rgba(245, 158, 11, 0.08);
+    color: #fcd34d;
 }
 
-/* Bottom Legend Card */
+/* Legend */
 .legend-glass {
-    position: relative;
-    z-index: 10;
     display: flex;
     justify-content: center;
-    gap: 24px;
-    background: var(--surface2, rgba(0, 0, 0, 0.4));
-    padding: 12px 24px;
-    border-radius: 20px;
-    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    margin-top: 20px;
-    box-shadow: 0 10px 20px var(--card-shadow, rgba(0, 0, 0, 0.4));
-    align-self: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 10px;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-primary, #D1D5DB);
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #94a3b8;
 }
 
 .legend-circle {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
 }
 
 .good-circle {
-    background: #10B981;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+    background: rgba(16, 185, 129, 0.5);
 }
 
 .neutral-circle {
-    background: #3B82F6;
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+    background: rgba(245, 158, 11, 0.5);
 }
 
 .bad-circle {
-    background: #F43F5E;
-    box-shadow: 0 0 8px rgba(244, 63, 94, 0.8);
+    background: rgba(244, 63, 94, 0.5);
 }
 
-/* Responsive constraints for 375px width specifically */
-@media (max-width: 400px) {
-    .panchang-main-title {
-        font-size: 1.8rem;
-    }
+/* ── Rise Row ── */
+.rise-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
 
-    .sun-pill {
-        padding: 6px 12px;
-    }
+.rise-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 30px;
+    padding: 8px 16px;
+}
 
-    .header-date {
-        font-size: 0.95rem;
-    }
+.sun-chip {
+    border-color: rgba(251, 146, 60, 0.2);
+    background: rgba(251, 146, 60, 0.04);
+}
 
-    .toggle-btn {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-    }
+.moon-chip {
+    border-color: rgba(167, 139, 250, 0.2);
+    background: rgba(167, 139, 250, 0.04);
+}
 
-    .ch-time-text {
-        font-size: 0.8rem;
-    }
+.rise-icon {
+    font-size: 1.2rem;
+}
 
-    .ch-muhurat-name {
-        font-size: 1rem;
-    }
+.rise-details {
+    display: flex;
+    flex-direction: column;
+}
 
-    .ch-quality-pill {
-        padding: 4px 10px;
-        font-size: 0.65rem;
-    }
+.rise-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    color: #cbd5e1;
+}
 
-    .legend-glass {
-        gap: 15px;
-        padding: 10px 15px;
-    }
+.rise-time {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #e2e8f0;
+}
+
+.sun-chip .rise-time {
+    color: #fbd38d;
+}
+
+.moon-chip .rise-time {
+    color: #d6bcfa;
+}
+
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
