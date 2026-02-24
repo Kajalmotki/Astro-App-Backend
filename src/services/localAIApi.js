@@ -9,11 +9,23 @@ const VEDIC_SIGNS = [
     "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
 ];
 
+const RASHI_LORDS = {
+    "Aries": "Mars", "Taurus": "Venus", "Gemini": "Mercury", "Cancer": "Moon",
+    "Leo": "Sun", "Virgo": "Mercury", "Libra": "Venus", "Scorpio": "Mars",
+    "Sagittarius": "Jupiter", "Capricorn": "Saturn", "Aquarius": "Saturn", "Pisces": "Jupiter"
+};
+
+const NAKSHATRAS = [
+    "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
+    "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula",
+    "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+];
+
 /**
  * Calculates the exact astrological data deterministically using Swiss Ephemeris (via circular-natal-horoscope-js)
  * Guarantees mathematical perfection. The AI will only interpret, not calculate.
  */
-const precalculateChartData = (birthData) => {
+export const precalculateChartData = (birthData) => {
     try {
         const { date, time } = birthData;
         // Ensure lat/lng are numbers (localStorage stores them as strings)
@@ -90,9 +102,16 @@ const precalculateChartData = (birthData) => {
                 return null; // Will be filtered below
             }
             const sign = body.Sign.label;
-            const deg = body.ChartPosition.Ecliptic.DecimalDegrees % 30;
+            const absoluteDeg = body.ChartPosition.Ecliptic.DecimalDegrees;
+            const deg = absoluteDeg % 30;
             const house = getWholeSignHouse(sign);
-            return { name: planetMap[key], sign, deg: formatDeg(deg), house };
+
+            const nakIndex = Math.floor(absoluteDeg / 13.33333333);
+            const remainderDeg = absoluteDeg % 13.33333333;
+            const pada = Math.floor(remainderDeg / 3.33333333) + 1;
+            const nakshatra = NAKSHATRAS[nakIndex];
+
+            return { name: planetMap[key], sign, deg: formatDeg(deg), house, absoluteDeg, nakshatra, pada };
         }).filter(p => p !== null);
 
         // Add Ketu (always opposite Rahu)
@@ -102,11 +121,19 @@ const precalculateChartData = (birthData) => {
         }
         const ketuSignIndex = rahu ? (VEDIC_SIGNS.findIndex(s => s.toLowerCase() === rahu.sign.toLowerCase()) + 6) % 12 : -1;
         if (rahu && ketuSignIndex !== -1) {
+            const ketuAbsDeg = (rahu.absoluteDeg + 180) % 360;
+            const knakIndex = Math.floor(ketuAbsDeg / 13.33333333);
+            const kremainderDeg = ketuAbsDeg % 13.33333333;
+            const kpada = Math.floor(kremainderDeg / 3.33333333) + 1;
+
             planetList.push({
                 name: 'Ketu',
                 sign: VEDIC_SIGNS[ketuSignIndex],
                 deg: rahu.deg,
-                house: (rahu.house + 6 - 1) % 12 + 1
+                house: (rahu.house + 6 - 1) % 12 + 1,
+                absoluteDeg: ketuAbsDeg,
+                nakshatra: NAKSHATRAS[knakIndex],
+                pada: kpada
             });
         }
 
@@ -121,7 +148,17 @@ const precalculateChartData = (birthData) => {
         // Calculate Planetary Strengths & Chakras
         const chakraData = calculateChakraStrengths(planetList);
 
-        return { dayOfWeek, rawText: generatedRawText, ascSign: ascSignStr, planets: planetList, dashaString, chakras: chakraData };
+        return {
+            dayOfWeek,
+            rawText: generatedRawText,
+            ascSign: ascSignStr,
+            ascDeg: formatDeg(ascDeg),
+            ascLord: RASHI_LORDS[ascSignStr] || "Unknown",
+            planets: planetList,
+            dashaString,
+            chakras: chakraData,
+            moonLong
+        };
     } catch (err) {
         console.error("Math Engine Error during chart calculation:", err);
         return null;

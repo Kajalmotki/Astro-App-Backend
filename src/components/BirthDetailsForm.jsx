@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './BirthDetailsForm.css';
 
-const BirthDetailsForm = ({ onSubmit, onClose, title = "Enter Your Birth Details", submitLabel = "GENERATE KUNDLI" }) => {
+const BirthDetailsForm = ({ onSubmit, onClose, title = "Enter Your Birth Details", submitLabel = "GENERATE KUNDLI", hideSubmit = false }) => {
     const [formData, setFormData] = useState({
         name: '',
         sex: 'Male',
@@ -85,84 +86,98 @@ const BirthDetailsForm = ({ onSubmit, onClose, title = "Enter Your Birth Details
     };
 
     return (
-        <div className="birth-form-container glass-card" style={{ position: 'relative' }}>
-            {/* Close Button if onClose prop is provided */}
+        <div className="birth-form-container" style={{ position: 'relative' }}>
             {onClose && (
                 <button
                     type="button"
                     onClick={onClose}
                     style={{
                         position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        background: 'rgba(255,255,255,0.1)',
-                        border: 'none',
+                        top: '-10px',
+                        right: '-10px',
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.15)',
                         color: '#fff',
-                        width: '30px',
-                        height: '30px',
+                        width: '32px',
+                        height: '32px',
                         borderRadius: '50%',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.2rem'
+                        fontSize: '1rem',
+                        backdropFilter: 'blur(10px)'
                     }}
                 >
                     ✕
                 </button>
             )}
 
-            <h2 className="form-title gold-text">{title}</h2>
+            {title && (
+                <div className="sec-head" style={{ marginBottom: '8px' }}>
+                    <h2 style={{ fontSize: '1.2rem' }}>{title}</h2>
+                    <div className="rule" style={{ marginBottom: '16px' }}></div>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} className="birth-form">
                 <div className="form-group">
-                    <label>Name</label>
+                    <label className="flabel">FULL NAME</label>
                     <input
+                        className="finput"
                         type="text"
                         name="name"
-                        placeholder="Enter name"
+                        placeholder="Enter your full name"
                         value={formData.name}
                         onChange={handleChange}
                         required
                     />
                 </div>
 
-                <div className="form-group">
-                    <label>Gender</label>
-                    <select name="sex" value={formData.sex} onChange={handleChange}>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-
-                <div className="form-row">
-                    <div className="form-group flex-1">
-                        <label>Date (DD/MM/YYYY)</label>
-                        <div className="date-inputs">
-                            <input type="number" name="day" value={formData.day} onChange={handleChange} min="1" max="31" placeholder="DD" />
-                            <input type="number" name="month" value={formData.month} onChange={handleChange} min="1" max="12" placeholder="MM" />
-                            <input type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2100" placeholder="YYYY" />
-                        </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="flabel">GENDER</label>
+                        <select className="fselect" name="sex" value={formData.sex} onChange={handleChange}>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="flabel">AYANAMSA</label>
+                        <select className="fselect" name="ayanamsa" value={formData.ayanamsa || 'Lahiri'} onChange={handleChange}>
+                            <option>Lahiri</option>
+                            <option>Raman</option>
+                            <option>KP</option>
+                        </select>
                     </div>
                 </div>
 
-                <div className="form-row">
-                    <div className="form-group flex-1">
-                        <label>Time (24hr format)</label>
-                        <div className="time-inputs">
-                            <input type="number" name="hour" value={formData.hour} onChange={handleChange} min="0" max="23" placeholder="HH" />
-                            <input type="number" name="min" value={formData.min} onChange={handleChange} min="0" max="59" placeholder="MM" />
-                            <input type="number" name="sec" value={formData.sec} onChange={handleChange} min="0" max="59" placeholder="SS" />
-                        </div>
+                <div className="form-group flex-1">
+                    <label className="flabel">DATE OF BIRTH - DD / MM / YYYY</label>
+                    <div className="frow">
+                        <input className="finput" type="number" name="day" value={formData.day} onChange={handleChange} min="1" max="31" placeholder="DD" />
+                        <input className="finput" type="number" name="month" value={formData.month} onChange={handleChange} min="1" max="12" placeholder="MM" />
+                        <input className="finput" type="number" name="year" value={formData.year} onChange={handleChange} min="1900" max="2100" placeholder="YYYY" />
+                    </div>
+                </div>
+
+                <div className="form-group flex-1">
+                    <label className="flabel">TIME OF BIRTH - HH : MM : SS (24H)</label>
+                    <div className="frow">
+                        <input className="finput" type="number" name="hour" value={formData.hour} onChange={handleChange} min="0" max="23" placeholder="HH" />
+                        <input className="finput" type="number" name="min" value={formData.min} onChange={handleChange} min="0" max="59" placeholder="MM" />
+                        <input className="finput" type="number" name="sec" value={formData.sec} onChange={handleChange} min="0" max="59" placeholder="SS" />
                     </div>
                 </div>
 
                 <div className="form-group" ref={cityInputRef} style={{ position: 'relative' }}>
-                    <label>Birth City</label>
+                    <label className="flabel">BIRTH CITY</label>
                     <input
+                        className="finput"
                         type="text"
                         name="place"
-                        placeholder="Search cities..."
+                        placeholder="Search cities & villages.."
                         value={citySearch}
                         onChange={handleCitySearch}
                         onFocus={() => citySearch.length >= 2 && setShowDropdown(true)}
@@ -193,7 +208,7 @@ const BirthDetailsForm = ({ onSubmit, onClose, title = "Enter Your Birth Details
                     )}
                 </div>
 
-                <button type="submit" className="submit-btn">{submitLabel}</button>
+                <button type="submit" className="submit-btn" style={{ display: hideSubmit ? 'none' : 'block' }}>{submitLabel}</button>
             </form>
         </div>
     );

@@ -1,254 +1,219 @@
-import React, { useState } from 'react';
-import FullScreenOverlay from '../shared/FullScreenOverlay';
+import React, { useState, useEffect } from 'react';
 import './GemstonesPage.css';
+import { ArrowLeft, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+const gemsData = [
+    { name: 'Ruby', hindi: 'माणिक्य', planet: 'Sun', planetSanskrit: 'सूर्य', element: 'Fire', initial: '☉', status: 'RECOMMENDED', idealFor: 'Authority, Vitality', weight: '3-5 carats', wearOn: 'Ring finger', benefits: 'Success, Leadership', metal: 'Gold', origin: 'Myanmar, Thailand' },
+    { name: 'Pearl', hindi: 'मोती', planet: 'Moon', planetSanskrit: 'चंद्र', element: 'Water', initial: '☽', status: 'RECOMMENDED', idealFor: 'Peace, Mind', weight: '2-3 carats', wearOn: 'Little finger', benefits: 'Calm, Clarity', metal: 'Silver', origin: 'Australia' },
+    { name: 'Red Coral', hindi: 'प्रवाल', planet: 'Mars', planetSanskrit: 'मंगल', element: 'Fire', initial: '♂', status: 'RECOMMENDED', idealFor: 'Courage, Energy', weight: '3-5 carats', wearOn: 'Ring finger', benefits: 'Courage, Vitality', metal: 'Gold', origin: 'Mediterranean' },
+    { name: 'Emerald', hindi: 'पन्ना', planet: 'Mercury', planetSanskrit: 'बुध', element: 'Air', initial: '☿', status: 'RECOMMENDED', idealFor: 'Communication', weight: '2-4 carats', wearOn: 'Little finger', benefits: 'Wisdom, Communication', metal: 'Gold/Silver', origin: 'Colombia' },
+    { name: 'Yellow Sapphire', hindi: 'पुखराज', planet: 'Jupiter', planetSanskrit: 'गुरु', element: 'Earth', initial: '♃', status: 'RECOMMENDED', idealFor: 'Knowledge, Wealth', weight: '4-6 carats', wearOn: 'Index finger', benefits: 'Prosperity, Wisdom', metal: 'Gold', origin: 'Sri Lanka' },
+    { name: 'Diamond', hindi: 'हीरा', planet: 'Venus', planetSanskrit: 'शुक्र', element: 'Air', initial: '♀', status: 'RECOMMENDED', idealFor: 'Luxury, Relationships', weight: '0.5-1 carat', wearOn: 'Ring finger', benefits: 'Love, Beauty', metal: 'White Gold', origin: 'South Africa' },
+    { name: 'Blue Sapphire', hindi: 'नीलम', planet: 'Saturn', planetSanskrit: 'शनि', element: 'Air', initial: '♄', status: 'RECOMMENDED', idealFor: 'Discipline, Longevity', weight: '4-6 carats', wearOn: 'Middle finger', benefits: 'Protection, Discipline', metal: 'Gold/Silver', origin: 'Sri Lanka' },
+    { name: 'Hessonite', hindi: 'गोमेद', planet: 'Rahu', planetSanskrit: 'राहु', element: 'Fire', initial: '◯', status: 'RECOMMENDED', idealFor: 'Success, Ambition', weight: '6-8 carats', wearOn: 'Middle finger', benefits: 'Success, Protection', metal: 'Silver', origin: 'Sri Lanka' },
+    { name: 'Cat\'s Eye', hindi: 'लहसुनिया', planet: 'Ketu', planetSanskrit: 'केतु', element: 'Earth', initial: '◉', status: 'RECOMMENDED', idealFor: 'Spiritual Growth', weight: '4-6 carats', wearOn: 'Middle finger', benefits: 'Spirituality, Healing', metal: 'Silver', origin: 'Sri Lanka' }
+];
 
 const GemstonesPage = ({ isOpen, onClose }) => {
-    const [selectedGem, setSelectedGem] = useState(null);
+    const navigate = useNavigate();
+    const [gems] = useState(gemsData);
+    const [activeFilter, setActiveFilter] = useState('all');
+    const [selectedGemName, setSelectedGemName] = useState(gems.length > 0 ? gems[0].name : 'Ruby');
 
-    const gems = [
-        {
-            name: "Ruby",
-            sanskrit: "माणिक्य (Manikya)",
-            planet: "Sun (Surya)",
-            planetSymbol: "☉",
-            color: "#dc2626",
-            gradient: "linear-gradient(135deg, #dc2626, #991b1b, #7f1d1d)",
-            benefits: [
-                "Enhances leadership qualities",
-                "Boosts confidence and vitality",
-                "Improves circulation and digestion",
-                "Brings fame and recognition"
-            ],
-            whoShouldWear: "Those with weak Sun in birth chart, seeking authority positions, or facing low self-esteem.",
-            caution: "Avoid if Sun is malefic or in 6th, 8th, or 12th house without proper analysis.",
-            finger: "Ring finger",
-            metal: "Gold"
-        },
-        {
-            name: "Pearl",
-            sanskrit: "मोती (Moti)",
-            planet: "Moon (Chandra)",
-            planetSymbol: "☽",
-            color: "#e5e5e5",
-            gradient: "linear-gradient(135deg, #f5f5f5, #e5e5e5, #d4d4d4)",
-            benefits: [
-                "Soothes emotions and reduces anger",
-                "Promotes mental peace and clarity",
-                "Enhances intuition and creativity",
-                "Supports maternal health"
-            ],
-            whoShouldWear: "Cancer ascendants, those with emotional instability, or weak Moon in horoscope.",
-            caution: "Should be natural, cultured pearls may not provide astrological benefits.",
-            finger: "Little finger",
-            metal: "Silver"
-        },
-        {
-            name: "Red Coral",
-            sanskrit: "मूंगा (Moonga)",
-            planet: "Mars (Mangal)",
-            planetSymbol: "♂",
-            color: "#ea580c",
-            gradient: "linear-gradient(135deg, #ea580c, #c2410c, #9a3412)",
-            benefits: [
-                "Boosts courage and energy",
-                "Overcomes fear and lethargy",
-                "Supports bone and blood health",
-                "Enhances determination"
-            ],
-            whoShouldWear: "Those in defense, sports, or facing Mangal Dosha. Aries and Scorpio ascendants.",
-            caution: "Consult astrologer if Mars is in enemy signs or afflicted.",
-            finger: "Ring finger",
-            metal: "Gold or Copper"
-        },
-        {
-            name: "Emerald",
-            sanskrit: "पन्ना (Panna)",
-            planet: "Mercury (Budh)",
-            planetSymbol: "☿",
-            color: "#059669",
-            gradient: "linear-gradient(135deg, #059669, #047857, #065f46)",
-            benefits: [
-                "Sharpens intellect and memory",
-                "Enhances communication skills",
-                "Supports business and negotiations",
-                "Brings emotional balance"
-            ],
-            whoShouldWear: "Writers, speakers, students, and those in commerce. Gemini and Virgo ascendants.",
-            caution: "Natural emeralds with minor inclusions are preferred for astrological use.",
-            finger: "Little finger",
-            metal: "Gold"
-        },
-        {
-            name: "Yellow Sapphire",
-            sanskrit: "पुखराज (Pukhraj)",
-            planet: "Jupiter (Guru)",
-            planetSymbol: "♃",
-            color: "#eab308",
-            gradient: "linear-gradient(135deg, #eab308, #ca8a04, #a16207)",
-            benefits: [
-                "Bestows wisdom and knowledge",
-                "Attracts wealth and prosperity",
-                "Enhances spiritual growth",
-                "Supports marital harmony"
-            ],
-            whoShouldWear: "Sagittarius and Pisces ascendants, teachers, judges, and spiritual seekers.",
-            caution: "Must be natural and untreated. Ceylon sapphires are highly valued.",
-            finger: "Index finger",
-            metal: "Gold"
-        },
-        {
-            name: "Diamond",
-            sanskrit: "हीरा (Heera)",
-            planet: "Venus (Shukra)",
-            planetSymbol: "♀",
-            color: "#a5b4fc",
-            gradient: "linear-gradient(135deg, #ffffff, #e0e7ff, #c7d2fe)",
-            benefits: [
-                "Attracts love and luxury",
-                "Enhances artistic abilities",
-                "Improves marital relationships",
-                "Brings financial prosperity"
-            ],
-            whoShouldWear: "Taurus and Libra ascendants, artists, and those seeking romantic fulfillment.",
-            caution: "Ensure diamond is flawless. Even small defects can cause negative effects.",
-            finger: "Middle or ring finger",
-            metal: "Platinum or Gold"
-        },
-        {
-            name: "Blue Sapphire",
-            sanskrit: "नीलम (Neelam)",
-            planet: "Saturn (Shani)",
-            planetSymbol: "♄",
-            color: "#1e40af",
-            gradient: "linear-gradient(135deg, #1e40af, #1e3a8a, #172554)",
-            benefits: [
-                "Brings rapid wealth and success",
-                "Provides discipline and focus",
-                "Protects against misfortune",
-                "Aids career advancement"
-            ],
-            whoShouldWear: "Capricorn and Aquarius ascendants, or those under Sade-Sati with favorable Saturn.",
-            caution: "MUST be tested first. Wear for 3 days before committing. Can have strong effects.",
-            finger: "Middle finger",
-            metal: "Silver or Gold"
-        },
-        {
-            name: "Hessonite",
-            sanskrit: "गोमेद (Gomed)",
-            planet: "Rahu (North Node)",
-            planetSymbol: "☊",
-            color: "#92400e",
-            gradient: "linear-gradient(135deg, #b45309, #92400e, #78350f)",
-            benefits: [
-                "Removes confusion and fear",
-                "Success in politics and law",
-                "Protects from hidden enemies",
-                "Helps overcome addictions"
-            ],
-            whoShouldWear: "Those with Rahu Mahadasha or Rahu in favorable positions.",
-            caution: "Should be worn only after proper horoscope analysis of Rahu's position.",
-            finger: "Middle finger",
-            metal: "Silver"
-        },
-        {
-            name: "Cat's Eye",
-            sanskrit: "लहसुनिया (Lehsunia)",
-            planet: "Ketu (South Node)",
-            planetSymbol: "☋",
-            color: "#84cc16",
-            gradient: "linear-gradient(135deg, #84cc16, #65a30d, #4d7c0f)",
-            benefits: [
-                "Enhances spiritual insight",
-                "Provides protection from negativity",
-                "Develops intuition and psychic ability",
-                "Guards against hidden enemies"
-            ],
-            whoShouldWear: "Spiritual seekers, mystics, and those with Ketu Mahadasha.",
-            caution: "Strong gem with sudden effects. Test thoroughly before permanent wear.",
-            finger: "Middle or little finger",
-            metal: "Silver or Gold"
+    const sunFamily = ['Sun', 'Mars', 'Jupiter', 'Ketu'];
+    const moonFamily = ['Moon', 'Mercury', 'Venus', 'Saturn', 'Rahu'];
+
+    const getFilteredGems = () => {
+        if (activeFilter === 'sun_family') return gems.filter(g => sunFamily.includes(g.planet));
+        if (activeFilter === 'moon_family') return gems.filter(g => moonFamily.includes(g.planet));
+        // Mock 'My Rashi' by showing benefic/recommended gems, or a specific subset
+        if (activeFilter === 'my_rashi') return gems.filter(g => g.status === 'RECOMMENDED');
+        return gems;
+    };
+
+    const filteredGems = getFilteredGems();
+    const currentGem = gems.find(g => g.name === selectedGemName) || filteredGems[0] || gems[0];
+
+    useEffect(() => {
+        // When filter changes, if the currently selected gem is not in the new list, select the first one
+        if (filteredGems.length > 0 && !filteredGems.find(g => g.name === selectedGemName)) {
+            setSelectedGemName(filteredGems[0].name);
         }
+    }, [activeFilter]);
+
+    const filters = [
+        { id: 'all', label: 'ALL' },
+        { id: 'sun_family', label: 'SUN FAMILY' },
+        { id: 'moon_family', label: 'MOON FAMILY' },
+        { id: 'my_rashi', label: 'MY RASHI' }
     ];
 
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape' && onClose) onClose();
+        };
+        if (isOpen) {
+            window.addEventListener('keydown', handleEscape);
+            return () => window.removeEventListener('keydown', handleEscape);
+        }
+    }, [isOpen, onClose]);
+
+    if (!isOpen) return null;
+
     return (
-        <FullScreenOverlay isOpen={isOpen} onClose={onClose} title="नवरत्न - The Nine Sacred Gems" variant="default">
-            <div className="gemstones-container">
-                <p className="gems-intro">
-                    In Vedic astrology, the Navaratna (nine gems) harness the cosmic energies of the nine planets.
-                    Each gemstone is believed to amplify positive influences or neutralize negative effects in your horoscope.
-                </p>
+        <div className="gemstones-overlay">
+            {/* Video Background */}
+            <video
+                autoPlay loop muted playsInline className="gemstones-video-bg"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: -1 }}
+            >
+                <source src="/videos/night_sky_timelapse.mp4" type="video/mp4" />
+            </video>
+            <div className="gemstones-video-overlay" style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(5, 3, 13, 0.6)', zIndex: 0
+            }}></div>
 
-                <div className="gems-grid">
-                    {gems.map((gem, index) => (
-                        <div
-                            key={gem.name}
-                            className={`gem-card ${selectedGem === index ? 'expanded' : ''}`}
-                            onClick={() => setSelectedGem(selectedGem === index ? null : index)}
-                            style={{ '--gem-color': gem.color, '--gem-gradient': gem.gradient }}
-                        >
-                            <div className="gem-visual">
-                                <div className="gem-stone">
-                                    <div className="gem-facet"></div>
-                                    <div className="gem-shine"></div>
-                                </div>
+            <div className="sc-container">
+                <div className="topbar">
+                    <div className="back-btn" onClick={() => navigate('/mobile/home')}>
+                        <span style={{ fontSize: '1rem', marginRight: '4px' }}>←</span> Back
+                    </div>
+                    <div className="topbar-title">NAVARATNA</div>
+                    <div className="close-btn" onClick={onClose}><X size={14} /></div>
+                </div>
+
+                <div className="scroll">
+                    <div className="sec-head" style={{ marginTop: '16px', marginBottom: '24px' }}>
+                        <h2 style={{ fontSize: '1.4rem' }}>नवरत्न</h2>
+                        <div className="sub" style={{ fontSize: '0.65rem' }}>Nine Sacred Planetary Gems</div>
+                    </div>
+
+                    {/* Selected Gem Detail Card */}
+                    <div style={{ margin: '0 16px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px', backdropFilter: 'blur(10px)' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '24px' }}>
+                            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '1.2rem', color: 'var(--vp-w90)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5)' }}>
+                                {currentGem.initial}
                             </div>
-
-                            <div className="gem-header">
-                                <span className="gem-planet-symbol">{gem.planetSymbol}</span>
-                                <div className="gem-titles">
-                                    <h3 className="gem-name">{gem.name}</h3>
-                                    <span className="gem-sanskrit">{gem.sanskrit}</span>
+                            <div style={{ flex: '1' }}>
+                                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--vp-w90)', letterSpacing: '0.05em' }}>
+                                    {currentGem.name} · {currentGem.hindi}
                                 </div>
-                            </div>
-
-                            <div className="gem-planet">
-                                <span>Planet: {gem.planet}</span>
-                            </div>
-
-                            <div className="gem-details">
-                                <div className="gem-benefits">
-                                    <h4>Benefits</h4>
-                                    <ul>
-                                        {gem.benefits.map((benefit, i) => (
-                                            <li key={i}>{benefit}</li>
-                                        ))}
-                                    </ul>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: 'var(--vp-w50)', letterSpacing: '0.05em', marginTop: '6px', marginBottom: '10px' }}>
+                                    {currentGem.planet} · {currentGem.planetSanskrit} · {currentGem.element}
                                 </div>
-
-                                <div className="gem-meta">
-                                    <div className="meta-item">
-                                        <span className="meta-label">Finger</span>
-                                        <span className="meta-value">{gem.finger}</span>
-                                    </div>
-                                    <div className="meta-item">
-                                        <span className="meta-label">Metal</span>
-                                        <span className="meta-value">{gem.metal}</span>
-                                    </div>
+                                <div style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,0.2)', padding: '4px 12px', borderRadius: '16px', fontSize: '0.55rem', fontFamily: 'var(--font-ui)', letterSpacing: '0.1em', color: 'var(--vp-w60)' }}>
+                                    {currentGem.status}
                                 </div>
-
-                                <div className="gem-who">
-                                    <h4>Who Should Wear</h4>
-                                    <p>{gem.whoShouldWear}</p>
-                                </div>
-
-                                <div className="gem-caution">
-                                    <span className="caution-icon">⚠️</span>
-                                    <p>{gem.caution}</p>
-                                </div>
-                            </div>
-
-                            <div className="gem-expand-hint">
-                                {selectedGem === index ? 'Click to collapse' : 'Click for details'}
                             </div>
                         </div>
-                    ))}
-                </div>
 
-                <div className="gems-footer">
-                    <p>💎 Always consult a qualified astrologer before wearing any gemstone for remedial purposes.</p>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>IDEAL FOR</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.idealFor}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>WEIGHT</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.weight}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>WEAR ON</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.wearOn}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>BENEFITS</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.benefits}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>METAL</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.metal}</div>
+                            </div>
+                            <div>
+                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>ORIGIN</div>
+                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{currentGem.origin}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{ padding: '0 16px', margin: '24px 0', display: 'flex', gap: '8px', overflowX: 'auto' }}>
+                        {filters.map(f => (
+                            <div
+                                key={f.id}
+                                style={{
+                                    border: '1px solid rgba(255,255,255,0.1)', padding: '6px 14px', borderRadius: '16px',
+                                    fontSize: '0.55rem', fontFamily: 'var(--font-ui)', letterSpacing: '0.1em', color: 'var(--vp-w60)',
+                                    whiteSpace: 'nowrap', cursor: 'pointer',
+                                    background: activeFilter === f.id ? 'rgba(255,255,255,0.08)' : 'transparent',
+                                    borderColor: activeFilter === f.id ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)'
+                                }}
+                                onClick={() => setActiveFilter(f.id)}
+                            >
+                                {f.label}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '12px', paddingBottom: '90px' }}>
+                        {filteredGems.length > 0 ? filteredGems.map((gem) => (
+                            <div
+                                key={gem.name}
+                                style={{
+                                    display: 'flex', alignItems: 'center', gap: '16px', padding: '16px',
+                                    background: selectedGemName === gem.name ? 'rgba(255,255,255,0.04)' : 'transparent',
+                                    border: '1px solid', borderColor: selectedGemName === gem.name ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.03)',
+                                    borderRadius: '16px', cursor: 'pointer', transition: 'all 0.2s'
+                                }}
+                                onClick={() => setSelectedGemName(gem.name)}
+                            >
+                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: 'var(--vp-w80)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5)' }}>
+                                    {gem.initial}
+                                </div>
+                                <div style={{ flex: '1' }}>
+                                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', color: 'var(--vp-w90)' }}>
+                                        {gem.name} · {gem.hindi}
+                                    </div>
+                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.65rem', color: 'var(--vp-w50)', marginTop: '4px', marginBottom: '6px' }}>
+                                        {gem.planet} · {gem.planetSanskrit} · {gem.element}
+                                    </div>
+                                    <div style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,0.15)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.45rem', fontFamily: 'var(--font-ui)', letterSpacing: '0.1em', color: 'var(--vp-w50)' }}>
+                                        {gem.status}
+                                    </div>
+                                </div>
+                                <div style={{ color: 'var(--vp-w30)', fontSize: '1.2rem' }}>›</div>
+                            </div>
+                        )) : (
+                            <div style={{ color: 'var(--vp-w50)', textAlign: 'center', fontSize: '0.85rem', padding: '20px' }}>
+                                No gems found for this filter.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Floating CTA */}
+                    <div style={{ position: 'fixed', bottom: '24px', left: '16px', right: '16px', zIndex: 10 }}>
+                        <button style={{
+                            width: '100%',
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(255,255,255,0.15)',
+                            padding: '16px',
+                            borderRadius: '24px',
+                            color: 'white',
+                            fontFamily: 'var(--font-ui)',
+                            letterSpacing: '0.1em',
+                            fontSize: '0.75rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px',
+                            backdropFilter: 'blur(16px)'
+                        }}>
+                            ✦ GET PERSONALISED RECOMMENDATION
+                        </button>
+                    </div>
                 </div>
             </div>
-        </FullScreenOverlay>
+        </div>
     );
 };
 

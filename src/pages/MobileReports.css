@@ -3,7 +3,7 @@
 .mobile-reports-container {
     padding: 24px 20px;
     min-height: 100vh;
-    background: var(--bg, transparent);
+    background: transparent;
     color: var(--text-primary, #f1f5f9);
     font-family: 'Inter', sans-serif;
     padding-bottom: 100px;
@@ -192,7 +192,8 @@
 /* AstroRevo Chart Promo Card */
 .astrorevo-promo-card {
     position: relative;
-    background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+    background: linear-gradient(135deg, rgba(12, 74, 110, 0.3) 0%, rgba(7, 89, 133, 0.3) 100%);
+    backdrop-filter: blur(12px);
     border-radius: 20px;
     padding: 24px;
     overflow: hidden;
@@ -264,7 +265,8 @@
 /* Premium Section */
 .premium-promo-card {
     position: relative;
-    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.3) 0%, rgba(49, 46, 129, 0.3) 100%);
+    backdrop-filter: blur(12px);
     border-radius: 20px;
     padding: 24px;
     overflow: hidden;
@@ -388,7 +390,8 @@
 
 /* BCA Section */
 .bca-promo-card {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.3) 0%, rgba(30, 41, 59, 0.3) 100%);
+    backdrop-filter: blur(12px);
     padding: 20px;
     border-radius: 20px;
     display: flex;
@@ -426,13 +429,20 @@
 }
 
 .bca-btn {
-    background: transparent;
-    border: 1px solid #10b981;
-    color: #10b981;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 13px;
     font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.bca-btn:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
 }
 
 /* Sample Chart / Razorpay Button Styles (Shared from MobileHome) */

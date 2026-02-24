@@ -71,27 +71,19 @@ const getRashiFromMoonLong = (lon) => {
 
 // --- Main Calculation ---
 
-export const calculateAshtakoot = (boyData, girlData) => {
-    // Mock Calculation Logic for Demo (until backend integration)
-    // In a real app, we need the exact moon longitude to determine Nakshatra/Rashi.
-    // For now, we will hash the names/dates to pick a Nakshatra deterministically.
+export const calculateAshtakoot = (boyMoonLong, girlMoonLong) => {
+    // Exact Astronomical Calculation based on Swiss Ephemeris Moon Longitudes
+    const getNakIndex = (lon) => Math.floor(lon / (360 / 27));
+    const getRashiIndex = (lon) => Math.floor(lon / 30);
 
-    const getHash = (str) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        return Math.abs(hash);
-    };
-
-    const boyNakIndex = getHash(boyData.name + boyData.dob) % 27;
-    const girlNakIndex = getHash(girlData.name + girlData.dob) % 27;
+    const boyNakIndex = getNakIndex(boyMoonLong);
+    const girlNakIndex = getNakIndex(girlMoonLong);
 
     const boyNak = NAKSHATRAS[boyNakIndex];
     const girlNak = NAKSHATRAS[girlNakIndex];
 
-    const boyRashiIndex = Math.floor(boyNakIndex * 13.333 / 30);
-    const girlRashiIndex = Math.floor(girlNakIndex * 13.333 / 30);
+    const boyRashiIndex = getRashiIndex(boyMoonLong);
+    const girlRashiIndex = getRashiIndex(girlMoonLong);
 
     // Scores
     let scores = {

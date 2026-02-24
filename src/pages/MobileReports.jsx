@@ -96,7 +96,7 @@ const MobileReports = () => {
                 {/* 1. Birth Chart Accordion */}
                 <div className={`accordion-item ${activeSection === 'birth-chart' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('birth-chart')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#FFD700' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#FFD700', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Star size={20} />
                         </div>
                         <div className="header-info">
@@ -138,7 +138,7 @@ const MobileReports = () => {
                 {/* 2. The AstroRevo Chart Accordion */}
                 <div className={`accordion-item ${activeSection === 'astrorevo-chart' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('astrorevo-chart')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Compass size={20} />
                         </div>
                         <div className="header-info">
@@ -178,10 +178,82 @@ const MobileReports = () => {
                     )}
                 </div>
 
-                {/* 3. Premium Access Accordion */}
+                {/* 3. Nakshatra / Stars Accordion */}
+                <div className={`accordion-item ${activeSection === 'nakshatra' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('nakshatra')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Star size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Nakshatra / Stars</h3>
+                            <span>Your Birth Star Insights</span>
+                        </div>
+                        {activeSection === 'nakshatra' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'nakshatra' && (
+                        <div className="accordion-content">
+                            <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '16px' }}>
+                                <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
+                                    <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '6rem', opacity: 0.05, pointerEvents: 'none' }}>✨</div>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
+                                        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.05))', border: '1px solid rgba(236, 72, 153, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: '#f472b6', boxShadow: 'inset 0 0 10px rgba(236, 72, 153, 0.2)' }}>
+                                            पु
+                                        </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--vp-w90)', letterSpacing: '0.05em' }}>Pushya Nakshatra</div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: 'var(--vp-w50)', letterSpacing: '0.05em', marginTop: '4px' }}>The Nourisher · Saturn Ruled</div>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>DEITY</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Brihaspati</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>SYMBOL</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Cow's Udder / Lotus</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>ANIMAL</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Goat</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>NATURE</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Deva (Divine)</div>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
+                                        Pushya is considered the most auspicious of all Nakshatras. It brings nourishment, wealth, and deep spiritual inclinations. You possess a giving nature and natural wisdom.
+                                    </div>
+                                </div>
+                                <button style={{
+                                    width: '100%',
+                                    background: 'rgba(236, 72, 153, 0.1)',
+                                    border: '1px solid rgba(236, 72, 153, 0.3)',
+                                    padding: '14px',
+                                    borderRadius: '24px',
+                                    color: '#fbcfe8',
+                                    fontFamily: 'var(--font-ui)',
+                                    letterSpacing: '0.1em',
+                                    fontSize: '0.75rem',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    backdropFilter: 'blur(16px)'
+                                }}>
+                                    ✦ EXPLORE FULL NAKSHATRA REPORT
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
                 <div className={`accordion-item ${activeSection === 'premium' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('premium')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(129, 140, 248, 0.15)', color: '#818cf8' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(129, 140, 248, 0.15)', color: '#818cf8', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Lock size={20} />
                         </div>
                         <div className="header-info">
@@ -222,7 +294,7 @@ const MobileReports = () => {
                 {/* 4. Yoga Remedies Accordion */}
                 <div className={`accordion-item ${activeSection === 'yoga' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('yoga')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(67, 233, 123, 0.15)', color: '#43e97b' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(67, 233, 123, 0.15)', color: '#43e97b', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Activity size={20} />
                         </div>
                         <div className="header-info">
@@ -260,7 +332,7 @@ const MobileReports = () => {
                 {/* 5. Body Composition Accordion */}
                 <div className={`accordion-item ${activeSection === 'bca' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('bca')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(240, 147, 251, 0.15)', color: '#f093fb' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(240, 147, 251, 0.15)', color: '#f093fb', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Compass size={20} />
                         </div>
                         <div className="header-info">
@@ -288,7 +360,7 @@ const MobileReports = () => {
                 {/* 6. Western Zodiac Natal Chart Accordion */}
                 <div className={`accordion-item ${activeSection === 'western-chart' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('western-chart')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7' }}>
+                        <div className="header-icon-box" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#a855f7', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Globe size={20} />
                         </div>
                         <div className="header-info">
@@ -299,7 +371,7 @@ const MobileReports = () => {
                     </div>
                     {activeSection === 'western-chart' && (
                         <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/western-chart')} style={{ background: 'linear-gradient(135deg, #2e1065, #0f172a)' }}>
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/western-chart')} style={{ background: 'linear-gradient(135deg, rgba(46, 16, 101, 0.3), rgba(15, 23, 42, 0.3))', backdropFilter: 'blur(12px)' }}>
                                 <div className="bca-icon-circle" style={{ background: 'rgba(168, 85, 247, 0.3)' }}>
                                     <Globe size={24} color="#ffffff" />
                                 </div>
@@ -308,6 +380,267 @@ const MobileReports = () => {
                                     <p>Explore your Sun, Moon, and Rising signs through the Western Tropical Zodiac system.</p>
                                 </div>
                                 <button className="bca-btn" style={{ background: '#a855f7' }}>View Western Chart</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 7. Saturnian Discipline Accordion */}
+                <div className={`accordion-item ${activeSection === 'saturn' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('saturn')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(192, 192, 192, 0.15)', color: '#C0C0C0', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Lock size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Saturnian Discipline</h3>
+                            <span>Habit & Karma Tracker</span>
+                            <span className="premium-badge-text">New Feature</span>
+                        </div>
+                        {activeSection === 'saturn' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'saturn' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/saturn-tracker')} style={{ background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
+                                    <Activity size={24} color="#FFD700" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Master Your Routine</h3>
+                                    <p>Build iron-clad discipline. Track habits, gain karma points, and please Lord Saturn.</p>
+                                </div>
+                                <button className="bca-btn">Open Tracker</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 8. The Iron Mars (Bodybuilding) Accordion */}
+                <div className={`accordion-item ${activeSection === 'mars' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('mars')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(255, 69, 0, 0.15)', color: '#FF4500', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Zap size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>The Iron Mars</h3>
+                            <span>Bodybuilding & Strength</span>
+                            <span className="premium-badge-text">New Feature</span>
+                        </div>
+                        {activeSection === 'mars' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'mars' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mars')} style={{ background: 'linear-gradient(135deg, rgba(43, 10, 10, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 69, 0, 0.2)' }}>
+                                    <Zap size={24} color="#FF4500" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Forged in Fire</h3>
+                                    <p>Track workouts, protein, and will-power. Channel the warrior energy of Mangal.</p>
+                                </div>
+                                <button className="bca-btn">Open Gym</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 9. Solar Radiance (Sun) */}
+                <div className={`accordion-item ${activeSection === 'sun' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('sun')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#FFD700' }}>
+                            <Sun size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Solar Radiance</h3>
+                            <span>Soul & Vitality</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'sun' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'sun' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/sun')} style={{ background: 'linear-gradient(135deg, rgba(58, 42, 0, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
+                                    <Sun size={24} color="#FFD700" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Ignite Your Soul</h3>
+                                    <p>Morning rituals, leadership, and vitality. Shine like the Sun.</p>
+                                </div>
+                                <button className="bca-btn">Wake Up</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 10. Lunar Tides (Moon) */}
+                <div className={`accordion-item ${activeSection === 'moon' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('moon')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Moon size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Lunar Tides</h3>
+                            <span>Mind & Emotions</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'moon' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'moon' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/moon')} style={{ background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
+                                    <Moon size={24} color="#fff" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Find Your Flow</h3>
+                                    <p>Track moods, hydration, and peace. Master your emotional tides.</p>
+                                </div>
+                                <button className="bca-btn">Find Peace</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 11. Mercury Mind */}
+                <div className={`accordion-item ${activeSection === 'mercury' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('mercury')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(52, 211, 153, 0.15)', color: '#34d399', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <MessageCircle size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Mercury Mind</h3>
+                            <span>Intellect & Skills</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'mercury' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'mercury' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mercury')} style={{ background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(52, 211, 153, 0.2)' }}>
+                                    <MessageCircle size={24} color="#34d399" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Sharpen Your Wit</h3>
+                                    <p>Reading, learning, and communication. Boost your IQ.</p>
+                                </div>
+                                <button className="bca-btn">Start Learning</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 12. Guru's Grace (Jupiter) */}
+                <div className={`accordion-item ${activeSection === 'jupiter' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('jupiter')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Crown size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Guru's Grace</h3>
+                            <span>Wisdom & Luck</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'jupiter' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'jupiter' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/jupiter')} style={{ background: 'linear-gradient(135deg, rgba(66, 32, 6, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(234, 179, 8, 0.2)' }}>
+                                    <Crown size={24} color="#eab308" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Expand Your Wisdom</h3>
+                                    <p>Gratitude, study, and teaching. Attract good fortune.</p>
+                                </div>
+                                <button className="bca-btn">Gain Wisdom</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 13. Venusian Bliss */}
+                <div className={`accordion-item ${activeSection === 'venus' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('venus')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Heart size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Venusian Bliss</h3>
+                            <span>Love & Beauty</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'venus' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'venus' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/venus')} style={{ background: 'linear-gradient(135deg, rgba(190, 24, 93, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(236, 72, 153, 0.2)' }}>
+                                    <Heart size={24} color="#ec4899" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Radiate Beauty</h3>
+                                    <p>Self-care, grooming, and luxury. Attract love and abundance.</p>
+                                </div>
+                                <button className="bca-btn">Be Beautiful</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 14. Rahu Conquest */}
+                <div className={`accordion-item ${activeSection === 'rahu' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('rahu')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Globe size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Rahu Conquest</h3>
+                            <span>Ambition & Fame</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'rahu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'rahu' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/rahu')} style={{ background: 'linear-gradient(135deg, rgba(76, 29, 149, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(139, 92, 246, 0.2)' }}>
+                                    <Globe size={24} color="#8b5cf6" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Conquer the World</h3>
+                                    <p>Obsession, innovation, and fame. Achieve the impossible.</p>
+                                </div>
+                                <button className="bca-btn">Conquer</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 15. Ketu Zen */}
+                <div className={`accordion-item ${activeSection === 'ketu' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('ketu')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(217, 119, 6, 0.15)', color: '#d97706', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Star size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Ketu Zen</h3>
+                            <span>Detachment & Moksha</span>
+                            <span className="premium-badge-text">New</span>
+                        </div>
+                        {activeSection === 'ketu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'ketu' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/ketu')} style={{ background: 'linear-gradient(135deg, rgba(120, 53, 15, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(217, 119, 6, 0.2)' }}>
+                                    <Star size={24} color="#d97706" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Embrace the Void</h3>
+                                    <p>Spirituality, isolation, and letting go. Find freedom in nothingness.</p>
+                                </div>
+                                <button className="bca-btn">Let Go</button>
                             </div>
                         </div>
                     )}
@@ -345,267 +678,6 @@ const MobileReports = () => {
                     checkStatus();
                 }}
             />
-
-            {/* 7. Saturnian Discipline Accordion */}
-            <div className={`accordion-item ${activeSection === 'saturn' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('saturn')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(192, 192, 192, 0.15)', color: '#C0C0C0' }}>
-                        <Lock size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Saturnian Discipline</h3>
-                        <span>Habit & Karma Tracker</span>
-                        <span className="premium-badge-text">New Feature</span>
-                    </div>
-                    {activeSection === 'saturn' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'saturn' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/saturn-tracker')} style={{ background: 'linear-gradient(135deg, #1f2937, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
-                                <Activity size={24} color="#FFD700" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Master Your Routine</h3>
-                                <p>Build iron-clad discipline. Track habits, gain karma points, and please Lord Saturn.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#FFD700', color: '#000' }}>Open Tracker</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 8. The Iron Mars (Bodybuilding) Accordion */}
-            <div className={`accordion-item ${activeSection === 'mars' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('mars')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(255, 69, 0, 0.15)', color: '#FF4500' }}>
-                        <Zap size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>The Iron Mars</h3>
-                        <span>Bodybuilding & Strength</span>
-                        <span className="premium-badge-text">New Feature</span>
-                    </div>
-                    {activeSection === 'mars' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'mars' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mars')} style={{ background: 'linear-gradient(135deg, #2b0a0a, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(255, 69, 0, 0.2)' }}>
-                                <Zap size={24} color="#FF4500" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Forged in Fire</h3>
-                                <p>Track workouts, protein, and will-power. Channel the warrior energy of Mangal.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#FF4500', color: '#fff' }}>Open Gym</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 9. Solar Radiance (Sun) */}
-            <div className={`accordion-item ${activeSection === 'sun' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('sun')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#FFD700' }}>
-                        <Sun size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Solar Radiance</h3>
-                        <span>Soul & Vitality</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'sun' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'sun' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/sun')} style={{ background: 'linear-gradient(135deg, #3a2a00, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
-                                <Sun size={24} color="#FFD700" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Ignite Your Soul</h3>
-                                <p>Morning rituals, leadership, and vitality. Shine like the Sun.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#FFD700', color: '#000' }}>Wake Up</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 10. Lunar Tides (Moon) */}
-            <div className={`accordion-item ${activeSection === 'moon' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('moon')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#fff' }}>
-                        <Moon size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Lunar Tides</h3>
-                        <span>Mind & Emotions</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'moon' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'moon' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/moon')} style={{ background: 'linear-gradient(135deg, #1e293b, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
-                                <Moon size={24} color="#fff" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Find Your Flow</h3>
-                                <p>Track moods, hydration, and peace. Master your emotional tides.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#fff', color: '#000' }}>Find Peace</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 11. Mercury Mind */}
-            <div className={`accordion-item ${activeSection === 'mercury' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('mercury')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(52, 211, 153, 0.15)', color: '#34d399' }}>
-                        <MessageCircle size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Mercury Mind</h3>
-                        <span>Intellect & Skills</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'mercury' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'mercury' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mercury')} style={{ background: 'linear-gradient(135deg, #064e3b, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(52, 211, 153, 0.2)' }}>
-                                <MessageCircle size={24} color="#34d399" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Sharpen Your Wit</h3>
-                                <p>Reading, learning, and communication. Boost your IQ.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#34d399', color: '#fff' }}>Start Learning</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 12. Guru's Grace (Jupiter) */}
-            <div className={`accordion-item ${activeSection === 'jupiter' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('jupiter')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308' }}>
-                        <Crown size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Guru's Grace</h3>
-                        <span>Wisdom & Luck</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'jupiter' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'jupiter' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/jupiter')} style={{ background: 'linear-gradient(135deg, #422006, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(234, 179, 8, 0.2)' }}>
-                                <Crown size={24} color="#eab308" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Expand Your Wisdom</h3>
-                                <p>Gratitude, study, and teaching. Attract good fortune.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#eab308', color: '#fff' }}>Gain Wisdom</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 13. Venusian Bliss */}
-            <div className={`accordion-item ${activeSection === 'venus' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('venus')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899' }}>
-                        <Heart size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Venusian Bliss</h3>
-                        <span>Love & Beauty</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'venus' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'venus' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/venus')} style={{ background: 'linear-gradient(135deg, #be185d, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(236, 72, 153, 0.2)' }}>
-                                <Heart size={24} color="#ec4899" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Radiate Beauty</h3>
-                                <p>Self-care, grooming, and luxury. Attract love and abundance.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#ec4899', color: '#fff' }}>Be Beautiful</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 14. Rahu Conquest */}
-            <div className={`accordion-item ${activeSection === 'rahu' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('rahu')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6' }}>
-                        <Globe size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Rahu Conquest</h3>
-                        <span>Ambition & Fame</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'rahu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'rahu' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/rahu')} style={{ background: 'linear-gradient(135deg, #4c1d95, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(139, 92, 246, 0.2)' }}>
-                                <Globe size={24} color="#8b5cf6" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Conquer the World</h3>
-                                <p>Obsession, innovation, and fame. Achieve the impossible.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#8b5cf6', color: '#fff' }}>Conquer</button>
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* 15. Ketu Zen */}
-            <div className={`accordion-item ${activeSection === 'ketu' ? 'active' : ''}`}>
-                <div className="accordion-header" onClick={() => toggleSection('ketu')}>
-                    <div className="header-icon-box" style={{ background: 'rgba(217, 119, 6, 0.15)', color: '#d97706' }}>
-                        <Star size={20} />
-                    </div>
-                    <div className="header-info">
-                        <h3>Ketu Zen</h3>
-                        <span>Detachment & Moksha</span>
-                        <span className="premium-badge-text">New</span>
-                    </div>
-                    {activeSection === 'ketu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                </div>
-                {activeSection === 'ketu' && (
-                    <div className="accordion-content">
-                        <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/ketu')} style={{ background: 'linear-gradient(135deg, #78350f, #000)' }}>
-                            <div className="bca-icon-circle" style={{ background: 'rgba(217, 119, 6, 0.2)' }}>
-                                <Star size={24} color="#d97706" />
-                            </div>
-                            <div className="bca-text">
-                                <h3>Embrace the Void</h3>
-                                <p>Spirituality, isolation, and letting go. Find freedom in nothingness.</p>
-                            </div>
-                            <button className="bca-btn" style={{ background: '#d97706', color: '#fff' }}>Let Go</button>
-                        </div>
-                    </div>
-                )}
-            </div>
 
 
 
