@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import './WhyAstroRevo.css';
 
 const SCENES = [
@@ -68,6 +69,7 @@ const SCENES = [
 ];
 
 const WhyAstroRevo = ({ onClose, startMaximized = false, isHidden = false }) => {
+    const { t } = useLanguage();
     const [isMaximized, setIsMaximized] = useState(startMaximized);
     const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -187,7 +189,7 @@ const WhyAstroRevo = ({ onClose, startMaximized = false, isHidden = false }) => 
         return (
             <div className={`why-astrorevo-trigger ${isHidden ? 'hidden' : ''}`} onClick={handleMaximize}>
                 <div className="trigger-icon">▶</div>
-                <span className="trigger-text">Why AstroRevo</span>
+                <span className="trigger-text">{t('Why AstroRevo')}</span>
             </div>
         );
     }
@@ -220,7 +222,7 @@ const WhyAstroRevo = ({ onClose, startMaximized = false, isHidden = false }) => 
                         {renderVisual(SCENES[0])}
                         <div className="play-overlay" onClick={handlePlay}>
                             <div className="play-icon">▶</div>
-                            <p>Why AstroRevo?</p>
+                            <p>{t('Why AstroRevo?')}</p>
                         </div>
                     </>
                 )}
@@ -228,7 +230,7 @@ const WhyAstroRevo = ({ onClose, startMaximized = false, isHidden = false }) => 
 
             <div className="video-controls">
                 {isPlaying && (
-                    <button className="stop-btn" onClick={handleStop}>Stop</button>
+                    <button className="stop-btn" onClick={handleStop}>{t('Stop')}</button>
                 )}
             </div>
         </div>

@@ -4,9 +4,11 @@ import { db } from '../../firebase';
 import { processPayment } from '../../services/razorpayService';
 import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
 import LocalAIBirthPortal from './LocalAIBirthPortal';
+import { useLanguage } from '../../contexts/LanguageContext';
 import './MobilePremiumDashboard.css';
 
 const MobilePremiumDashboard = ({ user }) => {
+    const { t } = useLanguage();
     const [step, setStep] = useState('HOME'); // HOME, PORTAL, LOADING, DASHBOARD
     const [activeTab, setActiveTab] = useState('overview');
     const [savedChart, setSavedChart] = useState(null);
@@ -14,12 +16,12 @@ const MobilePremiumDashboard = ({ user }) => {
     const [chartData, setChartData] = useState(null);
 
     const tabs = [
-        { id: 'overview', label: 'Overview' },
-        { id: 'panchang', label: 'Daily Panchang', premium: true },
-        { id: 'periods', label: 'Predictions', premium: true },
-        { id: 'varga', label: 'Shodashvarga', premium: true },
-        { id: 'transits', label: 'Transits' },
-        { id: 'compatibility', label: 'Compatibility', premium: true },
+        { id: 'overview', label: t('Overview') },
+        { id: 'panchang', label: t('Daily Panchang'), premium: true },
+        { id: 'periods', label: t('Predictions'), premium: true },
+        { id: 'varga', label: t('Shodashvarga'), premium: true },
+        { id: 'transits', label: t('Transits') },
+        { id: 'compatibility', label: t('Compatibility'), premium: true },
     ];
 
     useEffect(() => {
@@ -198,20 +200,20 @@ const MobilePremiumDashboard = ({ user }) => {
             <div className="mobile-premium-dashboard" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', minHeight: '600px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                     <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
-                    <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>Choose a Chart</h2>
-                    <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>Select a birth profile to unlock the Premium Dashboard.</p>
+                    <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>{t('Choose a Chart')}</h2>
+                    <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>{t('Select a birth profile to unlock the Premium Dashboard.')}</p>
                 </div>
 
                 {savedChart && (
                     <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
-                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile</p>
+                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 {t('Saved Profile')}</p>
                         <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {savedChart.name} ({savedChart.gender})</p>
                         <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {savedChart.date} · {savedChart.time}</p>
                         <button
                             onClick={handleSavedProfile}
                             style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
                         >
-                            ✨ Use This Profile
+                            ✨ {t('Use This Profile')}
                         </button>
                     </div>
                 )}
@@ -220,7 +222,7 @@ const MobilePremiumDashboard = ({ user }) => {
                     onClick={() => setStep('PORTAL')}
                     style={{ width: '100%', maxWidth: '400px', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
                 >
-                    ＋ Create New Chart
+                    ＋ {t('Create New Chart')}
                 </button>
             </div>
         );
@@ -238,8 +240,8 @@ const MobilePremiumDashboard = ({ user }) => {
         return (
             <div className="mobile-premium-dashboard" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '600px', gap: '20px' }}>
                 <div style={{ color: '#ffd700', fontSize: '3rem', animation: 'spin 4s linear infinite' }}>✨</div>
-                <h3 style={{ color: '#fff', margin: 0 }}>Aligning with the cosmic grid...</h3>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>Calculating Dashas and Shodashvarga...</p>
+                <h3 style={{ color: '#fff', margin: 0 }}>{t('Aligning with the cosmic grid...')}</h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>{t('Calculating Dashas and Shodashvarga...')}</p>
             </div>
         );
     }
@@ -280,7 +282,7 @@ const MobilePremiumDashboard = ({ user }) => {
                         marginBottom: '20px',
                         textShadow: '0 0 20px rgba(212, 175, 55, 0.5)'
                     }}>🔒</div>
-                    <h2 className="gold-text" style={{ fontSize: '1.8rem', marginBottom: '10px' }}>Unlock Premium Access</h2>
+                    <h2 className="gold-text" style={{ fontSize: '1.8rem', marginBottom: '10px' }}>{t('Unlock Premium Access')}</h2>
                     <p style={{
                         marginBottom: '30px',
                         color: '#E2E8F0',
@@ -289,7 +291,7 @@ const MobilePremiumDashboard = ({ user }) => {
                         lineHeight: '1.5',
                         fontSize: '0.95rem'
                     }}>
-                        Get detailed Predictions, all 16 Divisional Charts (Shodashvarga), and deep compatibility matching for your saved profile.
+                        {t('Get detailed Predictions, all 16 Divisional Charts (Shodashvarga), and deep compatibility matching for your saved profile.')}
                     </p>
                     <button className="buy-btn golden-action-btn" style={{
                         width: '220px',
@@ -297,7 +299,7 @@ const MobilePremiumDashboard = ({ user }) => {
                         fontSize: '1rem',
                         fontWeight: 'bold'
                     }} onClick={() => handleUnlock()}>
-                        Unlock Dashboard (₹299)
+                        {t('Unlock Dashboard (₹299)')}
                     </button>
                     <button className="buy-btn" style={{
                         width: '220px',

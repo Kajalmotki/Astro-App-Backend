@@ -10,11 +10,13 @@ import BCAAnalysis from '../components/BCAAnalysis';
 import { useAuth } from '../components/AuthModal';
 import { checkMembershipStatus } from '../services/razorpayService';
 import MobilePremiumDashboard from '../components/mobile/MobilePremiumDashboard';
+import { useLanguage } from '../contexts/LanguageContext';
 import './MobileReports.css';
 
 const MobileReports = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { t } = useLanguage();
 
     // Check for navigation state to open specific sections automatically
     useEffect(() => {
@@ -41,6 +43,9 @@ const MobileReports = () => {
     const [selectedChakra, setSelectedChakra] = useState(null);
     const [isMembershipOpen, setIsMembershipOpen] = useState(false);
     const [isBCAOpen, setIsBCAOpen] = useState(false);
+
+    // State for Nakshatra Expansion
+    const [isNakshatraExpanded, setIsNakshatraExpanded] = useState(false);
 
     // Auth & Premium State
     const { user } = useAuth();
@@ -88,8 +93,8 @@ const MobileReports = () => {
     return (
         <div className="mobile-reports-container">
             <header className="page-header">
-                <h2>Your Cosmic Reports</h2>
-                <p>Unlock destiny, health, and spiritual growth.</p>
+                <h2>{t('Your Cosmic Reports')}</h2>
+                <p>{t('Unlock destiny, health, and spiritual growth.')}</p>
             </header>
 
             <div className="reports-accordion">
@@ -100,8 +105,8 @@ const MobileReports = () => {
                             <Star size={20} />
                         </div>
                         <div className="header-info">
-                            <h3>Birth Chart</h3>
-                            <span>Quick Vedic Calculation</span>
+                            <h3>{t('Birth Chart')}</h3>
+                            <span>{t('Quick Vedic Calculation')}</span>
                         </div>
                         {activeSection === 'birth-chart' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
@@ -142,8 +147,8 @@ const MobileReports = () => {
                             <Compass size={20} />
                         </div>
                         <div className="header-info">
-                            <h3>The AstroRevo Chart</h3>
-                            <span>Your Soul's Blueprint</span>
+                            <h3>{t('The AstroRevo Chart')}</h3>
+                            <span>{t("Your Soul's Blueprint")}</span>
                         </div>
                         {activeSection === 'astrorevo-chart' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
@@ -152,23 +157,23 @@ const MobileReports = () => {
                             <div className="astrorevo-promo-card" onClick={() => navigate('/mobile/sample')}>
                                 <div className="promo-bg-glow"></div>
                                 <div className="promo-content">
-                                    <div className="promo-badge">RECOMMENDED</div>
-                                    <h3>Discover Your True Self</h3>
-                                    <p>A comprehensive map of your destiny, engraved in the stars at the moment of your birth. Discover hidden potentials and karmic paths.</p>
+                                    <div className="promo-badge">{t('RECOMMENDED')}</div>
+                                    <h3>{t('Discover Your True Self')}</h3>
+                                    <p>{t('A comprehensive map of your destiny, engraved in the stars at the moment of your birth. Discover hidden potentials and karmic paths.')}</p>
                                     <div className="sample-chart-container" style={{ marginTop: '16px' }}>
                                         <button className="sample-chart-preview-btn" onClick={(e) => { e.stopPropagation(); navigate('/mobile/sample'); }}>
                                             <div className="preview-icon">
                                                 <span style={{ fontSize: '20px' }}>📊</span>
                                             </div>
                                             <div className="preview-text">
-                                                <span className="preview-title">View Sample Report</span>
-                                                <span className="preview-subtitle">See what your future holds</span>
+                                                <span className="preview-title">{t('View Sample Report')}</span>
+                                                <span className="preview-subtitle">{t('See what your future holds')}</span>
                                             </div>
                                             <div className="preview-arrow">→</div>
                                         </button>
 
                                         <button className="razorpay-buy-btn" onClick={(e) => { e.stopPropagation(); setIsMembershipOpen(true); }}>
-                                            <span className="buy-text">Unlock Full Report</span>
+                                            <span className="buy-text">{t('Unlock Full Report')}</span>
                                             <span className="buy-price">₹99</span>
                                         </button>
                                     </div>
@@ -185,8 +190,8 @@ const MobileReports = () => {
                             <Star size={20} />
                         </div>
                         <div className="header-info">
-                            <h3>Nakshatra / Stars</h3>
-                            <span>Your Birth Star Insights</span>
+                            <h3>{t('Nakshatra / Stars')}</h3>
+                            <span>{t('Your Birth Star Insights')}</span>
                         </div>
                         {activeSection === 'nakshatra' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
@@ -222,31 +227,135 @@ const MobileReports = () => {
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>NATURE</div>
                                             <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Deva (Divine)</div>
                                         </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>RULING PLANET</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Saturn</div>
+                                        </div>
+                                        <div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>ELEMENT / DOSHA</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Water / Pitta</div>
+                                        </div>
                                     </div>
 
-                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
+                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5', marginBottom: '20px' }}>
                                         Pushya is considered the most auspicious of all Nakshatras. It brings nourishment, wealth, and deep spiritual inclinations. You possess a giving nature and natural wisdom.
                                     </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                        <div style={{ background: 'rgba(52, 211, 153, 0.05)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid rgba(52, 211, 153, 0.5)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                                                <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <span style={{ fontSize: '0.6rem', color: '#34d399' }}>✓</span>
+                                                </div>
+                                                <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#a7f3d0', letterSpacing: '0.1em', fontWeight: 'bold' }}>FAVORABLE FOR</span>
+                                            </div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                Beginning education, learning astrology, spiritual retreats, spending time with family, cooking, gardening.
+                                            </div>
+                                        </div>
+                                        <div style={{ background: 'rgba(248, 113, 113, 0.05)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid rgba(248, 113, 113, 0.5)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                                                <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(248, 113, 113, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <span style={{ fontSize: '0.5rem', color: '#f87171' }}>✕</span>
+                                                </div>
+                                                <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#fecaca', letterSpacing: '0.1em', fontWeight: 'bold' }}>UNFAVORABLE FOR</span>
+                                            </div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                Marriage ceremonies, harsh actions, arguments, borrowing money, highly competitive activities.
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button style={{
-                                    width: '100%',
-                                    background: 'rgba(236, 72, 153, 0.1)',
-                                    border: '1px solid rgba(236, 72, 153, 0.3)',
-                                    padding: '14px',
-                                    borderRadius: '24px',
-                                    color: '#fbcfe8',
-                                    fontFamily: 'var(--font-ui)',
-                                    letterSpacing: '0.1em',
-                                    fontSize: '0.75rem',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '8px',
-                                    backdropFilter: 'blur(16px)'
-                                }}>
-                                    ✦ EXPLORE FULL NAKSHATRA REPORT
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsNakshatraExpanded(!isNakshatraExpanded);
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        background: 'rgba(236, 72, 153, 0.1)',
+                                        border: '1px solid rgba(236, 72, 153, 0.3)',
+                                        padding: '14px',
+                                        borderRadius: '24px',
+                                        color: '#fbcfe8',
+                                        fontFamily: 'var(--font-ui)',
+                                        letterSpacing: '0.1em',
+                                        fontSize: '0.75rem',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '8px',
+                                        backdropFilter: 'blur(16px)',
+                                        transition: 'all 0.3s ease'
+                                    }}>
+                                    {isNakshatraExpanded ? '✦ CLOSE REPORT' : '✦ EXPLORE FULL NAKSHATRA REPORT'}
                                 </button>
+
+                                {isNakshatraExpanded && (
+                                    <div style={{ marginTop: '8px', animation: 'fadeIn 0.4s ease', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                        <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px' }}>
+                                            <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: '#f472b6', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <Star size={18} /> Deep Psychological Profile
+                                            </h4>
+
+                                            <div style={{ marginBottom: '16px' }}>
+                                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>KEY STRENGTHS</div>
+                                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
+                                                    Highly dependable, generous, spiritually inclined, protective of loved ones, resilient in adversity, and possesses a natural aptitude for giving sound advice.
+                                                </div>
+                                            </div>
+
+                                            <div style={{ marginBottom: '16px' }}>
+                                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>SHADOW TRAITS</div>
+                                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
+                                                    Can be overly stubborn, rigidly traditional, prone to self-doubt, and sometimes gives so much to others that they neglect their own personal boundaries.
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>CAREER SYNERGIES</div>
+                                                <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
+                                                    Teaching, counseling, religious/spiritual roles, politics, real estate, agriculture, and caregiving professions.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style={{ background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(255, 255, 255, 0.02))', border: '1px solid rgba(236, 72, 153, 0.2)', borderRadius: '24px', padding: '24px', textAlign: 'center' }}>
+                                            <Crown size={24} color="#f472b6" style={{ margin: '0 auto 12px auto' }} />
+                                            <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--vp-w90)', marginBottom: '8px' }}>Padas (Quarters) Analysis</h4>
+                                            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w70)', lineHeight: '1.5', marginBottom: '16px' }}>
+                                                Each Nakshatra is divided into 4 quarters. Unlock the premium report to discover exactly which Pada your moon resides in and its unique micro-influence on your destiny.
+                                            </p>
+                                            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #fecaca' }}>
+                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#fecaca', fontWeight: 'bold', marginBottom: '4px' }}>Pada 1 (Leo Navamsa)</div>
+                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                        Focuses on achievement, wealth, and family. Grants leadership qualities and a strong desire to protect and provide for lineage.
+                                                    </div>
+                                                </div>
+                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #fde047' }}>
+                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#fde047', fontWeight: 'bold', marginBottom: '4px' }}>Pada 2 (Virgo Navamsa)</div>
+                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                        The most hardworking and practical quarter. Emphasizes service, healing professions, and achieving success through meticulous discipline.
+                                                    </div>
+                                                </div>
+                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #a7f3d0' }}>
+                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#a7f3d0', fontWeight: 'bold', marginBottom: '4px' }}>Pada 3 (Libra Navamsa)</div>
+                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                        Focuses on harmony, relationships, and home life. Highly sociable, seeking balance, comfort, and peace in all domestic affairs.
+                                                    </div>
+                                                </div>
+                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #bfdbfe' }}>
+                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#bfdbfe', fontWeight: 'bold', marginBottom: '4px' }}>Pada 4 (Scorpio Navamsa)</div>
+                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                        The most mystical and emotional quarter. Prone to deep spiritual insights, occult studies, and transformation through caring for others.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
@@ -385,262 +494,30 @@ const MobileReports = () => {
                     )}
                 </div>
 
-                {/* 7. Saturnian Discipline Accordion */}
-                <div className={`accordion-item ${activeSection === 'saturn' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('saturn')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(192, 192, 192, 0.15)', color: '#C0C0C0', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Lock size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Saturnian Discipline</h3>
-                            <span>Habit & Karma Tracker</span>
-                            <span className="premium-badge-text">New Feature</span>
-                        </div>
-                        {activeSection === 'saturn' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'saturn' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/saturn-tracker')} style={{ background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
-                                    <Activity size={24} color="#FFD700" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Master Your Routine</h3>
-                                    <p>Build iron-clad discipline. Track habits, gain karma points, and please Lord Saturn.</p>
-                                </div>
-                                <button className="bca-btn">Open Tracker</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 8. The Iron Mars (Bodybuilding) Accordion */}
-                <div className={`accordion-item ${activeSection === 'mars' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('mars')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(255, 69, 0, 0.15)', color: '#FF4500', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Zap size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>The Iron Mars</h3>
-                            <span>Bodybuilding & Strength</span>
-                            <span className="premium-badge-text">New Feature</span>
-                        </div>
-                        {activeSection === 'mars' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'mars' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mars')} style={{ background: 'linear-gradient(135deg, rgba(43, 10, 10, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 69, 0, 0.2)' }}>
-                                    <Zap size={24} color="#FF4500" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Forged in Fire</h3>
-                                    <p>Track workouts, protein, and will-power. Channel the warrior energy of Mangal.</p>
-                                </div>
-                                <button className="bca-btn">Open Gym</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 9. Solar Radiance (Sun) */}
-                <div className={`accordion-item ${activeSection === 'sun' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('sun')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(255, 215, 0, 0.15)', color: '#FFD700' }}>
-                            <Sun size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Solar Radiance</h3>
-                            <span>Soul & Vitality</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'sun' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'sun' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/sun')} style={{ background: 'linear-gradient(135deg, rgba(58, 42, 0, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
-                                    <Sun size={24} color="#FFD700" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Ignite Your Soul</h3>
-                                    <p>Morning rituals, leadership, and vitality. Shine like the Sun.</p>
-                                </div>
-                                <button className="bca-btn">Wake Up</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 10. Lunar Tides (Moon) */}
-                <div className={`accordion-item ${activeSection === 'moon' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('moon')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#fff', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Moon size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Lunar Tides</h3>
-                            <span>Mind & Emotions</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'moon' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'moon' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/moon')} style={{ background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 255, 255, 0.2)' }}>
-                                    <Moon size={24} color="#fff" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Find Your Flow</h3>
-                                    <p>Track moods, hydration, and peace. Master your emotional tides.</p>
-                                </div>
-                                <button className="bca-btn">Find Peace</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 11. Mercury Mind */}
-                <div className={`accordion-item ${activeSection === 'mercury' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('mercury')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(52, 211, 153, 0.15)', color: '#34d399', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <MessageCircle size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Mercury Mind</h3>
-                            <span>Intellect & Skills</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'mercury' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'mercury' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/mercury')} style={{ background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(52, 211, 153, 0.2)' }}>
-                                    <MessageCircle size={24} color="#34d399" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Sharpen Your Wit</h3>
-                                    <p>Reading, learning, and communication. Boost your IQ.</p>
-                                </div>
-                                <button className="bca-btn">Start Learning</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 12. Guru's Grace (Jupiter) */}
-                <div className={`accordion-item ${activeSection === 'jupiter' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('jupiter')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Crown size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Guru's Grace</h3>
-                            <span>Wisdom & Luck</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'jupiter' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'jupiter' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/jupiter')} style={{ background: 'linear-gradient(135deg, rgba(66, 32, 6, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(234, 179, 8, 0.2)' }}>
-                                    <Crown size={24} color="#eab308" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Expand Your Wisdom</h3>
-                                    <p>Gratitude, study, and teaching. Attract good fortune.</p>
-                                </div>
-                                <button className="bca-btn">Gain Wisdom</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 13. Venusian Bliss */}
-                <div className={`accordion-item ${activeSection === 'venus' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('venus')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Heart size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Venusian Bliss</h3>
-                            <span>Love & Beauty</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'venus' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'venus' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/venus')} style={{ background: 'linear-gradient(135deg, rgba(190, 24, 93, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(236, 72, 153, 0.2)' }}>
-                                    <Heart size={24} color="#ec4899" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Radiate Beauty</h3>
-                                    <p>Self-care, grooming, and luxury. Attract love and abundance.</p>
-                                </div>
-                                <button className="bca-btn">Be Beautiful</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 14. Rahu Conquest */}
-                <div className={`accordion-item ${activeSection === 'rahu' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('rahu')}>
+                {/* 7. Planet Tracker Accordion */}
+                <div className={`accordion-item ${activeSection === 'planet-tracker' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('planet-tracker')}>
                         <div className="header-icon-box" style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Globe size={20} />
                         </div>
                         <div className="header-info">
-                            <h3>Rahu Conquest</h3>
-                            <span>Ambition & Fame</span>
-                            <span className="premium-badge-text">New</span>
+                            <h3>Planet Tracker</h3>
+                            <span>Master 9 Planetary Energies</span>
+                            <span className="premium-badge-text">New Feature</span>
                         </div>
-                        {activeSection === 'rahu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                        {activeSection === 'planet-tracker' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
-                    {activeSection === 'rahu' && (
+                    {activeSection === 'planet-tracker' && (
                         <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/rahu')} style={{ background: 'linear-gradient(135deg, rgba(76, 29, 149, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(139, 92, 246, 0.2)' }}>
-                                    <Globe size={24} color="#8b5cf6" />
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/planet-trackers')} style={{ background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.3), rgba(15, 23, 42, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(255, 215, 0, 0.2)' }}>
+                                    <Globe size={24} color="#FFD700" />
                                 </div>
                                 <div className="bca-text">
-                                    <h3>Conquer the World</h3>
-                                    <p>Obsession, innovation, and fame. Achieve the impossible.</p>
+                                    <h3>Your Daily Karmic Journey</h3>
+                                    <p>Track habits, build discipline, and balance your cosmic energies across all 9 planets.</p>
                                 </div>
-                                <button className="bca-btn">Conquer</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* 15. Ketu Zen */}
-                <div className={`accordion-item ${activeSection === 'ketu' ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => toggleSection('ketu')}>
-                        <div className="header-icon-box" style={{ background: 'rgba(217, 119, 6, 0.15)', color: '#d97706', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                            <Star size={20} />
-                        </div>
-                        <div className="header-info">
-                            <h3>Ketu Zen</h3>
-                            <span>Detachment & Moksha</span>
-                            <span className="premium-badge-text">New</span>
-                        </div>
-                        {activeSection === 'ketu' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                    </div>
-                    {activeSection === 'ketu' && (
-                        <div className="accordion-content">
-                            <div className="bca-promo-card" onClick={() => navigate('/mobile/tracker/ketu')} style={{ background: 'linear-gradient(135deg, rgba(120, 53, 15, 0.3), rgba(0, 0, 0, 0.3))', backdropFilter: 'blur(12px)' }}>
-                                <div className="bca-icon-circle" style={{ background: 'rgba(217, 119, 6, 0.2)' }}>
-                                    <Star size={24} color="#d97706" />
-                                </div>
-                                <div className="bca-text">
-                                    <h3>Embrace the Void</h3>
-                                    <p>Spirituality, isolation, and letting go. Find freedom in nothingness.</p>
-                                </div>
-                                <button className="bca-btn">Let Go</button>
+                                <button className="bca-btn" style={{ background: '#8b5cf6' }}>Open Tracker Hub</button>
                             </div>
                         </div>
                     )}

@@ -15,6 +15,9 @@ const LanguageSettingsPage = () => {
         { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
         { code: 'es', name: 'Spanish', native: 'Español' },
         { code: 'fr', name: 'French', native: 'Français' },
+        { code: 'de', name: 'German', native: 'Deutsch' },
+        { code: 'it', name: 'Italian', native: 'Italiano' },
+        { code: 'zh', name: 'Chinese', native: '中文' },
     ];
 
     const handleConfirm = () => {

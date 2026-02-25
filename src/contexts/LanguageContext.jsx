@@ -1,33 +1,26 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { translations } from '../data/translations';
+import React, { createContext, useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const LanguageContext = createContext();
 
 export const useLanguage = () => useContext(LanguageContext);
 
 export const LanguageProvider = ({ children }) => {
-    const [language, setLanguage] = useState('en');
+    const { t, i18n } = useTranslation();
+
+    // The current language is managed directly by i18next
+    const language = i18n.language || 'en';
 
     useEffect(() => {
         const savedLang = localStorage.getItem('appLanguage');
-        if (savedLang) {
-            setLanguage(savedLang);
+        if (savedLang && savedLang !== i18n.language) {
+            i18n.changeLanguage(savedLang);
         }
-    }, []);
+    }, [i18n]);
 
     const changeLanguage = (langCode) => {
-        setLanguage(langCode);
+        i18n.changeLanguage(langCode);
         localStorage.setItem('appLanguage', langCode);
-    };
-
-    // Translation helper
-    const t = (key) => {
-        try {
-            const translation = translations[language]?.[key];
-            return translation || key; // Fallback to key if not found
-        } catch (e) {
-            return key;
-        }
     };
 
     // Helper to get display name
@@ -36,11 +29,16 @@ export const LanguageProvider = ({ children }) => {
             'en': 'English',
             'hi': 'Hindi',
             'es': 'Spanish',
-            'fr': 'French'
+            'fr': 'French',
+            'de': 'German',
+            'it': 'Italian',
+            'zh': 'Chinese'
         };
         return names[code] || 'English';
     };
 
+    // Because react-i18next might load translations asynchronously, 
+    // it's safer to pass `t` out of context exactly as it is.
     return (
         <LanguageContext.Provider value={{ language, changeLanguage, getLanguageName, t }}>
             {children}

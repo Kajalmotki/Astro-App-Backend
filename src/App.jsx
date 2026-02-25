@@ -38,6 +38,7 @@ const MobileReports = lazy(() => import('./pages/MobileReports'));
 const MobileProfile = lazy(() => import('./pages/MobileProfile'));
 const MobileKundli = lazy(() => import('./pages/MobileKundli'));
 const MobileMatchmaking = lazy(() => import('./pages/MobileMatchmaking'));
+const MobilePlanetTrackers = lazy(() => import('./pages/MobilePlanetTrackers'));
 const LocalAIChat = lazy(() => import('./components/mobile/LocalAIChat'));
 const AboutUsPage = lazy(() => import('./components/mobile/AboutUsPage'));
 
@@ -284,6 +285,7 @@ function AppContent() {
                 <Route path="home" element={<MobileHome />} />
                 <Route path="chat" element={<ChatPage />} />
                 <Route path="reports" element={<MobileReports />} />
+                <Route path="planet-trackers" element={<div className="page-content" style={{ paddingTop: '0px' }}><MobilePlanetTrackers /></div>} />
                 <Route path="profile" element={<MobileProfile />} />
                 <Route path="full-kundli" element={<MobileKundli />} />
                 <Route path="matchmaking" element={<MobileMatchmaking />} />

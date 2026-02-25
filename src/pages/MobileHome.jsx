@@ -25,7 +25,7 @@ const MobileHome = () => {
     const tarotPickerRef = useRef(null);
 
     const services = [
-        { name: "Local AI (New)", icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/local-ai') },
+        { name: t("Local AI (New)"), icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/local-ai') },
         { name: t("Chart"), icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
         { name: t("Matchmaking"), icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
         { name: t("Panchang"), icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
@@ -111,7 +111,7 @@ const MobileHome = () => {
                     type="button"
                 >
                     <span className="tarot-orb-symbol">✦</span>
-                    <span className="tarot-select-text">read cards</span>
+                    <span className="tarot-select-text">{t('read cards')}</span>
                 </button>
             </div>
 
@@ -121,29 +121,29 @@ const MobileHome = () => {
                     <div className="tarot-modal-sheet" onClick={e => e.stopPropagation()}>
                         <div className="tarot-modal-handle" />
                         <div className="tarot-modal-header">
-                            <span className="tarot-modal-title">✦ Your Cosmic Reading ✦</span>
-                            <p className="tarot-modal-sub">What does the universe hold for you?</p>
+                            <span className="tarot-modal-title">✦ {t('Your Cosmic Reading')} ✦</span>
+                            <p className="tarot-modal-sub">{t('What does the universe hold for you?')}</p>
                         </div>
                         <div className="tarot-modal-actions">
                             <button className="tarot-action-btn tarot-action-shuffle" onClick={handleShuffle}>
                                 <Shuffle size={22} />
                                 <div className="tarot-action-text">
-                                    <div className="tarot-action-title">Shuffle the Deck</div>
-                                    <div className="tarot-action-desc">Reveal a new spread</div>
+                                    <div className="tarot-action-title">{t('Shuffle the Deck')}</div>
+                                    <div className="tarot-action-desc">{t('Reveal a new spread')}</div>
                                 </div>
                             </button>
                             <button className="tarot-action-btn tarot-action-reveal" onClick={handleReveal}>
                                 <Eye size={22} />
                                 <div className="tarot-action-text">
-                                    <div className="tarot-action-title">Reveal My Card</div>
-                                    <div className="tarot-action-desc">Let fate choose for you</div>
+                                    <div className="tarot-action-title">{t('Reveal My Card')}</div>
+                                    <div className="tarot-action-desc">{t('Let fate choose for you')}</div>
                                 </div>
                             </button>
                             <button className="tarot-action-btn tarot-action-learn" onClick={handleLearnTarot}>
                                 <BookOpen size={22} />
                                 <div className="tarot-action-text">
-                                    <div className="tarot-action-title">Learn Tarot</div>
-                                    <div className="tarot-action-desc">Understand the arcana</div>
+                                    <div className="tarot-action-title">{t('Learn Tarot')}</div>
+                                    <div className="tarot-action-desc">{t('Understand the arcana')}</div>
                                 </div>
                             </button>
                         </div>
