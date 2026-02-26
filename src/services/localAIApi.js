@@ -246,7 +246,7 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             headers: {
                 "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
                 "Content-Type": "application/json",
-                "HTTP-Referer": window.location.origin,
+                "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "https://astro-revo-vite.vercel.app",
                 "X-Title": "AstroRevo"
             },
             body: JSON.stringify({
