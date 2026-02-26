@@ -305,6 +305,10 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
                 dashaInsight: "⚠ AI interpretation unavailable (offline mode). Dasha data above is mathematically accurate."
             };
             return { isChartData: true, data: offlineChart };
+        } else if (previousChart) {
+            // Handle follow-up error gracefully so it doesn't crash the UI
+            console.warn("OpenRouter API failed for follow-up question.");
+            return "⚠ I am currently offline and cannot interpret the chart. Please check your internet connection and try again.";
         }
 
         throw error;
