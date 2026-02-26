@@ -52,12 +52,7 @@ const TarotRevealPage = () => {
 
     return (
         <div className="tarot-reveal-page">
-            <div className="reveal-header">
-                <button className="icon-btn back-btn" onClick={handleBack}>
-                    <ArrowLeft size={24} />
-                </button>
-                <h1 className="reveal-title">Your Card</h1>
-            </div>
+
 
             <div className="reveal-content-scroll">
                 {/* Animated Card */}

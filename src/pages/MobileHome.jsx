@@ -110,7 +110,6 @@ const MobileHome = () => {
                     aria-label="Open tarot options"
                     type="button"
                 >
-                    <span className="tarot-orb-symbol">✦</span>
                     <span className="tarot-select-text">{t('read cards')}</span>
                 </button>
             </div>

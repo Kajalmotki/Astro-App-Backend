@@ -46,6 +46,25 @@ const MobileReports = () => {
 
     // State for Nakshatra Expansion
     const [isNakshatraExpanded, setIsNakshatraExpanded] = useState(false);
+    const [liveNakshatra, setLiveNakshatra] = useState(null);
+
+    // Fetch Live Nakshatra on mount via dynamic import to isolate dependency
+    useEffect(() => {
+        const fetchLiveNakshatra = async () => {
+            try {
+                // Determine nakshatra calculation dynamically
+                const { getCurrentTransitNakshatra } = await import('../utils/nakshatraUtils.js');
+                const transitData = getCurrentTransitNakshatra();
+                if (transitData) {
+                    setLiveNakshatra(transitData);
+                }
+            } catch (err) {
+                console.error("Error loading Nakshatra data:", err);
+            }
+        };
+
+        fetchLiveNakshatra();
+    }, []);
 
     // Auth & Premium State
     const { user } = useAuth();
@@ -195,50 +214,56 @@ const MobileReports = () => {
                         </div>
                         {activeSection === 'nakshatra' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
                     </div>
-                    {activeSection === 'nakshatra' && (
+                    {activeSection === 'nakshatra' && liveNakshatra && (
                         <div className="accordion-content">
                             <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '16px' }}>
                                 <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
                                     <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '6rem', opacity: 0.05, pointerEvents: 'none' }}>✨</div>
                                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', marginBottom: '20px' }}>
                                         <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.05))', border: '1px solid rgba(236, 72, 153, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: '#f472b6', boxShadow: 'inset 0 0 10px rgba(236, 72, 153, 0.2)' }}>
-                                            पु
+                                            {liveNakshatra.name.substring(0, 1)}
                                         </div>
                                         <div>
-                                            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--vp-w90)', letterSpacing: '0.05em' }}>Pushya Nakshatra</div>
-                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: 'var(--vp-w50)', letterSpacing: '0.05em', marginTop: '4px' }}>The Nourisher · Saturn Ruled</div>
+                                            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'var(--vp-w90)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{liveNakshatra.name} NAKSHATRA</div>
+                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: 'var(--vp-w50)', letterSpacing: '0.05em', marginTop: '4px' }}>The {liveNakshatra.details.nature} Star · {liveNakshatra.details.rulingPlanet} Ruled</div>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ marginBottom: '20px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-ui)', fontSize: '0.6rem', color: 'var(--vp-w60)', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>
+                                            <span>TRANSIT PROGRESS</span>
+                                            <span>{liveNakshatra.percentComplete}%</span>
+                                        </div>
+                                        <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', overflow: 'hidden' }}>
+                                            <div style={{ width: `${liveNakshatra.percentComplete}%`, height: '100%', background: 'linear-gradient(90deg, #ec4899, #f472b6)', borderRadius: '10px', transition: 'width 1s ease-out' }}></div>
                                         </div>
                                     </div>
 
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
                                         <div>
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>DEITY</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Brihaspati</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{liveNakshatra.details.deity}</div>
                                         </div>
                                         <div>
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>SYMBOL</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Cow's Udder / Lotus</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{liveNakshatra.details.symbol}</div>
                                         </div>
                                         <div>
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>ANIMAL</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Goat</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{liveNakshatra.details.animal}</div>
                                         </div>
                                         <div>
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>NATURE</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Deva (Divine)</div>
-                                        </div>
-                                        <div>
-                                            <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>RULING PLANET</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Saturn</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{liveNakshatra.details.nature}</div>
                                         </div>
                                         <div>
                                             <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.55rem', color: 'var(--vp-w40)', letterSpacing: '0.1em', marginBottom: '4px' }}>ELEMENT / DOSHA</div>
-                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>Water / Pitta</div>
+                                            <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)' }}>{liveNakshatra.details.element}</div>
                                         </div>
                                     </div>
 
                                     <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5', marginBottom: '20px' }}>
-                                        Pushya is considered the most auspicious of all Nakshatras. It brings nourishment, wealth, and deep spiritual inclinations. You possess a giving nature and natural wisdom.
+                                        {liveNakshatra.details.description}
                                     </div>
 
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -250,7 +275,7 @@ const MobileReports = () => {
                                                 <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#a7f3d0', letterSpacing: '0.1em', fontWeight: 'bold' }}>FAVORABLE FOR</span>
                                             </div>
                                             <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                Beginning education, learning astrology, spiritual retreats, spending time with family, cooking, gardening.
+                                                {liveNakshatra.details.favorable}
                                             </div>
                                         </div>
                                         <div style={{ background: 'rgba(248, 113, 113, 0.05)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid rgba(248, 113, 113, 0.5)' }}>
@@ -261,7 +286,7 @@ const MobileReports = () => {
                                                 <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#fecaca', letterSpacing: '0.1em', fontWeight: 'bold' }}>UNFAVORABLE FOR</span>
                                             </div>
                                             <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                Marriage ceremonies, harsh actions, arguments, borrowing money, highly competitive activities.
+                                                {liveNakshatra.details.unfavorable}
                                             </div>
                                         </div>
                                     </div>
@@ -302,21 +327,21 @@ const MobileReports = () => {
                                             <div style={{ marginBottom: '16px' }}>
                                                 <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>KEY STRENGTHS</div>
                                                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
-                                                    Highly dependable, generous, spiritually inclined, protective of loved ones, resilient in adversity, and possesses a natural aptitude for giving sound advice.
+                                                    {liveNakshatra.details.strengths}
                                                 </div>
                                             </div>
 
                                             <div style={{ marginBottom: '16px' }}>
                                                 <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>SHADOW TRAITS</div>
                                                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
-                                                    Can be overly stubborn, rigidly traditional, prone to self-doubt, and sometimes gives so much to others that they neglect their own personal boundaries.
+                                                    {liveNakshatra.details.shadow}
                                                 </div>
                                             </div>
 
                                             <div>
                                                 <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.65rem', color: '#ec4899', letterSpacing: '0.1em', marginBottom: '6px', fontWeight: 'bold' }}>CAREER SYNERGIES</div>
                                                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--vp-w80)', lineHeight: '1.5' }}>
-                                                    Teaching, counseling, religious/spiritual roles, politics, real estate, agriculture, and caregiving professions.
+                                                    {liveNakshatra.details.career}
                                                 </div>
                                             </div>
                                         </div>
@@ -328,30 +353,16 @@ const MobileReports = () => {
                                                 Each Nakshatra is divided into 4 quarters. Unlock the premium report to discover exactly which Pada your moon resides in and its unique micro-influence on your destiny.
                                             </p>
                                             <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #fecaca' }}>
-                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#fecaca', fontWeight: 'bold', marginBottom: '4px' }}>Pada 1 (Leo Navamsa)</div>
-                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                        Focuses on achievement, wealth, and family. Grants leadership qualities and a strong desire to protect and provide for lineage.
+                                                {liveNakshatra.details.padas.map((pada, idx) => (
+                                                    <div key={pada.id} style={{ background: pada.id === liveNakshatra.pada ? 'rgba(236, 72, 153, 0.15)' : 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: `3px solid ${pada.id === liveNakshatra.pada ? '#f472b6' : ['#fecaca', '#fde047', '#a7f3d0', '#bfdbfe'][idx]}` }}>
+                                                        <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: pada.id === liveNakshatra.pada ? '#f472b6' : ['#fecaca', '#fde047', '#a7f3d0', '#bfdbfe'][idx], fontWeight: 'bold', marginBottom: '4px' }}>
+                                                            Pada {pada.id} ({pada.navamsa} Navamsa) {pada.id === liveNakshatra.pada && ' - CURRENT'}
+                                                        </div>
+                                                        <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
+                                                            {pada.desc}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #fde047' }}>
-                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#fde047', fontWeight: 'bold', marginBottom: '4px' }}>Pada 2 (Virgo Navamsa)</div>
-                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                        The most hardworking and practical quarter. Emphasizes service, healing professions, and achieving success through meticulous discipline.
-                                                    </div>
-                                                </div>
-                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #a7f3d0' }}>
-                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#a7f3d0', fontWeight: 'bold', marginBottom: '4px' }}>Pada 3 (Libra Navamsa)</div>
-                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                        Focuses on harmony, relationships, and home life. Highly sociable, seeking balance, comfort, and peace in all domestic affairs.
-                                                    </div>
-                                                </div>
-                                                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '12px', borderRadius: '12px', borderLeft: '3px solid #bfdbfe' }}>
-                                                    <div style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: '#bfdbfe', fontWeight: 'bold', marginBottom: '4px' }}>Pada 4 (Scorpio Navamsa)</div>
-                                                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--vp-w80)', lineHeight: '1.4' }}>
-                                                        The most mystical and emotional quarter. Prone to deep spiritual insights, occult studies, and transformation through caring for others.
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>

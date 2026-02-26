@@ -1,12 +1,13 @@
-import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { majorArcana, minorArcana } from '../../utils/tarotData';
-import './TarotCardPicker.css?v=9';
+import './TarotCardPicker.css?v=10';
 
 /* ── Tilt Card ── */
-const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, onClick }) => {
+const TiltCard = ({ card, index, isDrawingOut, isDimmed, isShuffling, totalCards, onClick }) => {
     const handleMouseMove = (e) => {
-        if (isFlipped || isDimmed || isShuffling) return;
+        if (isDrawingOut || isDimmed || isShuffling) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -31,13 +32,13 @@ const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, o
 
     return (
         <div
-            className={`tarot-card-wrapper ${isFlipped ? 'flipped' : ''} ${isDimmed ? 'dimmed' : ''} ${isShuffling ? 'shuffling' : ''}`}
+            className={`tarot-card-wrapper ${isDrawingOut ? 'drawing-out' : ''} ${isDimmed ? 'dimmed' : ''} ${isShuffling ? 'shuffling' : ''}`}
             style={{
                 '--base-rotation': `${rotation}deg`,
                 '--translateX': `${translateX}px`,
                 '--translateY': `${translateY}px`,
                 '--delay': `${index * 0.08}s`,
-                zIndex: isFlipped ? 100 : index,
+                zIndex: isDrawingOut ? 100 : index,
             }}
             onClick={() => onClick(index)}
             onMouseMove={handleMouseMove}
@@ -66,21 +67,48 @@ const TiltCard = ({ card, index, isFlipped, isDimmed, isShuffling, totalCards, o
     );
 };
 
+/* ── Ad Interstitial ── */
+const AdInterstitial = ({ onClose }) => {
+    const [secondsLeft, setSecondsLeft] = useState(6);
+
+    useEffect(() => {
+        if (secondsLeft <= 0) return;
+        const timer = setTimeout(() => setSecondsLeft(s => s - 1), 1000);
+        return () => clearTimeout(timer);
+    }, [secondsLeft]);
+
+    return createPortal(
+        <div className="ad-interstitial-overlay">
+            <div className="ad-interstitial-bg" />
+            <div className="ad-interstitial-content">
+                <button className="ad-interstitial-close" onClick={onClose}>✕</button>
+                <div className="ad-interstitial-badge">AD</div>
+                <div className="ad-interstitial-placeholder">
+                    <div className="ad-placeholder-icon">✦</div>
+                    <p className="ad-placeholder-text">Your ad here</p>
+                    <p className="ad-placeholder-subtext">Premium placement</p>
+                </div>
+                {secondsLeft > 0 && (
+                    <span className="ad-interstitial-timer">{secondsLeft}s</span>
+                )}
+            </div>
+        </div>,
+        document.body
+    );
+};
+
 /* ── Reveal Overlay ── */
 const RevealOverlay = ({ card, onDone }) => {
     const [phase, setPhase] = useState('enter'); // enter → show → exit
 
     useEffect(() => {
-        // Phase 1: full-screen card slides in (600ms)
         const t1 = setTimeout(() => setPhase('show'), 600);
-        // Phase 2: hold for a beat (700ms)
         const t2 = setTimeout(() => setPhase('exit'), 1300);
-        // Phase 3: navigate after fade-out (500ms)
         const t3 = setTimeout(() => onDone(), 1800);
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, []);
 
-    return (
+    return createPortal(
         <div className={`tarot-reveal-overlay tarot-reveal-${phase}`}>
             <div className="tarot-reveal-bg" />
             <div className="tarot-reveal-particles">
@@ -96,16 +124,19 @@ const RevealOverlay = ({ card, onDone }) => {
                 </div>
             </div>
             <p className="tarot-reveal-hint">Your card is revealed…</p>
-        </div>
+        </div>,
+        document.body
     );
 };
 
 /* ── Main Component ── */
 const TarotCardPicker = forwardRef((props, ref) => {
     const navigate = useNavigate();
-    const [flippedIndex, setFlippedIndex] = useState(null);
+    const [drawingOutIndex, setDrawingOutIndex] = useState(null);
     const [isShuffling, setIsShuffling] = useState(false);
-    const [revealCard, setRevealCard] = useState(null); // triggers overlay
+    const [showAd, setShowAd] = useState(false);
+    const [revealCard, setRevealCard] = useState(null);
+    const [pendingCard, setPendingCard] = useState(null);
 
     const getRandomCards = () => {
         const fullDeck = [...majorArcana, ...minorArcana];
@@ -113,24 +144,34 @@ const TarotCardPicker = forwardRef((props, ref) => {
     };
     const [displayCards, setDisplayCards] = useState(getRandomCards);
 
-    const triggerReveal = (card) => {
-        setRevealCard(card);
+    const handleCardClick = (index) => {
+        if (drawingOutIndex !== null || isShuffling || showAd || revealCard) return;
+        setDrawingOutIndex(index);
+        setPendingCard(displayCards[index]);
+        // After draw-out animation (1s), show ad
+        setTimeout(() => {
+            setShowAd(true);
+        }, 1000);
     };
 
-    const handleCardClick = (index) => {
-        if (flippedIndex !== null || isShuffling || revealCard) return;
-        setFlippedIndex(index);
-        // Short lift animation, then overlay
-        setTimeout(() => {
-            triggerReveal(displayCards[index]);
-            setFlippedIndex(null);
-        }, 400);
+    const handleAdClose = useCallback(() => {
+        setShowAd(false);
+        // Show reveal overlay
+        setRevealCard(pendingCard);
+        setDrawingOutIndex(null);
+    }, [pendingCard]);
+
+    const handleOverlayDone = () => {
+        const card = revealCard;
+        setRevealCard(null);
+        setPendingCard(null);
+        navigate('/mobile/tarot-reveal', { state: { card } });
     };
 
     const handleReset = () => {
-        if (revealCard) return;
+        if (revealCard || showAd) return;
         setIsShuffling(true);
-        setFlippedIndex(null);
+        setDrawingOutIndex(null);
         setTimeout(() => {
             setDisplayCards(getRandomCards());
             setTimeout(() => setIsShuffling(false), 800);
@@ -138,19 +179,9 @@ const TarotCardPicker = forwardRef((props, ref) => {
     };
 
     const handleRevealRandom = () => {
-        if (isShuffling || flippedIndex !== null || revealCard) return;
+        if (isShuffling || drawingOutIndex !== null || showAd || revealCard) return;
         const randomIndex = Math.floor(Math.random() * displayCards.length);
-        setFlippedIndex(randomIndex);
-        setTimeout(() => {
-            triggerReveal(displayCards[randomIndex]);
-            setFlippedIndex(null);
-        }, 400);
-    };
-
-    const handleOverlayDone = () => {
-        const card = revealCard;
-        setRevealCard(null);
-        navigate('/mobile/tarot-reveal', { state: { card } });
+        handleCardClick(randomIndex);
     };
 
     useImperativeHandle(ref, () => ({
@@ -167,8 +198,8 @@ const TarotCardPicker = forwardRef((props, ref) => {
                             key={`${index}-${isShuffling ? 'shuffle' : 'static'}`}
                             card={card}
                             index={index}
-                            isFlipped={flippedIndex === index}
-                            isDimmed={flippedIndex !== null && flippedIndex !== index}
+                            isDrawingOut={drawingOutIndex === index}
+                            isDimmed={drawingOutIndex !== null && drawingOutIndex !== index}
                             isShuffling={isShuffling}
                             totalCards={displayCards.length}
                             onClick={handleCardClick}
@@ -176,6 +207,10 @@ const TarotCardPicker = forwardRef((props, ref) => {
                     ))}
                 </div>
             </section>
+
+            {showAd && (
+                <AdInterstitial onClose={handleAdClose} />
+            )}
 
             {revealCard && (
                 <RevealOverlay card={revealCard} onDone={handleOverlayDone} />

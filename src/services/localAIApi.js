@@ -215,23 +215,28 @@ Answer strictly based on the planetary placements in the chart above. Use BPHS a
 Be precise, engaging, and direct. 
 CRITICAL RULES FOR YOUR RESPONSE:
 1. Provide a concise, high-level answer.
-2. If discussing remedies, wellness, struggles, or yoga, PROACTIVELY TELL THEM: "Your exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."
+2. Provide logical, well-reasoned answers based on the classic Vedic rules (BPHS, Saravali).
 3. Do NOT list out all the house lords, detailed placements, or step-by-step astrological workings. Keep your internal calculations hidden.
 4. Just give the final synthesized insight and precise timing based on the current Dasha.
-5. Do not hallucinate planetary positions.`;
+5. Do not hallucinate planetary positions.
+6. AT THE VERY END OF YOUR RESPONSE, ALWAYS INCLUDE THIS EXACT TEXT: "\n\nYour exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."`;
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
+    // Pre-calculate chart data upfront so we can use it as fallback if API fails
+    let mathData = null;
+    if (!previousChart) {
+        mathData = precalculateChartData(birthData);
+        if (!mathData) {
+            throw new Error("Local Math Engine failed to calculate planetary positions.");
+        }
+    }
+
     try {
         let prompt;
         if (previousChart) {
             prompt = getFollowUpPrompt(userName, message, previousChart);
         } else {
-            // Step 1: Deterministic Ephemeris Calculation (Browser Side)
-            const mathData = precalculateChartData(birthData);
-            if (!mathData) {
-                throw new Error("Local Math Engine failed to calculate planetary positions.");
-            }
             // Step 2: Pass guaranteed data to LLM
             prompt = getInitialChartPrompt(userName, birthData, mathData);
         }
@@ -240,11 +245,13 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "HTTP-Referer": window.location.origin,
+                "X-Title": "AstroRevo"
             },
             body: JSON.stringify({
-                model: "google/gemini-2.0-flash-001",
-                max_tokens: previousChart ? 800 : 1500,
+                model: "google/gemini-2.5-flash",
+                max_tokens: 1000,
                 messages: [{ role: "user", content: prompt }]
             })
         });
@@ -273,8 +280,33 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
 
         // Otherwise return normal text string for followups
         return responseText;
+
     } catch (error) {
         console.error("Local AI Error:", error);
+
+        // FALLBACK: If API fails but we have locally calculated data, return it as chart data
+        // This ensures the BeautifulD1Chart still renders with accurate planetary data
+        if (!previousChart && mathData) {
+            console.warn("OpenRouter API failed — falling back to offline chart data.");
+            const offlineChart = {
+                lagna: mathData.ascSign,
+                dayOfBirth: mathData.dayOfWeek,
+                planets: mathData.planets.map(p => ({
+                    name: p.name,
+                    sign: p.sign,
+                    degree: p.deg,
+                    house: p.house,
+                    nakshatra: p.nakshatra,
+                    pada: p.pada
+                })),
+                yogas: [],
+                chakras: mathData.chakras,
+                dashaTimeline: mathData.dashaString,
+                dashaInsight: "⚠ AI interpretation unavailable (offline mode). Dasha data above is mathematically accurate."
+            };
+            return { isChartData: true, data: offlineChart };
+        }
+
         throw error;
     }
 };

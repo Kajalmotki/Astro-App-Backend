@@ -7,6 +7,34 @@ const PanchangPage = ({ isOpen, onClose }) => {
     const [mainTab, setMainTab] = useState('Overview');
     const [choghadiyaItems, setChoghadiyaItems] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [liveNakshatra, setLiveNakshatra] = useState(null);
+    const [livePanchang, setLivePanchang] = useState(null);
+    const [liveTimings, setLiveTimings] = useState(null);
+
+    // Fetch Live Nakshatra and Panchang on mount via dynamic import to isolate dependency
+    useEffect(() => {
+        const fetchLivePanchang = async () => {
+            try {
+                // Determine nakshatra calculation dynamically
+                const { getCurrentTransitNakshatra } = await import('../../utils/nakshatraUtils.js');
+                const { getLivePanchangData, getLiveTimings } = await import('../../utils/panchangUtils.js');
+
+                const transitData = getCurrentTransitNakshatra();
+                if (transitData) {
+                    setLiveNakshatra(transitData);
+                }
+
+                const panchang = getLivePanchangData();
+                if (panchang) setLivePanchang(panchang);
+
+                setLiveTimings(getLiveTimings());
+            } catch (err) {
+                console.error("Error loading Panchang data:", err);
+            }
+        };
+
+        fetchLivePanchang();
+    }, []);
 
     useEffect(() => {
         const currentHour = new Date().getHours();
@@ -78,13 +106,13 @@ const PanchangPage = ({ isOpen, onClose }) => {
                         <span className="sun-text">AstroRevo Live</span>
                     </div>
                     <div className="header-date">
-                        TUESDAY · PHALGUNA · SHUKLA PAKSHA
+                        {livePanchang ? `${livePanchang.var.english.toUpperCase()} · ${livePanchang.masa.name.toUpperCase()} · ${livePanchang.tithi.paksha.toUpperCase()}` : "LOADING..."}
                     </div>
                 </div>
             </div>
 
             <h1 className="panchang-main-title">Panchang</h1>
-            <p className="panchang-subtitle">Vikram Samvat 2082 · 24 February 2026</p>
+            <p className="panchang-subtitle">Vikram Samvat 2082 · {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
 
             {/* ── Rise & Set Row ── */}
             <div className="rise-row">
@@ -176,85 +204,92 @@ const PanchangPage = ({ isOpen, onClose }) => {
                         <div className="info-card">
                             <div className="card-label">Tithi</div>
                             <span className="card-icon">🌙</span>
-                            <div className="card-value">Dwadashi</div>
-                            <div className="card-sub">12th Lunar Day</div>
-                            <span className="card-badge">Shukla Paksha</span>
+                            <div className="card-value">{livePanchang ? livePanchang.tithi.name : 'Loading...'}</div>
+                            <div className="card-sub">{livePanchang ? `${livePanchang.tithi.num}th Lunar Day` : '-'}</div>
+                            <span className="card-badge">{livePanchang ? livePanchang.tithi.paksha : '-'}</span>
                         </div>
 
                         <div className="info-card">
                             <div className="card-label">Nakshatra</div>
                             <span className="card-icon">⭐</span>
-                            <div className="card-value">Ashlesha</div>
-                            <div className="card-sub">Pada 3</div>
-                            <span className="card-badge">67% Complete</span>
+                            <div className="card-value">{liveNakshatra ? liveNakshatra.name : 'Loading...'}</div>
+                            <div className="card-sub">Pada {liveNakshatra ? liveNakshatra.pada : '-'}</div>
+                            <span className="card-badge">{liveNakshatra ? liveNakshatra.percentComplete : 0}% Complete</span>
                         </div>
 
                         <div className="info-card">
                             <div className="card-label">Yoga</div>
                             <span className="card-icon">🪷</span>
-                            <div className="card-value">Siddhi</div>
-                            <div className="card-sub">Auspicious</div>
-                            <span className="card-badge">Till 11:40 pm</span>
+                            <div className="card-value">{livePanchang ? livePanchang.yoga.name : 'Loading...'}</div>
+                            <div className="card-sub">{livePanchang ? livePanchang.yoga.meaning : '-'}</div>
+                            <span className="card-badge">Daily Transit</span>
                         </div>
 
                         <div className="info-card">
                             <div className="card-label">Karan</div>
                             <span className="card-icon">🔱</span>
-                            <div className="card-value">Bava</div>
-                            <div className="card-sub">Movable</div>
-                            <span className="card-badge">Till 08:20 pm</span>
+                            <div className="card-value">{livePanchang ? livePanchang.karan.name : 'Loading...'}</div>
+                            <div className="card-sub">{livePanchang ? livePanchang.karan.meaning : '-'}</div>
+                            <span className="card-badge">Half Tithi</span>
                         </div>
 
                         <div className="info-card">
                             <div className="card-label">Var (Day)</div>
-                            <span className="card-icon">♂️</span>
-                            <div className="card-value">Mangalvar</div>
-                            <div className="card-sub">Tuesday</div>
-                            <span className="card-badge">Mars Lord</span>
+                            <span className="card-icon">{livePanchang ? livePanchang.var.icon : '☀️'}</span>
+                            <div className="card-value">{livePanchang ? livePanchang.var.name : 'Loading...'}</div>
+                            <div className="card-sub">{livePanchang ? livePanchang.var.english : '-'}</div>
+                            <span className="card-badge">{livePanchang ? livePanchang.var.lord : '-'}</span>
                         </div>
 
                         <div className="info-card">
                             <div className="card-label">Masa</div>
                             <span className="card-icon">📅</span>
-                            <div className="card-value">Phalguna</div>
-                            <div className="card-sub">12th Month</div>
-                            <span className="card-badge">Shaka 1947</span>
+                            <div className="card-value">{livePanchang ? livePanchang.masa.name : 'Loading...'}</div>
+                            <div className="card-sub">{livePanchang ? `${livePanchang.masa.num}th Month` : '-'}</div>
+                            <span className="card-badge">Lunar Calendar</span>
                         </div>
                     </div>
 
                     {/* Nakshatra Detail */}
                     <h3 className="panchang-section-title">Nakshatra Detail</h3>
-                    <div className="nakshatra-card">
-                        <span className="nakshatra-icon">🐍</span>
-                        <div className="nakshatra-info">
-                            <div className="nakshatra-label">Current Nakshatra</div>
-                            <div className="nakshatra-name">Ashlesha</div>
-                            <div className="nakshatra-pada">Pada 3 · Lord: Mercury · Deity: Sarpa</div>
-                            <div className="nakshatra-bar-bg">
-                                <div className="nakshatra-bar-fill" style={{ width: '67%' }}></div>
+                    {liveNakshatra ? (
+                        <div className="nakshatra-card">
+                            <span className="nakshatra-icon">✨</span>
+                            <div className="nakshatra-info">
+                                <div className="nakshatra-label">Current Nakshatra</div>
+                                <div className="nakshatra-name">{liveNakshatra.name}</div>
+                                <div className="nakshatra-pada">Pada {liveNakshatra.pada} · Lord: {liveNakshatra.details.rulingPlanet} · Deity: {liveNakshatra.details.deity}</div>
+                                <div className="nakshatra-bar-bg">
+                                    <div className="nakshatra-bar-fill" style={{ width: `${liveNakshatra.percentComplete}%` }}></div>
+                                </div>
+                            </div>
+                            <div className="nakshatra-pct">{liveNakshatra.percentComplete}%</div>
+                        </div>
+                    ) : (
+                        <div className="nakshatra-card">
+                            <span className="nakshatra-icon">...</span>
+                            <div className="nakshatra-info">
+                                <div className="nakshatra-label">Loading Nakshatra...</div>
                             </div>
                         </div>
-                        <div className="nakshatra-pct">67%</div>
-                    </div>
+                    )}
 
-                    {/* Moon Phase */}
                     <h3 className="panchang-section-title">Moon Phase</h3>
                     <div className="moon-phase-card">
                         <span className="moon-big">🌔</span>
                         <div className="nakshatra-info">
-                            <div className="nakshatra-label">Waxing Gibbous</div>
-                            <div className="nakshatra-name">Shukla Dwadashi</div>
-                            <div className="nakshatra-pada" style={{ margin: 0 }}>Moon in Cancer · 78% illuminated</div>
+                            <div className="nakshatra-label">{livePanchang ? (livePanchang.moonPhase.illumination > 50 ? 'Gibbous' : 'Crescent') : 'Loading...'}</div>
+                            <div className="nakshatra-name">{livePanchang ? `${livePanchang.tithi.paksha} ${livePanchang.tithi.name}` : 'Loading...'}</div>
+                            <div className="nakshatra-pada" style={{ margin: 0 }}>Moon in {livePanchang ? livePanchang.moonPhase.sign : '...'} · {livePanchang ? livePanchang.moonPhase.illumination : 0}% illuminated</div>
                         </div>
                     </div>
 
-                    {/* Timings */}
                     <h3 className="panchang-section-title">Auspicious Timings</h3>
                     <div className="timing-grid">
                         <div className="timing-strip auspicious">
                             <div className="timing-left">
                                 <div className="timing-label">✦ Abhijit Muhurat</div>
-                                <div className="timing-value">11:58 am – 12:48 pm</div>
+                                <div className="timing-value">{liveTimings ? liveTimings.abhijit : 'Loading...'}</div>
                                 <div className="timing-sub">Most auspicious time of the day</div>
                             </div>
                             <span className="timing-icon">⭐</span>
@@ -262,7 +297,7 @@ const PanchangPage = ({ isOpen, onClose }) => {
                         <div className="timing-strip auspicious">
                             <div className="timing-left">
                                 <div className="timing-label">✦ Brahma Muhurat</div>
-                                <div className="timing-value" style={{ color: '#90b8ff' }}>05:20 am – 06:10 am</div>
+                                <div className="timing-value" style={{ color: '#90b8ff' }}>{liveTimings ? liveTimings.brahma : 'Loading...'}</div>
                                 <div className="timing-sub">Ideal for meditation & study</div>
                             </div>
                             <span className="timing-icon">🧘</span>
@@ -274,7 +309,7 @@ const PanchangPage = ({ isOpen, onClose }) => {
                         <div className="timing-strip inauspicious">
                             <div className="timing-left">
                                 <div className="timing-label">☠ Rahukaal</div>
-                                <div className="timing-value" style={{ color: '#fda4af' }}>03:21 pm – 04:52 pm</div>
+                                <div className="timing-value" style={{ color: '#fda4af' }}>{liveTimings ? liveTimings.rahukaal : 'Loading...'}</div>
                                 <div className="timing-sub">Avoid important work during this period</div>
                             </div>
                             <span className="timing-icon">🚫</span>
@@ -282,7 +317,7 @@ const PanchangPage = ({ isOpen, onClose }) => {
                         <div className="timing-strip inauspicious">
                             <div className="timing-left">
                                 <div className="timing-label" style={{ color: '#fb923c' }}>⚠ Yamaganda</div>
-                                <div className="timing-value" style={{ color: '#fbd38d' }}>07:06 am – 08:37 am</div>
+                                <div className="timing-value" style={{ color: '#fbd38d' }}>{liveTimings ? liveTimings.yamaganda : 'Loading...'}</div>
                                 <div className="timing-sub">Inauspicious for new beginnings</div>
                             </div>
                             <span className="timing-icon">⚠️</span>

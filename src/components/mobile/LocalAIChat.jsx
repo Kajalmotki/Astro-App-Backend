@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthModal';
-import { getLocalAIAstrologerResponse } from '../../services/localAIApi';
+import { getLocalAIAstrologerResponse, precalculateChartData } from '../../services/localAIApi';
 import { getYogaRemedies } from '../../services/yogaRemediesEngine';
 import LocalAIBirthPortal from './LocalAIBirthPortal';
 import BeautifulD1Chart from './BeautifulD1Chart';
+import BeautifulTransitChart from './BeautifulTransitChart';
 import YogaRemediesCard from './YogaRemediesCard';
 import './LocalAIChat.css';
 
@@ -163,6 +164,53 @@ const LocalAIChat = () => {
         ]);
     };
 
+    const handleTransitChart = async () => {
+        if (!birthProfile) return;
+        setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: '🪐 Generate Live Transit Chart' }]);
+        setIsTyping(true);
+        setComputingMsg('Calculating live cosmic transit frequencies...');
+
+        // Artificial delay for effect
+        await new Promise(res => setTimeout(res, 2000));
+
+        try {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB'); // DD/MM/YYYY
+            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }); // HH:MM
+
+            const transitInput = {
+                ...birthProfile,
+                date: dateStr,
+                time: timeStr
+            };
+
+            const mathData = precalculateChartData(transitInput);
+            if (!mathData) throw new Error("Could not calculate transit.");
+
+            // Format for BeautifulTransitChart
+            const transitChartData = {
+                date: dateStr,
+                time: timeStr,
+                lagna: mathData.ascSign,
+                planets: mathData.planets
+            };
+
+            setMessages(prev => [...prev, {
+                id: Date.now() + 1,
+                type: 'bot',
+                isTransitData: true,
+                transitData: transitChartData
+            }]);
+        } catch (err) {
+            setMessages(prev => [...prev, {
+                id: Date.now() + 1, type: 'bot', isRawData: false, isError: true,
+                text: '⚠ Could not calculate live transit data.'
+            }]);
+        } finally {
+            setIsTyping(false);
+        }
+    };
+
     const handleSend = async () => {
         if (!inputValue.trim()) return;
         const q = inputValue.trim();
@@ -275,12 +323,14 @@ const LocalAIChat = () => {
                             <BeautifulD1Chart data={m.chartData} />
                         ) : m.isYogaData && m.yogaData ? (
                             <YogaRemediesCard remedies={m.yogaData} />
+                        ) : m.isTransitData && m.transitData ? (
+                            <BeautifulTransitChart data={m.transitData} />
                         ) : (
                             <div className={`message ${m.type === 'bot' ? (m.isRawData ? 'raw-data-card' : 'system-msg') : 'user-bg'} ${m.isError ? 'error-msg' : ''}`}>
                                 {m.isRawData ? (
-                                    <pre className="raw-response-text">{m.text}</pre>
+                                    <pre className="raw-response-text">{typeof m.text === 'object' ? JSON.stringify(m.text, null, 2) : m.text}</pre>
                                 ) : (
-                                    <p style={{ whiteSpace: 'pre-wrap' }}>{m.text}</p>
+                                    <p style={{ whiteSpace: 'pre-wrap' }}>{typeof m.text === 'object' ? JSON.stringify(m.text, null, 2) : m.text}</p>
                                 )}
 
                                 {m.showQuickGenerate && (
@@ -290,17 +340,30 @@ const LocalAIChat = () => {
                                 )}
 
                                 {m.followUpHint && chartContext && chartContext.chakras && (
-                                    <button
-                                        onClick={handleYogaRemedies}
-                                        className="quick-gen-btn"
-                                        style={{
-                                            marginTop: '10px',
-                                            background: 'linear-gradient(135deg, #16a34a, #15803d)',
-                                            boxShadow: '0 4px 14px rgba(34, 197, 94, 0.35)'
-                                        }}
-                                    >
-                                        🌿 Yoga Remedies for My Chart
-                                    </button>
+                                    <>
+                                        <button
+                                            onClick={handleTransitChart}
+                                            className="quick-gen-btn"
+                                            style={{
+                                                marginTop: '10px',
+                                                background: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+                                                boxShadow: '0 4px 14px rgba(14, 165, 233, 0.35)',
+                                                marginBottom: '8px'
+                                            }}
+                                        >
+                                            🪐 Live Transit Chart with Nakshatras
+                                        </button>
+                                        <button
+                                            onClick={handleYogaRemedies}
+                                            className="quick-gen-btn"
+                                            style={{
+                                                background: 'linear-gradient(135deg, #16a34a, #15803d)',
+                                                boxShadow: '0 4px 14px rgba(34, 197, 94, 0.35)'
+                                            }}
+                                        >
+                                            🌿 Yoga Remedies for My Chart
+                                        </button>
+                                    </>
                                 )}
                             </div>
                         )}
