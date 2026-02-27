@@ -5,7 +5,8 @@ import { auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { updateProfile } from 'firebase/auth';
 import { useAuth } from './AuthModal';
-import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
+import { getLocalAIAstrologerResponse, precalculateChartData } from '../services/localAIApi';
+import { saveBirthDataToFirestore } from '../services/aiService';
 import { fetchUserBirthData } from '../services/birthDataService';
 import { loadRazorpayButton } from '../services/razorpayService';
 import logo from '../assets/logo.png';
@@ -96,16 +97,16 @@ const ChatInterface = ({ initialQuestion, onLoginClick }) => {
         setIsTyping(true);
 
         try {
-            // Call live Gemini AI service
-            const response = await getAIResponse(text, user.uid, userBirthData, user.displayName || userBirthData?.name || 'Seeker');
+            // Call live Gemini AI service mapped through our new Vedic Knowledge Search
+            const response = await getLocalAIAstrologerResponse(text, user.displayName || userBirthData?.name || 'Seeker', userBirthData, "Lagna: " + (userBirthData?.lagna || 'Known'));
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',
                 isPrediction: true,
-                text: response.prediction,
-                remedy: response.remedy,
-                mantra: response.mantra
+                text: response,
+                remedy: null,
+                mantra: null
             }]);
         } catch (error) {
             console.error('AI Service Failed:', error);

@@ -1,0 +1,22 @@
+{
+    "title": "Siva Samhita",
+    "abbreviation": "SS",
+    "author": "Lord Shiva (traditional attribution)",
+    "category": "yoga",
+    "description": "A classical text on pranayama, kundalini, and energy practices. Covers the philosophy of yoga alongside practical techniques for spiritual transformation.",
+    "chapters": [
+        {
+            "number": 1,
+            "name": "Chapter Title Here",
+            "verses": [
+                {
+                    "number": 1,
+                    "sanskrit": "",
+                    "transliteration": "",
+                    "translation": "Paste the verse translation here",
+                    "keywords": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,69 +1,156 @@
 const fs = require('fs');
-const pdfParse = require('pdf-parse');
 const path = require('path');
+const zlib = require('zlib');
 
-const PDF_PATHS = [
-    "C:\\Users\\Siddharth\\Downloads\\Phaladeepika.pdf",
-    "C:\\Users\\Siddharth\\Downloads\\surya_siddhanta_english_text.pdf",
-    "C:\\Users\\Siddharth\\Downloads\\saravaliofkalyan01kalyuoft.pdf",
-    "C:\\Users\\Siddharth\\Downloads\\Maharishi_Parashara_-_Brihat_Parasara_Hora_Sastra_(Vol._1).pdf",
-    "C:\\Users\\Siddharth\\Downloads\\the_brihat_jataka_of_varaha_mihira.pdf",
-    "C:\\Users\\Siddharth\\Downloads\\jataka-parijata-vol-1.pdf"
-];
+const BOOKS_DIR = path.join(__dirname, '..', 'src', 'data', 'books');
+const OUTPUT_DIR = path.join(__dirname, '..', 'src', 'data', 'books');
 
-const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'vedic_knowledge_base.json');
-
-// Process text into 500-word chunks representing logical sections to not overload JSON payload
-function chunkText(text, bookName, chunkSize = 500) {
-    const words = text.split(/\s+/);
-    const chunks = [];
-    for (let i = 0; i < words.length; i += chunkSize) {
-        chunks.push({
-            book: bookName,
-            content: words.slice(i, i + chunkSize).join(" ")
-        });
+const fileMap = {
+    'astrology': {
+        'Maharishi': 'brihat_parashara_hora_shastra.json',
+        'brihat_jataka': 'brihat_jataka.json',
+        'Phaladeepika': 'phaladeepika.json',
+        'saravali': 'saravali.json',
+        'jataka-parijata': 'jataka_parijata.json',
+        'surya_siddhanta': 'surya_siddhanta.json',
+        'atharva_veda': 'atharva_veda.json',
+        'vedanga_jyotisha': 'vedanga_jyotisha.json'
+    },
+    'yoga': {
+        'Hatha-Yoga-Pradipika': 'hatha_yoga_pradipika.json',
+        'gheranda-samhita': 'gheranda_samhita.json',
+        'SivaSamhita': 'siva_samhita.json',
+        'sat_chakra_Nirupana': 'sat_chakra_nirupana.json',
+        'Asana': 'asana_pranayama_mudra_bandha.json'
     }
-    return chunks;
-}
+};
 
-async function parseAllPDFs() {
-    let allChunks = [];
-    console.log("Starting extraction of 6 Vedic text books...");
+// Extremely rudimentary PDF text extractor that just looks for ASCII strings in uncompressed streams.
+// Not perfect but bypasses all nodejs module/native compilation errors in this environment.
+function extractRawTextFromPDF(pdfBuffer) {
+    let extractedText = '';
 
-    for (const pdfPath of PDF_PATHS) {
-        const bookName = path.basename(pdfPath, '.pdf');
-        console.log(`\nProcessing: ${bookName}`);
+    // Look for streams
+    const streamRegex = /stream[\r\n]+([\s\S]*?)[\r\n]+endstream/gm;
+    let match;
+
+    while ((match = streamRegex.exec(pdfBuffer.toString('binary'))) !== null) {
+        const streamData = match[1];
 
         try {
-            if (!fs.existsSync(pdfPath)) {
-                console.error(`ERROR: File not found at ${pdfPath}`);
-                continue;
+            // Attempt to uncompress if it is zlib compressed (FlateDecode)
+            const uncompressed = zlib.inflateSync(Buffer.from(streamData, 'binary'));
+            const text = uncompressed.toString('utf8');
+
+            // Extract text from TJ / Tj operators
+            const tjRegex = /\((.*?)\)\s*T[jJ]/g;
+            let tjMatch;
+            while ((tjMatch = tjRegex.exec(text)) !== null) {
+                // PDF strings often have octal and escape sequences, we do a basic replace
+                let str = tjMatch[1]
+                    .replace(/\\r/g, '\n')
+                    .replace(/\\n/g, '\n')
+                    .replace(/\\\(/g, '(')
+                    .replace(/\\\)/g, ')')
+                    .replace(/\\\\/g, '\\');
+                extractedText += str + ' ';
             }
-
-            const dataBuffer = fs.readFileSync(pdfPath);
-            const data = await pdfParse(dataBuffer);
-
-            console.log(`Successfully extracted ${data.numpages} pages from ${bookName}`);
-
-            // Clean somewhat messy text
-            const cleanedText = data.text.replace(/\\n/g, ' ').replace(/\s+/g, ' ').trim();
-            const chunks = chunkText(cleanedText, bookName);
-
-            allChunks.push(...chunks);
-            console.log(`Generated ${chunks.length} text chunks for ${bookName}.`);
-
-        } catch (error) {
-            console.error(`Failed to parse ${bookName}:`, error.message);
+        } catch (e) {
+            // Stream wasn't zlib compressed or wasn't text data.
+            // Just scan for printable ASCII as a fallback.
+            const asciiText = streamData.replace(/[^\x20-\x7E\n]/g, '');
+            if (asciiText.length > 50) { // Only keep substantial chunks
+                extractedText += asciiText + '\n';
+            }
         }
     }
 
-    console.log(`\nAll done! Writing a total of ${allChunks.length} knowledge chunks to ${OUTPUT_PATH}...`);
-
-    // Write out the file to be statically hosted / accessible from frontend
-    fs.writeFileSync(OUTPUT_PATH, JSON.stringify(allChunks, null, 2), 'utf-8');
-
-    console.log("Knowledge base successfully created.");
-    console.log("You can now fetch('/vedic_knowledge_base.json') from the frontend, search for relevant sections based on user query keywords, and inject ONLY relevant context into the system prompt to avoid passing 10+ MBs of data per API call.");
+    return extractedText.trim();
 }
 
-parseAllPDFs();
+async function parseAllPdfs() {
+    console.log('📚 Starting Vanilla PDF text extraction...');
+
+    for (const category of ['astrology', 'yoga']) {
+        const categoryDir = path.join(BOOKS_DIR, category);
+        if (!fs.existsSync(categoryDir)) continue;
+
+        const files = fs.readdirSync(categoryDir);
+        const pdfFiles = files.filter(f => f.toLowerCase().endsWith('.pdf'));
+
+        for (const pdfFile of pdfFiles) {
+            const baseName = path.basename(pdfFile, '.pdf');
+
+            let targetJsonFile = null;
+            for (const [key, val] of Object.entries(fileMap[category])) {
+                if (baseName.includes(key) || key.includes(baseName)) {
+                    targetJsonFile = val;
+                    break;
+                }
+            }
+
+            if (!targetJsonFile) targetJsonFile = `${baseName.toLowerCase().replace(/[^a-z0-9]/g, '_')}.json`;
+
+            const pdfPath = path.join(categoryDir, pdfFile);
+            const jsonPath = path.join(OUTPUT_DIR, category, targetJsonFile);
+
+            console.log(`\n⏳ Parsing: ${pdfFile}...`);
+
+            try {
+                const pdfBuffer = fs.readFileSync(pdfPath);
+                console.log(`   Analysing ${pdfBuffer.length} bytes...`);
+
+                const rawText = extractRawTextFromPDF(pdfBuffer);
+
+                if (rawText.length < 100) {
+                    console.log(`   ⚠️ Could not extract meaningful text from ${pdfFile}. PDF might be scanned images or heavily encrypted.`);
+                    continue;
+                }
+
+                console.log(`   ✅ Extracted text (${rawText.length} characters)`);
+
+                const chunks = [];
+                const chunkSize = 10000;
+                for (let i = 0; i < rawText.length; i += chunkSize) {
+                    chunks.push(rawText.substring(i, i + chunkSize));
+                }
+
+                const chaptersData = chunks.map((chunk, index) => ({
+                    number: index + 1,
+                    name: `Extracted Section ${index + 1}`,
+                    verses: [
+                        {
+                            number: 1,
+                            translation: chunk.substring(0, 10000), // Safety clip
+                            keywords: []
+                        }
+                    ]
+                }));
+
+                let bookData = {
+                    title: baseName.replace(/_/g, ' '),
+                    author: "Unknown",
+                    category: category,
+                    chapters: chaptersData
+                };
+
+                if (fs.existsSync(jsonPath)) {
+                    try {
+                        const existingData = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+                        bookData = { ...existingData, chapters: chaptersData };
+                    } catch (e) { }
+                }
+
+                fs.writeFileSync(jsonPath, JSON.stringify(bookData, null, 2));
+                console.log(`   💾 Saved extracted text to: ${targetJsonFile}`);
+
+            } catch (err) {
+                console.error(`   ❌ Failed to parse ${pdfFile}:`, err);
+            }
+        }
+    }
+
+    console.log('\n🎉 All PDFs parsed and injected using Vanilla extractor!');
+}
+
+parseAllPdfs();

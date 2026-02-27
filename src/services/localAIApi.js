@@ -1,6 +1,7 @@
 import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
 import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
 import { calculateChakraStrengths } from "./strengthEngine.js";
+import { searchKnowledgeBase } from "./bookSearchEngine.js";
 const OPENROUTER_API_KEY = "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";
 
 // Standard Vedic Signs in order (for whole-sign house calculation)
@@ -218,8 +219,9 @@ CRITICAL RULES FOR YOUR RESPONSE:
 2. Provide logical, well-reasoned answers based on the classic Vedic rules (BPHS, Saravali).
 3. Do NOT list out all the house lords, detailed placements, or step-by-step astrological workings. Keep your internal calculations hidden.
 4. Just give the final synthesized insight and precise timing based on the current Dasha.
-5. Do not hallucinate planetary positions.
-6. AT THE VERY END OF YOUR RESPONSE, ALWAYS INCLUDE THIS EXACT TEXT: "\n\nYour exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."`;
+5. ALWAYS format your answer using bullet points (pointers) for easy reading. Do NOT return large blocks of paragraphs.
+6. Do not hallucinate planetary positions.
+7. AT THE VERY END OF YOUR RESPONSE, ALWAYS INCLUDE THIS EXACT TEXT: "\n\nYour exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."`;
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
@@ -235,35 +237,84 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
     try {
         let prompt;
         if (previousChart) {
-            prompt = getFollowUpPrompt(userName, message, previousChart);
+            // Query the offline search engine
+            console.log("Searching knowledge base for:", message);
+            const searchResults = searchKnowledgeBase(message, 'astrology', 5);
+            let contextData = "";
+
+            if (searchResults && searchResults.length > 0) {
+                contextData = "CLASSICAL TEXT REFERENCES TO CONSIDER FOR THIS QUESTION:\n\n" +
+                    searchResults.map(m => `Source: ${m.bookTitle}\nRule: ${m.snippet}`).join('\n\n');
+            } else {
+                contextData = "(No explicit matching rules found in local texts, rely on standard classic rules.)";
+            }
+
+            const enrichedQuestion = `${message}\n\n[SYSTEM CONTEXT: ${contextData}]`;
+
+            prompt = getFollowUpPrompt(userName, enrichedQuestion, previousChart);
         } else {
             // Step 2: Pass guaranteed data to LLM
             prompt = getInitialChartPrompt(userName, birthData, mathData);
         }
 
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                "Content-Type": "application/json",
-                "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "https://astro-revo-vite.vercel.app",
-                "X-Title": "AstroRevo"
-            },
-            body: JSON.stringify({
-                model: "google/gemini-2.5-flash",
-                max_tokens: 1000,
-                messages: [{ role: "user", content: prompt }]
-            })
-        });
+        const modelsToTry = [
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "google/gemini-2.5-flash:free",
+            "google/gemma-3-27b-it:free",
+            "openrouter/free"
+        ];
 
-        if (!response.ok) {
-            const err = await response.text();
-            throw new Error(`OpenRouter error: ${response.status} ${err}`);
+        let responseText = null;
+        let lastError = null;
+        let rawData = null;
+
+        for (const model of modelsToTry) {
+            try {
+                console.log(`Attempting OpenRouter AI Generation with model: ${model}`);
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "https://astro-revo-vite.vercel.app",
+                        "X-Title": "AstroRevo"
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        max_tokens: 1000,
+                        messages: [{ role: "user", content: prompt }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                rawData = data;
+
+                if (data.error) {
+                    throw new Error(data.error.message || "Provider Error");
+                }
+
+                if (data.choices && data.choices[0] && data.choices[0].message?.content) {
+                    responseText = data.choices[0].message.content;
+                    console.log(`Success with model: ${model}`);
+                    break; // Exit loop on success
+                } else {
+                    throw new Error("Empty response body from model");
+                }
+
+            } catch (err) {
+                console.warn(`Model ${model} failed: ${err.message}. Trying next...`);
+                lastError = err;
+            }
         }
 
-        const data = await response.json();
-        const responseText = data.choices?.[0]?.message?.content;
-        if (!responseText) throw new Error("No response from AI.");
+        if (!responseText) {
+            console.error("RAW OPENROUTER FINAL FAILURE RESPONSE:", JSON.stringify(rawData, null, 2));
+            throw new Error(`All AI models failed. Last error: ${lastError?.message || 'Empty response'}. Please try again later.`);
+        }
 
         // If it's the initial chart generation, parse the JSON
         if (!previousChart) {
@@ -307,8 +358,8 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             return { isChartData: true, data: offlineChart };
         } else if (previousChart) {
             // Handle follow-up error gracefully so it doesn't crash the UI
-            console.warn("OpenRouter API failed for follow-up question.");
-            return "⚠ I am currently offline and cannot interpret the chart. Please check your internet connection and try again.";
+            console.warn("OpenRouter API failed for follow-up question.", error);
+            return `⚠ AI Error: ${error.message}`;
         }
 
         throw error;
