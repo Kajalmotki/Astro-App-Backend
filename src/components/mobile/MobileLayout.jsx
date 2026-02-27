@@ -15,7 +15,7 @@ const MobileLayout = () => {
     const mainTabs = ['/mobile/home', '/mobile/chat', '/mobile/reports', '/mobile/profile', '/mobile'];
 
     // Pages that have their own custom glassmorphic headers and should NOT show the default back button
-    const customHeaderPages = ['/mobile/matchmaking', '/mobile/astro-chart', '/mobile/tarot-reveal'];
+    const customHeaderPages = ['/mobile/matchmaking', '/mobile/astro-chart', '/mobile/tarot-reveal', '/mobile/local-ai'];
 
     const showBackButton = !mainTabs.includes(location.pathname) && !customHeaderPages.includes(location.pathname);
     const showMobileHeader = mainTabs.includes(location.pathname);

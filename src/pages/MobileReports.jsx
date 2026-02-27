@@ -449,14 +449,14 @@ const MobileReports = () => {
                     )}
                 </div>
 
-                {/* 5. Body Composition Accordion */}
+                {/* 5. 21-Day Yoga Plan Accordion */}
                 <div className={`accordion-item ${activeSection === 'bca' ? 'active' : ''}`}>
                     <div className="accordion-header" onClick={() => toggleSection('bca')}>
                         <div className="header-icon-box" style={{ background: 'rgba(240, 147, 251, 0.15)', color: '#f093fb', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                             <Compass size={20} />
                         </div>
                         <div className="header-info">
-                            <h3>Body Composition</h3>
+                            <h3>21-Day Yoga Plan</h3>
                             <span>Ayurvedic Health Insights</span>
                         </div>
                         {activeSection === 'bca' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
@@ -468,7 +468,7 @@ const MobileReports = () => {
                                     <Activity size={24} color="#ffffff" />
                                 </div>
                                 <div className="bca-text">
-                                    <h3>Body Composition Analysis</h3>
+                                    <h3>21-Day Yoga Plan</h3>
                                     <p>Discover how your physical form aligns with your energy centers. Get a personalized health & yoga plan.</p>
                                 </div>
                                 <button className="bca-btn">Start Analysis</button>

@@ -16,7 +16,7 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
     const [hasAccess, setHasAccess] = useState(false);
     const [step, setStep] = useState('INTRO'); // INTRO, HOME, PORTAL, LOADING, RESULT, JOURNEY
     const [result, setResult] = useState(null);
-    const [savedChart, setSavedChart] = useState(null);
+    const [savedCharts, setSavedCharts] = useState([]); // Array of saved profiles
 
     // --- ROUTINE PLAYER STATE ---
     const [activeRoutine, setActiveRoutine] = useState(null);
@@ -33,10 +33,16 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
-                    if (parsed && parsed.savedChart) {
-                        setSavedChart(parsed);
+                    let profilesArray = [];
+                    if (Array.isArray(parsed)) {
+                        profilesArray = parsed;
+                    } else if (parsed && typeof parsed === 'object') {
+                        profilesArray = [parsed];
                     }
-                } catch (e) { console.error("Could not parse saved chart", e); }
+                    if (profilesArray.length > 0) {
+                        setSavedCharts(profilesArray);
+                    }
+                } catch (e) { console.error("Could not parse saved charts", e); }
             }
         }
     }, [isOpen, user]);
@@ -125,9 +131,9 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
         setStep('RESULT');
     };
 
-    const handleSavedProfile = () => {
-        if (savedChart && savedChart.savedChart && savedChart.savedChart.chakras) {
-            processAstroData(savedChart.savedChart.chakras);
+    const handleSavedProfile = (profile) => {
+        if (profile && profile.savedChart && profile.savedChart.chakras) {
+            processAstroData(profile.savedChart.chakras);
         } else {
             alert("No chakra data found in saved profile.");
         }
@@ -140,8 +146,16 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
             if (response.isChartData && response.data.chakras) {
                 // Save it for future
                 const saved = { ...data, savedChart: response.data, savedAt: new Date().toLocaleDateString() };
-                localStorage.setItem('localai_birth_profile', JSON.stringify(saved));
-                setSavedChart(saved);
+
+                // Keep max 2
+                setSavedCharts(prev => {
+                    let updated = [...prev];
+                    if (updated.length >= 2) updated.shift();
+                    updated.push(saved);
+                    localStorage.setItem('localai_birth_profile', JSON.stringify(updated));
+                    return updated;
+                });
+
                 processAstroData(response.data.chakras);
             } else {
                 alert("Failed to calculate chakras from birth details.");
@@ -173,31 +187,26 @@ const BCAAnalysis = ({ isOpen, onClose }) => {
 
     const renderHome = () => (
         <div className="bca-form-container" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
-                <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>Choose a Chart</h2>
-                <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>Select a birth profile to scan your Chakras.</p>
-            </div>
-
-            {savedChart && (
-                <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
-                    <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile</p>
-                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {savedChart.name} ({savedChart.gender})</p>
-                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {savedChart.date} · {savedChart.time}</p>
+            {/* Saved profile cards */}
+            {savedCharts.map((chart, index) => (
+                <div key={index} style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
+                    <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile {index + 1}</p>
+                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {chart.name} ({chart.gender})</p>
+                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {chart.date} · {chart.time}</p>
                     <button
-                        onClick={handleSavedProfile}
+                        onClick={() => handleSavedProfile(chart)}
                         style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
                     >
                         ✨ Use This Profile
                     </button>
                 </div>
-            )}
+            ))}
 
             <button
                 onClick={() => setStep('PORTAL')}
                 style={{ width: '100%', maxWidth: '400px', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
             >
-                ＋ Create New Chart
+                {savedCharts.length >= 2 ? `⚠️ Create New (Replaces Profile 1)` : `＋ Create New Chart`}
             </button>
         </div>
     );

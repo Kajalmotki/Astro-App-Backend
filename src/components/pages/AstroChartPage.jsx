@@ -28,19 +28,29 @@ const AstroChartPage = ({ isOpen, onClose }) => {
 
     // Saved Profile state
     const [view, setView] = useState('home'); // 'home' | 'portal'
-    const [birthProfile, setBirthProfile] = useState(null);
+    const [birthProfiles, setBirthProfiles] = useState([]); // Support up to 2 profiles
     const STORAGE_KEY = 'localai_birth_profile';
 
     const tabs = ['Overview', 'Charts', 'Planets', 'Doshas', 'Yogas', 'Dashas', 'Remedies'];
 
-    // Load saved profile on mount
+    // Load saved profiles on mount
     useEffect(() => {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                setBirthProfile(parsed);
-                setView('home');
+                let profilesArray = [];
+                if (Array.isArray(parsed)) {
+                    profilesArray = parsed;
+                } else if (parsed && typeof parsed === 'object') {
+                    profilesArray = [parsed];
+                }
+                if (profilesArray.length > 0) {
+                    setBirthProfiles(profilesArray);
+                    setView('home');
+                } else {
+                    setView('portal');
+                }
             } catch {
                 setView('portal');
             }
@@ -57,8 +67,15 @@ const AstroChartPage = ({ isOpen, onClose }) => {
                 cityName: data.place || data.cityName || 'Unknown Location',
                 savedAt: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
             };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(profileToSave));
-            setBirthProfile(profileToSave);
+
+            // Manage max 2 profiles logic
+            setBirthProfiles(prev => {
+                let updated = [...prev];
+                if (updated.length >= 2) updated.shift();
+                updated.push(profileToSave);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+                return updated;
+            });
         }
 
         setUserData(data);
@@ -126,7 +143,7 @@ const AstroChartPage = ({ isOpen, onClose }) => {
 
                 <div className="scroll">
                     {/* Header is hidden when in home profile selection view to match the localized screenshot style */}
-                    {!(view === 'home' && !isChartGenerated && birthProfile) && (
+                    {!(view === 'home' && !isChartGenerated && birthProfiles.length > 0) && (
                         <div className="sec-head" style={{ position: 'relative' }}>
                             <h2>{isChartGenerated ? "Your Blueprint" : "Cosmic Mapping"}</h2>
                             <div className="sub" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
@@ -137,36 +154,32 @@ const AstroChartPage = ({ isOpen, onClose }) => {
                     )}
 
                     {!isChartGenerated ? (
-                        view === 'home' && birthProfile ? (
+                        view === 'home' && birthProfiles.length > 0 ? (
                             <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '40px' }}>
-                                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                                    <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
-                                    <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>Choose a Chart</h2>
-                                    <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>Start a new session</p>
-                                </div>
+                                {/* Saved profile cards up to 2 */}
+                                {birthProfiles.map((profile, index) => (
+                                    <div key={index} style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px' }}>
+                                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile {index + 1}</p>
+                                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {profile.name} {profile.gender ? `(${profile.gender})` : ''}</p>
+                                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {profile.date} · {profile.time}</p>
+                                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📍 {profile.cityName || profile.place}</p>
+                                        {profile.savedAt && <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.8rem' }}>Last saved: {profile.savedAt}</p>}
 
-                                {/* Saved profile card */}
-                                <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px' }}>
-                                    <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile</p>
-                                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {birthProfile.name} {birthProfile.gender ? `(${birthProfile.gender})` : ''}</p>
-                                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {birthProfile.date} · {birthProfile.time}</p>
-                                    <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📍 {birthProfile.cityName || birthProfile.place}</p>
-                                    {birthProfile.savedAt && <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.8rem' }}>Last saved: {birthProfile.savedAt}</p>}
-
-                                    <button
-                                        onClick={() => handleFormSubmit(birthProfile)}
-                                        style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
-                                    >
-                                        ✨ Use This Profile
-                                    </button>
-                                </div>
+                                        <button
+                                            onClick={() => handleFormSubmit(profile)}
+                                            style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
+                                        >
+                                            ✨ Use This Profile
+                                        </button>
+                                    </div>
+                                ))}
 
                                 {/* Create new */}
                                 <button
                                     onClick={() => setView('portal')}
                                     style={{ width: '100%', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
                                 >
-                                    ＋ Create New Chart
+                                    {birthProfiles.length >= 2 ? `⚠️ Create New (Replaces Profile 1)` : `＋ Create New Chart`}
                                 </button>
                             </div>
                         ) : (

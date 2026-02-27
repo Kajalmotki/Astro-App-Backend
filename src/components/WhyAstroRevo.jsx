@@ -47,10 +47,10 @@ const SCENES = [
     },
     {
         id: 7,
-        text: "Track your progress with Body Composition Analysis.\nMuscle mass... body fat... metabolic age.\nAs you approach the Golden Ratio...\nyou become capable of holding divine energy.",
+        text: "Track your progress with your 21-Day Yoga Plan.\nMuscle mass... body fat... metabolic age.\nAs you approach the Golden Ratio...\nyou become capable of holding divine energy.",
         visual: "bca",
         image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1080&q=80", // Scientific/Data visualization
-        voice: "Track your progress with Body Composition Analysis. Muscle mass... body fat... metabolic age. As you approach the Golden Ratio... you become capable of holding divine energy."
+        voice: "Track your progress with your 21 Day Yoga Plan. Muscle mass... body fat... metabolic age. As you approach the Golden Ratio... you become capable of holding divine energy."
     },
     {
         id: 8,

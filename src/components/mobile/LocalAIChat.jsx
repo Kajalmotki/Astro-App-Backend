@@ -24,11 +24,27 @@ const LOADING_MESSAGES = [
 
 const STORAGE_KEY = 'localai_birth_profile';
 
+const renderFormattedText = (text) => {
+    if (typeof text !== 'string') return JSON.stringify(text, null, 2);
+    const parts = text.split(/(\*\*[\s\S]*?\*\*)/g);
+    return (
+        <span style={{ whiteSpace: 'pre-wrap' }}>
+            {parts.map((part, index) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={index} style={{ fontWeight: 700, color: '#000' }}>{part.slice(2, -2)}</strong>;
+                }
+                return <span key={index}>{part}</span>;
+            })}
+        </span>
+    );
+};
+
 const LocalAIChat = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [view, setView] = useState('loading');
-    const [birthProfile, setBirthProfile] = useState(null);
+    const [birthProfiles, setBirthProfiles] = useState([]);
+    const [activeProfile, setActiveProfile] = useState(null); // The one currently in context during chat session
     const [chartContext, setChartContext] = useState(null); // Stores generated chart for follow-up Q&A
     const [computingMsg, setComputingMsg] = useState(LOADING_MESSAGES[0]);
     const msgIntervalRef = useRef(null);
@@ -52,13 +68,20 @@ const LocalAIChat = () => {
         return () => clearInterval(msgIntervalRef.current);
     }, [isTyping]);
 
-    // On mount: load saved birth profile → show home screen to choose
+    // On mount: load saved birth profiles array → show home screen to choose
     useEffect(() => {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                setBirthProfile(parsed);
+                // Handle legacy migration: if objects were saved instead of arrays
+                let profilesArray = [];
+                if (Array.isArray(parsed)) {
+                    profilesArray = parsed;
+                } else if (parsed && typeof parsed === 'object') {
+                    profilesArray = [parsed];
+                }
+                setBirthProfiles(profilesArray);
                 setView('home'); // Always show home screen on refresh
             } catch {
                 setView('portal');
@@ -72,18 +95,39 @@ const LocalAIChat = () => {
     useEffect(scrollToBottom, [messages, isTyping]);
 
     const saveProfile = (profile) => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+        setBirthProfiles(prev => {
+            let updated = [...prev];
+            // If we have 2 already, remove the oldest one (index 0) to keep max 2
+            if (updated.length >= 2) {
+                updated.shift();
+            }
+            updated.push(profile);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+            return updated;
+        });
     };
 
-    const saveChart = (chartObj) => {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-        saved.savedChart = chartObj;
-        saved.savedAt = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    const saveChart = (chartObj, currentProfile) => {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        let profilesArray = Array.isArray(saved) ? saved : (saved ? [saved] : []);
+
+        // Find the profile we are currently active on and update its savedChart
+        const nowStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        const updatedArray = profilesArray.map(p => {
+            // Use unique matching traits; simplistic match here assumes name + date match
+            if (p.name === currentProfile.name && p.date === currentProfile.date) {
+                return { ...p, savedChart: chartObj, savedAt: nowStr };
+            }
+            return p;
+        });
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedArray));
+        setBirthProfiles(updatedArray); // Sync state back
     };
 
     const handleBirthSubmit = async (data) => {
-        setBirthProfile(data);
+        setActiveProfile(data);
         saveProfile(data);
         setView('chat');
         setMessages([{
@@ -93,7 +137,7 @@ const LocalAIChat = () => {
         await generateChart(data);
     };
 
-    const generateChart = async (profile = birthProfile, question = null) => {
+    const generateChart = async (profile = activeProfile, question = null) => {
         const currentProfile = profile;
         if (!currentProfile?.lat) return;
 
@@ -115,7 +159,7 @@ const LocalAIChat = () => {
             // Initial Chart Generation (Returns Object {isChartData: true, data: {...}})
             if (!question && response.isChartData) {
                 setChartContext(response.data);
-                saveChart(response.data);
+                saveChart(response.data, currentProfile);
 
                 setMessages(prev => [...prev,
                 {
@@ -165,7 +209,7 @@ const LocalAIChat = () => {
     };
 
     const handleTransitChart = async () => {
-        if (!birthProfile) return;
+        if (!activeProfile) return;
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: '🪐 Generate Live Transit Chart' }]);
         setIsTyping(true);
         setComputingMsg('Calculating live cosmic transit frequencies...');
@@ -179,7 +223,7 @@ const LocalAIChat = () => {
             const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }); // HH:MM
 
             const transitInput = {
-                ...birthProfile,
+                ...activeProfile,
                 date: dateStr,
                 time: timeStr
             };
@@ -218,15 +262,16 @@ const LocalAIChat = () => {
         setMessages(prev => [...prev, { id: Date.now(), type: 'user', text: q }]);
         // Pass chart context if we have one (follow-up mode)
         if (chartContext) {
-            await generateChart(birthProfile, q);
+            await generateChart(activeProfile, q);
         } else {
-            await generateChart(birthProfile, q);
+            await generateChart(activeProfile, q);
         }
     };
 
     const handleClearProfile = () => {
-        localStorage.removeItem(STORAGE_KEY);
-        setBirthProfile(null);
+        // We do *not* wipe all profiles from storage here; we just exit to portal to make a new one.
+        // User can add up to 2 profiles. Overwrites happen automatically in saveProfile.
+        setActiveProfile(null);
         setMessages([]);
         setView('portal');
     };
@@ -248,23 +293,18 @@ const LocalAIChat = () => {
                     <div className="header-center"><h2>Local AI — Vedic AI</h2></div>
                 </header>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '24px', gap: '20px' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                        <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
-                        <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>Choose a Chart</h2>
-                        <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>Start a new session</p>
-                    </div>
-
-                    {/* Saved profile card */}
-                    {birthProfile && (
-                        <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px' }}>
-                            <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile</p>
-                            <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {birthProfile.name} ({birthProfile.gender})</p>
-                            <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {birthProfile.date} · {birthProfile.time}</p>
-                            <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📍 {birthProfile.cityName}</p>
-                            {birthProfile.savedAt && <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.8rem' }}>Last saved: {birthProfile.savedAt}</p>}
+                    {/* Saved profile cards map up to 2 */}
+                    {birthProfiles.map((p, index) => (
+                        <div key={index} style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '16px', padding: '18px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                            <p style={{ color: '#111827', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 Saved Profile {index + 1}</p>
+                            <p style={{ color: '#374151', margin: '4px 0', fontSize: '0.9rem' }}>👤 {p.name} ({p.gender})</p>
+                            <p style={{ color: '#374151', margin: '4px 0', fontSize: '0.9rem' }}>📅 {p.date} · {p.time}</p>
+                            <p style={{ color: '#374151', margin: '4px 0', fontSize: '0.9rem' }}>📍 {p.cityName}</p>
+                            {p.savedAt && <p style={{ color: '#6b7280', margin: '8px 0 0', fontSize: '0.8rem' }}>Last saved: {p.savedAt}</p>}
                             <button
                                 onClick={() => {
-                                    setMessages([{ id: 1, type: 'bot', isRawData: false, text: `Profile loaded for ${birthProfile.name}. Tap below to generate your D1 Kundli.`, showQuickGenerate: true }]);
+                                    setActiveProfile(p);
+                                    setMessages([{ id: 1, type: 'bot', isRawData: false, text: `Profile loaded for ${p.name}. Tap below to generate your D1 Kundli.`, showQuickGenerate: true }]);
                                     setView('chat');
                                 }}
                                 style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
@@ -272,14 +312,14 @@ const LocalAIChat = () => {
                                 ✨ Use This Profile
                             </button>
                         </div>
-                    )}
+                    ))}
 
-                    {/* Create new */}
+                    {/* Create new button */}
                     <button
-                        onClick={() => { setBirthProfile(null); setMessages([]); setView('portal'); }}
-                        style={{ width: '100%', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
+                        onClick={() => { setActiveProfile(null); setMessages([]); setView('portal'); }}
+                        style={{ width: '100%', padding: '14px', background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '12px', color: '#1f2937', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 2px 10px rgba(0,0,0,0.03)' }}
                     >
-                        ＋ Create New Chart
+                        {birthProfiles.length >= 2 ? '⚠️ Create new (Replaces Profile 1)' : '＋ Create New Chart'}
                     </button>
                 </div>
             </div>
@@ -306,8 +346,8 @@ const LocalAIChat = () => {
                 <button onClick={() => navigate(-1)} className="back-btn">← Back</button>
                 <div className="header-center">
                     <h2>D1 Kundli · Strict Vedic AI</h2>
-                    {birthProfile && (
-                        <p className="header-sub">{birthProfile.name} · {birthProfile.cityName}</p>
+                    {activeProfile && (
+                        <p className="header-sub">{activeProfile.name} · {activeProfile.cityName}</p>
                     )}
                 </div>
                 <button className="reset-btn" onClick={handleClearProfile} title="Change Birth Details">✎</button>
@@ -330,7 +370,7 @@ const LocalAIChat = () => {
                                 {m.isRawData ? (
                                     <pre className="raw-response-text">{typeof m.text === 'object' ? JSON.stringify(m.text, null, 2) : m.text}</pre>
                                 ) : (
-                                    <p style={{ whiteSpace: 'pre-wrap' }}>{typeof m.text === 'object' ? JSON.stringify(m.text, null, 2) : m.text}</p>
+                                    <p style={{ margin: 0 }}>{renderFormattedText(m.text)}</p>
                                 )}
 
                                 {m.showQuickGenerate && (

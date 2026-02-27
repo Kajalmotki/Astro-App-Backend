@@ -11,7 +11,8 @@ const MobilePremiumDashboard = ({ user }) => {
     const { t } = useLanguage();
     const [step, setStep] = useState('HOME'); // HOME, PORTAL, LOADING, DASHBOARD
     const [activeTab, setActiveTab] = useState('overview');
-    const [savedChart, setSavedChart] = useState(null);
+    const [savedCharts, setSavedCharts] = useState([]); // Array of profiles
+    const [activeChartProfile, setActiveChartProfile] = useState(null); // The one currently viewed
     const [hasAccess, setHasAccess] = useState(false);
     const [chartData, setChartData] = useState(null);
 
@@ -26,15 +27,22 @@ const MobilePremiumDashboard = ({ user }) => {
 
     useEffect(() => {
         checkAccess();
-        // Load saved AI Birth Profile
+        // Load saved AI Birth Profiles
         const stored = localStorage.getItem('localai_birth_profile');
         if (stored) {
             try {
                 const parsed = JSON.parse(stored);
-                if (parsed && parsed.savedChart) {
-                    setSavedChart(parsed);
+                let profilesArray = [];
+                if (Array.isArray(parsed)) {
+                    profilesArray = parsed;
+                } else if (parsed && typeof parsed === 'object') {
+                    profilesArray = [parsed];
                 }
-            } catch (e) { console.error("Could not parse saved chart", e); }
+
+                if (profilesArray.length > 0) {
+                    setSavedCharts(profilesArray);
+                }
+            } catch (e) { console.error("Could not parse saved charts", e); }
         }
     }, [user]);
 
@@ -72,9 +80,10 @@ const MobilePremiumDashboard = ({ user }) => {
         }
     };
 
-    const handleSavedProfile = () => {
-        if (savedChart && savedChart.savedChart) {
-            setChartData(savedChart.savedChart);
+    const handleSavedProfile = (profile) => {
+        if (profile && profile.savedChart) {
+            setActiveChartProfile(profile);
+            setChartData(profile.savedChart);
             setStep('DASHBOARD');
         } else {
             alert("No chart data found in saved profile.");
@@ -87,8 +96,17 @@ const MobilePremiumDashboard = ({ user }) => {
             const response = await getLocalAIAstrologerResponse('GENERATE_FULL_D1', data.name, data, null);
             if (response.isChartData) {
                 const saved = { ...data, savedChart: response.data, savedAt: new Date().toLocaleDateString() };
-                localStorage.setItem('localai_birth_profile', JSON.stringify(saved));
-                setSavedChart(saved);
+
+                // Keep max 2 charts
+                setSavedCharts(prev => {
+                    let updated = [...prev];
+                    if (updated.length >= 2) updated.shift();
+                    updated.push(saved);
+                    localStorage.setItem('localai_birth_profile', JSON.stringify(updated));
+                    return updated;
+                });
+
+                setActiveChartProfile(saved);
                 setChartData(response.data);
                 setStep('DASHBOARD');
             } else {
@@ -150,7 +168,7 @@ const MobilePremiumDashboard = ({ user }) => {
         const currentAD = dashas.find(d => d.type === 'AD') || { planet: 'Saturn', dates: 'Current' };
 
         // 3. Shodashvarga (Seeded Generator)
-        const nameSeed = (savedChart?.name || 'Astro').charCodeAt(0);
+        const nameSeed = (activeChartProfile?.name || 'Astro').charCodeAt(0);
         const vargas = [
             { code: 'D-1', name: 'Rashi', purpose: 'Root Destiny', deity: 'Parameshwara' },
             { code: 'D-2', name: 'Hora', purpose: 'Wealth', deity: 'Kubera' },
@@ -191,38 +209,32 @@ const MobilePremiumDashboard = ({ user }) => {
             ascendant: asc
         };
 
-    }, [chartData, savedChart]);
+    }, [chartData, activeChartProfile]);
 
     // --- RENDERERS ---
 
     if (step === 'HOME') {
         return (
             <div className="mobile-premium-dashboard" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', justifyContent: 'center', minHeight: '600px' }}>
-                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    <div style={{ fontSize: '3rem', marginBottom: '8px' }}>🔮</div>
-                    <h2 style={{ color: '#ffd700', fontFamily: 'Cinzel, serif', margin: 0, fontSize: '1.3rem' }}>{t('Choose a Chart')}</h2>
-                    <p style={{ color: '#64748b', margin: '8px 0 0', fontSize: '0.9rem' }}>{t('Select a birth profile to unlock the Premium Dashboard.')}</p>
-                </div>
-
-                {savedChart && (
-                    <div style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
-                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 {t('Saved Profile')}</p>
-                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {savedChart.name} ({savedChart.gender})</p>
-                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {savedChart.date} · {savedChart.time}</p>
+                {savedCharts.map((chart, index) => (
+                    <div key={index} style={{ background: 'rgba(255,215,0,0.07)', border: '1px solid rgba(255,215,0,0.3)', borderRadius: '16px', padding: '18px', width: '100%', maxWidth: '400px' }}>
+                        <p style={{ color: '#ffd700', fontWeight: 'bold', margin: '0 0 10px', fontSize: '1rem' }}>📋 {t('Saved Profile')} {index + 1}</p>
+                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>👤 {chart.name} ({chart.gender})</p>
+                        <p style={{ color: '#cbd5e1', margin: '4px 0', fontSize: '0.9rem' }}>📅 {chart.date} · {chart.time}</p>
                         <button
-                            onClick={handleSavedProfile}
+                            onClick={() => handleSavedProfile(chart)}
                             style={{ width: '100%', marginTop: '14px', padding: '13px', background: 'linear-gradient(135deg, #ffd700, #f59e0b)', color: '#000', border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', fontFamily: 'Cinzel, serif' }}
                         >
                             ✨ {t('Use This Profile')}
                         </button>
                     </div>
-                )}
+                ))}
 
                 <button
                     onClick={() => setStep('PORTAL')}
                     style={{ width: '100%', maxWidth: '400px', padding: '14px', background: 'transparent', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px', color: '#94a3b8', fontSize: '1rem', cursor: 'pointer' }}
                 >
-                    ＋ {t('Create New Chart')}
+                    {savedCharts.length >= 2 ? `⚠️ Create New (Replaces Profile 1)` : `＋ ${t('Create New Chart')}`}
                 </button>
             </div>
         );
@@ -327,7 +339,7 @@ const MobilePremiumDashboard = ({ user }) => {
                 {activeTab === 'overview' && dynamicData && (
                     <>
                         <div className="mobile-dash-card">
-                            <h3>AstroScore Live for {savedChart?.name || 'You'}</h3>
+                            <h3>AstroScore Live for {activeChartProfile?.name || 'You'}</h3>
                             <div className="mobile-score-display">
                                 <div className="mobile-score-circle" style={{ borderColor: dynamicData.astroScore > 80 ? '#48bb78' : '#ffd700' }}>
                                     <span className="mobile-score-val">{dynamicData.astroScore.toFixed(1)}</span>

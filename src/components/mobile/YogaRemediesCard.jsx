@@ -215,7 +215,7 @@ const YogaRemediesCard = ({ remedies }) => {
                     <div className="yrc-cta-icon">✨</div>
                     <div className="yrc-cta-text">
                         <span className="yrc-cta-title">Want a full schedule?</span>
-                        <span className="yrc-cta-sub">Reveal your personalized 21-Day Yoga Plan in Body Composition →</span>
+                        <span className="yrc-cta-sub">Reveal your personalized 21-Day Yoga Plan →</span>
                     </div>
                 </div>
             </div>

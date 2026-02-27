@@ -263,14 +263,14 @@ const MobileProfile = () => {
                             {/* BCA Plan */}
                             <div className="package-card">
                                 <div className="package-header">
-                                    <h3>Body Blueprint</h3>
-                                    <span className="tag" style={{ background: '#E91E63', color: 'white' }}>21 Days</span>
+                                    <h3>21-Day Yoga Plan</h3>
+                                    <span className="tag" style={{ background: '#E91E63', color: 'white' }}>TRANSFORM</span>
                                 </div>
                                 <div className="package-details">
-                                    <p className="questions" style={{ fontSize: '1rem' }}>Transformation Plan</p>
+                                    <p className="questions" style={{ fontSize: '1rem' }}>Personalized Transformation</p>
                                     <p className="price">₹99</p>
                                 </div>
-                                <button className="buy-btn" onClick={() => handlePayment('BCA', 99, 'Body Composition 21 Day Plan')}>Unlock Plan</button>
+                                <button className="buy-btn" onClick={() => handlePayment('BCA', 99, '21-Day Yoga Plan')}>Unlock Plan</button>
                             </div>
 
                             {/* Bundle */}

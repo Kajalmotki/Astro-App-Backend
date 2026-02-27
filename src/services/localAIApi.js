@@ -221,7 +221,7 @@ CRITICAL RULES FOR YOUR RESPONSE:
 4. Just give the final synthesized insight and precise timing based on the current Dasha.
 5. ALWAYS format your answer using bullet points (pointers) for easy reading. Do NOT return large blocks of paragraphs.
 6. Do not hallucinate planetary positions.
-7. AT THE VERY END OF YOUR RESPONSE, ALWAYS INCLUDE THIS EXACT TEXT: "\n\nYour exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the Body Composition section under the Reports tab."`;
+7. AT THE VERY END OF YOUR RESPONSE, ALWAYS INCLUDE THIS EXACT TEXT: "\n\nYour exact 21-Day Personalized Yoga Transformation Plan based on your birth chart is ready and waiting for you in the 21-Day Yoga Plan section under the Reports tab."`;
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
