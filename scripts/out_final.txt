@@ -1,0 +1,8 @@
+﻿Testing: google/gemma-3-27b-it:free
+ERROR: Provider returned error
+Testing: openai/gpt-oss-120b:free
+ERROR: No endpoints found matching your data policy (Free model publication). Configure: https://openrouter.ai/settings/privacy
+Testing: mistralai/mistral-small-3.1-24b-instruct:free
+ERROR: Provider returned error
+Testing: openrouter/free
+SUCCESS: Hi there! HowΓÇÖs your day going so far? Is there an

@@ -1,0 +1,32 @@
+﻿Testing: deepseek/deepseek-chat:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for deepseek/deepseek-chat:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: mistralai/mistral-7b-instruct:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for mistralai/mistral-7b-instruct:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: huggingfaceh4/zephyr-7b-beta:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for huggingfaceh4/zephyr-7b-beta:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: gryphe/mythomax-l2-13b:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for gryphe/mythomax-l2-13b:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}

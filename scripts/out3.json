@@ -1,0 +1,40 @@
+﻿Testing: google/gemini-2.5-flash:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for google/gemini-2.5-flash:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: google/gemini-2.5-flash-lite:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for google/gemini-2.5-flash-lite:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: google/gemma-2-9b-it:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for google/gemma-2-9b-it:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: meta-llama/llama-3.1-8b-instruct:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for meta-llama/llama-3.1-8b-instruct:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}
+Testing: qwen/qwen-2.5-72b-instruct:free
+RESPONSE: {
+  "error": {
+    "message": "No endpoints found for qwen/qwen-2.5-72b-instruct:free.",
+    "code": 404
+  },
+  "user_id": "user_39vnGMPSPtVnsmiAzIhKXLWuay5"
+}

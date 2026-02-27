@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node server/index.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -14,7 +15,9 @@
     "@capacitor/core": "^8.0.2",
     "@google/generative-ai": "^0.24.1",
     "circular-natal-horoscope-js": "^1.1.0",
+    "cors": "^2.8.6",
     "downloadjs": "^1.4.7",
+    "express": "^4.22.1",
     "firebase": "^12.8.0",
     "html-to-image": "^1.11.13",
     "i18next": "^25.8.13",

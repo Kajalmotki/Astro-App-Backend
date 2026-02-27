@@ -4,6 +4,7 @@ import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroPremiumWorkflow from '../components/AstroPremiumWorkflow';
 import { useAuth } from '../components/AuthModal';
 import { getAIResponse, saveBirthDataToFirestore } from '../services/aiService';
+import { askLocalBackend } from '../services/localBackendApi';
 import { fetchUserBirthData, fetchSavedCharts, saveNewChart } from '../services/birthDataService';
 
 import { loadRazorpayButton, processPayment } from '../services/razorpayService';
@@ -11,7 +12,6 @@ import { updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc, increment, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Wallet } from 'lucide-react';
-import CalmMusicPlayer from '../components/CalmMusicPlayer';
 import './ChatPage.css';
 
 const PaymentButtonLoader = ({ containerId }) => {
@@ -19,6 +19,53 @@ const PaymentButtonLoader = ({ containerId }) => {
         loadRazorpayButton(containerId);
     }, [containerId]);
     return null;
+};
+
+const CurrentChartBox = ({ birthData }) => {
+    if (!birthData) return null;
+
+    const {
+        name,
+        place,
+        day,
+        month,
+        year,
+        hour,
+        min,
+        sec,
+        date,
+        time,
+    } = birthData;
+
+    const displayDate = date || (day && month && year ? `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}` : '');
+    const displayTime = time || (hour != null && min != null ? `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}${sec != null ? `:${String(sec).padStart(2, '0')}` : ''}` : '');
+
+    return (
+        <section className="current-chart-box">
+            <div className="current-chart-heading">
+                <span className="current-chart-title">Current Birth Chart</span>
+                <span className="current-chart-sub">All Ask AI answers are based on these details.</span>
+            </div>
+            <div className="current-chart-grid">
+                <div className="current-chart-field">
+                    <span className="field-label">Name</span>
+                    <span className="field-value">{name || 'Not set'}</span>
+                </div>
+                <div className="current-chart-field">
+                    <span className="field-label">Date</span>
+                    <span className="field-value">{displayDate || 'Not set'}</span>
+                </div>
+                <div className="current-chart-field">
+                    <span className="field-label">Time</span>
+                    <span className="field-value">{displayTime || 'Not set'}</span>
+                </div>
+                <div className="current-chart-field">
+                    <span className="field-label">Place</span>
+                    <span className="field-value">{place || 'Not set'}</span>
+                </div>
+            </div>
+        </section>
+    );
 };
 
 const ChatPage = () => {
@@ -175,7 +222,19 @@ const ChatPage = () => {
         setIsTyping(true);
 
         try {
-            const response = await getAIResponse(messageText, user?.uid || 'guest', userBirthData, user?.displayName || userBirthData?.name || 'Seeker');
+            const seekerName = user?.displayName || userBirthData?.name || 'Seeker';
+            const backendBirthData = userBirthData
+                ? {
+                    ...userBirthData,
+                    // Ensure numeric lat/lng if present
+                    lat: userBirthData.lat != null ? parseFloat(userBirthData.lat) : undefined,
+                    lng: userBirthData.lng != null ? parseFloat(userBirthData.lng) : undefined,
+                }
+                : null;
+
+            const response = backendBirthData
+                ? await askLocalBackend(messageText, backendBirthData, seekerName)
+                : await getAIResponse(messageText, user?.uid || 'guest', userBirthData, seekerName);
 
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
@@ -354,7 +413,7 @@ const ChatPage = () => {
                     </div>
                 </header>
 
-
+                <CurrentChartBox birthData={userBirthData} />
 
                 <div className="messages-viewport">
                     <div className="messages-inner">

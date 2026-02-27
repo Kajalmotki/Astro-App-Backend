@@ -13,7 +13,7 @@ const getGeneratedImageForAsana = (name) => {
         'Janu Sirshasana': 'muladhara_janusirsasana.png',
         'Baddha Konasana': 'svadhisthana_baddhakonasana.png',
         'Bharadvajasana': 'svadhisthana_bharadvajasana.png',
-        'Bhujangasana': 'anahata_bhujangasana.png', // Reused
+        'Bhujangasana': 'anahata_bhujangasana.png',
         'Trikonasana': 'svadhisthana_trikonasana.png',
         'Viparita Karani': 'svadhisthana_viparitakarani.png',
         'Upavistha Konasana': 'svadhisthana_upavisthakonasana.png',
@@ -25,19 +25,19 @@ const getGeneratedImageForAsana = (name) => {
         'Surya Namaskar': 'manipura_suryanamaskar.png',
         'Sun Salutation (12 steps)': 'manipura_suryanamaskar.png',
         'Ustrasana': 'anahata_ustrasana.png',
-        'Matsyasana': 'vishuddha_matsyasana.png', // Reused
+        'Matsyasana': 'vishuddha_matsyasana.png',
         'Gomukhasana': 'anahata_gomukhasana.png',
         'Setu Bandhasana': 'anahata_setubandhasana.png',
-        'Garudasana': 'ajna_garudasana.png', // Reused
+        'Garudasana': 'ajna_garudasana.png',
         'Chakrasana': 'anahata_chakrasana.png',
         'Sarvangasana': 'vishuddha_sarvangasana.png',
         'Halasana': 'vishuddha_halasana.png',
-        'Ujjayi Pranayama (as Asana)': 'sahasrara_padmasana.png', // Reused seated
+        'Ujjayi Pranayama (as Asana)': 'sahasrara_padmasana.png',
         'Marjariasana': 'vishuddha_marjariasana.png',
         'Balasana': 'ajna_balasana.png',
-        'Shashankasana': 'ajna_balasana.png', // Reused
+        'Shashankasana': 'ajna_balasana.png',
         'Padmasana': 'sahasrara_padmasana.png',
-        'Siddhasana': 'sahasrara_padmasana.png', // Reused
+        'Siddhasana': 'sahasrara_padmasana.png',
         'Sirshasana': 'sahasrara_sirsasana.png',
         'Trataka (as Asana-Meditation)': 'ajna_trataka.png',
         'Prasarita Padottanasana': 'ajna_prasarita.png',
@@ -75,13 +75,54 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
     return (
         <div className="apw-overlay">
             <div className="apw-modal" style={{ '--theme-color': color }}>
-                {/* Header Actions */}
+                {/* Top Bar: Music (left) + Close (right) */}
                 <div className="apw-top-bars">
-                    <div /> {/* Empty spacer */}
-                    <button className="apw-close" onClick={handleComplete}><X size={24} /></button>
+                    <button
+                        className={`apw-music-fab ${isMusicPlaying ? 'playing' : ''}`}
+                        onClick={() => {
+                            if (!isMusicPlaying) {
+                                toggleMusic();
+                            } else {
+                                setShowAmbienceTray(prev => !prev);
+                            }
+                        }}
+                        style={{ '--btn-color': color }}
+                    >
+                        {isMusicPlaying
+                            ? <Music size={18} color="#000" />
+                            : <Music size={18} color="#fff" />
+                        }
+                    </button>
+                    <button className="apw-close" onClick={handleComplete}><X size={22} /></button>
                 </div>
 
-                {/* Hero Top Section */}
+                {/* Ambience Tray (slides down from top-left when open) */}
+                {showAmbienceTray && (
+                    <div className="apw-ambience-dropdown animate-pop">
+                        <div className="apw-tray-header">
+                            <span>Select Ambience</span>
+                            <button onClick={() => setShowAmbienceTray(false)}><X size={16} /></button>
+                        </div>
+                        <div className="apw-tray-grid">
+                            {tracks && tracks.map(t => (
+                                <button
+                                    key={t.id}
+                                    className={`apw-tray-btn ${currentTrack?.id === t.id && isMusicPlaying ? 'active' : ''}`}
+                                    onClick={() => {
+                                        playTrack(t);
+                                        setShowAmbienceTray(false);
+                                    }}
+                                    style={{ '--theme-color': color }}
+                                >
+                                    <span className="tray-icon">{t.icon}</span>
+                                    <span className="tray-name">{t.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Hero Image — clean, no text overlay */}
                 <div
                     className="apw-hero"
                     style={{
@@ -91,11 +132,12 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
                     }}
                 >
                     {!hasImage && <div className="apw-hero-icon">{asana.emoji || '🧘'}</div>}
-                    <div className="apw-hero-text">
-                        <span className="apw-category-badge">{asana.category || 'practice'}</span>
-                        <h2 className="apw-title">{asana.name}</h2>
-                        <p className="apw-sanskrit">{asana.sanskrit || asana.name}</p>
-                    </div>
+                </div>
+
+                {/* Title Section — below image, centered */}
+                <div className="apw-title-section">
+                    <span className="apw-category-badge">{asana.category || 'practice'}</span>
+                    <h2 className="apw-title">{asana.name}</h2>
                     {/* View Toggle */}
                     <div className="apw-view-toggles">
                         <button
@@ -117,58 +159,13 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
                 <div className="apw-body">
                     {viewMode === 'practice' ? (
                         <div className="apw-steps-view animate-fade-in">
-                            <div className="apw-step-display" style={{ marginTop: '16px' }}>
+                            <div className="apw-step-display">
                                 <h3 className="apw-step-counter" style={{ color: color, margin: 0 }}>
                                     Cosmic Focus
                                 </h3>
                                 <p className="apw-benefit-focus">
                                     {asana.why || asana.description}
                                 </p>
-                            </div>
-
-                            {/* Ambience Controls */}
-                            <div className="apw-ambience-container">
-                                {showAmbienceTray ? (
-                                    <div className="apw-ambience-tray animate-pop">
-                                        <div className="apw-tray-header">
-                                            <span>Select Ambience</span>
-                                            <button onClick={() => setShowAmbienceTray(false)}><X size={16} /></button>
-                                        </div>
-                                        <div className="apw-tray-grid">
-                                            {tracks && tracks.map(t => (
-                                                <button
-                                                    key={t.id}
-                                                    className={`apw-tray-btn ${currentTrack?.id === t.id && isMusicPlaying ? 'active' : ''}`}
-                                                    onClick={() => {
-                                                        playTrack(t);
-                                                        setShowAmbienceTray(false);
-                                                    }}
-                                                    style={{ '--theme-color': color }}
-                                                >
-                                                    <span className="tray-icon">{t.icon}</span>
-                                                    <span className="tray-name">{t.name}</span>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <button
-                                        className={`apw-ambience-toggle ${isMusicPlaying ? 'playing' : ''}`}
-                                        onClick={() => {
-                                            if (!isMusicPlaying) {
-                                                toggleMusic();
-                                            } else {
-                                                setShowAmbienceTray(true);
-                                            }
-                                        }}
-                                        style={{ '--btn-color': color }}
-                                    >
-                                        <div className="apw-ambience-icon">
-                                            {isMusicPlaying ? <Music size={24} color="#000" /> : <Play size={24} color="#fff" style={{ marginLeft: '4px' }} />}
-                                        </div>
-                                        <span>{isMusicPlaying ? `Playing: ${currentTrack?.name}` : 'Ambience Music'}</span>
-                                    </button>
-                                )}
                             </div>
                         </div>
                     ) : (
@@ -197,7 +194,7 @@ const AsanaPlayWindow = ({ asana, color = '#10b981', onClose, onComplete }) => {
                         </div>
                     )}
 
-                    <button className="apw-complete-btn animate-pop" onClick={handleComplete} style={{ alignSelf: 'center', marginTop: '16px' }}>
+                    <button className="apw-complete-btn animate-pop" onClick={handleComplete}>
                         <CheckCircle size={20} /> Complete Practice
                     </button>
                 </div>

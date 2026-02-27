@@ -2,7 +2,7 @@ import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
 import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
 import { calculateChakraStrengths } from "./strengthEngine.js";
 import { searchKnowledgeBase } from "./bookSearchEngine.js";
-const OPENROUTER_API_KEY = "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";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Standard Vedic Signs in order (for whole-sign house calculation)
 const VEDIC_SIGNS = [
@@ -257,63 +257,26 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             prompt = getInitialChartPrompt(userName, birthData, mathData);
         }
 
-        const modelsToTry = [
-            "meta-llama/llama-3.3-70b-instruct:free",
-            "google/gemini-2.5-flash:free",
-            "google/gemma-3-27b-it:free",
-            "openrouter/free"
-        ];
-
         let responseText = null;
-        let lastError = null;
-        let rawData = null;
 
-        for (const model of modelsToTry) {
-            try {
-                console.log(`Attempting OpenRouter AI Generation with model: ${model}`);
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                        "Content-Type": "application/json",
-                        "HTTP-Referer": typeof window !== "undefined" ? window.location.origin : "https://astro-revo-vite.vercel.app",
-                        "X-Title": "AstroRevo"
-                    },
-                    body: JSON.stringify({
-                        model: model,
-                        max_tokens: 1000,
-                        messages: [{ role: "user", content: prompt }]
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                const data = await response.json();
-                rawData = data;
-
-                if (data.error) {
-                    throw new Error(data.error.message || "Provider Error");
-                }
-
-                if (data.choices && data.choices[0] && data.choices[0].message?.content) {
-                    responseText = data.choices[0].message.content;
-                    console.log(`Success with model: ${model}`);
-                    break; // Exit loop on success
-                } else {
-                    throw new Error("Empty response body from model");
-                }
-
-            } catch (err) {
-                console.warn(`Model ${model} failed: ${err.message}. Trying next...`);
-                lastError = err;
-            }
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        if (!apiKey) {
+            throw new Error("VITE_GEMINI_API_KEY is missing in your .env file!");
         }
 
-        if (!responseText) {
-            console.error("RAW OPENROUTER FINAL FAILURE RESPONSE:", JSON.stringify(rawData, null, 2));
-            throw new Error(`All AI models failed. Last error: ${lastError?.message || 'Empty response'}. Please try again later.`);
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+
+        try {
+            console.log("Attempting Gemini API Generation with model: gemini-3-flash-preview");
+
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
+
+            console.log("Success with Gemini model.");
+        } catch (err) {
+            console.error("Gemini API Error:", err);
+            throw new Error(`Gemini API failed: ${err.message}`);
         }
 
         // If it's the initial chart generation, parse the JSON
@@ -338,7 +301,7 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
         // FALLBACK: If API fails but we have locally calculated data, return it as chart data
         // This ensures the BeautifulD1Chart still renders with accurate planetary data
         if (!previousChart && mathData) {
-            console.warn("OpenRouter API failed — falling back to offline chart data.");
+            console.warn("Gemini API failed — falling back to offline chart data.");
             const offlineChart = {
                 lagna: mathData.ascSign,
                 dayOfBirth: mathData.dayOfWeek,
@@ -358,7 +321,7 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             return { isChartData: true, data: offlineChart };
         } else if (previousChart) {
             // Handle follow-up error gracefully so it doesn't crash the UI
-            console.warn("OpenRouter API failed for follow-up question.", error);
+            console.warn("Gemini API failed for follow-up question.", error);
             return `⚠ AI Error: ${error.message}`;
         }
 
