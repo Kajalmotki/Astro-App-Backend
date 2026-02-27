@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle, forwardRef, useEffect, useCallbac
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { majorArcana, minorArcana } from '../../utils/tarotData';
-import './TarotCardPicker.css?v=10';
+import './TarotCardPicker.css?v=13';
 
 /* ── Tilt Card ── */
 const TiltCard = ({ card, index, isDrawingOut, isDimmed, isShuffling, totalCards, onClick }) => {
@@ -102,9 +102,9 @@ const RevealOverlay = ({ card, onDone }) => {
     const [phase, setPhase] = useState('enter'); // enter → show → exit
 
     useEffect(() => {
-        const t1 = setTimeout(() => setPhase('show'), 600);
-        const t2 = setTimeout(() => setPhase('exit'), 1300);
-        const t3 = setTimeout(() => onDone(), 1800);
+        const t1 = setTimeout(() => setPhase('show'), 900);
+        const t2 = setTimeout(() => setPhase('exit'), 2200);
+        const t3 = setTimeout(() => onDone(), 2700);
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
     }, []);
 
@@ -148,10 +148,10 @@ const TarotCardPicker = forwardRef((props, ref) => {
         if (drawingOutIndex !== null || isShuffling || showAd || revealCard) return;
         setDrawingOutIndex(index);
         setPendingCard(displayCards[index]);
-        // After draw-out animation (1s), show ad
+        // After draw-out revolve animation (3s), show ad
         setTimeout(() => {
             setShowAd(true);
-        }, 1000);
+        }, 3000);
     };
 
     const handleAdClose = useCallback(() => {
