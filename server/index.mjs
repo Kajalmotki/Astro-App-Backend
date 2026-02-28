@@ -112,8 +112,16 @@ app.post('/api/ask-ai', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Local AstroRevo backend running on http://localhost:${PORT}`);
-});
+if (process.env.VERCEL) {
+  // If deployed to Vercel, don't listen locally, just export the app
+  console.log('Running in Vercel Serverless environment');
+} else {
+  // Otherwise listen on PORT
+  app.listen(PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Local AstroRevo backend running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
 

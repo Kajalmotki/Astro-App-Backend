@@ -350,7 +350,6 @@ const LocalAIChat = () => {
                         <p className="header-sub">{activeProfile.name} · {activeProfile.cityName}</p>
                     )}
                 </div>
-                <button className="reset-btn" onClick={handleClearProfile} title="Change Birth Details">✎</button>
             </header>
 
             <div className="chat-messages-scroll-area">
