@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AstroChart from '../../AstroChart';
+import VedicD1Chart from '../../VedicD1Chart';
 
 const Charts = ({ chartData, chartType, isLoading, error }) => {
     const [subTab, setSubTab] = useState('D1');
@@ -13,9 +14,11 @@ const Charts = ({ chartData, chartType, isLoading, error }) => {
             </div>
 
             <div className="chart-visual-box" style={{ marginBottom: '16px' }}>
-                {/* Note: In a real implementation, swapping subTab would fetch/display a different SVG. 
-                    For now, it passes the main D1 data to AstroChart */}
-                <AstroChart chartData={chartData} chartType={chartType} isLoading={isLoading} error={error} />
+                {subTab === 'D1' ? (
+                    <VedicD1Chart chartData={chartData} />
+                ) : (
+                    <AstroChart chartData={chartData} chartType={chartType} isLoading={isLoading} error={error} />
+                )}
             </div>
 
             {/* Ashtakavarga added below the chart */}
