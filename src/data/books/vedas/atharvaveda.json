@@ -1,0 +1,18 @@
+{
+  "title": "AtharvaVeda",
+  "author": "Ancient Sages",
+  "category": "vedas",
+  "chapters": [
+    {
+      "name": "Entire Text",
+      "number": 1,
+      "verses": [
+        {
+          "number": 1,
+          "translation": "",
+          "sanskrit": ""
+        }
+      ]
+    }
+  ]
+}

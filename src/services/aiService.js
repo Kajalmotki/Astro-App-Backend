@@ -2,6 +2,8 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
 import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
+import { searchKnowledgeBase } from "./bookSearchEngine.js";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const getAIResponse = async (userMessage, userId, userBirthData = null, userName = 'Seeker') => {
     try {
@@ -95,67 +97,61 @@ export const getAIResponse = async (userMessage, userId, userBirthData = null, u
 
         console.log('AI Context:', birthDataText, dashaContext);
 
-        const prompt = `You are AstroAI, an enlightened and personalized Vedic astrology engine.
+        let vedicContext = "";
+        try {
+            const searchResults = searchKnowledgeBase(userMessage, 'vedas', 5);
+            if (searchResults && searchResults.length > 0) {
+                vedicContext = "\n\nRelevant Vedic Texts retrieved for context:\n" +
+                    searchResults.map(r => `"${r.snippet}" (Source: ${r.bookTitle}, Section: ${r.sectionTitle || 'N/A'}, Verse: ${r.verseNumber || 'N/A'})`).join('\n');
+                console.log('Found Vedic context:', searchResults.length, 'snippets.');
+            }
+        } catch (e) {
+            console.warn("Failed to fetch Vedic context:", e);
+        }
+
+        const prompt = `You are Veda AI, an enlightened and personalized Vedic intelligence engine.
 
 User Profile:
 - Name: ${userName}
-- Natal Details: ${birthDataText}${dashaContext}
+- Natal Details: ${birthDataText}${dashaContext}${vedicContext}
 
 User's Query: "${userMessage}"
 
 Instructions:
-0. If the user's query is not related to astrology, respond with a general Vedic wisdom. but first greet them with their name and ask what they need help with if they says hii or hello.
-1. Analyze the query based on the user's birth details (if available) or provide general Vedic wisdom.
-2. Tone: Spiritual and empathetic, but strictly short and precise.
-3. CRITICAL: Provide only short and precise answers. Answer strictly what is asked and do not hallucinate extra information or over-explain. If the user asks about their Dasha, refer to the mathematical Current Active Dasha provided in the profile. Keep the prediction under 2-3 short sentences.
-4. Address the user by name if appropriate.
-5. Do NOT provide a mantra unless the user explicitly asks for one. If not requested, leave the mantra field as an empty string "".
-6. Output MUST be a valid JSON object. Do not include markdown code blocks or additional text.
+0. Answer any questions the user asks. If the query is related to the Vedas, use the provided Relevant Vedic Texts strongly to guide your answer. Greet them with their name if they say hi or hello.
+1. Analyze the query based on the user's birth details (if available) or the provided Vedic wisdom.
+2. Tone: Spiritual, highly knowledgeable, and deeply expansive.
+3. FORMATTING: You must strictly answer using pointers/bullet lists with clear line breaks (\n).
+4. HIGHLIGHTING: You MUST boldly highlight key concepts, astrological names, or important words using double asterisks (e.g., **Jupiter** or **spiritual growth**). 
+5. CITATIONS: If the user asks where something is written, explicitly cite the exact "Source", "Section", and "Verse" exactly as provided in the context (e.g., "According to the **Samaveda**, Part I, Verse 313...").
+6. Address the user by name if appropriate.
+7. Do NOT provide a mantra unless explicitly requested. If not requested, leave the mantra field empty "".
+8. Output MUST be a valid JSON object. Do not include markdown code blocks or additional text outside the JSON.
 
 Required JSON Structure:
 {
-  "prediction": "Your personalized astrological insight (2-3 sentences max).",
-  "remedy": "A specific practical remedy (e.g., 'Feed birds on Wednesday' or 'Wear silver').",
-  "mantra": "A relevant Sanskrit mantra ONLY IF specifically requested by the user, otherwise empty string ''."
+  "prediction": "Your highly detailed answered formatted with bullet points, using \\n for newlines, and **bold** text for key highlighting.",
+  "remedy": "A specific practical remedy.",
+  "mantra": "A relevant Sanskrit mantra ONLY IF requested, otherwise ''."
 }`;
 
-        const OPENROUTER_API_KEY = "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";
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        if (!apiKey) throw new Error("VITE_GEMINI_API_KEY is missing in your .env file!");
+
         let responseText = null;
 
         try {
-            console.log(`Attempting to generate with OpenRouter (google/gemini-2.5-flash)...`);
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "google/gemini-2.5-flash",
-                    max_tokens: 1000,
-                    messages: [
-                        { role: "user", content: prompt }
-                    ]
-                })
-            });
+            console.log(`Attempting to generate with Google Gemini API (gemini-3-flash-preview)...`);
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
-            if (!response.ok) {
-                const errorData = await response.text();
-                throw new Error(`OpenRouter API error: ${response.status} ${errorData}`);
-            }
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
 
-            const data = await response.json();
-            responseText = data.choices && data.choices[0] && data.choices[0].message.content;
-
-            if (responseText) {
-                console.log(`Success with OpenRouter`);
-            }
+            console.log(`Success with Gemini API`);
         } catch (modelError) {
-            console.warn(`Failed with OpenRouter:`, modelError);
-        }
-
-        if (!responseText) {
-            throw new Error("OpenRouter failed to generate a response. Check console logs for details.");
+            console.warn(`Failed with Gemini API:`, modelError);
+            throw new Error(`Gemini API Error: ${modelError.message}`);
         }
 
         console.log('Gemini Raw Response:', responseText);
@@ -208,36 +204,20 @@ export const getAssistantResponse = async (userMessage, userId, userName = 'Seek
           "suggestedActions": ["Action 1", "Action 2"]
         }`;
 
-        const OPENROUTER_API_KEY = "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";
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         let responseText = null;
 
         try {
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "google/gemini-2.5-flash",
-                    max_tokens: 1000,
-                    messages: [
-                        { role: "user", content: prompt }
-                    ]
-                })
-            });
+            if (!apiKey) throw new Error("Missing Gemini SDK Key");
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
-            if (response.ok) {
-                const data = await response.json();
-                responseText = data.choices && data.choices[0] && data.choices[0].message.content;
-            } else {
-                console.warn(`Query Assistant OpenRouter Error: ${response.status}`);
-            }
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
         } catch (err) {
-            console.warn(`Query Assistant failed with OpenRouter`, err);
+            console.warn(`Query Assistant failed with Gemini API`, err);
+            throw new Error(`Assistant engines exhausted: ${err.message}`);
         }
-
-        if (!responseText) throw new Error("Assistant engines exhausted");
 
         const jsonMatch = responseText.match(/\{[\s\S]*\}/);
         const jsonStr = jsonMatch ? jsonMatch[0] : responseText;
@@ -279,33 +259,18 @@ export const generateTarotReading = async (userName, userQuestion, cardName, car
             "key_advice": "One sentence of direct advice based on this reading."
         }`;
 
-        const OPENROUTER_API_KEY = "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";
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
         let text = null;
 
         try {
-            const result = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "google/gemini-2.5-flash",
-                    max_tokens: 1000,
-                    messages: [
-                        { role: "user", content: prompt }
-                    ]
-                })
-            });
+            if (!apiKey) throw new Error("Missing Gemini API Key");
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
-            if (result.ok) {
-                const data = await result.json();
-                text = data.choices && data.choices[0] && data.choices[0].message.content;
-            } else {
-                throw new Error("Failed to fetch from OpenRouter");
-            }
+            const result = await model.generateContent(prompt);
+            text = result.response.text();
         } catch (e) {
-            throw new Error(`Tarot reading failed: ${e.message}`);
+            throw new Error(`Tarot reading Gemini API failed: ${e.message}`);
         }
 
         console.log("Tarot AI Response:", text);

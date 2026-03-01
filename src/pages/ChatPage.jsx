@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroPremiumWorkflow from '../components/AstroPremiumWorkflow';
 import { useAuth } from '../components/AuthModal';
@@ -44,7 +45,7 @@ const CurrentChartBox = ({ birthData }) => {
         <section className="current-chart-box">
             <div className="current-chart-heading">
                 <span className="current-chart-title">Current Birth Chart</span>
-                <span className="current-chart-sub">All Ask AI answers are based on these details.</span>
+                <span className="current-chart-sub">All Veda AI answers are based on these details.</span>
             </div>
             <div className="current-chart-grid">
                 <div className="current-chart-field">
@@ -72,14 +73,7 @@ const ChatPage = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            type: 'bot',
-            text: "Namaste! I am your AstroRevo Guide. I've been waiting for our cosmic paths to cross. To begin your journey, I'll need to create your sacred birth chart.",
-            showFormLink: false
-        }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [showBirthForm, setShowBirthForm] = useState(false);
@@ -114,6 +108,7 @@ const ChatPage = () => {
                         ]);
                     } else {
                         // No saved data, show form immediately
+                        setMessages([]); // Clear initial message
                         setShowBirthForm(true);
                     }
                 } catch (error) {
@@ -421,7 +416,11 @@ const ChatPage = () => {
                             <div key={m.id} className={`chat-message-row ${m.type} ${m.isSystem ? 'system-msg' : ''}`}>
                                 {m.type === 'bot' && <div className="bot-min-avatar logo-avatar" style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>ॐ</div>}
                                 <div className={`chat-bubble ${m.type} ${m.isPrediction ? 'prediction' : ''} ${m.isSystem ? 'system-bubble' : ''}`}>
-                                    {m.text}
+                                    {m.type === 'bot' && m.isPrediction ? (
+                                        <ReactMarkdown>{m.text}</ReactMarkdown>
+                                    ) : (
+                                        m.text
+                                    )}
 
                                     {/* Removed 'Begin Your Analysis' button */}
 

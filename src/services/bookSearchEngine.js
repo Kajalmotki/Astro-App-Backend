@@ -8,10 +8,12 @@ import knowledgeSources from '../data/books/astrology/brihat_parashara_hora_shas
 // Load all parsed book JSONs dynamically
 const astrologyModules = import.meta.glob('../data/books/astrology/*.json', { eager: true });
 const yogaModules = import.meta.glob('../data/books/yoga/*.json', { eager: true });
+const vedasModules = import.meta.glob('../data/books/vedas/*.json', { eager: true });
 
 export const KNOWLEDGE_BASE = {
     astrology: Object.values(astrologyModules).map(mod => mod.default || mod),
-    yoga: Object.values(yogaModules).map(mod => mod.default || mod)
+    yoga: Object.values(yogaModules).map(mod => mod.default || mod),
+    vedas: Object.values(vedasModules).map(mod => mod.default || mod)
 };
 
 /**
@@ -35,6 +37,7 @@ export const searchKnowledgeBase = (query, category = 'all', limit = 10) => {
     let booksToSearch = [];
     if (category === 'all' || category === 'astrology') booksToSearch.push(...KNOWLEDGE_BASE.astrology);
     if (category === 'all' || category === 'yoga') booksToSearch.push(...KNOWLEDGE_BASE.yoga);
+    if (category === 'all' || category === 'vedas') booksToSearch.push(...KNOWLEDGE_BASE.vedas);
 
     let results = [];
 
@@ -67,10 +70,10 @@ export const searchKnowledgeBase = (query, category = 'all', limit = 10) => {
 
                 // Only include if at least one meaningful term matched
                 if (score > 0) {
-                    // Extract a snippet around the first matching term
+                    // Extract a smaller snippet around the first matching term to conserve AI tokens
                     const firstTermIndex = textLower.indexOf(searchTerms[0]);
-                    let startIdx = Math.max(0, firstTermIndex - 100);
-                    let endIdx = Math.min(text.length, firstTermIndex + 300);
+                    let startIdx = Math.max(0, firstTermIndex - 50);
+                    let endIdx = Math.min(text.length, firstTermIndex + 150);
 
                     let snippet = text.substring(startIdx, endIdx);
                     if (startIdx > 0) snippet = '...' + snippet;
@@ -101,6 +104,7 @@ export const searchKnowledgeBase = (query, category = 'all', limit = 10) => {
 export const getAvailableBooks = () => {
     return {
         astrology: KNOWLEDGE_BASE.astrology.map(b => ({ title: b.title, author: b.author })),
-        yoga: KNOWLEDGE_BASE.yoga.map(b => ({ title: b.title, author: b.author }))
+        yoga: KNOWLEDGE_BASE.yoga.map(b => ({ title: b.title, author: b.author })),
+        vedas: KNOWLEDGE_BASE.vedas.map(b => ({ title: b.title, author: b.author }))
     };
 };

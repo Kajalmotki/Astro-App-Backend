@@ -72,7 +72,7 @@ app.post('/api/ask-ai', (req, res) => {
 
     // Use both the question and key placements when searching classical texts
     const searchQuery = `${question} ${planetSummaryLines.join(' ')}`;
-    const kbResults = searchKnowledgeBaseServer(searchQuery, 'astrology', 6);
+    const kbResults = searchKnowledgeBaseServer(searchQuery, 'all', 6);
 
     // Construct a grounded response using only local data
     const topReference = kbResults[0];

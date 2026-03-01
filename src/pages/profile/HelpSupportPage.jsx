@@ -8,7 +8,7 @@ const HelpSupportPage = () => {
     const [openIndex, setOpenIndex] = useState(null);
 
     const faqs = [
-        { q: "How do I book a consultation?", a: "Go to the 'Ask AI' or Chat tab, select an astrologer, and choose a time slot or start a chat instantly." },
+        { q: "How do I book a consultation?", a: "Go to the 'Veda AI' or Chat tab, select an astrologer, and choose a time slot or start a chat instantly." },
         { q: "Is my data safe?", a: "Yes, we use end-to-end encryption for all chats and store your birth details securely." },
         { q: "How can I request a refund?", a: "Please contact support within 24 hours of your transaction via the email option below." }
     ];

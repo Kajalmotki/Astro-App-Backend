@@ -21,7 +21,7 @@ const BottomNavigation = () => {
                     <div className="nav-icon-container">
                         <MessageCircle size={24} />
                     </div>
-                    <span className="nav-label">{t('Ask AI')}</span>
+                    <span className="nav-label">{t('Veda AI')}</span>
                 </NavLink>
 
                 <NavLink to="/mobile/reports" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>

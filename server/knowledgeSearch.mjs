@@ -24,9 +24,15 @@ const asanaPranayamaMudraBandha = loadJsonRelative(
   'src/data/books/yoga/asana_pranayama_mudra_bandha.json',
 );
 
+const vedas_atharva = loadJsonRelative('src/data/books/vedas/atharvaveda.json');
+const vedas_rig = loadJsonRelative('src/data/books/vedas/rigveda.json');
+const vedas_sama = loadJsonRelative('src/data/books/vedas/samaveda.json');
+const vedas_yajur = loadJsonRelative('src/data/books/vedas/yajurveda.json');
+
 export const KNOWLEDGE_BASE = {
   astrology: [atharvaVeda, vedangaJyotisha, saravali],
   yoga: [satChakraNirupana, sivaSamhita, asanaPranayamaMudraBandha],
+  vedas: [vedas_atharva, vedas_rig, vedas_sama, vedas_yajur]
 };
 
 export const searchKnowledgeBaseServer = (query, category = 'all', limit = 10) => {
@@ -43,6 +49,7 @@ export const searchKnowledgeBaseServer = (query, category = 'all', limit = 10) =
   let booksToSearch = [];
   if (category === 'all' || category === 'astrology') booksToSearch.push(...KNOWLEDGE_BASE.astrology);
   if (category === 'all' || category === 'yoga') booksToSearch.push(...KNOWLEDGE_BASE.yoga);
+  if (category === 'all' || category === 'vedas') booksToSearch.push(...KNOWLEDGE_BASE.vedas);
 
   const results = [];
 
@@ -72,8 +79,8 @@ export const searchKnowledgeBaseServer = (query, category = 'all', limit = 10) =
 
         if (score > 0) {
           const firstTermIndex = textLower.indexOf(searchTerms[0]);
-          const startIdx = Math.max(0, firstTermIndex - 100);
-          const endIdx = Math.min(text.length, firstTermIndex + 300);
+          const startIdx = Math.max(0, firstTermIndex - 50);
+          const endIdx = Math.min(text.length, firstTermIndex + 150);
 
           let snippet = text.substring(startIdx, endIdx);
           if (startIdx > 0) snippet = `...${snippet}`;

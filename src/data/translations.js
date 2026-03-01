@@ -34,7 +34,7 @@ export const translations = {
         "Save & Confirm": "Save & Confirm",
         // Bottom Nav
         "Home": "Home",
-        "Ask AI": "Ask AI",
+        "Veda AI": "Veda AI",
         "Reports": "Reports",
         "Profile": "Profile",
 
@@ -90,7 +90,7 @@ export const translations = {
 
         // Bottom Nav
         "Home": "होम",
-        "Ask AI": "ऐ ask",
+        "Veda AI": "Veda AI",
         "Reports": "रिपोर्ट",
         "Profile": "प्रोफाइल",
 
@@ -135,7 +135,7 @@ export const translations = {
         "App Language": "Idioma de la App",
         "Save & Confirm": "Guardar y Confirmar",
         "Home": "Inicio",
-        "Ask AI": "Preguntar a la IA",
+        "Veda AI": "Veda AI",
         "Reports": "Informes",
         "Profile": "Perfil",
         "Namaste": "Namasté",
@@ -176,7 +176,7 @@ export const translations = {
         "App Language": "Langue de l'Application",
         "Save & Confirm": "Sauvegarder et Confirmer",
         "Home": "Accueil",
-        "Ask AI": "Demander à l'IA",
+        "Veda AI": "Veda AI",
         "Reports": "Rapports",
         "Profile": "Profil",
         "Namaste": "Namasté",
@@ -217,7 +217,7 @@ export const translations = {
         "App Language": "App-Sprache",
         "Save & Confirm": "Speichern & Bestätigen",
         "Home": "Startseite",
-        "Ask AI": "KI fragen",
+        "Veda AI": "Veda AI",
         "Reports": "Berichte",
         "Profile": "Profil",
         "Namaste": "Namasté",
@@ -258,7 +258,7 @@ export const translations = {
         "App Language": "Lingua dell'App",
         "Save & Confirm": "Salva e Conferma",
         "Home": "Home",
-        "Ask AI": "Chiedi all'IA",
+        "Veda AI": "Veda AI",
         "Reports": "Rapporti",
         "Profile": "Profilo",
         "Namaste": "Namasté",
@@ -299,7 +299,7 @@ export const translations = {
         "App Language": "应用语言",
         "Save & Confirm": "保存并确认",
         "Home": "首页",
-        "Ask AI": "问AI",
+        "Veda AI": "Veda AI",
         "Reports": "报告",
         "Profile": "个人资料",
         "Namaste": "合十礼",
