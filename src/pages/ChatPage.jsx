@@ -12,7 +12,7 @@ import { loadRazorpayButton, processPayment } from '../services/razorpayService'
 import { updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc, increment, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Wallet } from 'lucide-react';
+import { Wallet, Bookmark, Check } from 'lucide-react';
 import './ChatPage.css';
 
 const PaymentButtonLoader = ({ containerId }) => {
@@ -84,6 +84,7 @@ const ChatPage = () => {
     const [freeQuestionUsed, setFreeQuestionUsed] = useState(false);
     const [showWalletModal, setShowWalletModal] = useState(false);
     const messagesEndRef = useRef(null);
+    const [chatSaved, setChatSaved] = useState(false);
 
     // Fetch saved birth data when user logs in
     useEffect(() => {
@@ -301,6 +302,61 @@ const ChatPage = () => {
         }
     };
 
+    const handleSaveChat = () => {
+        if (messages.length === 0) return;
+        try {
+            const SAVED_CHATS_KEY = 'astrorevo_saved_chats';
+            const existing = JSON.parse(localStorage.getItem(SAVED_CHATS_KEY) || '[]');
+
+            // Build a preview from the first user message or first bot message
+            const firstUserMsg = messages.find(m => m.type === 'user');
+            const firstBotMsg = messages.find(m => m.type === 'bot' && m.isPrediction);
+            const preview = firstUserMsg?.text?.substring(0, 80) || firstBotMsg?.text?.substring(0, 80) || 'Cosmic Reading';
+
+            const savedChat = {
+                id: Date.now().toString(),
+                title: preview,
+                messages: messages.map(m => ({
+                    id: m.id,
+                    type: m.type,
+                    text: m.text,
+                    isPrediction: m.isPrediction || false,
+                    isSystem: m.isSystem || false,
+                    remedy: m.remedy || null,
+                    mantra: m.mantra || null,
+                })),
+                birthData: userBirthData ? {
+                    name: userBirthData.name,
+                    place: userBirthData.place,
+                } : null,
+                savedAt: new Date().toISOString(),
+                messageCount: messages.length,
+            };
+
+            // Prevent duplicate saves of the exact same chat
+            const isDuplicate = existing.some(c =>
+                c.messageCount === savedChat.messageCount &&
+                c.title === savedChat.title
+            );
+            if (isDuplicate) {
+                // Already saved — just show feedback
+                setChatSaved(true);
+                setTimeout(() => setChatSaved(false), 2000);
+                return;
+            }
+
+            existing.unshift(savedChat);
+            // Keep max 50 saved chats
+            if (existing.length > 50) existing.pop();
+            localStorage.setItem(SAVED_CHATS_KEY, JSON.stringify(existing));
+
+            setChatSaved(true);
+            setTimeout(() => setChatSaved(false), 2000);
+        } catch (e) {
+            console.error('Failed to save chat:', e);
+        }
+    };
+
     const selectChart = (chart) => {
         setUserBirthData(chart);
         setShowSavedCharts(false);
@@ -401,8 +457,18 @@ const ChatPage = () => {
                                 <span className="user-status-tag"><span className="status-dot"></span> Online</span>
                             </div>
                         </div>
-                        <button className="header-tool-btn" onClick={handleHeaderPlusClick} title="New/Change Chart" style={{ marginRight: '10px' }}>
-                            <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>+</span>
+                        <button
+                            className="header-tool-btn"
+                            onClick={handleSaveChat}
+                            title={chatSaved ? 'Chat Saved!' : 'Save This Chat'}
+                            style={{
+                                marginRight: '10px',
+                                background: chatSaved ? 'rgba(52, 211, 153, 0.2)' : undefined,
+                                borderColor: chatSaved ? 'rgba(52, 211, 153, 0.4)' : undefined,
+                                transition: 'all 0.3s ease',
+                            }}
+                        >
+                            {chatSaved ? <Check size={18} color="#34d399" /> : <Bookmark size={18} />}
                         </button>
                         <button className="header-tool-btn" onClick={() => navigate('/')} title="Exit Chat">✕</button>
                     </div>

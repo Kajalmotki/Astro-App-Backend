@@ -75,6 +75,7 @@ const JupiterTracker = lazy(() => import('./components/mobile/trackers/JupiterTr
 const VenusTracker = lazy(() => import('./components/mobile/trackers/VenusTracker'));
 const RahuTracker = lazy(() => import('./components/mobile/trackers/RahuTracker'));
 const KetuTracker = lazy(() => import('./components/mobile/trackers/KetuTracker'));
+const LifeTracker = lazy(() => import('./components/mobile/LifeTracker'));
 
 // Loading Screen Component
 const PageLoading = () => (
@@ -318,6 +319,7 @@ function AppContent() {
                 <Route path="tracker/venus" element={<div className="page-content" style={{ paddingTop: '0px' }}><VenusTracker /></div>} />
                 <Route path="tracker/rahu" element={<div className="page-content" style={{ paddingTop: '0px' }}><RahuTracker /></div>} />
                 <Route path="tracker/ketu" element={<div className="page-content" style={{ paddingTop: '0px' }}><KetuTracker /></div>} />
+                <Route path="life-tracker" element={<div className="page-content" style={{ paddingTop: '0px' }}><LifeTracker /></div>} />
 
                 {/* Profile Content Pages */}
                 <Route path="order-history" element={<div className="page-content" style={{ paddingTop: '0px' }}><OrderHistoryPage /></div>} />

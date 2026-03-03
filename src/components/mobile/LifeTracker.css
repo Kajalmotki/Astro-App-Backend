@@ -1,0 +1,956 @@
+/* ============================
+   Life Tracker — Holistic Goal & Body Tracker
+   ============================ */
+
+.life-tracker-page {
+    min-height: 100vh;
+    background: #0a0a0f;
+    padding: 0 0 100px 0;
+    font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+/* ── Header ── */
+.lt-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lt-back-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lt-back-btn:active {
+    transform: scale(0.92);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.lt-header-text h2 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 1.15rem;
+    color: #f0f0f0;
+    letter-spacing: 0.03em;
+    margin: 0;
+}
+
+.lt-header-text span {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ── Tab Navigation ── */
+.lt-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 16px 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.lt-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.lt-tab {
+    flex: 1;
+    min-width: 90px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-ui, 'Inter', sans-serif);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.lt-tab .tab-emoji {
+    font-size: 1.1rem;
+}
+
+.lt-tab.active {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #7dd3fc;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.08);
+}
+
+.lt-tab.active.body-tab {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.35);
+    color: #fca5a5;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.08);
+}
+
+.lt-tab.active.calendar-tab {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.35);
+    color: #d8b4fe;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+}
+
+/* ── Content Area ── */
+.lt-content {
+    padding: 12px 16px;
+    animation: ltFadeIn 0.35s ease;
+}
+
+@keyframes ltFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Stats Row ── */
+.lt-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.lt-stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 14px 10px;
+    text-align: center;
+}
+
+.lt-stat-value {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.lt-stat-label {
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* ── Goal Cards ── */
+.lt-goals-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lt-goal-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.lt-goal-card:active {
+    transform: scale(0.985);
+}
+
+.lt-goal-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--goal-color, #38bdf8);
+    opacity: 0.6;
+    border-radius: 20px 20px 0 0;
+}
+
+.lt-goal-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.lt-goal-emoji {
+    font-size: 1.8rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 14px;
+    flex-shrink: 0;
+}
+
+.lt-goal-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.lt-goal-name {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    color: #f0f0f0;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lt-goal-category {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.lt-goal-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.lt-goal-progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--goal-color, linear-gradient(90deg, #38bdf8, #7dd3fc));
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lt-goal-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lt-goal-percent {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--goal-color, #7dd3fc);
+}
+
+.lt-goal-date {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Milestone List (expanded goal) ── */
+.lt-milestones {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lt-milestone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lt-milestone:active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lt-milestone-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+    color: transparent;
+}
+
+.lt-milestone.done .lt-milestone-check {
+    background: rgba(52, 211, 153, 0.2);
+    border-color: #34d399;
+    color: #34d399;
+}
+
+.lt-milestone-text {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.75);
+    flex: 1;
+}
+
+.lt-milestone.done .lt-milestone-text {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Add Goal Button ── */
+.lt-add-goal-btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    border: 2px dashed rgba(56, 189, 248, 0.2);
+    background: rgba(56, 189, 248, 0.04);
+    color: #7dd3fc;
+    font-family: var(--font-ui, 'Inter', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.lt-add-goal-btn:active {
+    transform: scale(0.97);
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(56, 189, 248, 0.08);
+}
+
+/* ── Modal Overlay ── */
+.lt-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: ltFadeIn 0.25s ease;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.lt-modal {
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    background: #111118;
+    border-radius: 24px 24px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    padding: 24px 20px calc(110px + env(safe-area-inset-bottom, 0px));
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    animation: ltSlideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes ltSlideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.lt-modal-handle {
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    margin: 0 auto 20px;
+}
+
+.lt-modal h3 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 1.15rem;
+    color: #f0f0f0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.lt-input-group {
+    margin-bottom: 16px;
+}
+
+.lt-input-group label {
+    display: block;
+    font-size: 0.62rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.lt-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: #f0f0f0;
+    font-size: 0.88rem;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.lt-input:focus {
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.lt-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Emoji Picker ── */
+.lt-emoji-picker {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lt-emoji-option {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lt-emoji-option.selected {
+    border-color: rgba(56, 189, 248, 0.5);
+    background: rgba(56, 189, 248, 0.1);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+}
+
+/* ── Submit Button ── */
+.lt-submit-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+    color: #fff;
+    font-family: var(--font-ui, 'Inter', sans-serif);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 12px;
+}
+
+.lt-submit-btn:active {
+    transform: scale(0.97);
+}
+
+.lt-submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── Body Tracker ── */
+.lt-body-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.lt-body-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.lt-body-card h4 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 0.9rem;
+    color: #fca5a5;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lt-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.lt-body-metric {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lt-body-metric:active {
+    background: rgba(239, 68, 68, 0.06);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.lt-body-metric-emoji {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+.lt-body-metric-value {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fca5a5;
+}
+
+.lt-body-metric-label {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+}
+
+.lt-body-metric-change {
+    font-size: 0.6rem;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.lt-body-metric-change.positive {
+    color: #34d399;
+}
+
+.lt-body-metric-change.negative {
+    color: #f87171;
+}
+
+.lt-body-metric-change.neutral {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Streak Section ── */
+.lt-streak-card {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(251, 146, 60, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.lt-streak-fire {
+    font-size: 2.2rem;
+    margin-bottom: 4px;
+}
+
+.lt-streak-count {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #f87171, #fb923c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.lt-streak-label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.lt-streak-days {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+.lt-streak-day {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    color: rgba(255, 255, 255, 0.35);
+    gap: 1px;
+}
+
+.lt-streak-day.completed {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+}
+
+.lt-streak-day.today {
+    border-color: rgba(251, 146, 60, 0.5);
+    box-shadow: 0 0 8px rgba(251, 146, 60, 0.15);
+}
+
+.lt-streak-day-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lt-streak-day.completed .lt-streak-day-dot {
+    background: #f87171;
+}
+
+/* ── Log Workout Button ── */
+.lt-log-workout-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #ef4444, #f87171);
+    color: #fff;
+    font-family: var(--font-ui, 'Inter', sans-serif);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.lt-log-workout-btn:active {
+    transform: scale(0.97);
+}
+
+.lt-log-workout-btn.logged {
+    background: rgba(52, 211, 153, 0.15);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    color: #34d399;
+}
+
+/* ── Calendar ── */
+.lt-calendar {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 18px;
+}
+
+.lt-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.lt-calendar-header h4 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 0.95rem;
+    color: #d8b4fe;
+    margin: 0;
+}
+
+.lt-calendar-nav {
+    display: flex;
+    gap: 6px;
+}
+
+.lt-calendar-nav button {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.lt-calendar-nav button:active {
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.lt-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.lt-calendar-weekday {
+    text-align: center;
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 0;
+}
+
+.lt-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.lt-calendar-day {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    gap: 3px;
+    background: transparent;
+    border: none;
+}
+
+.lt-calendar-day:active {
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.lt-calendar-day.today {
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    color: #d8b4fe;
+    font-weight: 700;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.1);
+}
+
+.lt-calendar-day.other-month {
+    opacity: 0.25;
+}
+
+.lt-calendar-day.selected {
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+}
+
+.lt-calendar-dots {
+    display: flex;
+    gap: 3px;
+    height: 5px;
+    align-items: center;
+}
+
+.lt-calendar-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+
+/* ── Day Detail Panel ── */
+.lt-day-detail {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lt-day-detail h5 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 0.85rem;
+    color: #d8b4fe;
+    margin-bottom: 10px;
+}
+
+.lt-day-event {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.lt-day-event-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── Empty State ── */
+.lt-empty {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.lt-empty-emoji {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.lt-empty h4 {
+    font-family: var(--font-display, 'Outfit', sans-serif);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+}
+
+.lt-empty p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.35);
+    max-width: 260px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* ── Delete Goal ── */
+.lt-delete-btn {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lt-delete-btn:active {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+/* ── Body Log History ── */
+.lt-log-history {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.lt-log-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lt-log-entry-date {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.lt-log-entry-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fca5a5;
+}
+
+/* ── Milestone Input ── */
+.lt-milestone-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.lt-milestone-input-row .lt-input {
+    flex: 1;
+}
+
+.lt-milestone-add-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(56, 189, 248, 0.1);
+    color: #7dd3fc;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.lt-milestone-add-btn:active {
+    transform: scale(0.9);
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FileText, Map, Activity, Heart, Star, Compass, Lock, ChevronRight, ChevronDown, Globe, Sun, Moon, MessageCircle, Crown, Zap } from 'lucide-react';
+import { FileText, Map, Activity, Heart, Star, Compass, Lock, ChevronRight, ChevronDown, Globe, Sun, Moon, MessageCircle, Crown, Zap, Target } from 'lucide-react';
 import BirthDetailsForm from '../components/BirthDetailsForm';
 import AstroChart from '../components/AstroChart';
 import { getLocalVedicChart } from '../services/vedicAstroApi';
@@ -957,6 +957,35 @@ const MobileReports = () => {
                                     <p>Track habits, build discipline, and balance your cosmic energies across all 9 planets.</p>
                                 </div>
                                 <button className="bca-btn" style={{ background: '#8b5cf6' }}>Open Tracker Hub</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 8. Life Tracker Accordion */}
+                <div className={`accordion-item ${activeSection === 'life-tracker' ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => toggleSection('life-tracker')}>
+                        <div className="header-icon-box" style={{ background: 'rgba(20, 184, 166, 0.15)', color: '#14b8a6', backdropFilter: 'blur(10px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                            <Target size={20} />
+                        </div>
+                        <div className="header-info">
+                            <h3>Life Tracker</h3>
+                            <span>Plan · Track · Achieve</span>
+                            <span className="premium-badge-text">New Feature</span>
+                        </div>
+                        {activeSection === 'life-tracker' ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                    </div>
+                    {activeSection === 'life-tracker' && (
+                        <div className="accordion-content">
+                            <div className="bca-promo-card" onClick={() => navigate('/mobile/life-tracker')} style={{ background: 'linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(15, 23, 42, 0.3))', backdropFilter: 'blur(12px)' }}>
+                                <div className="bca-icon-circle" style={{ background: 'rgba(20, 184, 166, 0.2)' }}>
+                                    <Target size={24} color="#5eead4" />
+                                </div>
+                                <div className="bca-text">
+                                    <h3>Your Holistic Life Planner</h3>
+                                    <p>Plan weddings, vacations & exams step-by-step. Track gym gains, body measurements & workout streaks. All in one cosmic dashboard.</p>
+                                </div>
+                                <button className="bca-btn" style={{ background: '#14b8a6' }}>Open Tracker</button>
                             </div>
                         </div>
                     )}
