@@ -4,6 +4,7 @@ import './index.css'
 import './i18n.js' // Import i18n configuration
 import App from './App.jsx'
 import { ThemeProvider } from './contexts/ThemeContext.jsx'
+import { HelmetProvider } from 'react-helmet-async'
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -48,11 +49,13 @@ class ErrorBoundary extends Component {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </ThemeProvider>
+    </HelmetProvider>
   </StrictMode>,
 )
 
