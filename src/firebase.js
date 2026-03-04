@@ -5,13 +5,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDeROxeSW1DiT1NRGAck1VS-1BxD38k370",
-    authDomain: "astrorevo-5fb79.firebaseapp.com",
-    projectId: "astrorevo-5fb79",
-    storageBucket: "astrorevo-5fb79.firebasestorage.app",
-    messagingSenderId: "923686540380",
-    appId: "1:923686540380:web:75a2706655241527338299",
-    measurementId: "G-K6FBT32F10"
+    apiKey: "AIzaSyBPiGv0gZBYA3Ik_crdSnjVf9cVJXlxvNk",
+    authDomain: "astrorevo-app-backend.firebaseapp.com",
+    projectId: "astrorevo-app-backend",
+    storageBucket: "astrorevo-app-backend.firebasestorage.app",
+    messagingSenderId: "844264360904",
+    appId: "1:844264360904:web:c7b51a589b6d0751894efd",
+    measurementId: "G-Z4F2H0968J"
 };
 
 // Initialize Firebase
