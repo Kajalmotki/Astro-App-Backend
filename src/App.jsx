@@ -292,6 +292,8 @@ function AppContent() {
                 <Route path="matchmaking" element={<MobileMatchmaking />} />
                 <Route path="about" element={<div className="page-content" style={{ paddingTop: '0px' }}><AboutUsPage /></div>} />
                 <Route path="local-ai" element={<div className="page-content" style={{ paddingTop: '0px' }}><LocalAIChat /></div>} />
+                <Route path="a" element={<div className="page-content" style={{ paddingTop: '0px' }}><LocalAIChat /></div>} />
+                <Route path="b" element={<ChatPage />} />
                 <Route path="bca" element={<div className="page-content" style={{ paddingTop: '60px' }}><BCAAnalysis isOpen={true} onClose={() => navigate('/mobile/home')} /></div>} />
 
                 {/* Feature Routes mapped for Mobile Ticker */}

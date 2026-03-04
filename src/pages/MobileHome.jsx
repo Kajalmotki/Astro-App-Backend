@@ -26,6 +26,8 @@ const MobileHome = () => {
 
     const services = [
         { name: t("Local AI (New)"), icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/local-ai') },
+        { name: t("a"), icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/a') },
+        { name: t("b"), icon: <Sparkles size={32} color={isDarkMode ? "#FFD700" : "#b87333"} />, action: () => navigate('/mobile/b') },
         { name: t("Chart"), icon: <KundliIcon size={32} />, action: () => navigate('/mobile/astro-chart') },
         { name: t("Matchmaking"), icon: <MatchmakingIcon size={32} />, action: () => navigate('/mobile/matchmaking') },
         { name: t("Panchang"), icon: <PanchangIcon size={32} />, action: () => navigate('/mobile/panchang') },
