@@ -1,4 +1,5 @@
-import { Origin, Horoscope } from "circular-natal-horoscope-js/dist/index.js";
+import horoscopeLib from "circular-natal-horoscope-js/dist/index.js";
+const { Origin, Horoscope } = horoscopeLib;
 import { getCurrentDashas, getDashaString } from "./dashaEngine.js";
 import { calculateChakraStrengths } from "./strengthEngine.js";
 import { searchKnowledgeBase } from "./bookSearchEngine.js";
@@ -225,7 +226,7 @@ CRITICAL RULES FOR YOUR RESPONSE:
 };
 
 export const getLocalAIAstrologerResponse = async (message, userName, birthData, previousChart = null) => {
-    // Pre-calculate chart data upfront so we can use it as fallback if API fails
+    // Pre-calculate chart data upfront so we can use it as fallback if backend/AI fails
     let mathData = null;
     if (!previousChart) {
         mathData = precalculateChartData(birthData);
@@ -235,73 +236,56 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
     }
 
     try {
-        let prompt;
-        if (previousChart) {
-            // Query the offline search engine
-            console.log("Searching knowledge base for:", message);
-            const searchResults = searchKnowledgeBase(message, 'astrology', 5);
-            let contextData = "";
+        const safeUserName = userName || 'Seeker';
 
-            if (searchResults && searchResults.length > 0) {
-                contextData = "CLASSICAL TEXT REFERENCES TO CONSIDER FOR THIS QUESTION:\n\n" +
-                    searchResults.map(m => `Source: ${m.bookTitle}\nRule: ${m.snippet}`).join('\n\n');
-            } else {
-                contextData = "(No explicit matching rules found in local texts, rely on standard classic rules.)";
+        // Ensure previousChart is either null or a string (backend accepts stringified JSON)
+        const chartContext =
+            previousChart && typeof previousChart === 'object'
+                ? JSON.stringify(previousChart)
+                : previousChart || null;
+
+        const payload = {
+            message,
+            userName: safeUserName,
+            birthData,
+            previousChart: chartContext,
+        };
+
+        const response = await fetch('/api/local-ai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`Backend /api/local-ai error: ${response.status} ${text}`);
+        }
+
+        const result = await response.json();
+
+        // Backend contract:
+        // - Initial chart: { isChartData: true, data: {...} }
+        // - Follow-up:     { isChartData: false, data: "answer text" }
+        if (result && typeof result.isChartData === 'boolean') {
+            if (result.isChartData) {
+                return { isChartData: true, data: result.data, error: result.error };
             }
-
-            const enrichedQuestion = `${message}\n\n[SYSTEM CONTEXT: ${contextData}]`;
-
-            prompt = getFollowUpPrompt(userName, enrichedQuestion, previousChart);
-        } else {
-            // Step 2: Pass guaranteed data to LLM
-            prompt = getInitialChartPrompt(userName, birthData, mathData);
+            // Follow-up answer: return plain text for chat bubbles
+            return result.data;
         }
 
-        let responseText = null;
-
-        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-        if (!apiKey) {
-            throw new Error("VITE_GEMINI_API_KEY is missing in your .env file!");
-        }
-
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
-
-        try {
-            console.log("Attempting Gemini API Generation with model: gemini-3-flash-preview");
-
-            const result = await model.generateContent(prompt);
-            responseText = result.response.text();
-
-            console.log("Success with Gemini model.");
-        } catch (err) {
-            console.error("Gemini API Error:", err);
-            throw new Error(`Gemini API failed: ${err.message}`);
-        }
-
-        // If it's the initial chart generation, parse the JSON
-        if (!previousChart) {
-            try {
-                const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-                const jsonStr = jsonMatch ? jsonMatch[0] : responseText;
-                const parsedChart = JSON.parse(jsonStr);
-                return { isChartData: true, data: parsedChart };
-            } catch (err) {
-                console.error("Failed to parse AI JSON chart response:", err, responseText);
-                return { isChartData: true, error: true, data: responseText };
-            }
-        }
-
-        // Otherwise return normal text string for followups
-        return responseText;
-
+        // Fallback: if shape is unexpected, just return whatever we got
+        return result;
     } catch (error) {
-        console.error("Local AI Error:", error);
+        console.error("Local AI Error (frontend → backend):", error);
 
-        // FALLBACK: If API fails but we have locally calculated data, return it as chart data
+        // FALLBACK: If backend fails but we have locally calculated data, return it as chart data
         // This ensures the BeautifulD1Chart still renders with accurate planetary data
         if (!previousChart && mathData) {
-            console.warn("Gemini API failed — falling back to offline chart data.");
+            console.warn("Backend /api/local-ai failed — falling back to offline chart data.");
             const offlineChart = {
                 lagna: mathData.ascSign,
                 dayOfBirth: mathData.dayOfWeek,
@@ -321,7 +305,7 @@ export const getLocalAIAstrologerResponse = async (message, userName, birthData,
             return { isChartData: true, data: offlineChart };
         } else if (previousChart) {
             // Handle follow-up error gracefully so it doesn't crash the UI
-            console.warn("Gemini API failed for follow-up question.", error);
+            console.warn("Backend /api/local-ai failed for follow-up question.", error);
             return `⚠ AI Error: ${error.message}`;
         }
 

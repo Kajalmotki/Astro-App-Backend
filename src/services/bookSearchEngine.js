@@ -1,14 +1,21 @@
-import knowledgeSources from '../data/books/astrology/brihat_parashara_hora_shastra.json' // Temporary mock to ensure build works
+import knowledgeSources from '../data/books/astrology/brihat_parashara_hora_shastra.json' with { type: 'json' }; // Temporary mock to ensure build works
 
 /**
  * AstroRevo Universal Knowledge Search Engine
  * Dynamically loads and searches all Vedic Astrology and Yoga JSON files.
  */
 
-// Load all parsed book JSONs dynamically
-const astrologyModules = import.meta.glob('../data/books/astrology/*.json', { eager: true });
-const yogaModules = import.meta.glob('../data/books/yoga/*.json', { eager: true });
-const vedasModules = import.meta.glob('../data/books/vedas/*.json', { eager: true });
+// Load all parsed book JSONs dynamically (Vite-only — degrades gracefully in Node.js)
+let astrologyModules = {};
+let yogaModules = {};
+let vedasModules = {};
+try {
+    if (typeof import.meta.glob === 'function') {
+        astrologyModules = import.meta.glob('../data/books/astrology/*.json', { eager: true });
+        yogaModules = import.meta.glob('../data/books/yoga/*.json', { eager: true });
+        vedasModules = import.meta.glob('../data/books/vedas/*.json', { eager: true });
+    }
+} catch { /* Node.js — server uses knowledgeSearch.mjs instead */ }
 
 export const KNOWLEDGE_BASE = {
     astrology: Object.values(astrologyModules).map(mod => mod.default || mod),

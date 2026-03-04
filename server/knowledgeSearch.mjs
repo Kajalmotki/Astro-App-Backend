@@ -14,25 +14,39 @@ const loadJsonRelative = (relativePath) => {
   return JSON.parse(raw);
 };
 
-const atharvaVeda = loadJsonRelative('src/data/books/astrology/atharva_veda.json');
-const vedangaJyotisha = loadJsonRelative('src/data/books/astrology/vedanga_jyotisha.json');
-const saravali = loadJsonRelative('src/data/books/astrology/saravali.json');
+const safeLoadJson = (relativePath) => {
+  try {
+    return loadJsonRelative(relativePath);
+  } catch (e) {
+    console.warn(`Knowledge base file not found, skipping: ${relativePath}`);
+    return null;
+  }
+};
 
-const satChakraNirupana = loadJsonRelative('src/data/books/yoga/sat_chakra_nirupana.json');
-const sivaSamhita = loadJsonRelative('src/data/books/yoga/siva_samhita.json');
-const asanaPranayamaMudraBandha = loadJsonRelative(
-  'src/data/books/yoga/asana_pranayama_mudra_bandha.json',
-);
+// Astrology books
+const brihatParashara = safeLoadJson('src/data/books/astrology/brihat_parashara_hora_shastra.json');
+const saravali = safeLoadJson('src/data/books/astrology/saravali.json');
+const brihatJataka = safeLoadJson('src/data/books/astrology/brihat_jataka.json');
+const phaladeepika = safeLoadJson('src/data/books/astrology/phaladeepika.json');
+const jatakaParijata = safeLoadJson('src/data/books/astrology/jataka_parijata.json');
+const suryaSiddhanta = safeLoadJson('src/data/books/astrology/surya_siddhanta.json');
 
-const vedas_atharva = loadJsonRelative('src/data/books/vedas/atharvaveda.json');
-const vedas_rig = loadJsonRelative('src/data/books/vedas/rigveda.json');
-const vedas_sama = loadJsonRelative('src/data/books/vedas/samaveda.json');
-const vedas_yajur = loadJsonRelative('src/data/books/vedas/yajurveda.json');
+// Yoga books
+const satChakraNirupana = safeLoadJson('src/data/books/yoga/sat_chakra_nirupana.json');
+const sivaSamhita = safeLoadJson('src/data/books/yoga/siva_samhita.json');
+const asanaPranayamaMudraBandha = safeLoadJson('src/data/books/yoga/asana_pranayama_mudra_bandha.json');
+const hathaYogaPradipika = safeLoadJson('src/data/books/yoga/hatha_yoga_pradipika.json');
+
+// Vedas
+const vedas_atharva = safeLoadJson('src/data/books/vedas/atharvaveda.json');
+const vedas_rig = safeLoadJson('src/data/books/vedas/rigveda.json');
+const vedas_sama = safeLoadJson('src/data/books/vedas/samaveda.json');
+const vedas_yajur = safeLoadJson('src/data/books/vedas/yajurveda.json');
 
 export const KNOWLEDGE_BASE = {
-  astrology: [atharvaVeda, vedangaJyotisha, saravali],
-  yoga: [satChakraNirupana, sivaSamhita, asanaPranayamaMudraBandha],
-  vedas: [vedas_atharva, vedas_rig, vedas_sama, vedas_yajur]
+  astrology: [brihatParashara, saravali, brihatJataka, phaladeepika, jatakaParijata, suryaSiddhanta].filter(Boolean),
+  yoga: [satChakraNirupana, sivaSamhita, asanaPranayamaMudraBandha, hathaYogaPradipika].filter(Boolean),
+  vedas: [vedas_atharva, vedas_rig, vedas_sama, vedas_yajur].filter(Boolean)
 };
 
 export const searchKnowledgeBaseServer = (query, category = 'all', limit = 10) => {
