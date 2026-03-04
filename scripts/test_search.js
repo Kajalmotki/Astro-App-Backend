@@ -1,19 +1,30 @@
-import { searchKnowledgeBase } from '../services/bookSearchEngine';
+import { searchKnowledgeBase } from '../src/services/bookSearchEngine.js';
 
-console.log("Testing Vedic Search Engine...");
+async function test() {
+    console.log("Searching for 'knowledge' in 'vedas'...");
+    try {
+        const results = await searchKnowledgeBase('knowledge', 'vedas');
+        console.log(`Found ${results.length} results.`);
 
-const results = searchKnowledgeBase("Saturn 7th house", "astrology", 3);
-console.log(`\n\nFound ${results.length} matches for "Saturn 7th house":`);
+        let rigvedaCount = 0;
+        let samavedaCount = 0;
+        let yajurvedaCount = 0;
+        let atharvavedaCount = 0;
 
-results.forEach((res, i) => {
-    console.log(`\n[${i + 1}] ${res.bookTitle} by ${res.bookAuthor} (Score: ${res.score})`);
-    console.log(`Snippet: ${res.snippet}`);
-});
+        results.forEach(r => {
+            if (r.bookTitle.toLowerCase().includes('rigveda')) rigvedaCount++;
+            if (r.bookTitle.toLowerCase().includes('samaveda')) samavedaCount++;
+            if (r.bookTitle.toLowerCase().includes('yajurveda')) yajurvedaCount++;
+            if (r.bookTitle.toLowerCase().includes('atharvaveda')) atharvavedaCount++;
+        });
 
-const yogaResults = searchKnowledgeBase("pranayama heart", "yoga", 2);
-console.log(`\n\nFound ${yogaResults.length} matches for "pranayama heart":`);
+        console.log(`Rigveda: ${rigvedaCount}`);
+        console.log(`Samaveda: ${samavedaCount}`);
+        console.log(`Yajurveda: ${yajurvedaCount}`);
+        console.log(`Atharvaveda: ${atharvavedaCount}`);
+    } catch (e) {
+        console.error("Error:", e);
+    }
+}
 
-yogaResults.forEach((res, i) => {
-    console.log(`\n[${i + 1}] ${res.bookTitle} by ${res.bookAuthor} (Score: ${res.score})`);
-    console.log(`Snippet: ${res.snippet}`);
-});
+test();
